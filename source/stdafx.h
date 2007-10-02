@@ -33,7 +33,12 @@ extern CAppModule _Module;
 #include <atlprint.h>
 #include <atlres.h>
 #include <atlfile.h>
-#include <henden/all.h>
+#include "Utils.h"
+#include "misc.h"
+#include "Thread.h"
+#include "ToolTipDialog.h"
+#include "ButtonFile.h"
+#include "ButtonFolder.h"
 
 // --------------------------------------------------------- WTL END
 
