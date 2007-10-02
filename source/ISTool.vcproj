@@ -5,9 +5,6 @@
 	Name="ISTool"
 	ProjectGUID="{29C3033B-05DB-4DFC-8814-7A21E5D1DE82}"
 	RootNamespace="ISTool"
-	SccProjectName="&quot;$/ISTool/source&quot;, OAAAAAAA"
-	SccLocalPath="."
-	SccProvider="MSSCCI:Microsoft Visual SourceSafe"
 	Keyword="MFCProj"
 	>
 	<Platforms>
@@ -509,11 +506,11 @@
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 			>
 			<File
-				RelativePath="res\imagelist-16.bmp"
+				RelativePath="..\res\imagelist-16.bmp"
 				>
 			</File>
 			<File
-				RelativePath="..\res\imagelist-16.bmp"
+				RelativePath="res\imagelist-16.bmp"
 				>
 			</File>
 			<File
@@ -564,11 +561,11 @@
 				>
 			</File>
 			<File
-				RelativePath="res\states.bmp"
+				RelativePath="..\res\states.bmp"
 				>
 			</File>
 			<File
-				RelativePath="..\res\states.bmp"
+				RelativePath="res\states.bmp"
 				>
 			</File>
 			<File
@@ -576,19 +573,19 @@
 				>
 			</File>
 			<File
-				RelativePath="res\xptoolbar-small1.bmp"
-				>
-			</File>
-			<File
 				RelativePath="..\res\xptoolbar-small1.bmp"
 				>
 			</File>
 			<File
-				RelativePath="res\xptoolbar-small2.bmp"
+				RelativePath="res\xptoolbar-small1.bmp"
 				>
 			</File>
 			<File
 				RelativePath="..\res\xptoolbar-small2.bmp"
+				>
+			</File>
+			<File
+				RelativePath="res\xptoolbar-small2.bmp"
 				>
 			</File>
 		</Filter>
