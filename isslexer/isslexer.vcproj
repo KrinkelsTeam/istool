@@ -4,6 +4,7 @@
 	Version="8,00"
 	Name="isslexer"
 	ProjectGUID="{E781988E-8A4A-480B-965D-8A4ABAB66BAE}"
+	RootNamespace="isslexer"
 	Keyword="Win32Proj"
 	>
 	<Platforms>
@@ -40,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\Scintilla\src"
+				AdditionalIncludeDirectories=".\Scintilla\src;.\Scintilla\include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;ISSLEXER_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -120,7 +121,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=".\Scintilla\src"
+				AdditionalIncludeDirectories=".\Scintilla\src;.\Scintilla\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;ISSLEXER_EXPORTS"
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="2"
