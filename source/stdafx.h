@@ -42,8 +42,8 @@ extern CAppModule _Module;
 
 // --------------------------------------------------------- WTL END
 
-#include "../InnoScript/InnoScript.h"
-#include "../InnoScript/Lines.h"
+#include "InnoScript/InnoScript.h"
+#include "InnoScript/Lines.h"
 
 typedef CInnoScript::CLine					CScriptLine;
 typedef CSimpleArray<CInnoScript::CLine*>	CScriptList;
@@ -61,14 +61,14 @@ typedef CSimpleArray<CInnoScript::CLine*>	CScriptList;
 
 #include <htmlhelp.h>
 #include <wininet.h>
-#include <MyUtils.h>
-#include <WebUpdate.h>
+#include "MyUtils.h"
+#include "WebUpdate.h"
 
 #pragma comment(lib,"htmlhelp.lib")
 #pragma comment(lib,"wininet.lib")
 #pragma comment(lib,"rpcrt4.lib")	// for UuidCreate
 
-#include <AtlScintilla.h>
+#include "Scintilla/AtlScintilla.h"
 #include <AtlTheme.h>
 
 typedef struct StatusBarInfo {

@@ -49,7 +49,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="./english,./SectionBar,./CrystalEdit,.,C:\Program Files\Microsoft Visual Studio .NET\Vc7\atlmfc\src\mfc,f:\utvk\7-zip"
+				AdditionalIncludeDirectories=".;..\isslexer\scintilla\include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -146,7 +146,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="3"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="./english,./SectionBar,./CrystalEdit,.,C:\Program Files\Microsoft Visual Studio .NET\Vc7\atlmfc\src\mfc,f:\utvk\7-zip"
+				AdditionalIncludeDirectories=".;..\isslexer\scintilla\include"
 				PreprocessorDefinitions="WIN32,NDEBUG,_WINDOWS,_CRT_SECURE_NO_DEPRECATE"
 				StringPooling="true"
 				RuntimeLibrary="0"
@@ -506,11 +506,11 @@
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 			>
 			<File
-				RelativePath="res\imagelist-16.bmp"
+				RelativePath="..\res\imagelist-16.bmp"
 				>
 			</File>
 			<File
-				RelativePath="..\res\imagelist-16.bmp"
+				RelativePath="res\imagelist-16.bmp"
 				>
 			</File>
 			<File
@@ -561,11 +561,11 @@
 				>
 			</File>
 			<File
-				RelativePath="res\states.bmp"
+				RelativePath="..\res\states.bmp"
 				>
 			</File>
 			<File
-				RelativePath="..\res\states.bmp"
+				RelativePath="res\states.bmp"
 				>
 			</File>
 			<File
@@ -573,19 +573,19 @@
 				>
 			</File>
 			<File
-				RelativePath="res\xptoolbar-small1.bmp"
-				>
-			</File>
-			<File
 				RelativePath="..\res\xptoolbar-small1.bmp"
 				>
 			</File>
 			<File
-				RelativePath="res\xptoolbar-small2.bmp"
+				RelativePath="res\xptoolbar-small1.bmp"
 				>
 			</File>
 			<File
 				RelativePath="..\res\xptoolbar-small2.bmp"
+				>
+			</File>
+			<File
+				RelativePath="res\xptoolbar-small2.bmp"
 				>
 			</File>
 		</Filter>
