@@ -139,7 +139,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="../distribution/isslexer.dll"
+				OutputFile="../source/release/isslexer.dll"
 				LinkIncremental="1"
 				ModuleDefinitionFile="isslexer.def"
 				GenerateDebugInformation="true"
