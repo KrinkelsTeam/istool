@@ -1,0 +1,572 @@
+{\rtf1\ansi\ansicpg1252\deff0\deflang1033\deflangfe1033\deftab708{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}{\f1\froman\fprq2\fcharset2 Symbol;}}
+{\colortbl ;\red128\green0\blue0;}
+{\stylesheet{ Normal;}{\s1 heading 1;}{\s2 heading 2;}}
+{\*\generator Msftedit 5.41.15.1507;}\viewkind4\uc1\pard\keepn\nowidctlpar\s2\cf1\ul\b\f0\fs20 Version history\par
+\pard\nowidctlpar\cf0\ulnone\b0\fs24\par
+\b\fs16 Version 5.2.0.1 (September 27\super th\nosupersub , 2007)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Fixed bugs introduced in version 5.2.0.\b\par
+\pard\nowidctlpar\par
+Version 5.2.0 (September 21\super st\nosupersub , 2007)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Support for new Inno Setup directives up to version 5.2.0.\b\par
+\pard\nowidctlpar\par
+Version 5.1.8 (October 18\super th\nosupersub , 2006)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Support for new Inno Setup directives up to version 5.1.8.\b\par
+\pard\nowidctlpar\par
+Version 5.1.6 (May 13\super th\nosupersub , 2006)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Only minor bugs fixed.\b\par
+\pard\nowidctlpar\par
+Version 5.1.5 (August 25\super th\nosupersub , 2005)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Support for new Inno Setup directives up to version 5.1.5.\par
+\pard\nowidctlpar\par
+\b Version 5.0.8 (Mars 11\super th\nosupersub , 2005)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Made files dialog wider and not so tall.\par
+\pard\nowidctlpar\b\par
+Version 5.0.6.1 (January 4\super th\nosupersub , 2005)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Fixed the SHGetFolderPathA bug.\par
+\pard\nowidctlpar\par
+\b Version 5.0.6 (December 25\super th\nosupersub , 2004)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Syntax colors can finally be customized.\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Uses ini file for settings instead of Registry.\par
+\f1\'b7\tab\f0 Tooltips can be translated.\par
+\f1\'b7\tab\f0 Doesn't truncate whitespace at the beginning of lines.\par
+\f1\'b7\tab\f0 Bug fixes.\par
+\f1\'b7\tab\f0 Inno Setup 5.0.6 support.\par
+\pard\nowidctlpar\par
+\b Version 4.2.7 (July 15\super th\nosupersub , 2004)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Support for Inno Setup 4.2.7.\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Some bug fixes.\par
+\pard\nowidctlpar\par
+\b Version 4.2.4 (June 4\super th\nosupersub , 2004)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 New directives and flags from Inno Setup 4.2.2 through 4.2.4.\par
+\pard\nowidctlpar\par
+\b Version 4.2.1 (April 4\super th\nosupersub , 2004)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 New directives and flags from IS 4.2.0 and 4.2.1.\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Added [CustomMessages] section.\par
+\f1\'b7\tab\f0 Option to not add name of output exe to script.\par
+\f1\'b7\tab\f0 Tool tips added to most dialogs and removed context help.\par
+\f1\'b7\tab\f0 Lots of bugs fixed.\par
+\pard\nowidctlpar\b\par
+Version 4.1.8 (Mars 3\super rd\nosupersub , 2004)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Remembers lzma/max compression level.\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Pre-processing of ISTool sections should work again.\par
+\f1\'b7\tab\f0 If pre-processing of ISTool sections is enabled, ISTool will send the pre-processed code directly to Inno Setup without preprocessing again.\par
+\f1\'b7\tab\f0 The "Save As" dialog now fills in the existing file name.\par
+\f1\'b7\tab\f0 Running the setup (F5) should now execute the last compiled setup.\par
+\f1\'b7\tab\f0 Added menu item for ISPP help on the help menu.\par
+\f1\'b7\tab\f0 Using Scintilla version 1.59.\par
+\f1\'b7\tab\f0 Properties can be edited from the script section. Try clicking "Properties" on the toolbar to open properties for the current line.\par
+\f1\'b7\tab\f0 Bug fixes.\par
+\pard\nowidctlpar\par
+\b Version 4.1.5 (February 16\super th\nosupersub , 2004)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 New improved(?) language file selection.\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Vertical tab lines can be turned off.\par
+\f1\'b7\tab\f0 Added auto indent to editor.\par
+\f1\'b7\tab\f0 Line numbers in editor can be hidden.\par
+\f1\'b7\tab\f0 Bug fixes in search and replace functions.\par
+\f1\'b7\tab\f0 Removed the 7-zip support and added support for IS lzma compression.\par
+\pard\nowidctlpar\par
+\b Version 4.1.3 (January 30\super th\nosupersub , 2004)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Fixed "OutputBaseFilename=\{#AppName\}_\{#AppVersion\}" when using 7-zip.\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 All ISTool sections should now be pre-processed (if pre-processing is enabled).\par
+\f1\'b7\tab\f0 Bug fixes.\par
+\f1\'b7\tab\f0 Simple intellisense on objects created with CreateOleObject.\par
+\f1\'b7\tab\f0 Tab size can be customized.\par
+\f1\'b7\tab\f0 Support for Inno Setup 4.1.3\par
+\pard\nowidctlpar\par
+\b Version 4.1.0 (January 17\super th\nosupersub , 2004)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Support for all new directives and options from Inno Setup version 4.0.11 and 4.1.0\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Option for pre-processing script using ISPP before sending it to compiler. Disabled by default.\par
+\pard\nowidctlpar\par
+\b Version 4.0.10\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 7-zip compression uses 7za.dll instead 7za.exe.\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 When using 7-zip, "OutputBaseFilename" is always "setup".\par
+\f1\'b7\tab\f0 Experimental ISPP support. Before script is compiled it is sent to ISPP for pre-processing without compiling. This way pre-processor directives are supported in all sections. Line numbers in error messages will be wrong!\par
+\f1\'b7\tab\f0 Supports Inno Setup 4.0.10 (TimeStampsInUTC, ShowLanguageDialog, LanguageDetectionMethod).\par
+\pard\nowidctlpar\par
+\b Version 4.0.9\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Using Scintilla 1.56.\b\par
+\pard\nowidctlpar\fi-360\li720\b0\f1\'b7\tab\f0 Supports new Inno Setup 4.0.9 features.\b\par
+\pard\nowidctlpar\b0\par
+\b Version 4.0.8.1\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 To compile from the command line: "istool.exe -compile myscript.iss"\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 The previous setup didn't work on Win2003, this should.\par
+\pard\nowidctlpar\par
+\b Version 4.0.8\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Bug fixes.\par
+\pard\nowidctlpar\par
+\b Version 4.0.7.1\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 When using 7-zip the output directory wasn't created.\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Fixed "Languges" typo.\par
+\f1\'b7\tab\f0 Fixed bug in download code.\par
+\f1\'b7\tab\f0 Title of dialogs sometimes show strange things.\par
+\pard\nowidctlpar\par
+\b Version 4.0.7\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Bug fixes (as always).\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Support for Inno Setup 4.0.5 flags.\par
+\f1\'b7\tab\f0 Added support for 7-zip compression. If you select 7-zip compression ISTool will automatically disable Inno Setup compression, and create a self extracting file using 7-zip compression after compilation.\par
+\pard\nowidctlpar\par
+\b Version 4.0.4.1 (July 10\super th\nosupersub , 2003)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Section dependent syntax highlighting; flags defined for the files section won't be highlighted for other sections.\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 The ISTool Download section supports tasks, components, and languages.\par
+\pard\nowidctlpar\par
+\b Version 4.0.4 (July 3\super rd\nosupersub , 2003)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Removed remains of ISX support.\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Replaced CrystalEdit with Scintilla.\par
+\f1\'b7\tab\f0 Autocomplete and calltips (all support functions and constants, see calltips.txt).\par
+\f1\'b7\tab\f0 Can display a tooltip about words under mouse (see calltips.txt).\par
+\pard\nowidctlpar\par
+\b Verson 4.0.2 (May 21\super st\nosupersub , 2003)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Minor tweaks, changes, and bug fixes.\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Updated tooltip help.\par
+\f1\'b7\tab\f0 MessagesFiles setup directive is converted to Languages section.\par
+\f1\'b7\tab\f0 Option to uninstall the current application.\par
+\f1\'b7\tab\f0 Support for new features in IS 4.0.2 beta.\par
+\pard\nowidctlpar\par
+\b Version 3.9.9 (April 25\super th\nosupersub , 2003)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Support for new features in IS 4.0.0-pre1.\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Redesigned setup options and created additional pages to make it a little less crowded.\par
+\pard\nowidctlpar\par
+\b Version 3.0.6.3 (Mars 17\super th\nosupersub , 2003)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Adds \{src\} constant when adding dropped external files.\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Added drag and drop to script and code editor.\par
+\f1\'b7\tab\f0 Some improvements to "Find" and "Replace" dialogs.\par
+\f1\'b7\tab\f0 Added a button on the uninstall options page to generate a guid for Application ID.\par
+\f1\'b7\tab\f0 Option (Project->Log File) to set log file.\par
+\f1\'b7\tab\f0 Romanian translations by Grigore Dolghin.\par
+\f1\'b7\tab\f0 Improved registry import.\par
+\f1\'b7\tab\f0 Thanks to Ivo Bauer for the Czech translation.\par
+\f1\'b7\tab\f0 Thanks to Gaivoronsky Vladimir for the Russian translation.\par
+\f1\'b7\tab\f0 Fixed crash when trying to copy/cut in tree views.\par
+\pard\nowidctlpar\par
+\b Version 3.0.6.2 (January 15\super th\nosupersub , 2003)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Fixed import of message files (.isl) with empty lines.\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 DefaultUserInfoSerial from ISX 3.0.6.1\par
+\f1\'b7\tab\f0 Work in progress: Experimental constants popup window in the script and code sections (press Ctrl+Space).\par
+\f1\'b7\tab\f0 Can specify dropped files as external.\par
+\f1\'b7\tab\f0 Italian language file by Renato Ghioldi.\par
+\f1\'b7\tab\f0 Portuguese (Brazil) language file by Fabricio Biazzotto.\par
+\f1\'b7\tab\f0 A few bug fixes.\par
+\pard\nowidctlpar\par
+\b Version 3.0.6.1 (January 5\super th\nosupersub , 2003)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Thanks to Jose Antonio Mu\'f1oz for the Spanish translation.\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Handles line spanning (might look silly inside ISTool).\par
+\f1\'b7\tab\f0 New experimental download section (requires ISX).\par
+\f1\'b7\tab\f0 Automatically goes to current section/line when switching to script section.\par
+\f1\'b7\tab\f0 Added option to go directly to line from script and code sections.\par
+\f1\'b7\tab\f0 Fixed possible crash when exiting while in script/code section.\par
+\f1\'b7\tab\f0 Can write compile log to file. LogFile=filename and LogFileAppend=true|false in [_ISTool] section.\par
+\f1\'b7\tab\f0 Saves width of section panel.\par
+\f1\'b7\tab\f0 Fixed bug in "Replace All".\par
+\f1\'b7\tab\f0 Removes references to deleted tasks and components.\par
+\f1\'b7\tab\f0 Other small bugfixes.\par
+\pard\nowidctlpar\par
+\b Version 3.0.6 (December 31, 2002)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Menus are not translated on NT4 (sorry).\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Thanks to Marc Keeley (http://www.glyfz.com/) for the new main icon and some toolbar images.\par
+\f1\'b7\tab\f0 Thanks to Romain Petges for one of the new icons available in ISTool.\par
+\f1\'b7\tab\f0 Support for new IS(X) 3.0.6 flags.\par
+\f1\'b7\tab\f0 Thanks to L\'e1szl\'f3 F\'e1bi\'e1n for the Hungarian translation.\par
+\pard\nowidctlpar\par
+\b Version 3.0.4.3 (December 12, 2002)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Includes iwz2iss plugin by Michal Kulczycki to convert InstallShield Projects to Inno Setup.\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Files will be placed in the selected directory when inserting files and a directory is selected.\par
+\f1\'b7\tab\f0 Bug fixes.\par
+\f1\'b7\tab\f0 Added French language file (thanks to Jean-Michel Coinus).\par
+\f1\'b7\tab\f0 Added Polish language file (thanks to Michal Kulczycki).\par
+\f1\'b7\tab\f0 Removed VB, DAO and BDE. Use #include instead.\par
+\f1\'b7\tab\f0 Added horizontal scrollbar to the compile window.\par
+\pard\nowidctlpar\par
+\b Version 3.0.4.2 (November 20, 2002)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Fixed a bug in the script loader.\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Fixed bug in icon properties.\par
+\f1\'b7\tab\f0 Language Mode allows for easy translation to other languages. Only menus and dialogs.\par
+\f1\'b7\tab\f0 Includes German language file (thanks to Michael Reitz).\par
+\f1\'b7\tab\f0 I think I've fixed the copy/paste bug in the script section.\par
+\f1\'b7\tab\f0 Fixed a bug when moving first line.\par
+\pard\nowidctlpar\par
+\b Version 3.0.4.1 (November 01, 2002)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Fixed bug in messages section.\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Fixed creation of file associations.\par
+\f1\'b7\tab\f0 Fixed strange looking icons on WinNT and Win2000.\par
+\f1\'b7\tab\f0 Strips away leading and trailing spaces on unquoted parameters.\par
+\f1\'b7\tab\f0 Can select default startup section.\par
+\f1\'b7\tab\f0 Fixed column bug (and therefore settings will be erased on fresh install this time also).\par
+\f1\'b7\tab\f0 Other minor fixes.\par
+\pard\nowidctlpar\par
+\b Version 3.0.4 (October 21, 2002)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Added version information for Win2000 SP3, WinXP SP1, and Win.NET.\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Added toolbar buttons for Compile and Run setup.\par
+\f1\'b7\tab\f0 Moved script view to first tab.\par
+\f1\'b7\tab\f0 Error message for missing IS and ISX directories now states which of them is missing.\par
+\f1\'b7\tab\f0 Increased size of compile window.\par
+\f1\'b7\tab\f0 The old treeview is back.\par
+\f1\'b7\tab\f0 Bug fixes.\par
+\f1\'b7\tab\f0 Supports IS version 3.0.4 and ISX version 3.0.4.\par
+\pard\nowidctlpar\par
+\b Version 3.0.3.5 (September 19, 2002)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Syntax coloring for preprocessor directives (anything that starts with #).\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Bug fixes and other minor changes.\par
+\pard\nowidctlpar\par
+\b Version 3.0.3.4 (September 17, 2002)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Fixed opening help files. Any real help still missing though.\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Includes experimental Norwegian translation.\par
+\f1\'b7\tab\f0 Bug fixes.\par
+\pard\nowidctlpar\par
+\b Version 3.0.3.3 (September 16, 2002)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Bug fixes.\par
+\pard\nowidctlpar\par
+\b Version 3.0.3.2 (September 13, 2002)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Will not close modified scripts without asking.\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Fixed strange window placement.\par
+\f1\'b7\tab\f0 Property sheets are centered in main window like before.\par
+\f1\'b7\tab\f0 Other bug fixes.\par
+\pard\nowidctlpar\par
+\b Version 3.0.3.1 (September 12, 2002)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Lots of bug fixes.\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Altered layout.\par
+\pard\nowidctlpar\par
+\b Version 3.0.3 (September 1, 2002)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Fixed version checking.\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Bug fix in import of setup.lst icons.\par
+\f1\'b7\tab\f0 Admin privileges not longer required for install.\par
+\f1\'b7\tab\f0 Print script and code sections. No colors.\par
+\f1\'b7\tab\f0 ListView is default.\par
+\f1\'b7\tab\f0 MFC to WTL => lots of new bugs.\par
+\pard\nowidctlpar\li360\par
+\pard\nowidctlpar\b Version 3.0.2.1 (June 17, 2002)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Correctly saves all sections.\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 All toolbar icons are displayed.\par
+\f1\'b7\tab\f0 Shows line number if errors occur during compilation.\par
+\f1\'b7\tab\f0 No more empty message boxes?\par
+\pard\nowidctlpar\par
+\b Version 3.0.2 (June 6, 2002)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Setup includes ISX Download DLL.\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Removed support for CodeFile and WizardDebug setup directives.\par
+\f1\'b7\tab\f0 New toolbar buttons for Windows XP, with large and small icons.\par
+\f1\'b7\tab\f0 Reads setup.lst files.\par
+\f1\'b7\tab\f0 Links section removed. Use #include instead.\par
+\f1\'b7\tab\f0 Bugfixes.\par
+\pard\nowidctlpar\par
+\b Version 3.0.1.1 (April 9, 2002)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Edits StatusMsg on Run-entries correctly.\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Open and save dialogs should function correctly on older versions of Windows.\par
+\pard\nowidctlpar\par
+\b Version 3.0.1 (April 4, 2002)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Lots of bug fixes.\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 ComboBox with available functions for Check parameter (ISX).\par
+\f1\'b7\tab\f0 Added tab for selecting language in preferences. No languages yet though.\par
+\f1\'b7\tab\f0 UninstallRestartComputer setup directive.\par
+\f1\'b7\tab\f0 New Files section flag: uninsrestartdelete.\par
+\pard\nowidctlpar\par
+\b Version 3.0.0 (February 18, 2002)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Mousewheel support in text editor.\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 New features from IS 3.0.0-beta.\par
+\f1\'b7\tab\f0 Can edit code section without first having to create it inside the script section.\par
+\pard\nowidctlpar\par
+\b Version 1.1.13 (January 6, 2002)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 AllowUNCPath setup directive.\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Quotes parameters with leading or trailing spaces.\par
+\pard\nowidctlpar\par
+\b Version 1.1.12 (November 20, 2001)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Supports Compression and InternalCompressLevel directives.\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Minor changes.\par
+\pard\nowidctlpar\par
+\b Version 1.1.11 (October 6, 2001)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Support for new IS and ISX directives.\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Supports XP themes.\par
+\f1\'b7\tab\f0 Bug fixes.\par
+\pard\nowidctlpar\par
+\b Version 1.1.10 (July 8, 2001)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Fixed component bug on directories.\par
+\pard\nowidctlpar\b\par
+Version 1.1.9 (July 7, 2001)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Fixed path problems with code section again.\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Other small bug fixes\par
+\pard\nowidctlpar\par
+\b Version 1.1.8 (June 19, 2001)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Bug fixes.\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Read only code files can't be edited.\par
+\pard\nowidctlpar\par
+\b Version 1.1.7 (June 11, 2001)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Fixed bug that didn't include the latest changes when compiling from the script section.\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Searches better for CodeFile, hopefully no more bugs there.\par
+\f1\'b7\tab\f0 Preference option to overwrite existing messages when importing. Should help a little with translating.\par
+\f1\'b7\tab\f0 Export from message section.\par
+\f1\'b7\tab\f0 Support for attribs in [Dirs] section.\par
+\pard\nowidctlpar\par
+\b Version 1.1.6 (June 7, 2001)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Saving from the code-section doesn't mess up the script.\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Highlights "true" and "false" in the code section, even though they're not reserved keywords.\par
+\f1\'b7\tab\f0 If the code file cannot be found (either it doesn't exists, or ISTools bugs again), you can now switch away from the code section.\par
+\f1\'b7\tab\f0 Relative paths to CodeFile should work as expected.\par
+\pard\nowidctlpar\par
+\b Version 1.1.5 (May 29, 2001)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Improved syntax highlighting a bit (I hope).\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Code section for editing the code section or the file specified with the CodeFile parameter.\par
+\f1\'b7\tab\f0 Bug fixes.\par
+\pard\nowidctlpar\par
+\b Version 1.1.4 (May 26, 2001)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Syntax highlighting of [Code] section.\par
+\pard\nowidctlpar\par
+\b Version 1.1.3 (April 23, 2001)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Finally added standard icons for open/save.\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 When a script is opened, the showcheckbox flag is replaced with the postinstall flag in the [Run]-section.\par
+\f1\'b7\tab\f0 Adds DefaultIcon when creating associations.\par
+\f1\'b7\tab\f0 When verifying if file exists, only the 10 first files are listed.\par
+\f1\'b7\tab\f0 New parameter HotKey in [Icons] section.\par
+\f1\'b7\tab\f0 New [Setup] directives AlwaysShowDirOnReadyPage and AlwaysShowGroupOnReadyPage.\par
+\f1\'b7\tab\f0 Help menu option to check for updates.\par
+\f1\'b7\tab\f0 Window for editing language options.\par
+\f1\'b7\tab\f0 Tells users to install IS or ISX if none of them are installed.\par
+\f1\'b7\tab\f0 New ISTool sections Links, that merges several scripts into one when compiling. Duplicate [Setup] section entries and such is not removed, and will give errors during compile. Line numbers might not be correct either. This merging is only performed when compiling from ISTool not when opening the script in IS.\par
+\f1\'b7\tab\f0 New flag in [Run] section: hidewizard.\par
+\f1\'b7\tab\f0 Other fixes.\par
+\pard\nowidctlpar\par
+\b Version 1.1.2 (April 10, 2001)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 StatusMsg property can be shown in the run section.\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Shouldn't complain so much about missing paths to compiler.\par
+\f1\'b7\tab\f0 New [Files] section flag: noregerror\par
+\f1\'b7\tab\f0 New [Tasks] section flags: restart, checkedonce\par
+\f1\'b7\tab\f0 Directory structure in the treeview gets listed in alphabetical order.\par
+\f1\'b7\tab\f0 Treeview is updated if file name is changed.\par
+\f1\'b7\tab\f0 When a script is opened, the isreadme flag is removed and replaced with an run-section entry.\par
+\f1\'b7\tab\f0 To prevent compiler errors unknown types automatically get removed from components when adding or editing types. \par
+\f1\'b7\tab\f0 Component filter is updated when components are added or modified.\par
+\f1\'b7\tab\f0 New function "Project->Verify Files" that verifies that files exists.\par
+\f1\'b7\tab\f0 Improved creation of ODBC-profiles.\par
+\f1\'b7\tab\f0 New help file. Deleted the old one which was pretty useless, and started from scratch with HtmlHelp. Still very little information in there, but let me know what you want and I'll add it. Still using WinHelp for the context help popups though.\par
+\pard\nowidctlpar\b\par
+Version 1.1.1 (Mars 2, 2001)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Better support for line breaks in messages.\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Uses "0" for version information if only one of 9x or NT is specified.\par
+\f1\'b7\tab\f0 Added "Don't Install/No Limit" to version editing.\par
+\f1\'b7\tab\f0 Fixed bug in creation of file associations.\par
+\f1\'b7\tab\f0 Locates .isl files if they are placed relative to SourceDir.\par
+\f1\'b7\tab\f0 Displays the Attribs property again.\par
+\f1\'b7\tab\f0 StatusMsg parameter on Run entries.\par
+\f1\'b7\tab\f0 Icon index on the icon properties page is working again.\par
+\f1\'b7\tab\f0 Correctly displays registry constants containing other constants.\par
+\f1\'b7\tab\f0 When editing messages the default message is shown.\par
+\f1\'b7\tab\f0 Added Files section recursesubdirs flag.\par
+\f1\'b7\tab\f0 Other bug fixes.\par
+\pard\nowidctlpar\par
+\b Version 1.1.0 (January 25, 2001)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 When filtered on a component, delete asks if you want to remove the item from the filtered component.\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 The section bar to the left now always shows the current section.\par
+\f1\'b7\tab\f0 Deleted components will be removed from the component filter.\par
+\f1\'b7\tab\f0 Flag checkboxes were sometimes grayed out for no reason.\par
+\f1\'b7\tab\f0 Option to create Internet shortcuts.\par
+\f1\'b7\tab\f0 Internal code cleanup and bug generation.\par
+\f1\'b7\tab\f0 Support for everything (I hope) in Inno Setup 2.0.0-beta1.  Only means that a few dialogs and controls have been rearranged.\par
+\f1\'b7\tab\f0 Internal script wizard removed, now uses the much better one in Inno Setup.\par
+\pard\nowidctlpar\par
+\b Version 1.0.9 (January 01, 2001)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Support for onlyifdestfileexists flag [IS 1.3.25].\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Support for CodeFile setup directive [ISX 1.3.24].\par
+\f1\'b7\tab\f0 Support for Check parameter [ISX 1.3.24/25].\par
+\f1\'b7\tab\f0 A simple dialog for specifying parameters for Ralf Walh\'f6fer's AddAlias program.\par
+\f1\'b7\tab\f0 When dropping folders, ISTool won't remove the first part of the directory.\par
+\f1\'b7\tab\f0 DisableReadyPage setup directive [ISX 1.3.25].\par
+\pard\nowidctlpar\par
+\b Version 1.0.8 (December 12, 2000)\b0\par
+\pard\nowidctlpar\fi-360\li720\tx720\f1\'b7\tab\f0 Support for runmaximized flag [Inno Setup 1.3.24].\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 ISTool now \b REQUIRES\b0  iscmplr.dll for compiling.\par
+\f1\'b7\tab\f0 About box displays the versions of IS and ISX it will use.\par
+\f1\'b7\tab\f0 Dialogs for directory browsing now has a "New Folder" button on Windows 2000 (and ME?).\par
+\f1\'b7\tab\f0 Support for ExtraDiskSpaceRequired on components [ISX 1.3.24].\par
+\pard\nowidctlpar\par
+\b Version 1.0.7 (November 24, 2000)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Won't crash on folders in files and registry sections.\par
+\pard\nowidctlpar\par
+\b Version 1.0.6 (November 13, 2000)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Option to turn off question to test setup after compilation.\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Function to compile and run setup without question (Ctrl+F5).\par
+\f1\'b7\tab\f0 Function to run setup without compiling first (F5).\par
+\f1\'b7\tab\f0 No more soft scrolling in compiler.\par
+\f1\'b7\tab\f0 Setting name to "\{group\}\\" on new icons.\par
+\f1\'b7\tab\f0 Tree views only expand directory constants and missing folders.\par
+\f1\'b7\tab\f0 Bugfixes.\par
+\pard\nowidctlpar\par
+\b Version 1.0.5 (October 22, 2000)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Major internal changes (expect a few bugs).\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Title shows complete file path.\par
+\f1\'b7\tab\f0 Indicator in window title if script has changed.\par
+\f1\'b7\tab\f0 Component filter is invisible when ISX is disabled.\par
+\f1\'b7\tab\f0 Customize editor font in preferences.\par
+\f1\'b7\tab\f0 Project option to enable/disable absolute paths. If disabled added files will use a relative path.\par
+\f1\'b7\tab\f0 Option to replace (c) with \'a9 in copyright fields.\par
+\f1\'b7\tab\f0 Option to automatically select components if destination dir matches the name of a component.\par
+\f1\'b7\tab\f0 Added \{localappdata\} constant.\par
+\f1\'b7\tab\f0 When a component, type, or task is renamed, all other items using one of them are also renamed.\par
+\f1\'b7\tab\f0 When importing .reg files, escaped backslashes are unescaped.\par
+\f1\'b7\tab\f0 Doesn't indicate OVERWRITE mode outside script section.\par
+\f1\'b7\tab\f0 Bugfixes.\par
+\pard\nowidctlpar\par
+\b Version 1.0.4 (October 07, 2000)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Inserts empty line between sections in script.\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Added possibility to filter on components.\par
+\f1\'b7\tab\f0 A New Script Wizard to ensure all necessary options are present.\par
+\f1\'b7\tab\f0 New edit control (Crystal Edit) with syntax highlighting, drag-and-drop editing, search/replace, and undo/redo.\par
+\f1\'b7\tab\f0 Move up and down on multiple selected lines.\par
+\f1\'b7\tab\f0 New dialog for editing version information.\par
+\f1\'b7\tab\f0 Compiles using IS DLL (if available).\par
+\f1\'b7\tab\f0 Bugfixes.\par
+\pard\nowidctlpar\li45\par
+\pard\nowidctlpar\b Version 1.0.3 (September 23, 2000)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Cleaned up bugs introduced in version 1.0.2\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Preference option to enable ISX by default\par
+\pard\nowidctlpar\par
+\b Version 1.0.2 (September 20, 2000)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Added a dropdown menu on the options toolbar icon\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Fixed background color direction\par
+\f1\'b7\tab\f0 ISTool "section" in external .ist file are now moved to the .iss file. To use .ist files, use a text editor (or the script view) to copy the sections from the .ist file to the .iss file, and rename the sections to _ISToolPreCompile and _ISToolPostCompile.\par
+\f1\'b7\tab\f0 When importing .reg files, "\{" are replaced with "\{\{"\par
+\f1\'b7\tab\f0 Commas are replaced with spaces when importing binary registry data\par
+\f1\'b7\tab\f0 Experimental registry export\par
+\f1\'b7\tab\f0 Drop registry and ini files in registry and ini sections to import\par
+\f1\'b7\tab\f0 Apropriate open dialogs now lists .rtf files\par
+\f1\'b7\tab\f0 In files section you now can drop files and folders directly on the folder you want to put them in\par
+\f1\'b7\tab\f0 Combo boxes replaced with edit controls when editing version information (will make a better solution later, when I find it)\par
+\f1\'b7\tab\f0 Directory constants are now shown with an alternative icon\par
+\f1\'b7\tab\f0 Saving to read-only files won't crash ISTool\par
+\f1\'b7\tab\f0 ISX are now enabled per script, new files have ISX disabled by default.\par
+\f1\'b7\tab\f0 Lots of small changes and fixes\par
+\pard\nowidctlpar\par
+\b Version 1.0.1 (August 31, 2000)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Supports ISX tasks\b\par
+\pard\nowidctlpar\fi-360\li720\b0\f1\'b7\tab\f0 Wildcard support when dropping folders in files section\b\par
+\b0\f1\'b7\tab\f0 Supports new IS 1.3.19 constants\b\par
+\b0\f1\'b7\tab\f0 Preview of new \ldblquote File System\rdblquote  section that shows files, directories, and icons in the same view. There are no editing options yet, but if people like it, this will be added.\b\par
+\pard\nowidctlpar\b0\fs24\par
+\b\fs16 Version 1.0.0 (August 05, 2000)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 No page faults when adding custom messages any more\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Moving items up or down preserves icon\par
+\f1\'b7\tab\f0 Unknown messages can be edited, but must be inserted in script view\par
+\f1\'b7\tab\f0 Any message that is specified in any of the script message files is valid.\par
+\f1\'b7\tab\f0 Ignores case when comparing directory names\par
+\f1\'b7\tab\f0 Preference option to enable/disable opening of last project on startup.\par
+\f1\'b7\tab\f0 The color "Fuchsia" is now spelled correctly (was Fushcia)\par
+\f1\'b7\tab\f0 Corrected misspelled flag when inserting fonts\par
+\f1\'b7\tab\f0 Information bar uses old colors again\par
+\f1\'b7\tab\f0 Spaces in component names are replaced with underscores\par
+\f1\'b7\tab\f0 Supports ISX 1.3.17 (Not tasks)\par
+\pard\nowidctlpar\par
+\b Version 0.91 (July 17, 2000)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Support for UninstallStyle setup directive [My Inno Setup Extensions 1.3.13]\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Support for create icon checkboxes on the finished page [My Inno Setup Extensions 1.3.13.1]\par
+\f1\'b7\tab\f0 Fixed bug that prevented editing of description on run entries.\par
+\f1\'b7\tab\f0 Fixed bug that made ISTool run in an endless loop during startup if it hadn't been run before.\par
+\pard\nowidctlpar\b\par
+Version 0.90 (July 16, 2000)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Fixed bugs when inserting new elements into script.\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 New setup directives FlatComponentsList and ShowComponentSizes [Inno Setup Extensions 1.3.12.1]\par
+\f1\'b7\tab\f0 Possibility to run setup after compilation.\par
+\f1\'b7\tab\f0 Pre and Post compilation steps.\par
+\f1\'b7\tab\f0 New font used in information bar (Arial).\par
+\f1\'b7\tab\f0 Combo boxes in certain dialogs (like run, delete, ...) aren't populated before the arrow is pushed. This is because it takes a long time to populate them if there are thousands of files.\par
+\f1\'b7\tab\f0 Opens last project on startup.\par
+\f1\'b7\tab\f0 New Setup directive AppMutex supported [Inno Setup 1.3.14]\par
+\f1\'b7\tab\f0 New icon section flags: closeonexit and dontcloseonexit [Inno Setup 1.3.15]\par
+\f1\'b7\tab\f0 New registry section flag: dontcreatekey [Inno Setup 1.3.16]\par
+\pard\nowidctlpar\b\par
+Version 0.88 (June 08, 2000)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 MRU expanded to 10 files.\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Parameters containing ';' is now quoted when saved.\par
+\pard\nowidctlpar\b\par
+Version 0.87 (June 07, 2000)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 New constants \{commonappdata\} and \{commondocs\} [Inno Setup 1.3.11]\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Support for new ISX options and flags [1.3.10.1 and 1.3.11]\par
+\f1\'b7\tab\f0 Major rewrite of the script handler to better support future options and parameters. Anything unknown is treated as comments, and unknown flags and options are preserved and written back to file. The downside is that ISTool can't tell you what is wrong, it just doesn't let you edit it visually, and it is probably filled with bugs :-)\par
+\f1\'b7\tab\f0 Options to alter the Source parameter of files to a path relative to the script's source directory.\par
+\f1\'b7\tab\f0 New registry section flag (noerror) [Inno Setup 1.3.12]\par
+\pard\nowidctlpar\b\par
+Version 0.86 (May 22, 2000)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Supports deletekey and deletevalue flags when importing .reg files. \par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Supports UsePreviousGroup setup directive [Inno Setup 1.3.10] \par
+\f1\'b7\tab\f0 Support for Inno Setup Extensions version 1.3.10. \par
+\pard\nowidctlpar\par
+\b Version 0.85 (May 13, 2000)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Bug fix on commented lines in the setup section. \par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 runminimized and skipifdoesntexist flags in run section. \par
+\f1\'b7\tab\f0 deletekey and deletevalue flags in registry section. \par
+\f1\'b7\tab\f0 RunOnceId parameter added to uninstall run section. \par
+\pard\nowidctlpar\par
+\b Version 0.84 (May 10, 2000)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Supports comments in all sections. \par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Option to remove setup directives that equals defaults. \par
+\f1\'b7\tab\f0 Fixed registry import bug. \par
+\pard\nowidctlpar\par
+\b Version 0.83 (May 07, 2000)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Resets UninstallDisplayIcon and UninstallDisplayName when choosing new. \par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Fixed strange bug when item was selected in registry and new or open was selected. \par
+\f1\'b7\tab\f0 Added $ in front of all imported dword registry values. \par
+\f1\'b7\tab\f0 Added hotkey Ctrl+I for Create Icon. \par
+\pard\nowidctlpar\par
+\b Version 0.82 (May 02, 2000)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Added support for comments. Comments in [Setup] section are silently ignored. \par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Slightly improved import from .reg files. \par
+\f1\'b7\tab\f0 Lots of internal changes. \par
+\f1\'b7\tab\f0 Select IconIndex from combo boxes. \par
+\f1\'b7\tab\f0 New editing of paths for system files \par
+\f1\'b7\tab\f0 Writes empty string (String: "") in ini-section if key is specified. \par
+\f1\'b7\tab\f0 Bits [Setup] directive is now ignored. \par
+\f1\'b7\tab\f0 DirExistsWarning [Setup] directive added [Inno Setup 1.3.6]. \par
+\f1\'b7\tab\f0 UninstallDisplayIcon [Setup] directive added [Inno Setup 1.3.6]. \par
+\f1\'b7\tab\f0 UninstallDisplayName [Setup] directive added [Inno Setup 1.3.6]. \par
+\pard\nowidctlpar\par
+\b Version 0.80 (Apr 13, 2000)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Script section \par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Toolbar button to select section \par
+\f1\'b7\tab\f0 More complete help file \par
+\f1\'b7\tab\f0 Creation of ODBC profiles \par
+\f1\'b7\tab\f0 Added setup for BDE and VB 5 & 6 system files \par
+\f1\'b7\tab\f0 Reorganized menus \par
+\f1\'b7\tab\f0 Added BackColor2 [Setup] section directive [Inno Setup 1.3.3] \par
+\f1\'b7\tab\f0 Added BackColorDirection [Setup] section directive [Inno Setup 1.3.3] \par
+\f1\'b7\tab\f0 Added UninstallFilesDir [Setup] section directive [Inno Setup 1.3.3] \par
+\f1\'b7\tab\f0 Added setup for DAO 3.5 files \par
+\pard\nowidctlpar\par
+\b Version 0.76 (Apr 06, 2000)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Added UsePreviousAppDir directive [Inno Setup 1.3.1] \par
+\pard\nowidctlpar\par
+\b Version 0.75 (Apr 02, 2000)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Modified creation of associations. \par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Added AppID [Setup] section directive [Inno Setup 1.3.0] \par
+\f1\'b7\tab\f0 Added UninstallLogMode [Setup] section directive [Inno Setup 1.3.0] \par
+\f1\'b7\tab\f0 Added CreateUninstallRegKey [Setup] section directive [Inno Setup 1.3.0] \par
+\f1\'b7\tab\f0 Added AppPublisher, AppPublisherURL, AppSupportURL, AppUpdatesURL, and AppVersion [Setup] section directives [Inno Setup 1.3.0] \par
+\f1\'b7\tab\f0 Support for new features in Inno Setup 1.3.0 \par
+\f1\'b7\tab\f0 Added Directory and Shell Folder constants to context-menus [Suggested by Michael Reitz] \par
+\f1\'b7\tab\f0 Bug fixes. \par
+\pard\nowidctlpar\par
+\b Version 0.74 (Feb 26, 2000)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Added "Install Fonts" to Files context menu. Currently only TrueType fonts are supported. \par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Now saves scripts with CR+LF (not only LF). \par
+\f1\'b7\tab\f0 Added File->Compile Script (Ctrl+F9) to start Inno Setup and compile directly. \par
+\f1\'b7\tab\f0 Preferences should no longer get lost. \par
+\f1\'b7\tab\f0 Saves current script directory between sessions. \par
+\f1\'b7\tab\f0 Displayed columns and column order can be customized. \par
+\f1\'b7\tab\f0 Create Icon now works on multiple files and doesn't crash on directories any more. \par
+\f1\'b7\tab\f0 Registry section can be viewed as a tree structure. \par
+\pard\nowidctlpar\par
+\b Version 0.73 (Feb 13, 2000)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Added some more keyboard shortcuts. \par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Added flags column to all relevant sections. \par
+\f1\'b7\tab\f0 Added DisableFinishedPage from Inno Setup 1.2.14 \par
+\pard\nowidctlpar\par
+\b Version 0.72 (Feb 07, 2000)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Error when parameters contained ';' fixed. \par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Added changes from Inno Setup versions 1.2.10 - 1.2.12. \par
+\f1\'b7\tab\f0 Couple of other minor fixes.\par
+\pard\nowidctlpar\par
+\b Version 0.71 (Jan 30, 2000)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 Import from INI files.\par
+\pard\nowidctlpar\fi-360\li720\f1\'b7\tab\f0 Import from registry files.\par
+\f1\'b7\tab\f0 Simple implementation of message section, with file import.\par
+\f1\'b7\tab\f0 Very simple help file.\par
+\f1\'b7\tab\f0 Lots of minor fixes.\par
+\pard\nowidctlpar\par
+\b Version 0.70 (Dec 21, 1999)\par
+\pard\nowidctlpar\fi-360\li720\tx720\b0\f1\'b7\tab\f0 First public release.\par
+}
+ 
