@@ -4,7 +4,7 @@
 #pragma option -v+
 #pragma verboselevel 9
 
-#define APPVER	GetFileVersion("D:\VSS\ISTool\distribution\ISTool.exe")
+#define APPVER	GetFileVersion("..\source\release\ISTool.exe")
 
 [Setup]
 AppName=ISTool
@@ -13,7 +13,7 @@ DefaultDirName={pf}\ISTool
 ChangesAssociations=true
 AppCopyright=Copyright © 1999 - 2007 Bjørnar Henden
 DefaultGroupName=ISTool
-LicenseFile=D:\VSS\ISTool\setup\License.rtf
+LicenseFile=License.rtf
 MinVersion=4.0,4.0.1381sp6
 OutputBaseFilename=istool-5.2.0.1
 OutputDir=.
@@ -23,14 +23,14 @@ AppPublisherURL=http://www.istool.org/
 AppSupportURL=http://www.istool.org/
 AppUpdatesURL=http://www.istool.org/
 AppVersion={#APPVER}
-InfoAfterFile=D:\VSS\ISTool\setup\History.rtf
+InfoAfterFile=History.rtf
 AlwaysShowComponentsList=false
 AppMutex=ISTool
 Compression=lzma/ultra
 AllowUNCPath=true
 ShowTasksTreeLines=false
-WizardSmallImageFile=D:\VSS\ISTool\setup\small.bmp
-WizardImageFile=D:\VSS\ISTool\setup\large.bmp
+WizardSmallImageFile=small.bmp
+WizardImageFile=large.bmp
 ShowLanguageDialog=yes
 TimeStampsInUTC=true
 SolidCompression=true
@@ -91,7 +91,7 @@ SelectLanguageLabel=Please select the language you want this installation and IS
 
 [_ISTool]
 UseAbsolutePaths=true
-LogFile=compile.log
+;LogFile=compile.log
 LogFileAppend=false
 
 [Languages]
