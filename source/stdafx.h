@@ -52,12 +52,12 @@ typedef CSimpleArray<CInnoScript::CLine*>	CScriptList;
 
 #define VER_MAJOR		5
 #define VER_MINOR		2
-#define VER_REVISION	0
-#define VER_BUILD		1
+#define VER_REVISION	1
+//#define VER_BUILD		0
 
 #define MY_EMAIL		_T("mailto:istool@istool.org")
 
-#define ISVERSION		_T("5.2.0")
+#define ISVERSION		_T("5.2.1")
 
 #include <htmlhelp.h>
 #include <wininet.h>

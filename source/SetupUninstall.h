@@ -47,6 +47,8 @@ public:
 		COMMAND_HANDLER(IDC_APPCOMMENTS, BN_CLICKED, OnModified)
 		COMMAND_HANDLER(IDC_APPCONTACT, BN_CLICKED, OnModified)
 		COMMAND_HANDLER(IDC_APPREADMEFILE, BN_CLICKED, OnModified)
+		COMMAND_HANDLER(IDC_SIGNEDUNINSTALLER, BN_CLICKED, OnModified)
+		COMMAND_HANDLER(IDC_SIGNEDUNINSTALLERDIR, EN_CHANGE, OnModified)
 		REFLECT_NOTIFICATIONS()
 	END_MSG_MAP()
 
@@ -73,6 +75,9 @@ public:
 		DDX_TEXT(IDC_APPCONTACT,m_strAppContact)
 		DDX_TEXT(IDC_APPREADMEFILE,m_strAppReadmeFile)
 		DDX_TEXT(IDC_APPSUPPORTPHONE,m_strAppSupportPhone)
+		DDX_CHECK(IDC_SIGNEDUNINSTALLER, m_bSignedUninstaller)
+		DDX_TEXT(IDC_SIGNEDUNINSTALLERDIR, m_strSignedUninstallerDir)
+		DDX_CONTROL(IDC_SIGNEDUNINSTALLERDIR2, m_btnSignedUninstallerDir)
 	END_DDX_MAP()
 
 	CLargeIconComboBox	m_wndUninstallDisplayIconIndex;
@@ -94,8 +99,10 @@ public:
 	CString	m_strUninstallDisplayIcon;
 	int		m_nUninstallDisplayIconIndex;
 	CString	m_strUninstallDisplayName;
-	BOOL	m_bUpdateUninstallLogAppName;
+	BOOL	m_bUpdateUninstallLogAppName, m_bSignedUninstaller;
 	CString	m_strAppModifyPath, m_strAppComments, m_strAppContact, m_strAppReadmeFile, m_strAppSupportPhone;
+	CString	m_strSignedUninstallerDir;
+	Henden::CButtonFolder	m_btnSignedUninstallerDir;
 
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) {
 		_L(m_hWnd,"Uninstall");
@@ -147,6 +154,8 @@ public:
 		script.SetPropertyString("AppContact",m_strAppContact);
 		script.SetPropertyString("AppReadmeFile",m_strAppReadmeFile);
 		script.SetPropertyString("AppSupportPhone",m_strAppSupportPhone);
+		script.SetPropertyBool("SignedUninstaller",m_bSignedUninstaller ? true : false);
+		script.SetPropertyString("SignedUninstallerDir",m_strSignedUninstallerDir);
 
 		if(m_nUninstallDisplayIconIndex>0) {
 			strTmp.Format("%s,%d",
@@ -301,7 +310,8 @@ public:
 		m_bNew(bNew), 
 		m_wndUninstallFilesDir(pDoc), 
 		m_bUninstallRestartComputer(FALSE),
-		CPropertyPageImpl<CSetupUninstall>(pszTitle)
+		CPropertyPageImpl<CSetupUninstall>(pszTitle),
+		m_btnSignedUninstallerDir(_T("Select Signed Uninstaller Directory"))
 	{
 		//{{AFX_DATA_INIT(CSetupUninstall)
 		m_strUninstallDisplayIcon = _T("");
@@ -328,6 +338,8 @@ public:
 		m_strAppContact					= script.GetPropertyString("AppContact");
 		m_strAppReadmeFile				= script.GetPropertyString("AppReadmeFile");
 		m_strAppSupportPhone			= script.GetPropertyString("AppSupportPhone");
+		m_bSignedUninstaller			= script.GetPropertyBool("SignedUninstaller");
+		m_strSignedUninstallerDir		= script.GetPropertyString("SignedUninstallerDir");
 
 		CString str(script.GetPropertyString("UninstallDisplayIcon"));
 		int nPos = str.ReverseFind(',');
@@ -366,5 +378,8 @@ public:
 		TOOLTIP_HANDLER(IDC_APPCONTACT, _L("Help|Uninstall|AppContact","Used for display purposes on the \"Support\" dialog of the Add/Remove Programs Control Panel applet in Windows 2000/XP."))
 		TOOLTIP_HANDLER(IDC_APPREADMEFILE, _L("Help|Uninstall|AppReadmeFile","Used for display purposes on the \"Support\" dialog of the Add/Remove Programs Control Panel applet in Windows 2000/XP."))
 		TOOLTIP_HANDLER(IDC_APPSUPPORTPHONE, _L("Help|Uninstall|AppSupportPhone","Used for display purposes on the \"Support\" dialog of the Add/Remove Programs Control Panel applet in Windows 2000/XP."))
+		TOOLTIP_HANDLER(IDC_SIGNEDUNINSTALLER, _L("Help|Uninstall|SignedUninstaller","Specifies whether the uninstaller program (unins???.exe) should be deployed with a digital signature attached. When the uninstaller has a valid digital signature, Windows Vista users will not see an \"unidentified program\" warning when launching it from outside of Control Panel."))
+		TOOLTIP_HANDLER(IDC_SIGNEDUNINSTALLERDIR, _L("Help|Uninstall|SignedUninstallerDir","Specifies the directory in which signed uninstaller files should be stored. By default, such files are stored in the output directory."))
+		TOOLTIP_HANDLER(IDC_SIGNEDUNINSTALLERDIR2, _L("Help|Uninstall|SignedUninstallerDir","Specifies the directory in which signed uninstaller files should be stored. By default, such files are stored in the output directory."))
 	END_TOOLTIP_MAP()
 };

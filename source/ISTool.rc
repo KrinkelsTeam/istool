@@ -39,8 +39,8 @@ IDI_ICON3               ICON                    "res\\ISTool3.ico"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 5,2,0,1
- PRODUCTVERSION 5,2,0,1
+ FILEVERSION 5,2,1,0
+ PRODUCTVERSION 5,2,1,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -58,12 +58,12 @@ BEGIN
             VALUE "Comments", "http://www.istool.org/"
             VALUE "CompanyName", "Bjørnar Henden"
             VALUE "FileDescription", "ISTool Application"
-            VALUE "FileVersion", "5, 2, 0, 1"
+            VALUE "FileVersion", "5, 2, 1, 0"
             VALUE "InternalName", "ISTool"
             VALUE "LegalCopyright", "Copyright (C) 1999-2007"
             VALUE "OriginalFilename", "ISTool.exe"
             VALUE "ProductName", "ISTool Application"
-            VALUE "ProductVersion", "5, 2, 0, 1"
+            VALUE "ProductVersion", "5, 2, 1, 0"
         END
     END
     BLOCK "VarFileInfo"
@@ -279,6 +279,11 @@ BEGIN
     EDITTEXT        IDC_APPREADMEFILE,244,199,105,12,ES_AUTOHSCROLL
     LTEXT           "Support Phone:",IDC_STATIC,190,217,54,8
     EDITTEXT        IDC_APPSUPPORTPHONE,244,215,105,12,ES_AUTOHSCROLL
+    GROUPBOX        "Signing",IDC_STATIC,7,137,176,59
+    CONTROL         "Signed Uninstaller",IDC_SIGNEDUNINSTALLER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,154,159,10
+    LTEXT           "Directory:",IDC_STATIC,14,170,31,8
+    EDITTEXT        IDC_SIGNEDUNINSTALLERDIR,49,168,114,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "...",IDC_SIGNEDUNINSTALLERDIR2,163,167,14,14
 END
 
 IDD_SETUP_APPEARANCE DIALOGEX 0, 0, 291, 220

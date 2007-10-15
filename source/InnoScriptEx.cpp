@@ -26,10 +26,13 @@ struct {
 	"CopyrightFontSize",			"8",
 		
 	// [Setup]
+	// Inno Setup 5.2.1
+	"SignedUninstaller",			"false",
+	"SignedUninstallerDir",			"",
 	// Inno Setup 5.1.14
 	"CompressionThreads",			"auto",
 	// Inno Setup 5.1.13
-	"SetupLogging",					"no",
+	"SetupLogging",					"false",
 	"AppSupportPhone",				"",
 	// Inno Setup 5.1.7
 	"TerminalServicesAware",		"true",

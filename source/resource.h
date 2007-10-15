@@ -506,9 +506,11 @@
 #define IDC_32BIT                       1662
 #define IDC_SHOWUNDISPLAYABLELANGUAGES  1662
 #define IDC_SETUPLOGGING                1662
+#define IDC_SIGNEDUNINSTALLER           1662
 #define IDC_ARCHITECTURESINSTALLIN64BITMODE 1663
 #define IDC_EDIT3                       1664
 #define IDC_ARCHITECTURESALLOWED        1664
+#define IDC_SIGNEDUNINSTALLERDIR        1664
 #define IDC_64BIT                       1665
 #define IDC_EDIT2                       1666
 #define IDC_VERSIONINFOCOPYRIGHT        1666
@@ -522,6 +524,8 @@
 #define IDC_SETNTFSCOMPRESSION          1673
 #define IDC_CHECK4                      1674
 #define IDC_UNSETNTFSCOMPRESSION        1674
+#define IDC_BUTTON1                     1675
+#define IDC_SIGNEDUNINSTALLERDIR2       1676
 #define WTL_IDS_SAVEFILE                8608
 #define WTL_IDS_SAVEFILECOPY            8609
 #define WTL_IDS_OPENFILE                8611
@@ -619,7 +623,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        272
 #define _APS_NEXT_COMMAND_VALUE         32948
-#define _APS_NEXT_CONTROL_VALUE         1675
+#define _APS_NEXT_CONTROL_VALUE         1677
 #define _APS_NEXT_SYMED_VALUE           105
 #endif
 #endif

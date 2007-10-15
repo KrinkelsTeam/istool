@@ -125,7 +125,7 @@ static bool IsValidDirective(LPCTSTR psz,long sec) {
 		"Encryption", "AppModifyPath", "AppComments", "AppContact", "AppReadmeFile", 
 		"OutputManifestFile", "ChangesEnvironment", "VersionInfoCopyright", "TouchDate", "TouchTime",
 		"TerminalServicesAware", "ShowUndisplayableLanguages", "AppSupportPhone", "SetupLogging", 
-		"CompressionThreads", 
+		"CompressionThreads", "SignedUninstaller", "SignedUninstallerDir",
 		NULL
 	};
 	static const LPCTSTR _files[] = { "source", "destdir", "destname", "attribs", "fontinstall", "flags", "permissions", "excludes", "externalsize", NULL };
