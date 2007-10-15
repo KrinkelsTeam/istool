@@ -9,7 +9,7 @@ static bool IsNT4() {
 
 CAtlMap<CString,CString>	CTranslate::m_map;
 #ifdef _DEBUG
-const CString				CTranslate::m_strOrgFile = _T("F:\\UTVK\\ISTool\\languages\\istool-en.lng");
+const CString				CTranslate::m_strOrgFile = _T("D:\\svnroot\\istool\\istool\\trunk\\languages\\istool-en.lng");
 #endif
 
 void CTranslate::Warning(const CString& strKey,const CString& strDefault) {
