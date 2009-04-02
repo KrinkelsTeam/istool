@@ -85,13 +85,10 @@ bool CDlgCompile::LoadCompiler() {
 
 		// ISPP is installed and ISTool is doing the
 		// pre-processing, so bypass ISPP when compiling
-		if(m_fCompileScriptISPP && CMyApp::m_prefs.m_bPreProcess) {
-			if(m_pDoc->GetCompiler(strLibrary,true,true)) {
-				if(m_hCompilerDLS = LoadLibrary(strLibrary)) {
+		if(m_fCompileScriptISPP && CMyApp::m_prefs.m_bPreProcess) 
+			if(m_pDoc->GetCompiler(strLibrary,true,true)) 
+				if(m_hCompilerDLS = LoadLibrary(strLibrary)) 
 					m_fCompileScript = (ISDllCompileScriptProc)GetProcAddress(m_hCompilerDLS,"ISDllCompileScript");
-				}
-			}
-		}
 
 
 		return true;
