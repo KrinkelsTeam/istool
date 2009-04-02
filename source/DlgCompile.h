@@ -91,8 +91,10 @@ protected:
 	CProgressBarCtrl	m_wndProgress;
 
 	HINSTANCE					m_hCompiler, m_hCompilerDLS;
-	ISDllCompileScriptProc		m_fCompileScript;
-	ISDllCompileScriptISPPProc	m_fCompileScriptISPP;
+	ISDllCompileScriptProcA		m_fCompileScriptA;
+	ISDllCompileScriptProcW		m_fCompileScriptW;
+	ISDllCompileScriptISPPProcA	m_fCompileScriptISPPA;
+	ISDllCompileScriptISPPProcW	m_fCompileScriptISPPW;
 	ISDllGetVersionProc			m_fGetVersion;
 	CMyDoc*						m_pDoc;
 	long						m_nCurrentLine;
@@ -112,8 +114,10 @@ protected:
 	UINT PreProcess();
 	UINT DoCompile();
 
-	static LONG __stdcall CompilerCallback(LONG Code,TCompilerCallbackData* Data, DWORD AppData);
-	UINT CompilerCallback(LONG Code,TCompilerCallbackData* Data);
+	static LONG __stdcall CompilerCallbackA(LONG Code,TCompilerCallbackDataA* Data, DWORD AppData);
+	UINT CompilerCallbackA(LONG Code,TCompilerCallbackDataA* Data);
+	static LONG __stdcall CompilerCallbackW(LONG Code,TCompilerCallbackDataW* Data, DWORD AppData);
+	UINT CompilerCallbackW(LONG Code,TCompilerCallbackDataW* Data);
 
 	bool AddDownloadSection();
 	void ParseDir(LPCTSTR pszFilter,CAtlTemporaryFile& file,const CString strDestDir,const CString& strRoot);

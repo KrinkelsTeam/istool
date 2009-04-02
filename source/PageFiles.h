@@ -72,6 +72,9 @@ public:
 		COMMAND_HANDLER(IDC_EXTERNALSIZE, EN_CHANGE, OnModified)
 		COMMAND_HANDLER(IDC_SETNTFSCOMPRESSION, BN_CLICKED, OnModified)
 		COMMAND_HANDLER(IDC_UNSETNTFSCOMPRESSION, BN_CLICKED, OnModified)
+		COMMAND_HANDLER(IDC_SORTFILESBYNAME, BN_CLICKED, OnModified)
+		COMMAND_HANDLER(IDC_GACINSTALL, BN_CLICKED, OnModified)
+		COMMAND_HANDLER(IDC_STRONGASSEMBLYNAME, EN_CHANGE, OnModified)
 		REFLECT_NOTIFICATIONS()
 	END_MSG_MAP()
 
@@ -126,6 +129,9 @@ public:
 		DDX_TEXT(IDC_EXTERNALSIZE, m_strExternalSize)
 		DDX_CHECK(IDC_SETNTFSCOMPRESSION, m_nSetNTFSCompression)
 		DDX_CHECK(IDC_UNSETNTFSCOMPRESSION, m_nUnsetNTFSCompression)
+		DDX_CHECK(IDC_SORTFILESBYNAME, m_nSortFilesByName)
+		DDX_CHECK(IDC_GACINSTALL, m_nGacInstall)
+		DDX_TEXT(IDC_STRONGASSEMBLYNAME, m_strStrongAssemblyName)
 	END_DDX_MAP()
 
 	CEdit2		m_wndSource;
@@ -159,12 +165,13 @@ public:
 	int			m_nPromptIfOlder, m_nOnlyIfDoesntExist, m_nIgnoreVersion, m_nDontCopy;
 	int			m_nUninsRemoveReadOnly;
 	CString		m_strPermissions;
-	CString		m_strExcludes, m_strExternalSize;
+	CString		m_strExcludes, m_strExternalSize, m_strStrongAssemblyName;
 	int			m_nSortFilesByExtension;
 	int			m_nTouch, m_nReplaceSameVersion, m_nNoEncryption;
 	int			m_nNoCompression, m_nDontVerifyChecksum;
 	int			m_nUninsNoSharedFilePrompt;
 	int			m_nCreateAllSubdirs, m_n32Bit, m_n64Bit, m_nSolidBreak, m_nSetNTFSCompression, m_nUnsetNTFSCompression;
+	int			m_nSortFilesByName, m_nGacInstall;
 
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) {
 #if 1
@@ -205,6 +212,9 @@ public:
 
 			if(m_strExternalSize.CompareNoCase(SAFESTR(pFile->GetParameter("ExternalSize"))))
 				m_strExternalSize.Empty();
+
+			if(m_strStrongAssemblyName.CompareNoCase(SAFESTR(pFile->GetParameter("StrongAssemblyName"))))
+				m_strStrongAssemblyName.Empty();
 
 			// Attributes
 			if(m_bReadOnly != (pFile->GetParameterFlag("Attribs","readonly") ? TRUE : FALSE)) {
@@ -383,6 +393,14 @@ public:
 				GetDlgItem(IDC_UNSETNTFSCOMPRESSION).ModifyStyle(BS_CHECKBOX|BS_3STATE|BS_AUTO3STATE,BS_AUTO3STATE);
 				m_nUnsetNTFSCompression = 2;
 			}
+			if(m_nSortFilesByName != (pFile->GetParameterFlag("Flags","sortfilesbyname") ? TRUE : FALSE)) {
+				GetDlgItem(IDC_SORTFILESBYNAME).ModifyStyle(BS_CHECKBOX|BS_3STATE|BS_AUTO3STATE,BS_AUTO3STATE);
+				m_nSortFilesByName = 2;
+			}
+			if(m_nGacInstall != (pFile->GetParameterFlag("Flags","gacinstall") ? TRUE : FALSE)) {
+				GetDlgItem(IDC_GACINSTALL).ModifyStyle(BS_CHECKBOX|BS_3STATE|BS_AUTO3STATE,BS_AUTO3STATE);
+				m_nGacInstall = 2;
+			}
 		}
 		GetDlgItem(IDC_EXTERNALSIZE).EnableWindow(m_bExternal);
 		GetDlgItem(IDC_STATIC_EXTERNALSIZE).EnableWindow(m_bExternal);
@@ -442,6 +460,7 @@ public:
 			CInnoScriptEx::SetString(pFile,bForce,"Permissions",m_strPermissions);
 			CInnoScriptEx::SetString(pFile,bForce,"Excludes",m_strExcludes);
 			CInnoScriptEx::SetString(pFile,bForce,"ExternalSize",m_strExternalSize);
+			CInnoScriptEx::SetString(pFile,bForce,"StrongAssemblyName",m_strStrongAssemblyName);
 
 			// Attribs
 			CInnoScriptEx::SetFlag(pFile,"Attribs","readonly",m_bReadOnly);
@@ -484,6 +503,8 @@ public:
 			CInnoScriptEx::SetFlag(pFile,"Flags","solidbreak",m_nSolidBreak);
 			CInnoScriptEx::SetFlag(pFile,"Flags","setntfscompression",m_nSetNTFSCompression);
 			CInnoScriptEx::SetFlag(pFile,"Flags","unsetntfscompression",m_nUnsetNTFSCompression);
+			CInnoScriptEx::SetFlag(pFile,"Flags","sortfilesbyname",m_nSortFilesByName);
+			CInnoScriptEx::SetFlag(pFile,"Flags","gacinstall",m_nGacInstall);
 		}
 
 		if(m_bNew)
@@ -556,6 +577,8 @@ public:
 		m_nSolidBreak = 0;
 		m_nSetNTFSCompression = 0;
 		m_nUnsetNTFSCompression = 0;
+		m_nSortFilesByName = 0;
+		m_nGacInstall = 0;
 
 		for(int nPos=0;nPos<m_listFiles.GetSize();nPos++) {
 			CScriptLine* pFile = m_listFiles[nPos];
@@ -566,6 +589,7 @@ public:
 			m_strPermissions = pFile->GetParameter("Permissions");
 			m_strExcludes = pFile->GetParameter("Excludes");
 			m_strExternalSize = pFile->GetParameter("ExternalSize");
+			m_strStrongAssemblyName = pFile->GetParameter("StrongAssemblyName");
 
 			if(pFile->GetParameterFlag("Attribs","readonly")) m_bReadOnly = TRUE;
 			if(pFile->GetParameterFlag("Attribs","hidden")) m_bHidden = TRUE;
@@ -606,6 +630,8 @@ public:
 			if(pFile->GetParameterFlag("Flags","solidbreak")) m_nSolidBreak = 1;
 			if(pFile->GetParameterFlag("Flags","setntfscompression")) m_nSetNTFSCompression = 1;
 			if(pFile->GetParameterFlag("Flags","unsetntfscompression")) m_nUnsetNTFSCompression = 1;
+			if(pFile->GetParameterFlag("Flags","sortfilesbyname")) m_nSortFilesByName = 1;
+			if(pFile->GetParameterFlag("Flags","gacinstall")) m_nGacInstall = 1;
 			break;
 		}
 	}
@@ -661,5 +687,8 @@ public:
 		TOOLTIP_HANDLER(IDC_EXTERNALSIZE,_L("Help|Files|ExternalSize","This parameter must be combined with the external flag and specifies the size of the external file in bytes. If this parameter is not specified, Setup retrieves the file size at startup. Primarily useful for files that aren't available at startup, for example files located on a second disk when disk spanning is being used."))
 		TOOLTIP_HANDLER(IDC_SETNTFSCOMPRESSION,_L("Help|Files|SetNTFSCompression","Instructs Setup to enable NTFS compression on the file (even if it didn't replace the file). If it fails to set the compression state for any reason (for example, if compression is not supported by the file system), no error message will be displayed."))
 		TOOLTIP_HANDLER(IDC_UNSETNTFSCOMPRESSION,_L("Help|Files|UnsetNTFSCompression","Instructs Setup to disable NTFS compression on the file (even if it didn't replace the file). If it fails to set the compression state for any reason (for example, if compression is not supported by the file system), no error message will be displayed."))
+		TOOLTIP_HANDLER(IDC_SORTFILESBYNAME,_L("Help|Files|SortFilesByName","?"))
+		TOOLTIP_HANDLER(IDC_GACINSTALL,_L("Help|Files|GacInstall","?"))
+		TOOLTIP_HANDLER(IDC_STRONGASSEMBLYNAME,_L("Help|Files|StrongAssemblyName","?"))
 	END_TOOLTIP_MAP()
 };

@@ -507,6 +507,7 @@
 #define IDC_SHOWUNDISPLAYABLELANGUAGES  1662
 #define IDC_SETUPLOGGING                1662
 #define IDC_SIGNEDUNINSTALLER           1662
+#define IDC_RIGHTTOLEFT                 1662
 #define IDC_ARCHITECTURESINSTALLIN64BITMODE 1663
 #define IDC_EDIT3                       1664
 #define IDC_ARCHITECTURESALLOWED        1664
@@ -515,6 +516,7 @@
 #define IDC_EDIT2                       1666
 #define IDC_VERSIONINFOCOPYRIGHT        1666
 #define IDC_APPSUPPORTPHONE             1666
+#define IDC_STRONGASSEMBLYNAME          1666
 #define IDC_RUN_32BIT                   1667
 #define IDC_RUN_64BIT                   1668
 #define IDC_FILES_SOLIDBREAK            1669
@@ -526,6 +528,11 @@
 #define IDC_UNSETNTFSCOMPRESSION        1674
 #define IDC_BUTTON1                     1675
 #define IDC_SIGNEDUNINSTALLERDIR2       1676
+#define IDC_VERSIONINFOPRODUCTNAME      1677
+#define IDC_VERSIONINFOPRODUCTVERSION   1678
+#define IDC_SIGNTOOL                    1679
+#define IDC_SORTFILESBYNAME             1680
+#define IDC_GACINSTALL                  1681
 #define WTL_IDS_SAVEFILE                8608
 #define WTL_IDS_SAVEFILECOPY            8609
 #define WTL_IDS_OPENFILE                8611
@@ -623,7 +630,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        272
 #define _APS_NEXT_COMMAND_VALUE         32948
-#define _APS_NEXT_CONTROL_VALUE         1677
+#define _APS_NEXT_CONTROL_VALUE         1682
 #define _APS_NEXT_SYMED_VALUE           105
 #endif
 #endif

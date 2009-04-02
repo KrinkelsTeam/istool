@@ -53,8 +53,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 5,2,1,0
- PRODUCTVERSION 5,2,1,0
+ FILEVERSION 5,2,5,0
+ PRODUCTVERSION 5,2,5,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -72,12 +72,12 @@ BEGIN
             VALUE "Comments", "http://www.istool.org/"
             VALUE "CompanyName", "Bjørnar Henden"
             VALUE "FileDescription", "isslexer Dynamic Link Library"
-            VALUE "FileVersion", "5, 2, 1, 0"
+            VALUE "FileVersion", "5, 2, 5, 0"
             VALUE "InternalName", "isslexer"
-            VALUE "LegalCopyright", "Copyright (C) 2003-2006"
+            VALUE "LegalCopyright", "Copyright (C) 2003-2009"
             VALUE "OriginalFilename", "isslexer.dll"
             VALUE "ProductName", " isslexer Dynamic Link Library"
-            VALUE "ProductVersion", "5, 2, 1, 0"
+            VALUE "ProductVersion", "5, 2, 5, 0"
         END
     END
     BLOCK "VarFileInfo"

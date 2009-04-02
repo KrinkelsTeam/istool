@@ -24,8 +24,14 @@ struct {
 	"WelcomeFontSize",				"12",
 	"CopyrightFontName",			"Arial",
 	"CopyrightFontSize",			"8",
+	"RightToLeft",					"false",
 		
 	// [Setup]
+	// Inno Setup 5.2.4
+	"SignTool",						"",
+	// Inno Setup 5.2.3
+	"VersionInfoProductName",		"",
+	"VersionInfoproductVersion",	"",
 	// Inno Setup 5.2.1
 	"SignedUninstaller",			"false",
 	"SignedUninstallerDir",			"",
@@ -461,6 +467,7 @@ static const CInnoScriptEx::CConverter m_valueType[] = {
 	"multisz",	3,
 	"dword",	4,
 	"binary",	5,
+	"qword",	6,
 	NULL
 };
 
@@ -736,6 +743,9 @@ const CInnoScriptEx::CConstantInfo CInnoScriptEx::m_constants[]= {
 	"{drive:...}",										"Extracts drive from path", false,
 	"{syswow64}",										"?", false,
 	"{log}",											"The log file name, or an empty string if logging is not enabled.", false,
+	"{regasmexe}",										"?", false,
+	"{regasmexe32}",									"?", false,
+	"{regasmexe64}",									"?", false,
 
 	NULL,NULL,false
 };

@@ -126,9 +126,10 @@ static bool IsValidDirective(LPCTSTR psz,long sec) {
 		"OutputManifestFile", "ChangesEnvironment", "VersionInfoCopyright", "TouchDate", "TouchTime",
 		"TerminalServicesAware", "ShowUndisplayableLanguages", "AppSupportPhone", "SetupLogging", 
 		"CompressionThreads", "SignedUninstaller", "SignedUninstallerDir",
+		"VersionInfoProductName", "VersionInfoProductVersion", "SignTool",
 		NULL
 	};
-	static const LPCTSTR _files[] = { "source", "destdir", "destname", "attribs", "fontinstall", "flags", "permissions", "excludes", "externalsize", NULL };
+	static const LPCTSTR _files[] = { "source", "destdir", "destname", "attribs", "fontinstall", "flags", "permissions", "excludes", "externalsize", "strongassemblyname", NULL };
 	static const LPCTSTR _run[] = { "filename", "description", "parameters", "workingdir", "statusmsg", "runonceid", "flags", "verb", NULL };
 	static const LPCTSTR _dirs[] = { "name", "attribs", "flags", "permissions", NULL };
 	static const LPCTSTR _messages[] = { "beveledlabel", NULL };
@@ -200,7 +201,7 @@ static bool IsFlag(LPCTSTR pszFlag,long nSection) {
 	static const LPCTSTR _components[] = { "exclusive", "fixed", "restart", "disablenouninstallwarning", "dontinheritcheck", "checkablealone", NULL };
 	static const LPCTSTR _tasks[] = { "checkedonce", "exclusive", "restart", "unchecked", "dontinheritcheck", "checkablealone", NULL };
 	static const LPCTSTR _dirs[] = { "deleteafterinstall", "uninsalwaysuninstall", "uninsneveruninstall", "system", "hidden", "readonly", "setntfscompression", "unsetntfscompression", NULL };
-	static const LPCTSTR _files[] = { "allowunsafefiles", "comparetimestamp", "confirmoverwrite", "deleteafterinstall", "dontcopy", "external", "fontisnttruetype", "ignoreversion", "isreadme", "noregerror", "onlyifdestfileexists", "onlyifdoesntexist", "overwritereadonly", "promptifolder", "recursesubdirs", "regserver", "regtypelib", "restartreplace", "sharedfile", "skipifsourcedoesntexist", "uninsrestartdelete", "uninsneveruninstall", "hidden", "system", "readonly", "uninsremovereadonly", "sortfilesbyextension", "replacesameversion", "touch", "noencryption", "nocompression", "dontverifychecksum", "uninsnosharedfileprompt", "createallsubdirs", "32bit", "64bit", "solidbreak", "setntfscompression", "unsetntfscompression", NULL };
+	static const LPCTSTR _files[] = { "allowunsafefiles", "comparetimestamp", "confirmoverwrite", "deleteafterinstall", "dontcopy", "external", "fontisnttruetype", "ignoreversion", "isreadme", "noregerror", "onlyifdestfileexists", "onlyifdoesntexist", "overwritereadonly", "promptifolder", "recursesubdirs", "regserver", "regtypelib", "restartreplace", "sharedfile", "skipifsourcedoesntexist", "uninsrestartdelete", "uninsneveruninstall", "hidden", "system", "readonly", "uninsremovereadonly", "sortfilesbyextension", "replacesameversion", "touch", "noencryption", "nocompression", "dontverifychecksum", "uninsnosharedfileprompt", "createallsubdirs", "32bit", "64bit", "solidbreak", "setntfscompression", "unsetntfscompression", "sortfilesbyname", "gacinstall", NULL };
 	static const LPCTSTR _icons[] = { "closeonexit", "createonlyiffileexists", "dontcloseonexit", "runmaximized", "runminimized", "uninsneveruninstall", "useapppaths", "foldershortcut", NULL };
 	static const LPCTSTR _ini[] = { "createkeyifdoesntexist", "uninsdeleteentry", "uninsdeletesection", "uninsdeletesectionifempty", NULL };
 	static const LPCTSTR _registry[] = { "HKCR", "HKCU", "HKLM", "HKU", "HKCC", "none", "string", "expandsz", "multisz", "dword", "binary", "createvalueifdoesntexist", "deletekey", "deletevalue", "dontcreatekey", "noerror", "preservestringtype", "uninsclearvalue", "uninsdeletekey", "uninsdeletekeyifempty", "uninsdeletevalue", NULL };

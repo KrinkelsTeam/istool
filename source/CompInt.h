@@ -78,10 +78,49 @@ typedef struct {
 			DWORD	CompressProgressMax;	// Maximum value of CompressProgress
 		} NotifyIdle;
 	};
-} TCompilerCallbackData;
+} TCompilerCallbackDataA;
 
-typedef LONG(__stdcall* TCompilerCallbackProc)(LONG Code,
-	TCompilerCallbackData* Data, DWORD AppData);
+typedef struct {
+	union {
+		struct {
+			bool Reset;           /* [in] True if it needs the application to return
+									to the beginning of the script. In other words,
+									LineRead must be the first line of the script. */
+			LPWSTR LineRead;      /* [out] Application returns pointer to line it
+									reads, or a NULL pointer if the end of file is
+									reached. Application is responsible for
+									allocating a buffer to hold the line; LineRead
+									is initially NULL when the callback function
+									is called. */
+		} ReadScript;
+
+		struct {
+			LPWSTR StatusMsg;     /* [in] Contents of status message. */
+		} NotifyStatus;
+
+		struct {
+			LPWSTR OutputExeFilename;  /* [in] The name of the resulting setup.exe */
+		} NotifySuccess;
+
+		struct {
+			LPWSTR ErrorMsg;      /* [in] The error message, or NULL if compilation
+									was aborted by the application. */
+			LPWSTR ErrorFilename; /* [in] Filename in which the error occured. This
+									is NULL if the file is the main script. */
+			LONG ErrorLine;       /* [in] The line number the error occured on.
+									Zero if the error doesn't apply to any
+									particular line. */
+		} NotifyError;
+
+		struct {
+			DWORD	CompressProgress;		// Amount compressed so far
+			DWORD	CompressProgressMax;	// Maximum value of CompressProgress
+		} NotifyIdle;
+	};
+} TCompilerCallbackDataW;
+
+typedef LONG(__stdcall* TCompilerCallbackProcA)(LONG Code,TCompilerCallbackDataA* Data, DWORD AppData);
+typedef LONG(__stdcall* TCompilerCallbackProcW)(LONG Code,TCompilerCallbackDataW* Data, DWORD AppData);
 
 typedef struct {
     DWORD Size;           /* [in] Set to SizeOf(TCompileScriptParams). */
@@ -89,12 +128,25 @@ typedef struct {
                             directory which contains the *.e32 files. */
     LPCSTR ScriptPath;    /* [in] Set to the directory containing the script file.
                             This path is used as the default source directory. */
-    TCompilerCallbackProc CallbackProc;
+    TCompilerCallbackProcA CallbackProc;
                           /* [in] The callback procedure which the compiler calls
                             to read the script and for status notification. */
     DWORD AppData;        /* [in] Application-defined. AppData is passed to the
                             callback function. */
-} TCompileScriptParams;
+} TCompileScriptParamsA;
+
+typedef struct {
+    DWORD Size;           /* [in] Set to SizeOf(TCompileScriptParams). */
+    LPWSTR CompilerPath;  /* [in] The "compiler:" directory. This is the
+                            directory which contains the *.e32 files. */
+    LPWSTR ScriptPath;    /* [in] Set to the directory containing the script file.
+                            This path is used as the default source directory. */
+    TCompilerCallbackProcW CallbackProc;
+                          /* [in] The callback procedure which the compiler calls
+                            to read the script and for status notification. */
+    DWORD AppData;        /* [in] Application-defined. AppData is passed to the
+                            callback function. */
+} TCompileScriptParamsW;
 
 typedef struct {
     LPCSTR Title;          /* Name of compiler engine - 'Inno Setup' */
@@ -110,7 +162,8 @@ const LPCSTR ISCmplrDLL = "ISCmplr.dll";
   isce* constants.
   Note: The compiler does change the current directory during compilation,
   but restores it once the function returns. */
-typedef LONG(__stdcall* ISDllCompileScriptProc)(TCompileScriptParams* Params);
+typedef LONG(__stdcall* ISDllCompileScriptProcA)(TCompileScriptParamsA* Params);
+typedef LONG(__stdcall* ISDllCompileScriptProcW)(TCompileScriptParamsW* Params);
 
 /* The ISDllGetVersion returns a pointer to a TCompilerVersionInfo record which
   contains information about the compiler version. */
@@ -125,7 +178,20 @@ typedef struct {
 	CHAR	InlineStart[8];			// 09
 	CHAR	InlineEnd[8];			// 17
 	CHAR	SpanSymbol;				// 25
-} TIsppOptions;
+} TIsppOptionsA;
+
+#if 1
+typedef TIsppOptionsA TIsppOptionsW;
+#else
+typedef struct {
+	DWORD	ParserOptions;			// offset=00
+	DWORD	Options;				// 04
+	BYTE	VerboseLevel;			// 08
+	WCHAR	InlineStart[8];			// 09
+	WCHAR	InlineEnd[8];			// 17
+	WCHAR	SpanSymbol;				// 25
+} TIsppOptionsW;
+#endif
 #pragma pack(pop)
 
 #define OPTION_A	(1<<0)
@@ -155,6 +221,7 @@ typedef struct {
 #define OPTION_Y	(1<<24)
 #define OPTION_Z	(1<<25)
 
-typedef LONG(__stdcall* ISDllCompileScriptISPPProc)(TCompileScriptParams* Params,TIsppOptions* ISPPOptions,LPCTSTR IncludePath,LPCTSTR Definitions);
+typedef LONG(__stdcall* ISDllCompileScriptISPPProcA)(TCompileScriptParamsA* Params,TIsppOptionsA* ISPPOptions,LPCTSTR IncludePath,LPCTSTR Definitions);
+typedef LONG(__stdcall* ISDllCompileScriptISPPProcW)(TCompileScriptParamsW* Params,TIsppOptionsW* ISPPOptions,LPCTSTR IncludePath,LPCTSTR Definitions);
 
 #endif

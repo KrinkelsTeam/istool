@@ -73,23 +73,31 @@ bool CDlgCompile::LoadCompiler() {
 		return false;
 
 	m_hCompiler = LoadLibrary(strLibrary);
-	if(!m_hCompiler) {
+	if(!m_hCompiler) 
+	{
 		CString txt = _L("Failed to open library '%1'.");
 		txt.Replace("%1",strLibrary);
 		AtlMessageBox(m_hWnd,(LPCTSTR)txt,IDR_MAINFRAME,MB_OK|MB_ICONERROR);
 		return false;
-	} else {
-		m_fCompileScript = (ISDllCompileScriptProc)GetProcAddress(m_hCompiler,"ISDllCompileScript");
-		m_fCompileScriptISPP = (ISDllCompileScriptISPPProc)GetProcAddress(m_hCompiler,"ISPPDllCompileScript");
+	} else 
+	{
+		m_fCompileScriptA = (ISDllCompileScriptProcA)GetProcAddress(m_hCompiler,"ISDllCompileScript");
+		m_fCompileScriptW = (ISDllCompileScriptProcW)GetProcAddress(m_hCompiler,"ISDllCompileScriptW");
+		m_fCompileScriptISPPA = (ISDllCompileScriptISPPProcA)GetProcAddress(m_hCompiler,"ISPPDllCompileScript");
+		m_fCompileScriptISPPW = (ISDllCompileScriptISPPProcW)GetProcAddress(m_hCompiler,"ISPPDllCompileScriptW");
 		m_fGetVersion = (ISDllGetVersionProc)GetProcAddress(m_hCompiler,"ISDllGetVersion");
 
 		// ISPP is installed and ISTool is doing the
 		// pre-processing, so bypass ISPP when compiling
-		if(m_fCompileScriptISPP && CMyApp::m_prefs.m_bPreProcess) 
+		if((m_fCompileScriptISPPA || m_fCompileScriptISPPW) && CMyApp::m_prefs.m_bPreProcess) 
 			if(m_pDoc->GetCompiler(strLibrary,true,true)) 
+			{
 				if(m_hCompilerDLS = LoadLibrary(strLibrary)) 
-					m_fCompileScript = (ISDllCompileScriptProc)GetProcAddress(m_hCompilerDLS,"ISDllCompileScript");
-
+				{
+					m_fCompileScriptA = (ISDllCompileScriptProcA)GetProcAddress(m_hCompilerDLS,"ISDllCompileScript");
+					m_fCompileScriptW = (ISDllCompileScriptProcW)GetProcAddress(m_hCompilerDLS,"ISDllCompileScriptW");
+				}
+			}
 
 		return true;
 	}
@@ -105,7 +113,7 @@ DWORD WINAPI CDlgCompile::ThreadEntry(LPVOID lpParameter) {
 
 	pDlg->m_pDoc->SetCurrentDir();
 
-	if(pDlg->m_fCompileScriptISPP && CMyApp::m_prefs.m_bPreProcess)
+	if((pDlg->m_fCompileScriptISPPA || pDlg->m_fCompileScriptISPPW) && CMyApp::m_prefs.m_bPreProcess)
 		dwRet = pDlg->PreProcess();
 
 	if(dwRet==0)
@@ -134,22 +142,44 @@ UINT CDlgCompile::PreProcess() {
 	if(nPos>=0) strScriptPath = strScriptPath.Left(nPos);
 
 	// Compile script
-	TCompileScriptParams params;
-	params.Size = sizeof params;
-	params.CompilerPath = NULL;
-	params.ScriptPath = strScriptPath;
-	params.CallbackProc = CompilerCallback;
-	params.AppData = (DWORD)this;
-	
-	TIsppOptions options = {
-		OPTION_B | OPTION_P,
-		OPTION_E,
-		0,
-		"\2{#",
-		"\1}",
-		'\\'
-	};
-	m_fCompileScriptISPP(&params,&options,NULL,NULL);
+	if(m_fCompileScriptISPPW)
+	{
+		TCompileScriptParamsW params;
+		params.Size = sizeof params;
+		params.CompilerPath = NULL;
+		params.ScriptPath = CA2W(strScriptPath);
+		params.CallbackProc = CompilerCallbackW;
+		params.AppData = (DWORD)this;
+		
+		TIsppOptionsW options = {
+			OPTION_B | OPTION_P,
+			OPTION_E,
+			0,
+			"\2{#",
+			"\1}",
+			'\\'
+		};
+		m_fCompileScriptISPPW(&params,&options,NULL,NULL);
+	}
+	else
+	{
+		TCompileScriptParamsA params;
+		params.Size = sizeof params;
+		params.CompilerPath = NULL;
+		params.ScriptPath = strScriptPath;
+		params.CallbackProc = CompilerCallbackA;
+		params.AppData = (DWORD)this;
+		
+		TIsppOptionsA options = {
+			OPTION_B | OPTION_P,
+			OPTION_E,
+			0,
+			"\2{#",
+			"\1}",
+			'\\'
+		};
+		m_fCompileScriptISPPA(&params,&options,NULL,NULL);
+	}
 	if(m_strTranslation.IsEmpty()) {
 		AddListString("ISPP preprocessing failed.");
 		SetFinished();
@@ -201,15 +231,33 @@ UINT CDlgCompile::DoCompile() {
 	if(nPos>=0) strScriptPath = strScriptPath.Left(nPos);
 
 	// Compile script
-	TCompileScriptParams params;
-	params.Size = sizeof params;
-	params.CompilerPath = NULL;
-	params.ScriptPath = strScriptPath;
-	params.CallbackProc = CompilerCallback;
-	params.AppData = (DWORD)this;
-	if(m_fCompileScript(&params)!=isceNoError) {
-		SetFinished();
-		return 2;
+	if(m_fCompileScriptW)
+	{
+		TCompileScriptParamsW params;
+		params.Size = sizeof params;
+		params.CompilerPath = NULL;
+		params.ScriptPath = CA2W(strScriptPath);
+		params.CallbackProc = CompilerCallbackW;
+		params.AppData = (DWORD)this;
+		if(m_fCompileScriptW(&params)!=isceNoError) 
+		{
+			SetFinished();
+			return 2;
+		}
+	} 
+	else
+	{
+		TCompileScriptParamsA params;
+		params.Size = sizeof params;
+		params.CompilerPath = NULL;
+		params.ScriptPath = strScriptPath;
+		params.CallbackProc = CompilerCallbackA;
+		params.AppData = (DWORD)this;
+		if(m_fCompileScriptA(&params)!=isceNoError) 
+		{
+			SetFinished();
+			return 2;
+		}
 	}
 
 	// Empty string
@@ -247,11 +295,11 @@ UINT CDlgCompile::DoCompile() {
 	return 0;
 }
 
-LONG __stdcall CDlgCompile::CompilerCallback(LONG Code,TCompilerCallbackData* Data, DWORD AppData) {
-	return reinterpret_cast<CDlgCompile*>(AppData)->CompilerCallback(Code,Data);
+LONG __stdcall CDlgCompile::CompilerCallbackA(LONG Code,TCompilerCallbackDataA* Data, DWORD AppData) {
+	return reinterpret_cast<CDlgCompile*>(AppData)->CompilerCallbackA(Code,Data);
 }
 
-UINT CDlgCompile::CompilerCallback(LONG Code,TCompilerCallbackData* Data) {
+UINT CDlgCompile::CompilerCallbackA(LONG Code,TCompilerCallbackDataA* Data) {
 	int nString = LB_ERR;
 	CString str;
 
@@ -317,6 +365,89 @@ UINT CDlgCompile::CompilerCallback(LONG Code,TCompilerCallbackData* Data) {
 
 			AddListString(str);
 			nString = AddListString(Data->NotifyError.ErrorMsg);
+		}
+		break;
+	}
+
+	if(nString!=LB_ERR) {
+//		m_wndList.SetTopIndex(nString);
+//		m_wndList.UpdateWindow();
+		//Sleep(500);
+	}
+
+	return iscrSuccess;
+}
+
+LONG __stdcall CDlgCompile::CompilerCallbackW(LONG Code,TCompilerCallbackDataW* Data, DWORD AppData) {
+	return reinterpret_cast<CDlgCompile*>(AppData)->CompilerCallbackW(Code,Data);
+}
+
+UINT CDlgCompile::CompilerCallbackW(LONG Code,TCompilerCallbackDataW* Data) {
+	int nString = LB_ERR;
+	CString str;
+
+	if(WaitForSingleObject(m_eAbort,0)==WAIT_OBJECT_0)
+		return iscrRequestAbort;
+
+	switch(Code) {
+	case iscbReceiveTranslation:
+		m_strTranslation = Data->NotifyStatus.StatusMsg;
+		break;
+	case iscbReadScript:
+		if(Data->ReadScript.Reset) {
+			m_sec = CInnoScript::SEC_NONE;
+			//m_pCurrentLine = m_pScriptLines;
+			m_nCurrentLine = 0;
+		}
+
+		if(m_nCurrentLine>=m_script.GetSize()) {
+			Data->ReadScript.LineRead = NULL;
+		} else if(m_script[m_nCurrentLine]->GetSection()!=m_sec && m_script[m_nCurrentLine]->GetSection()!=CInnoScript::SEC_NONE) {
+			m_sec = m_script[m_nCurrentLine]->GetSection();
+			m_strCurrentLine.Format("[%s]",CInnoScriptEx::GetSectionName(m_sec));
+			Data->ReadScript.LineRead = CA2W(m_strCurrentLine);
+		} else {
+			m_script[m_nCurrentLine]->Write(m_strCurrentLine.GetBuffer(8192),8192);
+			m_strCurrentLine.ReleaseBuffer();
+			Data->ReadScript.LineRead = CA2W(m_strCurrentLine);
+			m_nCurrentLine++;
+		}
+		break;
+
+	case iscbNotifyStatus:
+		if(Data->NotifyStatus.StatusMsg)
+			nString = AddListString(CW2A(Data->NotifyStatus.StatusMsg));
+		break;
+
+	case iscbNotifyIdle:
+		if(Data->NotifyIdle.CompressProgress>0) {
+			if(!m_wndProgress.IsWindowVisible())
+				m_wndProgress.ShowWindow(SW_SHOW);
+			
+			m_wndProgress.SetRange32(0,Data->NotifyIdle.CompressProgressMax);
+			m_wndProgress.SetPos(Data->NotifyIdle.CompressProgress);
+		}
+		break;
+
+	case iscbNotifySuccess:
+		if(Data->NotifySuccess.OutputExeFilename) {
+			m_strOutputExeFilename = Data->NotifySuccess.OutputExeFilename;
+			nString = AddListString(CW2A(Data->NotifySuccess.OutputExeFilename));
+		}
+		break;
+
+	case iscbNotifyError:
+		if(Data->NotifyError.ErrorMsg) {
+			CString str;
+			if(Data->NotifyError.ErrorFilename) 
+				str.Format("%s line %d:",Data->NotifyError.ErrorFilename,Data->NotifyError.ErrorLine);
+			else {
+				str.Format("Line %d:",Data->NotifyError.ErrorLine);
+				m_nErrorLine = Data->NotifyError.ErrorLine;
+			}
+
+			AddListString(str);
+			nString = AddListString(CW2A(Data->NotifyError.ErrorMsg));
 		}
 		break;
 	}

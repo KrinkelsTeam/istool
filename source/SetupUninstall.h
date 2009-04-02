@@ -381,5 +381,7 @@ public:
 		TOOLTIP_HANDLER(IDC_SIGNEDUNINSTALLER, _L("Help|Uninstall|SignedUninstaller","Specifies whether the uninstaller program (unins???.exe) should be deployed with a digital signature attached. When the uninstaller has a valid digital signature, Windows Vista users will not see an \"unidentified program\" warning when launching it from outside of Control Panel."))
 		TOOLTIP_HANDLER(IDC_SIGNEDUNINSTALLERDIR, _L("Help|Uninstall|SignedUninstallerDir","Specifies the directory in which signed uninstaller files should be stored. By default, such files are stored in the output directory."))
 		TOOLTIP_HANDLER(IDC_SIGNEDUNINSTALLERDIR2, _L("Help|Uninstall|SignedUninstallerDir","Specifies the directory in which signed uninstaller files should be stored. By default, such files are stored in the output directory."))
+		TOOLTIP_HANDLER(IDC_VERSIONINFOPRODUCTNAME, _L("Help|Uninstall|ProductName","Specifies the product name value for the Setup version info."))
+		TOOLTIP_HANDLER(IDC_VERSIONINFOPRODUCTVERSION, _L("Help|Uninstall|ProductVersion","Specifies the product version value for the Setup version info."))
 	END_TOOLTIP_MAP()
 };

@@ -104,6 +104,7 @@ public:
 		box.AddString("multisz");
 		box.AddString("dword");
 		box.AddString("binary");
+		box.AddString("qword");
 		box.Detach();
 
 		if(!_stricmp("none",SAFESTR(CInnoScriptEx::GetRegistryValueType(m_nValueType))))

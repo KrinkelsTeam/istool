@@ -186,6 +186,7 @@ public:
 		DDX_INT(IDC_LANGOPTIONS_WELCOMEFONTSIZE, m_nWelcomeFontSize)
 		DDX_INT(IDC_LANGOPTIONS_COPYRIGHTFONTSIZE, m_nCopyrightFontSize)
 		DDX_INT(IDC_LANGOPTIONS_DIALOGFONTSTANDARDHEIGHT, m_nDialogFontStandardHeight)
+		DDX_CHECK(IDC_RIGHTTOLEFT, m_bRightToLeft)
 	END_DDX_MAP()
 
 	CUpDownCtrl	m_wndSpin5;
@@ -210,6 +211,7 @@ public:
 	UINT	m_nWelcomeFontSize;
 	UINT	m_nCopyrightFontSize;
 	UINT	m_nDialogFontStandardHeight;
+	BOOL	m_bRightToLeft;
 
 	LRESULT OnCloseCmd(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {
 		if(wID==IDOK) {
@@ -241,6 +243,7 @@ public:
 			m_wndCopyrightFontName.GetWindowText(str.GetBuffer(255),256); str.ReleaseBuffer();
 			script.SetPropertyString("CopyrightFontName",str,CInnoScript::SEC_LANGOPTIONS);
 			script.SetPropertyNumber("CopyrightFontSize",m_nCopyrightFontSize,CInnoScript::SEC_LANGOPTIONS);
+			script.SetPropertyBool("RightToLeft",m_bRightToLeft ? true : false,CInnoScript::SEC_LANGOPTIONS);
 		}
 		EndDialog(wID);
 		return 0;
@@ -310,6 +313,7 @@ public:
 		m_wndCopyrightFontName.SetCurSel(m_nCopyrightFontName);
 
 		m_nTitleFontSize = script.GetPropertyNumber("TitleFontSize",CInnoScript::SEC_LANGOPTIONS);
+		m_bRightToLeft = script.GetPropertyBool("RightToLeft",CInnoScript::SEC_LANGOPTIONS);
 
 		DoDataExchange(DDX_LOAD);
 		return TRUE;

@@ -41,6 +41,9 @@ public:
 		COMMAND_HANDLER(IDC_VERSIONINFOCOPYRIGHT, EN_CHANGE, OnModified)
 		COMMAND_HANDLER(IDC_SETUPLOGGING, BN_CLICKED, OnModified)
 		COMMAND_HANDLER(IDC_COMPRESSIONTHREADS, EN_CHANGE, OnModified)
+		COMMAND_HANDLER(IDC_VERSIONINFOPRODUCTNAME, EN_CHANGE, OnModified)
+		COMMAND_HANDLER(IDC_VERSIONINFOPRODUCTVERSION, EN_CHANGE, OnModified)
+		COMMAND_HANDLER(IDC_SIGNTOOL, EN_CHANGE, OnModified)
 		REFLECT_NOTIFICATIONS()
 	END_MSG_MAP()
 
@@ -72,6 +75,9 @@ public:
 		DDX_TEXT(IDC_VERSIONINFOCOPYRIGHT, m_strVersionInfoCopyright)
 		DDX_CHECK(IDC_SETUPLOGGING, m_bSetupLogging)
 		DDX_TEXT(IDC_COMPRESSIONTHREADS, m_strCompressionThreads)
+		DDX_TEXT(IDC_VERSIONINFOPRODUCTNAME, m_strVersionInfoProductName)
+		DDX_TEXT(IDC_VERSIONINFOPRODUCTVERSION, m_strVersionInfoProductVersion)
+		DDX_TEXT(IDC_SIGNTOOL, m_strSignTool)
 	END_DDX_MAP()
 
 	CEdit			m_wndCompressLevel;
@@ -93,7 +99,7 @@ public:
 	CString			m_strOutputManifestFile;
 	Henden::CButtonFile	m_wndOutputManifestFile;
 	CString			m_strArchitecturesInstallIn64BitMode, m_strArchitecturesAllowed, m_strVersionInfoCopyright;
-	CString			m_strCompressionThreads;
+	CString			m_strCompressionThreads, m_strVersionInfoProductName, m_strVersionInfoProductVersion, m_strSignTool;
 
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) {
 		_L(m_hWnd,"Compiler");
@@ -188,6 +194,9 @@ public:
 		} else
 			str = "none";
 		script.SetPropertyString("Compression",str);
+		script.SetPropertyString("VersionInfoProductName",m_strVersionInfoProductName);
+		script.SetPropertyString("VersionInfoProductVersion",m_strVersionInfoProductVersion);
+		script.SetPropertyString("SignTool",m_strSignTool);
 
 		return PSNRET_NOERROR;
 	}
@@ -259,6 +268,10 @@ public:
 			m_nCompression = 2;
 		else
 			m_nCompression = 3;
+	
+		m_strVersionInfoProductName		= script.GetPropertyString("VersionInfoProductName");
+		m_strVersionInfoProductVersion	= script.GetPropertyString("VersionInfoProductVersion");
+		m_strSignTool					= script.GetPropertyString("SignTool");
 	}
 
 	LRESULT OnModified(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {
@@ -313,6 +326,9 @@ public:
 		TOOLTIP_HANDLER(IDC_VERSIONINFOCOPYRIGHT, _L("Help|Compiler|VersionInfoCopyright","Specifies the copyright value for the Setup version info."))
 		TOOLTIP_HANDLER(IDC_SETUPLOGGING, _L("Help|Compiler|SetupLogging","If set to yes, Setup will always create a log file. Equivalent to passing /LOG on the command line."))
 		TOOLTIP_HANDLER(IDC_COMPRESSIONTHREADS, _L("Help|Compiler|CompressionThreads","Controls whether multi-threading mode is enabled on the LZMA compressor. Multi-threading can speed up the compression process by 50% or more on systems with multiple processor cores, and 20% or more on systems with single-core Intel processors featuring Hyper-Threading Technology.\n\nValid values are auto, 1, 2, or more."))
+		TOOLTIP_HANDLER(IDC_VERSIONINFOPRODUCTNAME, _L("Help|Compiler|ProductName","Specifies the product name value for the Setup version info."))
+		TOOLTIP_HANDLER(IDC_VERSIONINFOPRODUCTVERSION, _L("Help|Compiler|ProductVersion","Specifies the product version value for the Setup version info."))
+		TOOLTIP_HANDLER(IDC_SIGNTOOL, _L("Help|Compiler|SignTool","Specifies the name and parameters of the Sign Tool to be used to digitally sign Setup and Uninstall."))
 	END_TOOLTIP_MAP()
 
 protected:
