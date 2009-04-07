@@ -51,13 +51,13 @@ typedef CSimpleArray<CInnoScript::CLine*>	CScriptList;
 #define SAFESTR(a)	((a)==NULL ? _T("") : (a))
 
 #define VER_MAJOR		5
-#define VER_MINOR		2
-#define VER_REVISION	5
+#define VER_MINOR		3
+#define VER_REVISION	0
 //#define VER_BUILD		0
 
 #define MY_EMAIL		_T("mailto:istool@istool.org")
 
-#define ISVERSION		_T("5.2.5")
+#define ISVERSION		_T("5.3.0")
 
 #include <htmlhelp.h>
 #include <wininet.h>
