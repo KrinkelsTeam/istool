@@ -146,8 +146,8 @@
 				Name="VCCLCompilerTool"
 				Optimization="3"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories=".;..\isslexer\scintilla\include"
-				PreprocessorDefinitions="WIN32,NDEBUG,_WINDOWS,_CRT_SECURE_NO_DEPRECATE"
+				AdditionalIncludeDirectories=".;..\isslexer\scintilla\include;D:\SVN\SourceForge\wtl\trunk\wtl\include"
+				PreprocessorDefinitions="WIN32,NDEBUG,_WINDOWS,_CRT_SECURE_NO_DEPRECATE,NO_UTF"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -169,6 +169,7 @@
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG"
 				Culture="1033"
+				AdditionalIncludeDirectories="D:\SVN\SourceForge\wtl\trunk\wtl\include"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -187,7 +188,7 @@
 				MapFileName=".\Release\ISTool.map"
 				MapExports="true"
 				SubSystem="2"
-				OptimizeForWindows98="1"
+				OptimizeForWindows98="0"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
 			/>
@@ -504,11 +505,11 @@
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 			>
 			<File
-				RelativePath="res\imagelist-16.bmp"
+				RelativePath="..\res\imagelist-16.bmp"
 				>
 			</File>
 			<File
-				RelativePath="..\res\imagelist-16.bmp"
+				RelativePath="res\imagelist-16.bmp"
 				>
 			</File>
 			<File
@@ -559,11 +560,11 @@
 				>
 			</File>
 			<File
-				RelativePath="res\states.bmp"
+				RelativePath="..\res\states.bmp"
 				>
 			</File>
 			<File
-				RelativePath="..\res\states.bmp"
+				RelativePath="res\states.bmp"
 				>
 			</File>
 			<File
@@ -571,19 +572,19 @@
 				>
 			</File>
 			<File
-				RelativePath="res\xptoolbar-small1.bmp"
-				>
-			</File>
-			<File
 				RelativePath="..\res\xptoolbar-small1.bmp"
 				>
 			</File>
 			<File
-				RelativePath="res\xptoolbar-small2.bmp"
+				RelativePath="res\xptoolbar-small1.bmp"
 				>
 			</File>
 			<File
 				RelativePath="..\res\xptoolbar-small2.bmp"
+				>
+			</File>
+			<File
+				RelativePath="res\xptoolbar-small2.bmp"
 				>
 			</File>
 		</Filter>

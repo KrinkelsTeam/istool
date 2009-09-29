@@ -39,8 +39,8 @@ IDI_ICON3               ICON                    "res\\ISTool3.ico"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 5,3,0,0
- PRODUCTVERSION 5,3,0,0
+ FILEVERSION 5,3,0,1
+ PRODUCTVERSION 5,3,0,1
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -58,12 +58,12 @@ BEGIN
             VALUE "Comments", "http://www.istool.org/"
             VALUE "CompanyName", "Bjørnar Henden"
             VALUE "FileDescription", "ISTool Application"
-            VALUE "FileVersion", "5, 3, 0, 0"
+            VALUE "FileVersion", "5, 3, 0, 1"
             VALUE "InternalName", "ISTool"
             VALUE "LegalCopyright", "Copyright (C) 1999-2009"
             VALUE "OriginalFilename", "ISTool.exe"
             VALUE "ProductName", "ISTool Application"
-            VALUE "ProductVersion", "5, 3, 0, 0"
+            VALUE "ProductVersion", "5, 3, 0, 1"
         END
     END
     BLOCK "VarFileInfo"
@@ -1006,7 +1006,7 @@ BEGIN
     LTEXT           "Bjørnar Henden",IDC_EMAIL,92,43,108,8
     LTEXT           "Translated by:",IDC_STATIC,15,55,71,8
     LTEXT           "Not translated",IDC_TRANSLATOR,92,55,108,8
-    LTEXT           "Copyright © 1999 - 2007 Bjørnar Henden.",IDC_STATIC,15,83,185,8
+    LTEXT           "Copyright © 1999 - 2009 Bjørnar Henden.",IDC_STATIC,15,83,185,8
     GROUPBOX        "Inno Setup",IDC_STATIC,215,7,200,52
     LTEXT           "Home page:",IDC_STATIC,223,18,71,8
     LTEXT           "http://www.innosetup.com/",IDC_ISHOMEPAGE,300,18,108,8

@@ -53,7 +53,7 @@ typedef CSimpleArray<CInnoScript::CLine*>	CScriptList;
 #define VER_MAJOR		5
 #define VER_MINOR		3
 #define VER_REVISION	0
-//#define VER_BUILD		0
+#define VER_BUILD		1
 
 #define MY_EMAIL		_T("mailto:istool@istool.org")
 

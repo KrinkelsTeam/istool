@@ -82,9 +82,11 @@ bool CDlgCompile::LoadCompiler() {
 	} else 
 	{
 		m_fCompileScriptA = (ISDllCompileScriptProcA)GetProcAddress(m_hCompiler,"ISDllCompileScript");
-		m_fCompileScriptW = (ISDllCompileScriptProcW)GetProcAddress(m_hCompiler,"ISDllCompileScriptW");
+		m_fCompileScriptW = NULL;
+		//m_fCompileScriptW = (ISDllCompileScriptProcW)GetProcAddress(m_hCompiler,"ISDllCompileScriptW");
 		m_fCompileScriptISPPA = (ISDllCompileScriptISPPProcA)GetProcAddress(m_hCompiler,"ISPPDllCompileScript");
-		m_fCompileScriptISPPW = (ISDllCompileScriptISPPProcW)GetProcAddress(m_hCompiler,"ISPPDllCompileScriptW");
+		m_fCompileScriptISPPW = NULL;
+		//m_fCompileScriptISPPW = (ISDllCompileScriptISPPProcW)GetProcAddress(m_hCompiler,"ISPPDllCompileScriptW");
 		m_fGetVersion = (ISDllGetVersionProc)GetProcAddress(m_hCompiler,"ISDllGetVersion");
 
 		// ISPP is installed and ISTool is doing the
@@ -95,7 +97,8 @@ bool CDlgCompile::LoadCompiler() {
 				if(m_hCompilerDLS = LoadLibrary(strLibrary)) 
 				{
 					m_fCompileScriptA = (ISDllCompileScriptProcA)GetProcAddress(m_hCompilerDLS,"ISDllCompileScript");
-					m_fCompileScriptW = (ISDllCompileScriptProcW)GetProcAddress(m_hCompilerDLS,"ISDllCompileScriptW");
+					m_fCompileScriptW = NULL;
+					//m_fCompileScriptW = (ISDllCompileScriptProcW)GetProcAddress(m_hCompilerDLS,"ISDllCompileScriptW");
 				}
 			}
 

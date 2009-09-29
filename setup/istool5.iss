@@ -15,7 +15,7 @@ AppCopyright=Copyright © 1999 - 2009 Bjørnar Henden
 DefaultGroupName=ISTool
 LicenseFile=License.rtf
 ;MinVersion=4.0,4.0.1381sp6
-OutputBaseFilename=istool-5.3.0
+OutputBaseFilename=istool-5.3.0.1
 OutputDir=.
 AppID={{A9E12684-DD23-4D11-ACAF-6041954BCA00}
 AppPublisher=Bjørnar Henden
@@ -49,7 +49,7 @@ Source: ..\setup\iwz2issl.dll; DestDir: {app}; Flags: promptifolder comparetimes
 Source: ..\..\..\isxdl\trunk\source\release\isxdl.dll; DestDir: {app}; Flags: overwritereadonly ignoreversion comparetimestamp uninsremovereadonly sortfilesbyextension replacesameversion
 Source: ..\..\..\isxdl\trunk\isxdl.iss; DestDir: {app}; Flags: overwritereadonly ignoreversion comparetimestamp uninsremovereadonly sortfilesbyextension replacesameversion
 Source: ..\..\..\isxdl\trunk\isxdl.htm; DestDir: {app}; Flags: overwritereadonly ignoreversion comparetimestamp uninsremovereadonly sortfilesbyextension replacesameversion
-Source: c:\windows\system32\SciLexer.dll; DestDir: {app}; Flags: overwritereadonly ignoreversion uninsremovereadonly sortfilesbyextension replacesameversion
+Source: C:\Program Files (x86)\ISTool\SciLexer.dll; DestDir: {app}; Flags: overwritereadonly ignoreversion uninsremovereadonly sortfilesbyextension replacesameversion
 Source: ..\source\release\ISSLexer.dll; DestDir: {app}; Flags: overwritereadonly ignoreversion uninsremovereadonly sortfilesbyextension replacesameversion
 Source: ..\languages\istool-de.lng; DestDir: {app}; Flags: overwritereadonly uninsremovereadonly sortfilesbyextension replacesameversion
 Source: ..\languages\istool-en.lng; DestDir: {app}; Flags: overwritereadonly uninsremovereadonly sortfilesbyextension replacesameversion
@@ -152,3 +152,4 @@ Filename: {userappdata}\ISTool\ISTool.ini; Section: prefs; Key: LanguageFile; St
 
 [Dirs]
 Name: {userappdata}\ISTool; Flags: uninsneveruninstall
+
