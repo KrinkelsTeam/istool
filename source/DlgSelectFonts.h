@@ -144,7 +144,7 @@ public:
 		sfnt_NameRecord     NameRecord;
 
 		lpszLongName[0] = '\0';
-		if ((fp = _open (pszFile, O_RDONLY | O_BINARY)) == -1)
+		if (_sopen_s(&fp, pszFile, O_RDONLY | O_BINARY, _SH_DENYNO, 0) != 0)
 			return NULL;
 
 		/* First off, read the initial directory header on the TTF.  We're only
@@ -393,8 +393,8 @@ public:
 				if(strFaceName.IsEmpty()) continue;
 
 				CData* pData = new CData;
-				_tcscpy(pData->m_szFaceName,strFaceName);
-				_tcscpy(pData->m_szFilePath,strFilePath);
+                _tcscpy_s(pData->m_szFaceName, sizeof(pData->m_szFaceName) / sizeof(TCHAR), strFaceName);
+                _tcscpy_s(pData->m_szFilePath, sizeof(pData->m_szFilePath) / sizeof(TCHAR), strFilePath);
 				pData->m_bTrueType = true;
 				
 				strFaceName += " (TrueType)";

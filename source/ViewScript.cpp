@@ -73,7 +73,7 @@ void CViewScript::UpdateView() {
 #endif
 				sec = pLine->GetSection();
 				if(sec!=CInnoScript::SEC_NONE) {
-					sprintf(szLine,"[%s]",CInnoScript::GetSectionName(sec));
+                    sprintf_s(szLine, sizeof(szLine), "[%s]", CInnoScript::GetSectionName(sec));
 					str += szLine;
 					str += "\r\n";
 				}
@@ -226,16 +226,16 @@ LRESULT CViewScript::OnStatusBar(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& 
 }
 
 bool CViewScript::PrintPage(UINT nPage, HDC hDC) {
-	PRectangle pagesetupMargin;
+	CRect pagesetupMargin;
 	pagesetupMargin.left = AfxGetMainWnd().m_rcMargin.left;
 	pagesetupMargin.top = AfxGetMainWnd().m_rcMargin.top;
 	pagesetupMargin.right = AfxGetMainWnd().m_rcMargin.right;
 	pagesetupMargin.bottom = AfxGetMainWnd().m_rcMargin.bottom;
 
 	HDC hdc = hDC;
-	PRectangle rectMargins, rectPhysMargins;
-	Point ptPage;
-	Point ptDpi;
+	CRect rectMargins, rectPhysMargins;
+	CPoint ptPage;
+	CPoint ptDpi;
 
 	// Get printer resolution
 	ptDpi.x = GetDeviceCaps(hdc, LOGPIXELSX);    // dpi in X direction
@@ -267,7 +267,7 @@ bool CViewScript::PrintPage(UINT nPage, HDC hDC) {
 	// Take in account the page setup given by the user (if one value is not null)
 	if (pagesetupMargin.left != 0 || pagesetupMargin.right != 0 ||
 	        pagesetupMargin.top != 0 || pagesetupMargin.bottom != 0) {
-		PRectangle rectSetup;
+		CRect rectSetup;
 
 		// Convert the hundredths of millimeters (HiMetric) or
 		// thousandths of inches (HiEnglish) margin values
@@ -312,7 +312,7 @@ bool CViewScript::PrintPage(UINT nPage, HDC hDC) {
 	DPtoLP(hdc, (LPPOINT) &ptPage, 1);
 
 	// We must substract the physical margins from the printable area
-	RangeToFormat frPrint;
+	Sci_RangeToFormat frPrint;
 	frPrint.hdc = hdc;
 	frPrint.hdcTarget = hdc;
 	frPrint.rc.left = rectMargins.left - rectPhysMargins.left;
@@ -479,7 +479,7 @@ LRESULT CViewScript::OnCharAdded(int /*idCtrl*/, LPNMHDR pnmh, BOOL& /*bHandled*
 			CString strVarName = strWord.MakeLower();
 			long nLine = LineFromPosition(pos);
 			while(nLine--) {
-				TextRange tr;
+				Sci_TextRange tr;
 				tr.chrg.cpMin = PositionFromLine(nLine);
 				tr.chrg.cpMax = PositionFromLine(nLine+1);
 				tr.lpstrText = strWord.GetBuffer(tr.chrg.cpMax-tr.chrg.cpMin);
@@ -706,7 +706,7 @@ LRESULT CViewScript::OnProperties(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lPa
 	}
 
 	pLine->Write(szLine,sizeof szLine);
-	_tcscat(szLine,_T("\r\n"));
+    _tcscat_s(szLine, sizeof(szLine)/sizeof(TCHAR), _T("\r\n"));
 
 	long nPos = GetCurrentPos();
 	long nLine = LineFromPosition(nPos);

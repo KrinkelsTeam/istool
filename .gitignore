@@ -1,0 +1,8 @@
+/_TEMP
+*.user
+/scripts/__pycache__
+*.exe
+/setup/Scintilla.dll
+*.map
+*.pdb
+.vs

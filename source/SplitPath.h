@@ -46,21 +46,38 @@ inline CSplitPath::CSplitPath( LPCTSTR pcszSplit /*= NULL*/ )
 
 
 inline void CSplitPath::Split( const char * pcszSplit )
-	{ ATLASSERT( pcszSplit );_splitpath( pcszSplit, m_szDrive, m_szDirectory, m_szFilename, m_szExtension ); }
+{
+    ATLASSERT( pcszSplit );
+    _splitpath_s( pcszSplit, m_szDrive, sizeof(m_szDrive), m_szDirectory, sizeof(m_szDirectory), m_szFilename, sizeof(m_szFilename), m_szExtension, sizeof(m_szExtension) );
+}
 
 inline void CSplitPath::Make( char *szPathBuffer )
-	{ _makepath( szPathBuffer, m_szDrive, m_szDirectory, m_szFilename, m_szExtension ); }
+{
+    _makepath_s( szPathBuffer, _MAX_PATH, m_szDrive, m_szDirectory, m_szFilename, m_szExtension );
+}
 
 inline void CSplitPath::SetDrive( const char *pcszDrive )
-	{ ATLASSERT( _tcslen( pcszDrive ) < sizeof( m_szDrive ) ); _tcscpy( m_szDrive, pcszDrive ); }
+{
+    ATLASSERT( _tcslen( pcszDrive ) < sizeof( m_szDrive ) );
+    strcpy_s( m_szDrive, sizeof(m_szDrive), pcszDrive );
+}
 
 inline void CSplitPath::SetDirectory( const char *pcszDirectory )
-	{ ATLASSERT( _tcslen( pcszDirectory ) < sizeof( m_szDirectory ) ); _tcscpy( m_szDirectory, pcszDirectory ); }
+{
+    ATLASSERT( _tcslen( pcszDirectory ) < sizeof( m_szDirectory ) );
+    strcpy_s( m_szDirectory, sizeof(m_szDirectory), pcszDirectory );
+}
 
 inline void CSplitPath::SetFilename( const char *pcszFilename )
-	{ ATLASSERT( _tcslen( pcszFilename ) < sizeof( m_szFilename ) ); _tcscpy( m_szFilename, pcszFilename ); }
+{
+    ATLASSERT( _tcslen( pcszFilename ) < sizeof( m_szFilename ) );
+    strcpy_s( m_szFilename, sizeof(m_szFilename), pcszFilename );
+}
 
 inline void CSplitPath::SetExtension( const char *pcszExtension )
-	{ ATLASSERT( _tcslen( pcszExtension ) < sizeof( m_szExtension ) ); _tcscpy( m_szExtension, pcszExtension ); }
+{
+    ATLASSERT( _tcslen( pcszExtension ) < sizeof( m_szExtension ) );
+    strcpy_s( m_szExtension, sizeof(m_szExtension), pcszExtension );
+}
 
 #endif //SPLITPATH_H

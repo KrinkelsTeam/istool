@@ -32,11 +32,12 @@ public:
 			RemoveAt(0);
 		}
 	}
-	void Add(LPCTSTR psz) {
-		LPSTR p = new CHAR[_tcslen(psz)+1];
-		_tcscpy(p,psz);
-		CSimpleArray<LPSTR>::Add(p);
-	}
+    void Add(LPCTSTR psz) {
+        size_t len = _tcslen(psz) + 1;
+        LPSTR p = new CHAR[len];
+        _tcscpy_s(p, len, psz);
+        CSimpleArray<LPSTR>::Add(p);
+    }
 private:
 	BOOL Remove(const LPSTR& t) {
 		return FALSE;

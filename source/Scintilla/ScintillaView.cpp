@@ -7,7 +7,7 @@ LRESULT CScintillaView::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lPar
 	LRESULT res = DefWindowProc();
 	static bool bLoaded = false;
 	if(!bLoaded) {
-		LoadLexerLibrary("isslexer.dll");
+		//LoadLexerLibrary("isslexer.dll");
 		bLoaded = true;
 	}
 	return res;
@@ -32,7 +32,7 @@ LRESULT CScintillaView::OnFindReplaceMsg(UINT /*uMsg*/, WPARAM /*wParam*/, LPARA
 		if(AfxGetMainWnd().m_pFindReplaceDlg->MatchWholeWord())
 			m_iSearchFlags |= SCFIND_WHOLEWORD;
 
-		TextToFind ft = {0};
+		Sci_TextToFind ft = {0};
 		ft.chrg.cpMin = GetCurrentPos() + 1;
 		ft.chrg.cpMax = GetTextLength();
 		ft.lpstrText = (LPSTR)(LPCTSTR)m_strSearch;
@@ -60,7 +60,7 @@ LRESULT CScintillaView::OnFindReplaceMsg(UINT /*uMsg*/, WPARAM /*wParam*/, LPARA
 
 		long nStart = 0;
 		do {
-			TextToFind ft = {0};
+			Sci_TextToFind ft = {0};
 			ft.chrg.cpMin = nStart;
 			ft.chrg.cpMax = GetTextLength();
 			ft.lpstrText = (LPSTR)(LPCTSTR)m_strSearch;
@@ -104,7 +104,7 @@ LRESULT CScintillaView::OnRepeat(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lPar
 	}
 
 #if 1
-	TextToFind ft = {0};
+	Sci_TextToFind ft = {0};
 	ft.chrg.cpMin = GetCurrentPos() + 1;
 	ft.chrg.cpMax = GetTextLength();
 	ft.lpstrText = (LPSTR)(LPCTSTR)m_strSearch;

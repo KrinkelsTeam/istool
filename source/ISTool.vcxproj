@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release with debug|Win32">
+      <Configuration>Release with debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <ProjectGuid>{29C3033B-05DB-4DFC-8814-7A21E5D1DE82}</ProjectGuid>
+    <RootNamespace>ISTool</RootNamespace>
+    <Keyword>MFCProj</Keyword>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release with debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <UseOfMfc>false</UseOfMfc>
+    <UseOfAtl>Static</UseOfAtl>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <UseOfMfc>false</UseOfMfc>
+    <UseOfAtl>Static</UseOfAtl>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release with debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>17.0.35828.55</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)\setup\</OutDir>
+    <IntDir>$(SolutionDir)\_TEMP\$(Configuration)\$(ProjectName)\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+    <GenerateManifest>false</GenerateManifest>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)\setup\</OutDir>
+    <IntDir>$(SolutionDir)\_TEMP\$(Configuration)\$(ProjectName)\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+    <GenerateManifest>false</GenerateManifest>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release with debug|Win32'">
+    <OutDir>$(SolutionDir)\setup\</OutDir>
+    <IntDir>$(SolutionDir)\_TEMP\$(Configuration)\$(ProjectName)\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+    <GenerateManifest>false</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\Debug/ISTool.tlb</TypeLibraryName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>.\;$(SolutionDir)\includes\wtl\Include;$(SolutionDir)\includes\scintilla\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_AFXDLL;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(SolutionDir)\includes\wtl\Include</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalOptions>/MACHINE:I386 %(AdditionalOptions)</AdditionalOptions>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention />
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+    </Link>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>call "$(SolutionDir)build_scintilla.bat" "$(ConfigurationName)" "$(SolutionDir)"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\Release/ISTool.tlb</TypeLibraryName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Full</Optimization>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <AdditionalIncludeDirectories>.\;$(SolutionDir)\includes\wtl\Include;$(SolutionDir)\includes\scintilla\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;NO_UTF;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat />
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(SolutionDir)\includes\wtl\Include</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalOptions>/MACHINE:I386 %(AdditionalOptions)</AdditionalOptions>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DelayLoadDLLs>UxTheme.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapExports>true</MapExports>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention />
+    </Link>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>call "$(SolutionDir)build_scintilla.bat" "$(ConfigurationName)" "$(SolutionDir)"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release with debug|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\Release/ISTool.tlb</TypeLibraryName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Full</Optimization>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <AdditionalIncludeDirectories>.\;$(SolutionDir)\includes\wtl\Include;$(SolutionDir)\includes\scintilla\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(SolutionDir)\includes\wtl\Include</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalOptions>/MACHINE:I386 %(AdditionalOptions)</AdditionalOptions>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapExports>true</MapExports>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention />
+    </Link>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>call "$(SolutionDir)build_scintilla.bat" "$(ConfigurationName)" "$(SolutionDir)"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="ButtonVer.cpp" />
+    <ClCompile Include="ColorButton.cpp" />
+    <ClCompile Include="ColorPickerCB.cpp" />
+    <ClCompile Include="Debugger.cpp" />
+    <ClCompile Include="DlgCompile.cpp" />
+    <ClCompile Include="DragDropImpl.cpp" />
+    <ClCompile Include="FileInfo.cpp" />
+    <ClCompile Include="FilesHelper.cpp" />
+    <ClCompile Include="Func.cpp" />
+    <ClCompile Include="IconComboBox.cpp" />
+    <ClCompile Include="InnoScriptEx.cpp" />
+    <ClCompile Include="InnoScript\InnoScript.cpp" />
+    <ClCompile Include="InnoScript\Lines.cpp" />
+    <ClCompile Include="InnoScript\Param.cpp" />
+    <ClCompile Include="InnoScript\Token.cpp" />
+    <ClCompile Include="ISTool.cpp" />
+    <ClCompile Include="MainFrm.cpp" />
+    <ClCompile Include="MenuEdit.cpp" />
+    <ClCompile Include="MenuFile.cpp" />
+    <ClCompile Include="MenuHelp.cpp" />
+    <ClCompile Include="MenuProject.cpp" />
+    <ClCompile Include="MenuView.cpp" />
+    <ClCompile Include="MyDoc.cpp" />
+    <ClCompile Include="MyDoc_imports.cpp" />
+    <ClCompile Include="MyDropTarget.cpp" />
+    <ClCompile Include="MyListView.cpp" />
+    <ClCompile Include="MyTreeView.cpp" />
+    <ClCompile Include="Registry.cpp" />
+    <ClCompile Include="ScintillaPrefs.cpp" />
+    <ClCompile Include="Scintilla\ScintillaView.cpp" />
+    <ClCompile Include="Sheets.cpp" />
+    <ClCompile Include="StdAfx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release with debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Translate.cpp" />
+    <ClCompile Include="ViewCompileStep.cpp" />
+    <ClCompile Include="ViewComponents.cpp" />
+    <ClCompile Include="ViewCustomMessages.cpp" />
+    <ClCompile Include="ViewDelete.cpp" />
+    <ClCompile Include="ViewDownload.cpp" />
+    <ClCompile Include="ViewFilesL.cpp" />
+    <ClCompile Include="ViewFilesT.cpp" />
+    <ClCompile Include="ViewIconsL.cpp" />
+    <ClCompile Include="ViewIconsT.cpp" />
+    <ClCompile Include="ViewIni.cpp" />
+    <ClCompile Include="ViewLanguages.cpp" />
+    <ClCompile Include="ViewMessages.cpp" />
+    <ClCompile Include="ViewRegistryL.cpp" />
+    <ClCompile Include="ViewRegistryT.cpp" />
+    <ClCompile Include="ViewRun.cpp" />
+    <ClCompile Include="ViewScript.cpp" />
+    <ClCompile Include="ViewTasks.cpp" />
+    <ClCompile Include="ViewTypes.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Scintilla\AtlScintilla.h" />
+    <ClInclude Include="AboutDlg.h" />
+    <ClInclude Include="ButtonVer.h" />
+    <ClInclude Include="ColorButton.h" />
+    <ClInclude Include="ColorPickerCB.h" />
+    <ClInclude Include="ComboBox2.h" />
+    <ClInclude Include="CompInt.h" />
+    <ClInclude Include="ConstantListBox.h" />
+    <ClInclude Include="DebugStruct.h" />
+    <ClInclude Include="DlgAddDirectory.h" />
+    <ClInclude Include="DlgBdeAlias.h" />
+    <ClInclude Include="DlgCompile.h" />
+    <ClInclude Include="DlgCustomize.h" />
+    <ClInclude Include="DlgFileAssociation.h" />
+    <ClInclude Include="DlgGoto.h" />
+    <ClInclude Include="DlgIEShortcut.h" />
+    <ClInclude Include="DlgLangOptions.h" />
+    <ClInclude Include="DlgLogFile.h" />
+    <ClInclude Include="DlgODBC.h" />
+    <ClInclude Include="DlgSelectFonts.h" />
+    <ClInclude Include="DlgSelectLanguageFiles.h" />
+    <ClInclude Include="DlgSysPath.h" />
+    <ClInclude Include="DlgUpdates.h" />
+    <ClInclude Include="DlgVersion.h" />
+    <ClInclude Include="DragDropImpl.h" />
+    <ClInclude Include="Edit2.h" />
+    <ClInclude Include="FileInfo.h" />
+    <ClInclude Include="FilesHelper.h" />
+    <ClInclude Include="FontCombo.h" />
+    <ClInclude Include="Func.h" />
+    <ClInclude Include="IconComboBox.h" />
+    <ClInclude Include="InnoScriptEx.h" />
+    <ClInclude Include="InnoScript\InnoScript.h" />
+    <ClInclude Include="InnoScript\Lines.h" />
+    <ClInclude Include="InnoScript\Param.h" />
+    <ClInclude Include="InnoScript\Token.h" />
+    <ClInclude Include="ISTool.h" />
+    <ClInclude Include="kFontCombo.h" />
+    <ClInclude Include="MainFrm.h" />
+    <ClInclude Include="MyDoc.h" />
+    <ClInclude Include="MyDropTarget.h" />
+    <ClInclude Include="MyListView.h" />
+    <ClInclude Include="MyTreeView.h" />
+    <ClInclude Include="MyView.h" />
+    <ClInclude Include="mywtl.h" />
+    <ClInclude Include="PageCommon.h" />
+    <ClInclude Include="PageCommonComponents.h" />
+    <ClInclude Include="PageCommonLanguages.h" />
+    <ClInclude Include="PageCommonTasks.h" />
+    <ClInclude Include="PageCompileStep.h" />
+    <ClInclude Include="PageComponent.h" />
+    <ClInclude Include="PageCustomMessage.h" />
+    <ClInclude Include="PageDelete.h" />
+    <ClInclude Include="PageDirs.h" />
+    <ClInclude Include="PageDownload.h" />
+    <ClInclude Include="PageFiles.h" />
+    <ClInclude Include="PageIcons.h" />
+    <ClInclude Include="PageIni.h" />
+    <ClInclude Include="PageLanguages.h" />
+    <ClInclude Include="PageMessage.h" />
+    <ClInclude Include="PageRegistry.h" />
+    <ClInclude Include="PageRun.h" />
+    <ClInclude Include="PageTask.h" />
+    <ClInclude Include="PageType.h" />
+    <ClInclude Include="PrefsEditor.h" />
+    <ClInclude Include="PrefsGeneral.h" />
+    <ClInclude Include="Registry.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="ScintillaPrefs.h" />
+    <ClInclude Include="Scintilla\ScintillaView.h" />
+    <ClInclude Include="SectionView.h" />
+    <ClInclude Include="SetupAppDir.h" />
+    <ClInclude Include="SetupAppearance.h" />
+    <ClInclude Include="SetupApplication.h" />
+    <ClInclude Include="SetupCompiler.h" />
+    <ClInclude Include="SetupDiskSpanning.h" />
+    <ClInclude Include="SetupPages.h" />
+    <ClInclude Include="SetupProgramGroup.h" />
+    <ClInclude Include="SetupUninstall.h" />
+    <ClInclude Include="SetupUserInfo.h" />
+    <ClInclude Include="Sheets.h" />
+    <ClInclude Include="SplitPath.h" />
+    <ClInclude Include="StdAfx.h" />
+    <ClInclude Include="StringToken.h" />
+    <ClInclude Include="Translate.h" />
+    <ClInclude Include="Update.h" />
+    <ClInclude Include="ViewCompileStep.h" />
+    <ClInclude Include="ViewCompileStepPost.h" />
+    <ClInclude Include="ViewCompileStepPre.h" />
+    <ClInclude Include="ViewComponents.h" />
+    <ClInclude Include="ViewCustomMessages.h" />
+    <ClInclude Include="ViewDelete.h" />
+    <ClInclude Include="ViewDeleteInstall.h" />
+    <ClInclude Include="ViewDeleteUninstall.h" />
+    <ClInclude Include="ViewDownload.h" />
+    <ClInclude Include="ViewFilesL.h" />
+    <ClInclude Include="ViewFilesT.h" />
+    <ClInclude Include="ViewIconsL.h" />
+    <ClInclude Include="ViewIconsT.h" />
+    <ClInclude Include="ViewIni.h" />
+    <ClInclude Include="ViewLanguages.h" />
+    <ClInclude Include="ViewMessages.h" />
+    <ClInclude Include="ViewRegistryL.h" />
+    <ClInclude Include="ViewRegistryT.h" />
+    <ClInclude Include="ViewRun.h" />
+    <ClInclude Include="ViewRunInstall.h" />
+    <ClInclude Include="ViewRunUninstall.h" />
+    <ClInclude Include="ViewScript.h" />
+    <ClInclude Include="ViewTasks.h" />
+    <ClInclude Include="ViewTypes.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\res\imagelist-16.bmp" />
+    <Image Include="..\res\imagelist.bmp" />
+    <Image Include="..\res\states.bmp" />
+    <Image Include="..\res\xptoolbar-small1.bmp" />
+    <Image Include="..\res\xptoolbar-small2.bmp" />
+    <Image Include="res\imagelist-16.bmp" />
+    <Image Include="res\imagelist-32.bmp" />
+    <Image Include="res\imagelist.bmp" />
+    <Image Include="res\ISTool.ico" />
+    <Image Include="res\ISTool2.ico" />
+    <Image Include="res\ISTool3.ico" />
+    <Image Include="res\printer.bmp" />
+    <Image Include="res\printpreview.bmp" />
+    <Image Include="res\states.bmp" />
+    <Image Include="res\toolbar.bmp" />
+    <Image Include="res\xptoolbar-small1.bmp" />
+    <Image Include="res\xptoolbar-small2.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ISTool.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="res\manifest.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Languages\istool-en.lng" />
+    <None Include="..\Languages\istool-nb.lng" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\setup\calltips.txt" />
+    <Text Include="..\Credits.txt" />
+    <Text Include="..\History.txt" />
+    <Text Include="..\TODO.txt" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="ISTool.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

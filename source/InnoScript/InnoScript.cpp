@@ -70,8 +70,9 @@ void CInnoScript::Clear() {
 }
 
 bool CInnoScript::LoadScript(LPCTSTR pszFileName) {
-	FILE* pFile = fopen(pszFileName,"r");
-	if(!pFile)
+	FILE* pFile;
+	errno_t err = fopen_s(&pFile, pszFileName, "r");
+	if (err != 0)
 		return false;
 
 	return LoadScript(pFile);
@@ -225,9 +226,10 @@ bool CInnoScript::WriteScript(FILE* fp) {
 }
 
 bool CInnoScript::WriteScript(LPCTSTR pszName) {
-	FILE* fp = fopen(pszName,"wb");
+	FILE* fp;
+	errno_t err = fopen_s(&fp, pszName, "wb");
 	bool bRet = false;
-	if(fp) {
+	if (err == 0 && fp) {
 		bRet = WriteScript(fp);
 		fclose(fp);
 	}

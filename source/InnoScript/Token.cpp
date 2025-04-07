@@ -20,10 +20,10 @@ static char THIS_FILE[] = __FILE__;
 CInnoScript::CToken::CToken(LPCTSTR pszLine,LPCTSTR pszDelim) {
 	UINT nLength = _tcslen(pszLine);
 	m_pszLine = new char[nLength+1];
-	_tcscpy(m_pszLine,pszLine);
+	strcpy_s(m_pszLine, nLength + 1, pszLine);
 
 	m_pszDelim = new char[_tcslen(pszDelim)+1];
-	_tcscpy(m_pszDelim,pszDelim);
+	strcpy_s(m_pszDelim, _tcslen(pszDelim) + 1, pszDelim);
 
 	m_pszCurrPos = m_pszLine;
 }

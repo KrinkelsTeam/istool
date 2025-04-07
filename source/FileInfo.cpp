@@ -55,26 +55,25 @@ void CFileInfo::Create(const CString strFilePath, LPARAM lParam) {
 
 CString CFileInfo::GetFileDrive(void) const {
    TCHAR szDrive[_MAX_DRIVE];
-   _tsplitpath(m_strFilePath, szDrive, NULL, NULL, NULL);
+   _tsplitpath_s(m_strFilePath, szDrive, _MAX_DRIVE, NULL, 0, NULL, 0, NULL, 0);
    return CString(szDrive);
 }
 
 CString CFileInfo::GetFileDir(void) const { 
    TCHAR szDir[_MAX_DIR];
-   _tsplitpath(m_strFilePath, NULL, szDir,NULL, NULL);
+   _tsplitpath_s(m_strFilePath, NULL, 0, szDir, _MAX_DIR, NULL, 0, NULL, 0);
    return CString(szDir);
 }
 
 CString CFileInfo::GetFileTitle(void) const {
    TCHAR szName[_MAX_FNAME];
-   _tsplitpath(m_strFilePath, NULL, NULL, szName, NULL);
+   _tsplitpath_s(m_strFilePath, NULL, 0, NULL, 0, szName, _MAX_FNAME, NULL, 0);
    return CString(szName);
 }
 
 CString CFileInfo::GetFileExt(void) const {
    TCHAR szExt[_MAX_EXT];
-
-   _tsplitpath(m_strFilePath, NULL, NULL, NULL, szExt);
+   _tsplitpath_s(m_strFilePath, NULL, 0, NULL, 0, NULL, 0, szExt, _MAX_EXT);
    return CString(szExt);
 }
 

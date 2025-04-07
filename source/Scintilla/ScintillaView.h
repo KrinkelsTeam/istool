@@ -66,8 +66,8 @@ public:
 	LRESULT OnEditUncommentSelection(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 
 	void SetupPlain() {
-		SetLexer(SCLEX_NULL);
-		SetStyleBits(7);
+		//SetLexer(SCLEX_NULL);
+		//SetStyleBits(7);
 
 		// Default style
 		StyleSetFore(STYLE_DEFAULT,RGB(0,0,0));
@@ -122,12 +122,12 @@ public:
 
 	void SetupISS() {
 		SetupScheme(1);
-		SetLexerLanguage("iss");
+		//SetLexerLanguage("iss");
 	}
 
 	void SetupCode() {
 		SetupScheme(2);
-		SetLexer(SCLEX_PASCAL);
-		SetStyleBits(7);
+		//SetLexer(SCLEX_PASCAL);
+		//SetStyleBits(7);
 	}
 };

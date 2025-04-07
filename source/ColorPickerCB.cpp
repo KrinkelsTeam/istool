@@ -284,7 +284,7 @@ void CColorPickerCB::SetInnoColor(LPCTSTR lpszColor) {
 		SetSelectedColorName(str);
 	} else if(str[0]=='$') {
 		COLORREF cr;
-		sscanf(str,"$%x",&cr);
+		sscanf_s(str, "$%x", &cr);
 //		cr = RGB(GetBValue(cr),GetGValue(cr),GetRValue(cr));	// Get correct byte order
 		SetSelectedColorName("Custom");
 		SetItemData(GetCurSel(),cr);

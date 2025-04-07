@@ -18,10 +18,10 @@ static char THIS_FILE[] = __FILE__;
 
 CInnoScript::CParam::CParam(LPCTSTR pszName,LPCTSTR pszValue) : m_pNext(NULL), m_pszName(NULL), m_pszValue(NULL) {
 	m_pszName = new char[_tcslen(pszName)+1];
-	_tcscpy(m_pszName,pszName);
+	_tcscpy_s(m_pszName, _tcslen(pszName) + 1, pszName);
 	if(pszValue) {
 		m_pszValue = new char[_tcslen(pszValue)+1];
-		_tcscpy(m_pszValue,pszValue);
+		_tcscpy_s(m_pszValue, _tcslen(pszValue) + 1, pszValue);
 	} else {
 		m_pszValue = new char[1];
 		*m_pszValue = 0;
@@ -54,11 +54,11 @@ LPCTSTR CInnoScript::CParam::GetValue() {
 void CInnoScript::CParam::SetValue(LPCTSTR pszValue) {
 	if(m_pszValue) delete []m_pszValue;
 	m_pszValue = new char[_tcslen(pszValue)+1];
-	_tcscpy(m_pszValue,pszValue);
+	_tcscpy_s(m_pszValue, _tcslen(pszValue) + 1, pszValue);
 }
 
 void CInnoScript::CParam::SetName(LPCTSTR pszName) {
 	if(m_pszName) delete []m_pszName;
 	m_pszName = new char[_tcslen(pszName)+1];
-	_tcscpy(m_pszName,pszName);
+	_tcscpy_s(m_pszName, _tcslen(pszName) + 1, pszName);
 }

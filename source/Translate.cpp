@@ -2,11 +2,6 @@
 #include "resource.h"
 #include "translate.h"
 
-static bool IsNT4() {
-	DWORD dwVersion = GetVersion();
-	return dwVersion<=0x8000000 && (dwVersion&0xFF)==4;
-}
-
 CAtlMap<CString,CString>	CTranslate::m_map;
 #ifdef _DEBUG
 const CString				CTranslate::m_strOrgFile = _T("D:\\svnroot\\istool\\istool\\trunk\\languages\\istool-en.lng");
@@ -28,7 +23,6 @@ void CTranslate::Warning(const CString& strKey,const CString& strDefault) {
 }
 
 HMENU CTranslate::Translate(HMENU hMenu,CString strParent/*=CString()*/) {
-	if(IsNT4()) return hMenu;
 	CMenuHandle menu(hMenu);
 	FixMenuTitle(strParent,CString());
 	int iCount = menu.GetMenuItemCount();
@@ -90,8 +84,8 @@ void CTranslate::AddFile(const CString& strFileName) {
 	if(strFileName.IsEmpty())
 		return;
 
-	FILE* fp = fopen(strFileName,"rb");
-	if(!fp) return;
+	FILE* fp;
+	if (fopen_s(&fp, strFileName, "rb") != 0 || !fp) return;
 
 	TCHAR szLine[10000];
 	while(fgets(szLine,sizeof szLine/sizeof szLine[0],fp)) {

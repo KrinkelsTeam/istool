@@ -1,0 +1,615 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{6a1274e4-5439-4a0b-a874-c984f138d0e7}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{ef238160-cd42-494c-b7f8-8d7e51ee5d1d}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{3128471c-eb54-45e9-8d9f-8ce6d4f81854}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+    <Filter Include="Extras">
+      <UniqueIdentifier>{0662811c-f811-4146-9b00-fee7727eba8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Base Classes">
+      <UniqueIdentifier>{837039bf-1ebe-41bd-94b5-3b3d05a2338c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library Files">
+      <UniqueIdentifier>{e25faab9-efc5-4160-905a-4f3ae8690e7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Inno Script">
+      <UniqueIdentifier>{71ffbfe7-f2b5-434a-88f9-60fd0cea5ffc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Property Page Files">
+      <UniqueIdentifier>{0cab5013-7e8c-4ee2-b6b9-7b729abab71a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Property Page Files\Sections">
+      <UniqueIdentifier>{feedf82e-3b20-484e-84c8-5f06bd1587a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Property Page Files\Setup">
+      <UniqueIdentifier>{d793c53e-8ead-4ae1-91f0-fa543b75fab3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dialog Files">
+      <UniqueIdentifier>{ca23cf49-3101-41ae-816b-10872a6869f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="View Files">
+      <UniqueIdentifier>{cce62302-e409-4c00-9b10-52b8c345efb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Language Files">
+      <UniqueIdentifier>{14376b80-bc1c-49a6-97e8-bc23d2bd70e4}</UniqueIdentifier>
+      <Extensions>*.lng</Extensions>
+    </Filter>
+    <Filter Include="Scintilla">
+      <UniqueIdentifier>{9dfcb04b-5628-4462-8533-7e4c6141383c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Debugger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FilesHelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Func.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="InnoScriptEx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ISTool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MainFrm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuEdit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuHelp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuProject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MyDoc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MyDoc_imports.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MyDropTarget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ScintillaPrefs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Sheets.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StdAfx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Translate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FileInfo.cpp">
+      <Filter>Extras</Filter>
+    </ClCompile>
+    <ClCompile Include="MyListView.cpp">
+      <Filter>Base Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="MyTreeView.cpp">
+      <Filter>Base Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="ButtonVer.cpp">
+      <Filter>Library Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ColorButton.cpp">
+      <Filter>Library Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ColorPickerCB.cpp">
+      <Filter>Library Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DragDropImpl.cpp">
+      <Filter>Library Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IconComboBox.cpp">
+      <Filter>Library Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Registry.cpp">
+      <Filter>Library Files</Filter>
+    </ClCompile>
+    <ClCompile Include="InnoScript\InnoScript.cpp">
+      <Filter>Inno Script</Filter>
+    </ClCompile>
+    <ClCompile Include="InnoScript\Lines.cpp">
+      <Filter>Inno Script</Filter>
+    </ClCompile>
+    <ClCompile Include="InnoScript\Param.cpp">
+      <Filter>Inno Script</Filter>
+    </ClCompile>
+    <ClCompile Include="InnoScript\Token.cpp">
+      <Filter>Inno Script</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgCompile.cpp">
+      <Filter>Dialog Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewCompileStep.cpp">
+      <Filter>View Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewComponents.cpp">
+      <Filter>View Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewCustomMessages.cpp">
+      <Filter>View Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewDelete.cpp">
+      <Filter>View Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewDownload.cpp">
+      <Filter>View Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewFilesL.cpp">
+      <Filter>View Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewFilesT.cpp">
+      <Filter>View Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewIconsL.cpp">
+      <Filter>View Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewIconsT.cpp">
+      <Filter>View Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewIni.cpp">
+      <Filter>View Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewLanguages.cpp">
+      <Filter>View Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewMessages.cpp">
+      <Filter>View Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewRegistryL.cpp">
+      <Filter>View Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewRegistryT.cpp">
+      <Filter>View Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewRun.cpp">
+      <Filter>View Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewScript.cpp">
+      <Filter>View Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewTasks.cpp">
+      <Filter>View Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewTypes.cpp">
+      <Filter>View Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Scintilla\ScintillaView.cpp">
+      <Filter>Scintilla</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ConstantListBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FilesHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Func.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InnoScriptEx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ISTool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MainFrm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MyDoc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MyDropTarget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MyView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mywtl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PrefsEditor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PrefsGeneral.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ScintillaPrefs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SectionView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sheets.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StdAfx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Translate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Update.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FileInfo.h">
+      <Filter>Extras</Filter>
+    </ClInclude>
+    <ClInclude Include="SplitPath.h">
+      <Filter>Extras</Filter>
+    </ClInclude>
+    <ClInclude Include="StringToken.h">
+      <Filter>Extras</Filter>
+    </ClInclude>
+    <ClInclude Include="MyListView.h">
+      <Filter>Base Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="MyTreeView.h">
+      <Filter>Base Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonVer.h">
+      <Filter>Library Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorButton.h">
+      <Filter>Library Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorPickerCB.h">
+      <Filter>Library Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ComboBox2.h">
+      <Filter>Library Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DragDropImpl.h">
+      <Filter>Library Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Edit2.h">
+      <Filter>Library Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FontCombo.h">
+      <Filter>Library Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IconComboBox.h">
+      <Filter>Library Files</Filter>
+    </ClInclude>
+    <ClInclude Include="kFontCombo.h">
+      <Filter>Library Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Registry.h">
+      <Filter>Library Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CompInt.h">
+      <Filter>Inno Script</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugStruct.h">
+      <Filter>Inno Script</Filter>
+    </ClInclude>
+    <ClInclude Include="InnoScript\InnoScript.h">
+      <Filter>Inno Script</Filter>
+    </ClInclude>
+    <ClInclude Include="InnoScript\Lines.h">
+      <Filter>Inno Script</Filter>
+    </ClInclude>
+    <ClInclude Include="InnoScript\Param.h">
+      <Filter>Inno Script</Filter>
+    </ClInclude>
+    <ClInclude Include="InnoScript\Token.h">
+      <Filter>Inno Script</Filter>
+    </ClInclude>
+    <ClInclude Include="PageCommon.h">
+      <Filter>Property Page Files\Sections</Filter>
+    </ClInclude>
+    <ClInclude Include="PageCommonComponents.h">
+      <Filter>Property Page Files\Sections</Filter>
+    </ClInclude>
+    <ClInclude Include="PageCommonLanguages.h">
+      <Filter>Property Page Files\Sections</Filter>
+    </ClInclude>
+    <ClInclude Include="PageCommonTasks.h">
+      <Filter>Property Page Files\Sections</Filter>
+    </ClInclude>
+    <ClInclude Include="PageCompileStep.h">
+      <Filter>Property Page Files\Sections</Filter>
+    </ClInclude>
+    <ClInclude Include="PageComponent.h">
+      <Filter>Property Page Files\Sections</Filter>
+    </ClInclude>
+    <ClInclude Include="PageCustomMessage.h">
+      <Filter>Property Page Files\Sections</Filter>
+    </ClInclude>
+    <ClInclude Include="PageDelete.h">
+      <Filter>Property Page Files\Sections</Filter>
+    </ClInclude>
+    <ClInclude Include="PageDirs.h">
+      <Filter>Property Page Files\Sections</Filter>
+    </ClInclude>
+    <ClInclude Include="PageDownload.h">
+      <Filter>Property Page Files\Sections</Filter>
+    </ClInclude>
+    <ClInclude Include="PageFiles.h">
+      <Filter>Property Page Files\Sections</Filter>
+    </ClInclude>
+    <ClInclude Include="PageIcons.h">
+      <Filter>Property Page Files\Sections</Filter>
+    </ClInclude>
+    <ClInclude Include="PageIni.h">
+      <Filter>Property Page Files\Sections</Filter>
+    </ClInclude>
+    <ClInclude Include="PageLanguages.h">
+      <Filter>Property Page Files\Sections</Filter>
+    </ClInclude>
+    <ClInclude Include="PageMessage.h">
+      <Filter>Property Page Files\Sections</Filter>
+    </ClInclude>
+    <ClInclude Include="PageRegistry.h">
+      <Filter>Property Page Files\Sections</Filter>
+    </ClInclude>
+    <ClInclude Include="PageRun.h">
+      <Filter>Property Page Files\Sections</Filter>
+    </ClInclude>
+    <ClInclude Include="PageTask.h">
+      <Filter>Property Page Files\Sections</Filter>
+    </ClInclude>
+    <ClInclude Include="PageType.h">
+      <Filter>Property Page Files\Sections</Filter>
+    </ClInclude>
+    <ClInclude Include="SetupAppDir.h">
+      <Filter>Property Page Files\Setup</Filter>
+    </ClInclude>
+    <ClInclude Include="SetupAppearance.h">
+      <Filter>Property Page Files\Setup</Filter>
+    </ClInclude>
+    <ClInclude Include="SetupApplication.h">
+      <Filter>Property Page Files\Setup</Filter>
+    </ClInclude>
+    <ClInclude Include="SetupCompiler.h">
+      <Filter>Property Page Files\Setup</Filter>
+    </ClInclude>
+    <ClInclude Include="SetupDiskSpanning.h">
+      <Filter>Property Page Files\Setup</Filter>
+    </ClInclude>
+    <ClInclude Include="SetupPages.h">
+      <Filter>Property Page Files\Setup</Filter>
+    </ClInclude>
+    <ClInclude Include="SetupProgramGroup.h">
+      <Filter>Property Page Files\Setup</Filter>
+    </ClInclude>
+    <ClInclude Include="SetupUninstall.h">
+      <Filter>Property Page Files\Setup</Filter>
+    </ClInclude>
+    <ClInclude Include="SetupUserInfo.h">
+      <Filter>Property Page Files\Setup</Filter>
+    </ClInclude>
+    <ClInclude Include="AboutDlg.h">
+      <Filter>Dialog Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgAddDirectory.h">
+      <Filter>Dialog Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgBdeAlias.h">
+      <Filter>Dialog Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgCompile.h">
+      <Filter>Dialog Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgCustomize.h">
+      <Filter>Dialog Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgFileAssociation.h">
+      <Filter>Dialog Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgGoto.h">
+      <Filter>Dialog Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgIEShortcut.h">
+      <Filter>Dialog Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgLangOptions.h">
+      <Filter>Dialog Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgLogFile.h">
+      <Filter>Dialog Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgODBC.h">
+      <Filter>Dialog Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgSelectFonts.h">
+      <Filter>Dialog Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgSelectLanguageFiles.h">
+      <Filter>Dialog Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgSysPath.h">
+      <Filter>Dialog Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgUpdates.h">
+      <Filter>Dialog Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgVersion.h">
+      <Filter>Dialog Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewCompileStep.h">
+      <Filter>View Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewCompileStepPost.h">
+      <Filter>View Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewCompileStepPre.h">
+      <Filter>View Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewComponents.h">
+      <Filter>View Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewCustomMessages.h">
+      <Filter>View Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewDelete.h">
+      <Filter>View Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewDeleteInstall.h">
+      <Filter>View Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewDeleteUninstall.h">
+      <Filter>View Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewDownload.h">
+      <Filter>View Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewFilesL.h">
+      <Filter>View Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewFilesT.h">
+      <Filter>View Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewIconsL.h">
+      <Filter>View Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewIconsT.h">
+      <Filter>View Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewIni.h">
+      <Filter>View Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewLanguages.h">
+      <Filter>View Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewMessages.h">
+      <Filter>View Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewRegistryL.h">
+      <Filter>View Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewRegistryT.h">
+      <Filter>View Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewRun.h">
+      <Filter>View Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewRunInstall.h">
+      <Filter>View Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewRunUninstall.h">
+      <Filter>View Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewScript.h">
+      <Filter>View Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewTasks.h">
+      <Filter>View Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewTypes.h">
+      <Filter>View Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Scintilla\AtlScintilla.h">
+      <Filter>Scintilla</Filter>
+    </ClInclude>
+    <ClInclude Include="Scintilla\ScintillaView.h">
+      <Filter>Scintilla</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\res\imagelist-16.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\imagelist-16.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\imagelist-32.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\res\imagelist.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\imagelist.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\ISTool.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\ISTool2.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\ISTool3.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\printer.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\printpreview.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\res\states.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\states.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\toolbar.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\res\xptoolbar-small1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\xptoolbar-small1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\res\xptoolbar-small2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\xptoolbar-small2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ISTool.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Languages\istool-en.lng">
+      <Filter>Language Files</Filter>
+    </None>
+    <None Include="..\Languages\istool-nb.lng">
+      <Filter>Language Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\setup\calltips.txt" />
+    <Text Include="..\Credits.txt" />
+    <Text Include="..\History.txt" />
+    <Text Include="..\TODO.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="res\manifest.xml">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>

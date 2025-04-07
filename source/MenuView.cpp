@@ -15,7 +15,7 @@ LRESULT CMainFrame::OnViewSection(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl
 
 LRESULT CMainFrame::OnViewToolBar(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {
 	CMyApp::m_prefs.m_bToolBar ^= 1;
-	::SendMessage(m_hWndToolBar, RB_SHOWBAND, IsNewWindows() ? 1 : 0, CMyApp::m_prefs.m_bToolBar); // toolbar is band #1
+	::SendMessage(m_hWndToolBar, RB_SHOWBAND, 1, CMyApp::m_prefs.m_bToolBar); // toolbar is band #1
 	UpdateLayout();
 	return 0;
 }

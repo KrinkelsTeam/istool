@@ -244,8 +244,8 @@ LRESULT CMainFrame::OnProjectExportRegistry(WORD /*wNotifyCode*/, WORD /*wID*/, 
 	if(dlg.DoModal()!=IDOK) return 0;
 
 	CWaitCursor wait;
-	FILE* fp = fopen(dlg.m_szFileName,"w");	
-	if(!fp) {
+	FILE* fp;
+	if (fopen_s(&fp, dlg.m_szFileName, "w") != 0) {
 		CString txt = _L("Error|CreateFile","Failed to create '%1'.");
 		txt.Replace("%1",dlg.m_szFileName);
 		AtlMessageBox(m_hWnd,(LPCTSTR)txt,IDR_MAINFRAME,MB_OK|MB_ICONERROR);
@@ -286,7 +286,7 @@ LRESULT CMainFrame::OnProjectExportRegistry(WORD /*wNotifyCode*/, WORD /*wID*/, 
 			}
 		}
 
-		fprintf(fp,"\"%s\"=%s\n",strValueName,strValueData);
+		fprintf(fp,"\"%s\"=%s\n",strValueName.GetBuffer(), strValueData.GetBuffer());
 
 		fprintf(fp,"\n");
 	}
@@ -307,8 +307,8 @@ LRESULT CMainFrame::OnProjectImportMessages(WORD /*wNotifyCode*/, WORD /*wID*/, 
 
 	CString strFilename(dlg.m_szFileName);
 	CString strSection;
-	FILE* file = fopen(strFilename,"r");
-	if(!file) {
+	FILE* file;
+	if (fopen_s(&file, strFilename, "r") != 0) {
 		CString txt = _L("Failed to open '%1'.");
 		txt.Replace("%1",strFilename);
 		AtlMessageBox(m_hWnd,(LPCTSTR)txt,IDR_MAINFRAME,MB_OK|MB_ICONERROR);
@@ -541,8 +541,8 @@ LRESULT CMainFrame::OnProjectExportMessages(WORD /*wNotifyCode*/, WORD /*wID*/, 
 	if(dlg.DoModal()!=IDOK) return 0;
 
 	CWaitCursor wait;
-	FILE* fp = fopen(dlg.m_szFileName,"w");	
-	if(!fp) {
+	FILE* fp;
+	if (fopen_s(&fp, dlg.m_szFileName, "w") != 0) {
 		CString txt = _L("Error|CreateFile","Failed to create '%1'.");
 		txt.Replace("%1",dlg.m_szFileName);
 		AtlMessageBox(m_hWnd,(LPCTSTR)txt,IDR_MAINFRAME,MB_OK|MB_ICONERROR);
@@ -556,7 +556,7 @@ LRESULT CMainFrame::OnProjectExportMessages(WORD /*wNotifyCode*/, WORD /*wID*/, 
 		CString strLine;
 
 		pLine->Write(strLine.GetBuffer(8000),8000);
-		fprintf(fp,"%s\r\n",strLine);
+		fprintf(fp,"%s\r\n",strLine.GetBuffer());
 	}
 	
 	fclose(fp);

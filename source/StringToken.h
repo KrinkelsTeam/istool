@@ -6,9 +6,9 @@ class CStringToken {
 public:
 	CStringToken(const char* lpszLine,const char* lpszDel) : m_ptr(0) {
 		m_ptr = new char[_tcslen(lpszLine)+1];
-		_tcscpy(m_ptr,lpszLine);
+		_tcscpy_s(m_ptr, _tcslen(lpszLine) + 1, lpszLine);
 		m_del = new char[_tcslen(lpszDel)+1];
-		_tcscpy(m_del,lpszDel);
+		_tcscpy_s(m_del, _tcslen(lpszDel) + 1, lpszDel);
 		m_next = m_ptr;
 	}
 	~CStringToken() {

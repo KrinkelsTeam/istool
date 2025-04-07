@@ -2,8 +2,8 @@
 
 class CWebUpdate {
 public:
-	CWebUpdate(HWND hWnd,LPCTSTR pszAddress) : m_hWnd(hWnd) {
-		_tcscpy(m_szAddress,pszAddress);
+	CWebUpdate(HWND hWnd, LPCTSTR pszAddress) : m_hWnd(hWnd) {
+		_tcscpy_s(m_szAddress, MAX_PATH, pszAddress);
 	}
 	
 	virtual ~CWebUpdate() {
@@ -11,11 +11,11 @@ public:
 	
 	bool Check(CString& refData) {
 		refData.Empty();
-		HINTERNET hInternet = InternetOpen(_T("WebUpdate"),INTERNET_OPEN_TYPE_PRECONFIG,NULL,NULL,0);
-		if(!hInternet) {
+		HINTERNET hInternet = InternetOpen(_T("WebUpdate"), INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0);
+		if (!hInternet) {
 			CString strError;
-			CMyUtils::GetSysError(strError,GetLastError(),_T("wininet.dll"));
-			MsgBox(strError,MB_OK|MB_ICONSTOP);
+			CMyUtils::GetSysError(strError, GetLastError(), _T("wininet.dll"));
+			MsgBox(strError, MB_OK | MB_ICONSTOP);
 			return false;
 		}
 
@@ -26,10 +26,10 @@ public:
 			INTERNET_FLAG_RELOAD,
 			0
 		);
-		if(!hFile) {
+		if (!hFile) {
 			CString strError;
-			CMyUtils::GetSysError(strError,GetLastError(),_T("wininet.dll"));
-			MsgBox(strError,MB_OK|MB_ICONSTOP);
+			CMyUtils::GetSysError(strError, GetLastError(), _T("wininet.dll"));
+			MsgBox(strError, MB_OK | MB_ICONSTOP);
 			InternetCloseHandle(hInternet);
 			return false;
 		}
@@ -38,15 +38,15 @@ public:
 		CString strData;
 		DWORD dwBytes = 0;
 		BOOL bOk;
-		while(bOk = InternetReadFile(hFile,buffer,sizeof buffer-1,&dwBytes)) {
-			if(!dwBytes) break;
+		while (bOk = InternetReadFile(hFile, buffer, sizeof buffer - 1, &dwBytes)) {
+			if (!dwBytes) break;
 			buffer[dwBytes] = _T('\0');
 			strData += buffer;
 		}
-		if(!bOk) {
+		if (!bOk) {
 			CString strError;
-			CMyUtils::GetSysError(strError,GetLastError(),_T("wininet.dll"));
-			MsgBox(strError,MB_OK|MB_ICONSTOP);
+			CMyUtils::GetSysError(strError, GetLastError(), _T("wininet.dll"));
+			MsgBox(strError, MB_OK | MB_ICONSTOP);
 			InternetCloseHandle(hFile);
 			InternetCloseHandle(hInternet);
 			return false;
@@ -60,8 +60,8 @@ public:
 	}
 
 protected:
-	int MsgBox(LPCTSTR pszText,UINT uType=MB_OK|MB_ICONINFORMATION) {
-		return ::MessageBox(m_hWnd,pszText,_T("Update Check"),uType);
+	int MsgBox(LPCTSTR pszText, UINT uType = MB_OK | MB_ICONINFORMATION) {
+		return ::MessageBox(m_hWnd, pszText, _T("Update Check"), uType);
 	}
 
 	HWND	m_hWnd;

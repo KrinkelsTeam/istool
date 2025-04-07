@@ -1,0 +1,6 @@
+[submodule "includes/wtl"]
+	path = includes/wtl
+	url = https://git.code.sf.net/p/wtl/git
+[submodule "includes/scintilla"]
+	path = includes/scintilla
+	url = https://github.com/jrsoftware/isscint.git

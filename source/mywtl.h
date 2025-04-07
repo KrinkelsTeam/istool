@@ -173,5 +173,3 @@ public:
 #else
 #define VERIFY(x)			x
 #endif
-
-#define IsNewWindows()		((GetVersion()&0xFF)>4)

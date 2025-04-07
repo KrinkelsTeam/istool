@@ -18,9 +18,9 @@ CScintillaPrefs::Style CScintillaPrefs::m_styles[] = {
 	1,	"PreProcessor",	SCE_ISS_PREPROC,	RGB(0,128,255),	CLR_DEFAULT,false,false,false,
 
 	2,	"Default",		STYLE_DEFAULT,		RGB(0,0,0),		RGB(255,255,255),false,false,false,
-	2,	"Comment",		SCE_C_COMMENT,		RGB(0,128,0),	CLR_DEFAULT,false,false,false,
-	2,	"Line Comment",	SCE_C_COMMENTLINE,	RGB(0,128,0),	CLR_DEFAULT,false,false,false,
-	2,	"Word",			SCE_C_WORD,			RGB(0,0,255),	CLR_DEFAULT,false,false,false
+	2,	"Comment",		STYLE_DEFAULT,		RGB(0,128,0),	CLR_DEFAULT,false,false,false,
+	2,	"Line Comment",	STYLE_DEFAULT,		RGB(0,128,0),	CLR_DEFAULT,false,false,false,
+	2,	"Word",			STYLE_DEFAULT,		RGB(0,0,255),	CLR_DEFAULT,false,false,false
 };
 
 CScintillaPrefs::KeyWords CScintillaPrefs::m_keywords[] = {

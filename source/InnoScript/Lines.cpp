@@ -48,7 +48,7 @@ LPSTR CInnoScript::CLine::UnQuote(LPSTR pszLine) {
 		CString str(pszLine);
 		str.TrimLeft();
 		str.TrimRight();
-		_tcscpy(pszLine,str);
+        _tcscpy_s(pszLine, _tcslen(str) + 1, str);
 		return pszLine;
 	}
 
@@ -146,17 +146,17 @@ void CInnoScript::CLine::SetParameterFlag(LPCTSTR pszName,LPCTSTR pszFlag,bool b
 					return;
 			}
 			// Need to add it
-			_tcscpy(szBuffer,pszValue);
-			_tcscat(szBuffer," ");
-			_tcscat(szBuffer,pszFlag);
+            _tcscpy_s(szBuffer, sizeof(szBuffer) / sizeof(TCHAR), pszValue);
+            _tcscat_s(szBuffer, sizeof(szBuffer) / sizeof(TCHAR), " ");
+            _tcscat_s(szBuffer, sizeof(szBuffer) / sizeof(TCHAR), pszFlag);
 			SetParameter(pszName,szBuffer);
 		} else {
 			szBuffer[0] = 0;
 			bool bFound = false;
 			while(LPCTSTR psz=flags.GetNext()) {
 				if(_stricmp(pszFlag,psz)) {
-					if(szBuffer[0]) _tcscat(szBuffer," ");
-					_tcscat(szBuffer,psz);
+                    if(szBuffer[0]) _tcscat_s(szBuffer, sizeof(szBuffer) / sizeof(TCHAR), " ");
+                    _tcscat_s(szBuffer, sizeof(szBuffer) / sizeof(TCHAR), psz);
 				} else
 					bFound = true;
 			}
@@ -173,7 +173,7 @@ void CInnoScript::CLine::SetParameterFlag(LPCTSTR pszName,LPCTSTR pszFlag,bool b
 void CInnoScript::CLine::Write(LPSTR pszOut,UINT nLength) {
 	*pszOut = 0;
 	if(!m_strIndent.IsEmpty())
-		_tcscpy(pszOut,m_strIndent);
+		_tcscpy_s(pszOut, nLength, m_strIndent);
 
 	CParam* pParam = m_pParams;
 	bool bKey = false;													// Special for ini entries
@@ -187,12 +187,12 @@ void CInnoScript::CLine::Write(LPSTR pszOut,UINT nLength) {
 
 		if(*pszOut) {
 			if(_tcslen(pszOut)+2>nLength) return;
-			_tcscat(pszOut,"; ");
+            _tcscat_s(pszOut, nLength, "; ");
 		}
 		if(_tcslen(pszOut)+_tcslen(pParam->GetName())>nLength) return;
-		_tcscat(pszOut,pParam->GetName());
+        _tcscat_s(pszOut, nLength, pParam->GetName());
 		if(_tcslen(pszOut)+2>nLength) return;
-		_tcscat(pszOut,": ");
+        _tcscat_s(pszOut, nLength, ": ");
 
 		LPCTSTR pszValue = pParam->GetValue();
 		LPSTR pszQuoted = NULL;
@@ -213,7 +213,7 @@ void CInnoScript::CLine::Write(LPSTR pszOut,UINT nLength) {
 		}
 
 		if(_tcslen(pszOut)+_tcslen(pszValue)>nLength) return;
-		_tcscat(pszOut,pszValue);
+		_tcscat_s(pszOut, nLength, pszValue);
 		pParam = pParam->GetNext();
 
 		if(pszQuoted) delete []pszQuoted;
@@ -223,17 +223,17 @@ void CInnoScript::CLine::Write(LPSTR pszOut,UINT nLength) {
 	if(m_sec==SEC_INI && bKey && !bString) {
 		if(*pszOut) {
 			if(_tcslen(pszOut)+2>nLength) return;
-			_tcscat(pszOut,"; ");
+            _tcscat_s(pszOut, nLength, "; ");
 		}
 		if(_tcslen(pszOut)+10>nLength) return;
-		_tcscat(pszOut,"String: \"\"");
+        _tcscat_s(pszOut, nLength, "String: \"\"");
 	}
 	if(m_dwUserFlags & FLG_CONCAT) {
 		if(_tcslen(pszOut)+3>nLength) return;
 		if(*pszOut) {
-			_tcscat(pszOut,";");
+			_tcscat_s(pszOut, nLength, ";");
 		}
-		_tcscat(pszOut," \\");
+        _tcscat_s(pszOut, nLength, " \\");
 	}
 }
 
@@ -266,7 +266,7 @@ bool CInnoScript::CLine::IsHash() {
 CInnoScript::CLineComment::CLineComment(SECTION sec,LPCTSTR pszLine) : CLine(sec) {
 	int nLength = _tcslen(pszLine);
 	m_pszLine = new char[nLength+1];
-	_tcscpy(m_pszLine,pszLine);
+	_tcscpy_s(m_pszLine, nLength + 1, pszLine);
 }
 
 CInnoScript::CLineComment::~CLineComment() {
@@ -275,14 +275,14 @@ CInnoScript::CLineComment::~CLineComment() {
 
 void CInnoScript::CLineComment::Write(LPSTR pszOut,UINT nLength) {
 	if(_tcslen(m_pszLine)<nLength) {
-		_tcscpy(pszOut,m_pszLine);
+		_tcscpy_s(pszOut, nLength, m_pszLine);
 
 		if(m_dwUserFlags & FLG_CONCAT) {
 			if(_tcslen(pszOut)+3>nLength) return;
 			if(*pszOut) {
-				_tcscat(pszOut,";");
+				_tcscat_s(pszOut, nLength, ";");
 			}
-			_tcscat(pszOut," \\");
+			_tcscat_s(pszOut, nLength, " \\");
 		}
 	} else
 		*pszOut = 0;
@@ -309,7 +309,7 @@ CInnoScript::CLine* CInnoScript::CLineComment::Copy() {
 CInnoScript::CLineHash::CLineHash(SECTION sec,LPCTSTR pszLine) : CLine(sec) {
 	int nLength = _tcslen(pszLine);
 	m_pszLine = new char[nLength+1];
-	_tcscpy(m_pszLine,pszLine);
+    _tcscpy_s(m_pszLine, _tcslen(pszLine) + 1, pszLine);
 }
 
 CInnoScript::CLineHash::~CLineHash() {
@@ -318,14 +318,14 @@ CInnoScript::CLineHash::~CLineHash() {
 
 void CInnoScript::CLineHash::Write(LPSTR pszOut,UINT nLength) {
 	if(_tcslen(m_pszLine)<nLength) {
-		_tcscpy(pszOut,m_pszLine);
+		_tcscpy_s(pszOut, nLength, m_pszLine);
 
 		if(m_dwUserFlags & FLG_CONCAT) {
 			if(_tcslen(pszOut)+3>nLength) return;
 			if(*pszOut) {
-				_tcscat(pszOut,";");
+				_tcscat_s(pszOut, nLength, ";");
 			}
-			_tcscat(pszOut," \\");
+			_tcscat_s(pszOut, nLength, " \\");
 		}
 	} else
 		*pszOut = 0;
@@ -374,13 +374,13 @@ CInnoScript::CLineSetup::~CLineSetup() {}
 void CInnoScript::CLineSetup::Write(LPSTR pszOut,UINT nLength) {
 	*pszOut = 0;
 	if(!m_strIndent.IsEmpty())
-		_tcscpy(pszOut,m_strIndent);
+        _tcscpy_s(pszOut, _tcslen(m_strIndent) + 1, m_strIndent);
 
 	CParam* pParam = m_pParams;
 	while(pParam) {
-		_tcscpy(pszOut,pParam->GetName());
-		_tcscat(pszOut,"=");
-		_tcscat(pszOut,pParam->GetValue());
+        _tcscpy_s(pszOut, nLength, pParam->GetName());
+        _tcscat_s(pszOut, nLength, "=");
+        _tcscat_s(pszOut, nLength, pParam->GetValue());
 
 		pParam = pParam->GetNext();
 	}

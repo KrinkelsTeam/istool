@@ -309,7 +309,8 @@ BOOL CMyApp::InitInstance() {
 		}
 	}
 
-	if(FILE* fp = fopen(m_strCallTipsFile,"rb")) {
+	FILE* fp;
+	if(fopen_s(&fp, m_strCallTipsFile, "rb") == 0) {
 		CString strLine;
 		long nSection = -1;
 		while(fgets(strLine.GetBuffer(1000),1000,fp)) {
@@ -587,6 +588,6 @@ void AfxGetFileTitle(LPCTSTR pszPathName, LPSTR pszBuffer, UINT nLength) {
 	nPos1 = str.ReverseFind('.');
 	if(nPos1>=0)
 		str.ReleaseBuffer(nPos1);
-	_tcscpy(pszBuffer,str);
+    _tcscpy_s(pszBuffer, _tcslen(str) + 1, str);
 }
 

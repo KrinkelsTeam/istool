@@ -2,9 +2,9 @@
 
 #pragma once
 
-#define WINVER			0x0501
-#define _WIN32_WINNT	0x0501		
-#define _WIN32_IE		0x0501
+#define WINVER			_WIN32_WINNT_WIN7
+#define _WIN32_WINNT	_WIN32_WINNT_WIN7		
+#define _WIN32_IE		_WIN32_IE_WIN7
 
 // --------------------------------------------------------- WTL
 #define _WTL_NEW_PAGE_NOTIFY_HANDLERS

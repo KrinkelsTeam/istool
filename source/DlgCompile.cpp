@@ -13,7 +13,12 @@ CDlgCompile::CDlgCompile(CMyDoc* pDoc,const bool bForceRun) :
 	LPCTSTR pszLogFile = m_pDoc->GetScript().GetPropertyString("LogFile",CInnoScript::PRJ_ISTOOL);
 	bool bAppend = m_pDoc->GetScript().GetPropertyBool("LogFileAppend",CInnoScript::PRJ_ISTOOL);
 	if(pszLogFile && *pszLogFile) {
-		m_logFile = bAppend ? fopen(pszLogFile,"ab") : fopen(pszLogFile,"wb");
+		errno_t err = bAppend
+			? fopen_s(&m_logFile, pszLogFile, "ab")
+			: fopen_s(&m_logFile, pszLogFile, "wb");
+		if (err != 0) {
+			m_logFile = NULL;
+		}
 	}
 }
 
@@ -203,7 +208,9 @@ UINT CDlgCompile::DoCompile() {
 	CString tmp;
 	__time64_t time;
 	_time64(&time);
-	tmp.Format("Compilation started: %s",_ctime64(&time));
+	char timeStr[26];
+	_ctime64_s(timeStr, sizeof(timeStr), &time);
+	tmp.Format("Compilation started: %s", timeStr);
 	tmp.TrimRight();
 	AddListString(tmp);
 
@@ -276,7 +283,8 @@ UINT CDlgCompile::DoCompile() {
 	}
 
 	_time64(&time);
-	tmp.Format("Compilation ended: %s",_ctime64(&time));
+	_ctime64_s(timeStr, sizeof(timeStr), &time);
+	tmp.Format("Compilation ended: %s", timeStr);
 	tmp.TrimRight();
 	AddListString(tmp);
 
@@ -636,8 +644,9 @@ void CDlgCompile::ParseDir(LPCTSTR pszFilter,CAtlTemporaryFile& file,const CStri
 
 void CDlgCompile::AppendLogFile(LPCTSTR pszFileName) {
 	if(!m_logFile) return;
-	FILE* fp = fopen(pszFileName,"rb");
-	if(fp) {
+    FILE* fp;
+    errno_t err = fopen_s(&fp, pszFileName, "rb");
+	if(err != 0) {
 		fprintf(m_logFile,"==============================================================================\r\n");
 		fprintf(m_logFile,"Contents of \"%s\"\r\n",pszFileName);
 		fprintf(m_logFile,"==============================================================================\r\n");

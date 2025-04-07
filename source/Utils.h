@@ -206,7 +206,7 @@ public:
 				while( *pcszNextDirectory && *pcszNextDirectory != cSlash )	pcszNextDirectory++;
 				pcszNextDirectory++;
 				while( *pcszNextDirectory && *pcszNextDirectory != cSlash )	pcszNextDirectory++;
-				_tcsncpy( pszDirectoryPath, pcszDirectory, pcszNextDirectory - pcszDirectory );
+                _tcsncpy_s( pszDirectoryPath, nLength, pcszDirectory, pcszNextDirectory - pcszDirectory );
 				pszDirectoryPath[ pcszNextDirectory - pcszDirectory ] = '\000';
 			}
 
@@ -224,7 +224,7 @@ public:
 				while( *pcszNextDirectory && *pcszNextDirectory != cSlash && *pcszNextDirectory!='/')
 					pcszNextDirectory++;
 
-				_tcsncpy( pszDirectoryPath, pcszDirectory, pcszNextDirectory - pcszDirectory );
+                _tcsncpy_s(pszDirectoryPath, nLength, pcszDirectory, pcszNextDirectory - pcszDirectory);
 				pszDirectoryPath[ pcszNextDirectory - pcszDirectory ] = '\000';
 
 				if(!IsDirectory(pszDirectoryPath)) {

@@ -32,16 +32,15 @@ LRESULT CMainFrame::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/
 	_L(GetMenu(),"MainMenu");
 
 	HWND hWndCmdBar = NULL;
-	if(IsNewWindows()) {
-		// create command bar window
-		hWndCmdBar = m_wndCmdBar.Create(m_hWnd, rcDefault, NULL, ATL_SIMPLE_CMDBAR_PANE_STYLE);
-		// attach menu
-		m_wndCmdBar.AttachMenu(GetMenu());
-		// load command bar images
-		m_wndCmdBar.LoadImages(uResID);
-		// remove old menu
-		SetMenu(NULL);
-	}
+	
+	// create command bar window
+	hWndCmdBar = m_wndCmdBar.Create(m_hWnd, rcDefault, NULL, ATL_SIMPLE_CMDBAR_PANE_STYLE);
+	// attach menu
+	m_wndCmdBar.AttachMenu(GetMenu());
+	// load command bar images
+	m_wndCmdBar.LoadImages(uResID);
+	// remove old menu
+	SetMenu(NULL);
 
 	// ToolBar Setup
 	m_wndToolBar = CreateSimpleToolBarCtrl(m_hWnd, uResID, FALSE, ATL_SIMPLE_TOOLBAR_PANE_STYLE|TBSTYLE_LIST);
@@ -64,8 +63,7 @@ LRESULT CMainFrame::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/
 	// --
 
 	CreateSimpleReBar(ATL_SIMPLE_REBAR_NOBORDER_STYLE);
-	if(IsNewWindows())
-		AddSimpleReBarBand(hWndCmdBar);
+	AddSimpleReBarBand(hWndCmdBar);
 	AddSimpleReBarBand(m_wndToolBar, NULL, TRUE);
 
 	CreateSimpleStatusBar();
@@ -83,7 +81,7 @@ LRESULT CMainFrame::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/
 
 	UIAddToolBar(m_wndToolBar);
 	if(!CMyApp::m_prefs.m_bToolBar)
-		::SendMessage(m_hWndToolBar, RB_SHOWBAND, IsNewWindows() ? 1 : 0, FALSE);
+		::SendMessage(m_hWndToolBar, RB_SHOWBAND, 1, FALSE);
 
 	if(!CMyApp::m_prefs.m_bSectionPanel)
 		m_wndSplitter.SetSinglePaneMode(SPLIT_PANE_RIGHT);
@@ -92,7 +90,7 @@ LRESULT CMainFrame::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/
 #ifdef _DEBUG
 	m_wndToolBarPP = CreateSimpleToolBarCtrl(m_hWnd, IDR_PRINTPREVIEW, FALSE, ATL_SIMPLE_TOOLBAR_PANE_STYLE, ATL_IDW_TOOLBAR + 1);
 	AddSimpleReBarBand(m_wndToolBarPP, NULL, TRUE);
-	::SendMessage(m_hWndToolBar, RB_SHOWBAND, IsNewWindows() ? 2 : 1, FALSE);	// print preview toolbar is band #2
+	::SendMessage(m_hWndToolBar, RB_SHOWBAND, 2, FALSE);	// print preview toolbar is band #2
 	UIAddToolBar(m_wndToolBarPP);
 #endif
 
@@ -101,15 +99,10 @@ LRESULT CMainFrame::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/
 		m_mru.SetAppFile(appFile);
 	}
 
-	if(IsNewWindows()) {
-		CMenuHandle menu = m_wndCmdBar.GetMenu();
-		CMenuHandle menuFile = menu.GetSubMenu(0);
-		m_mru.SetMenuHandle(menuFile);
-	} else {
-		CMenuHandle menu = GetMenu();
-		CMenuHandle menuFile = menu.GetSubMenu(0);
-		m_mru.SetMenuHandle(menuFile);
-	}
+	
+	CMenuHandle menu = m_wndCmdBar.GetMenu();
+	CMenuHandle menuFile = menu.GetSubMenu(0);
+	m_mru.SetMenuHandle(menuFile);
 	m_mru.ReadFromRegistry(NULL);
 	m_mru.SetMaxEntries(8);
 
@@ -470,10 +463,7 @@ LRESULT CMainFrame::OnToolBarDropdown(int idCtrl, LPNMHDR pnmh, BOOL& /*bHandled
 }
 
 void CMainFrame::TrackPopupMenu(CMenuHandle hPopup,UINT nFlags,int x,int y) {
-	if(IsNewWindows())
-		m_wndCmdBar.TrackPopupMenu(hPopup,nFlags,x,y);
-	else
-		hPopup.TrackPopupMenu(nFlags,x,y,m_hWnd);
+	m_wndCmdBar.TrackPopupMenu(hPopup,nFlags,x,y);
 }
 
 void CMainFrame::UIUpdateAll() {

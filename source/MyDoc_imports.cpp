@@ -183,10 +183,11 @@ void CMyDoc::VBImportFileSection(CIniFile& file,LPCTSTR pszSection) {
 
 		GetScript().AddLine(new CInnoScript::CLineComment(CInnoScript::SEC_FILES,_T("; ")+strValue));
 
-		CString	strFileName(_tcstok(strValue.GetBuffer(0),_T(",")));
-		CString strDest(_tcstok(NULL,_T(",")));
-		CString strFlags1(_tcstok(NULL,_T(",")));
-		CString strFlags2(_tcstok(NULL,_T(",")));
+		TCHAR* ctx;
+		CString strFileName(_tcstok_s(strValue.GetBuffer(), _T(","), &ctx));
+		CString strDest(_tcstok_s(NULL, _T(","), &ctx));
+		CString strFlags1(_tcstok_s(NULL, _T(","), &ctx));
+		CString strFlags2(_tcstok_s(NULL, _T(","), &ctx));
 
 		CScriptLine* pLine = new CScriptLine(CInnoScript::SEC_FILES);
 #if 1

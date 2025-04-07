@@ -29,14 +29,14 @@ LRESULT CMainFrame::OnDebuggerCopyData(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM 
 
 	switch(pcds->dwData) {
 		case CD_Debugger_LogMessage:
-			_tcsncpy(tmp.GetBufferSetLength(pcds->cbData),(char*)pcds->lpData,pcds->cbData);
+            _tcsncpy_s(tmp.GetBufferSetLength(pcds->cbData), pcds->cbData + 1, (char*)pcds->lpData, pcds->cbData);
 			tmp = LPCTSTR(pcds->lpData);
 			//SetString(S, PChar(Message.CopyDataStruct.lpData),
 			//Message.CopyDataStruct.cbData);
 			//DebugLogMessage(S);
 			return 1;
 		default:
-			_tcsncpy(tmp.GetBufferSetLength(pcds->cbData),(char*)pcds->lpData,pcds->cbData);
+            _tcsncpy_s(tmp.GetBufferSetLength(pcds->cbData), pcds->cbData + 1, (char*)pcds->lpData, pcds->cbData);
 			return 1;
 	}
 

@@ -227,7 +227,8 @@ protected:
 void CTextImport::GetTextFromFile(LPCTSTR lpszFileName,CString& str) {
 	str.Empty();
 
-	FILE* fp = fopen(lpszFileName,"rb");
+    FILE* fp;
+	fopen_s(&fp, lpszFileName, "rb");
 	fseek(fp,0,SEEK_END);
 	int nLength = ftell(fp);
 	fseek(fp,0,SEEK_SET);
@@ -399,8 +400,9 @@ void CFilesHelper::OnDropFilesRegistry(HWND hWnd,HDROP hDropInfo) {
 
 bool CFilesHelper::ImportIni(HWND hWnd,LPCTSTR pszPathName) {
 	CWaitCursor wait;
-	FILE* file = fopen(pszPathName,"r");
-	if(!file) {
+	FILE* file;
+	errno_t err = fopen_s(&file, pszPathName, "r");
+	if(err != 0) {
 		CString txt = _L("Failed to open '%1'.");
 		txt.Replace("%1",pszPathName);
 		AtlMessageBox(hWnd,(LPCTSTR)txt,IDR_MAINFRAME,MB_OK|MB_ICONERROR);

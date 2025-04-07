@@ -301,7 +301,7 @@ static void ShowSysMsg(LONG res, char* str, char* file, DWORD line)
 						(LPTSTR) &lpMsgBuf,    
 						0,    
 						NULL );
-	sprintf(msg, "%u %s\n%s %u", res, str, file, line);
+	sprintf_s(msg, sizeof(msg), "%u %s\n%s %u", res, str, file, line);
 	MessageBox( NULL, msg, (char*)lpMsgBuf, MB_OK | MB_ICONINFORMATION );
 	LocalFree( lpMsgBuf ); 
 }

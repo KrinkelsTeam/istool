@@ -12,20 +12,23 @@
 
 class CMyUtils {
 public:
-	// Returns True if an administrator is logged onto the system. Always returns
-	// True on Windows 95/98.
+	// Returns True if an administrator is logged onto the system.
+	// Check on modern systems that support UAC
 	static bool IsAdminLoggedOn() {
-		if(GetVersion() & 0x80000000)
-			return true;
-		else {
-			// Try an admin privileged API
-			SC_HANDLE hSC = OpenSCManager(NULL, NULL, GENERIC_READ | GENERIC_WRITE | GENERIC_EXECUTE);
-			if(hSC) {
-				CloseServiceHandle(hSC);
-				return true;
+		BOOL isAdmin = FALSE;
+
+		// Get the current user's token
+		HANDLE hToken = NULL;
+		if (OpenProcessToken(GetCurrentProcess(), TOKEN_QUERY, &hToken)) {
+			TOKEN_ELEVATION tokenElevation;
+			DWORD dwSize;
+			if (GetTokenInformation(hToken, TokenElevation, &tokenElevation, sizeof(tokenElevation), &dwSize)) {
+				isAdmin = tokenElevation.TokenIsElevated != 0;
 			}
-			return false;
+			CloseHandle(hToken);
 		}
+
+		return isAdmin;
 	}
 
 	static bool GetSysError(CString& strError,DWORD dwError,LPCTSTR pszModule=NULL) {
@@ -292,7 +295,7 @@ public:
 				while( *pcszNextDirectory && *pcszNextDirectory != cSlash )	pcszNextDirectory++;
 				pcszNextDirectory++;
 				while( *pcszNextDirectory && *pcszNextDirectory != cSlash )	pcszNextDirectory++;
-				_tcsncpy( pszDirectoryPath, pcszDirectory, pcszNextDirectory - pcszDirectory );
+                _tcsncpy_s(pszDirectoryPath, nLength, pcszDirectory, pcszNextDirectory - pcszDirectory);
 				pszDirectoryPath[ pcszNextDirectory - pcszDirectory ] = '\000';
 			}
 
@@ -311,7 +314,7 @@ public:
 				while( *pcszNextDirectory && *pcszNextDirectory != cSlash && *pcszNextDirectory!='/')
 					pcszNextDirectory++;
 
-				_tcsncpy( pszDirectoryPath, pcszDirectory, pcszNextDirectory - pcszDirectory );
+                _tcsncpy_s(pszDirectoryPath, nLength, pcszDirectory, pcszNextDirectory - pcszDirectory);
 				pszDirectoryPath[ pcszNextDirectory - pcszDirectory ] = '\000';
 
 				if( _taccess( pszDirectoryPath, 0 ) )
@@ -329,10 +332,6 @@ public:
 			pszDirectoryPath = NULL;
 		}
 		return bRetVal;
-	}
-
-	static bool IsWin5() {
-		return LOBYTE(::GetVersion())>=5;
 	}
 };
 
@@ -456,7 +455,7 @@ public:
 			UINT nLength = 0;
 			while(ptr[nLength] && !_tcschr(pszSplit,ptr[nLength])) nLength++;
 			m_strings[nCount] = new TCHAR[nLength+1];
-			_tcsncpy(m_strings[nCount],ptr,nLength);
+            _tcsncpy_s(m_strings[nCount], nLength + 1, ptr, nLength);
 			m_strings[nCount][nLength] = 0;
 			nCount++;
 			
