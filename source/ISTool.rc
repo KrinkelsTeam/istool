@@ -1437,7 +1437,6 @@ BEGIN
         MENUITEM "Types",                       ID_VIEW_TYPES
         MENUITEM "Components",                  ID_VIEW_COMPONENTS
         MENUITEM "Tasks",                       ID_VIEW_TASKS
-        MENUITEM "Code",                        ID_VIEW_CODE
         MENUITEM "Languages",                   ID_VIEW_LANGUAGES
         MENUITEM SEPARATOR
         MENUITEM "Pre Compilation Steps",       ID_VIEW_PRECOMPILATIONSTEPS
@@ -1515,7 +1514,6 @@ BEGIN
             MENUITEM "Types",                       ID_VIEW_TYPES
             MENUITEM "Components",                  ID_VIEW_COMPONENTS
             MENUITEM "Tasks",                       ID_VIEW_TASKS
-            MENUITEM "Code",                        ID_VIEW_CODE
             MENUITEM "Languages",                   ID_VIEW_LANGUAGES
         END
         POPUP "ISTool Sections"
@@ -2546,7 +2544,6 @@ STRINGTABLE
 BEGIN
     ID_HELP_UPDATES         "Check for updates\nCheck For Updates"
     ID_PROJECT_LANG_OPTIONS "Edit language options\nLanguage Options"
-    ID_VIEW_CODE            "Display the code section\nCode"
     ID_PROJECT_EXPORT_MESSAGES "Export to file\nExport To File"
     ID_PROJECT_CREATE_UNINSTALL_ICON 
                             "Create entry for uninstall icon\nCreate Uninstall Icon"

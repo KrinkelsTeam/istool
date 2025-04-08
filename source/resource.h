@@ -601,7 +601,6 @@
 #define ID_HELP_SEARCH                  32895
 #define ID_HELP_UPDATES                 32898
 #define ID_PROJECT_LANG_OPTIONS         32899
-#define ID_VIEW_CODE                    32901
 #define ID_PROJECT_EXPORT_MESSAGES      32902
 #define ID_PROJECT_CREATE_UNINSTALL_ICON 32903
 #define ID_PP_BACK                      32917

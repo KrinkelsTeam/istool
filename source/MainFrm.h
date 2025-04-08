@@ -26,17 +26,17 @@
 #include "ViewDownload.h"
 #include "SectionView.h"
 
-template<class T,UINT t_uType,long t_flags = 0>
+template<class T, UINT t_uType, long t_flags = 0>
 class CViewItem {
 public:
-	CViewItem<T,t_uType,t_flags>() {
+	CViewItem<T, t_uType, t_flags>() {
 		m_pView = NULL;
 	}
 	HWND CreateView(HWND hParent) {
-		ATLASSERT(m_pView==NULL);
+		ATLASSERT(m_pView == NULL);
 		m_pView = new T;
 		DWORD dwFlags = WS_VISIBLE | WS_CHILD;
-		switch(t_uType) {
+		switch (t_uType) {
 		case 0:
 			dwFlags |= LVS_REPORT | LVS_SHAREIMAGELISTS | LVS_SHOWSELALWAYS | LVS_NOSORTHEADER;
 			break;
@@ -47,10 +47,10 @@ public:
 			dwFlags |= WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_VSCROLL | WS_HSCROLL | t_flags;
 			break;
 		}
-		return m_pView->Create(hParent,CWindow::rcDefault,NULL,dwFlags,WS_EX_CLIENTEDGE);
+		return m_pView->Create(hParent, CWindow::rcDefault, NULL, dwFlags, WS_EX_CLIENTEDGE);
 	}
 	void DestroyView() {
-		ATLASSERT(m_pView!=NULL);
+		ATLASSERT(m_pView != NULL);
 		m_pView->DestroyWindow();
 		m_pView = NULL;
 	}
@@ -58,26 +58,26 @@ public:
 		return m_pView;
 	}
 	BOOL PreTranslateMessage(LPMSG pMsg) {
-		if(!m_pView || m_pView->m_hWnd!=::GetFocus()) return FALSE;
+		if (!m_pView || m_pView->m_hWnd != ::GetFocus()) return FALSE;
 		else return m_pView->PreTranslateMessage(pMsg);
 	}
 	BOOL ProcessWindowMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, LRESULT& lResult, DWORD dwMsgMapID = 0) {
-		if(!m_pView) return FALSE;
+		if (!m_pView) return FALSE;
 		ATLASSERT(::IsWindow(m_pView->m_hWnd));
-		return m_pView->ProcessWindowMessage(hWnd,uMsg,wParam,lParam,lResult,dwMsgMapID);
+		return m_pView->ProcessWindowMessage(hWnd, uMsg, wParam, lParam, lResult, dwMsgMapID);
 	}
 protected:
-	T*		m_pView;
+	T* m_pView;
 };
 
 
 
 class CMainFrame;
 
-class CMainFrame : 
-	public CFrameWindowImpl<CMainFrame>, 
+class CMainFrame :
+	public CFrameWindowImpl<CMainFrame>,
 	public CUpdateUI<CMainFrame>,
-	public CMessageFilter, 
+	public CMessageFilter,
 	public CIdleHandler,
 	public CUpdate,
 	public CTranslateFrame<CMainFrame>
@@ -86,7 +86,7 @@ public:
 	friend CMainFrame& AfxGetMainWnd();
 	friend HWND AfxGetMainHWnd();
 	friend CMyDoc* AfxGetDocument();
-	friend int AfxMessageBox(LPCTSTR,UINT,UINT);
+	friend int AfxMessageBox(LPCTSTR, UINT, UINT);
 
 	DECLARE_FRAME_WND_CLASS(NULL, IDR_MAINFRAME)
 
@@ -96,10 +96,10 @@ public:
 		m_printer.OpenDefaultPrinter();
 		m_devmode.CopyFromPrinter(m_printer);
 		m_pFindReplaceDlg = NULL;
-		
+
 		TCHAR localeInfo[3];
 		GetLocaleInfo(LOCALE_USER_DEFAULT, LOCALE_IMEASURE, localeInfo, 3);
-		if(localeInfo[0] == '0') {	// Metric system. '1' is US System
+		if (localeInfo[0] == '0') {	// Metric system. '1' is US System
 			m_rcMargin.left = 1500;
 			m_rcMargin.top = 1500;
 			m_rcMargin.right = 1500;
@@ -132,28 +132,27 @@ public:
 	CMyDoc					m_document;
 
 	UINT								m_uViewIndex;
-	CViewItem<CViewScript,2>			m_wndScript;
-	CViewItem<CViewFilesL,0>			m_wndFilesL;
-	CViewItem<CViewFilesT,1>			m_wndFilesT;
-	CViewItem<CViewIconsT,1>			m_wndIconsT;
-	CViewItem<CViewIconsL,0>			m_wndIconsL;
-	CViewItem<CViewIni,0>				m_wndIni;
-	CViewItem<CViewRegistryL,0>			m_wndRegistryL;
-	CViewItem<CViewRegistryT,1>			m_wndRegistryT;
-	CViewItem<CViewDeleteInstall,0>		m_wndDeleteInstall;
-	CViewItem<CViewDeleteUninstall,0>	m_wndDeleteUninstall;
-	CViewItem<CViewRunInstall,0>		m_wndRunInstall;
-	CViewItem<CViewRunUninstall,0>		m_wndRunUninstall;
-	CViewItem<CViewMessages,0>			m_wndMessages;
-	CViewItem<CViewCustomMessages,0>	m_wndCustomMessages;
-	CViewItem<CViewTypes,0>				m_wndTypes;
-	CViewItem<CViewComponents,0>		m_wndComponents;
-	CViewItem<CViewTasks,0>				m_wndTasks;
-	CViewItem<CViewCompileStepPre,0>	m_wndCompileStepPre;
-	CViewItem<CViewCompileStepPost,0>	m_wndCompileStepPost;
-	CViewItem<CViewScript,2,LVS_REPORT>	m_wndCode;
-	CViewItem<CViewDownload,0>			m_wndDownload;
-	CViewItem<CViewLanguages,0>			m_wndLanguages;
+	CViewItem<CViewScript, 2>			m_wndScript;
+	CViewItem<CViewFilesL, 0>			m_wndFilesL;
+	CViewItem<CViewFilesT, 1>			m_wndFilesT;
+	CViewItem<CViewIconsT, 1>			m_wndIconsT;
+	CViewItem<CViewIconsL, 0>			m_wndIconsL;
+	CViewItem<CViewIni, 0>				m_wndIni;
+	CViewItem<CViewRegistryL, 0>			m_wndRegistryL;
+	CViewItem<CViewRegistryT, 1>			m_wndRegistryT;
+	CViewItem<CViewDeleteInstall, 0>		m_wndDeleteInstall;
+	CViewItem<CViewDeleteUninstall, 0>	m_wndDeleteUninstall;
+	CViewItem<CViewRunInstall, 0>		m_wndRunInstall;
+	CViewItem<CViewRunUninstall, 0>		m_wndRunUninstall;
+	CViewItem<CViewMessages, 0>			m_wndMessages;
+	CViewItem<CViewCustomMessages, 0>	m_wndCustomMessages;
+	CViewItem<CViewTypes, 0>				m_wndTypes;
+	CViewItem<CViewComponents, 0>		m_wndComponents;
+	CViewItem<CViewTasks, 0>				m_wndTasks;
+	CViewItem<CViewCompileStepPre, 0>	m_wndCompileStepPre;
+	CViewItem<CViewCompileStepPost, 0>	m_wndCompileStepPost;
+	CViewItem<CViewDownload, 0>			m_wndDownload;
+	CViewItem<CViewLanguages, 0>			m_wndLanguages;
 
 	HWND GetFocusView() {
 		return m_wndView.m_hWnd;
@@ -166,7 +165,7 @@ public:
 	bool IsInstalled();
 
 	virtual BOOL PreTranslateMessage(MSG* pMsg) {
-		if(m_pFindReplaceDlg && m_pFindReplaceDlg->IsDialogMessage(pMsg))
+		if (m_pFindReplaceDlg && m_pFindReplaceDlg->IsDialogMessage(pMsg))
 			return TRUE;
 
 		return CFrameWindowImpl<CMainFrame>::PreTranslateMessage(pMsg);
@@ -178,7 +177,7 @@ public:
 	}
 
 	void UIUpdateAll();
-	void TrackPopupMenu(CMenuHandle hPopup,UINT nFlags,int x,int y);
+	void TrackPopupMenu(CMenuHandle hPopup, UINT nFlags, int x, int y);
 
 	BEGIN_UPDATE_UI_MAP(CMainFrame)
 		// File
@@ -186,21 +185,21 @@ public:
 		UPDATE_ELEMENT(ID_FILE_PRINT_SETUP, UPDUI_MENUPOPUP)
 		UPDATE_ELEMENT(ID_FILE_PRINT_PREVIEW, UPDUI_MENUPOPUP)
 		// Edit
-        UPDATE_ELEMENT(ID_EDIT_UNDO, UPDUI_MENUPOPUP)
-        UPDATE_ELEMENT(ID_EDIT_REDO, UPDUI_MENUPOPUP)
-        UPDATE_ELEMENT(ID_EDIT_CUT, UPDUI_MENUPOPUP | UPDUI_TOOLBAR)
-        UPDATE_ELEMENT(ID_EDIT_COPY, UPDUI_MENUPOPUP | UPDUI_TOOLBAR)
-        UPDATE_ELEMENT(ID_EDIT_PASTE, UPDUI_MENUPOPUP | UPDUI_TOOLBAR)
-        UPDATE_ELEMENT(ID_EDIT_DELETEITEM, UPDUI_MENUPOPUP | UPDUI_TOOLBAR)
-        UPDATE_ELEMENT(ID_EDIT_NEWITEM, UPDUI_MENUPOPUP | UPDUI_TOOLBAR)
-        UPDATE_ELEMENT(ID_EDIT_SELECT_ALL, UPDUI_MENUPOPUP)
-        UPDATE_ELEMENT(ID_EDIT_MOVEDOWN, UPDUI_MENUPOPUP | UPDUI_TOOLBAR)
-        UPDATE_ELEMENT(ID_EDIT_MOVEUP, UPDUI_MENUPOPUP | UPDUI_TOOLBAR)
-        UPDATE_ELEMENT(ID_EDIT_FIND, UPDUI_MENUPOPUP)
-        UPDATE_ELEMENT(ID_EDIT_REPEAT, UPDUI_MENUPOPUP)
-        UPDATE_ELEMENT(ID_EDIT_FIND_PREVIOUS, UPDUI_MENUPOPUP)
-        UPDATE_ELEMENT(ID_EDIT_REPLACE, UPDUI_MENUPOPUP)
-        UPDATE_ELEMENT(ID_EDIT_GOTO, UPDUI_MENUPOPUP)
+		UPDATE_ELEMENT(ID_EDIT_UNDO, UPDUI_MENUPOPUP)
+		UPDATE_ELEMENT(ID_EDIT_REDO, UPDUI_MENUPOPUP)
+		UPDATE_ELEMENT(ID_EDIT_CUT, UPDUI_MENUPOPUP | UPDUI_TOOLBAR)
+		UPDATE_ELEMENT(ID_EDIT_COPY, UPDUI_MENUPOPUP | UPDUI_TOOLBAR)
+		UPDATE_ELEMENT(ID_EDIT_PASTE, UPDUI_MENUPOPUP | UPDUI_TOOLBAR)
+		UPDATE_ELEMENT(ID_EDIT_DELETEITEM, UPDUI_MENUPOPUP | UPDUI_TOOLBAR)
+		UPDATE_ELEMENT(ID_EDIT_NEWITEM, UPDUI_MENUPOPUP | UPDUI_TOOLBAR)
+		UPDATE_ELEMENT(ID_EDIT_SELECT_ALL, UPDUI_MENUPOPUP)
+		UPDATE_ELEMENT(ID_EDIT_MOVEDOWN, UPDUI_MENUPOPUP | UPDUI_TOOLBAR)
+		UPDATE_ELEMENT(ID_EDIT_MOVEUP, UPDUI_MENUPOPUP | UPDUI_TOOLBAR)
+		UPDATE_ELEMENT(ID_EDIT_FIND, UPDUI_MENUPOPUP)
+		UPDATE_ELEMENT(ID_EDIT_REPEAT, UPDUI_MENUPOPUP)
+		UPDATE_ELEMENT(ID_EDIT_FIND_PREVIOUS, UPDUI_MENUPOPUP)
+		UPDATE_ELEMENT(ID_EDIT_REPLACE, UPDUI_MENUPOPUP)
+		UPDATE_ELEMENT(ID_EDIT_GOTO, UPDUI_MENUPOPUP)
 		UPDATE_ELEMENT(ID_EDIT_COMMENTSELECTION, UPDUI_MENUPOPUP)
 		UPDATE_ELEMENT(ID_EDIT_UNCOMMENTSELECTION, UPDUI_MENUPOPUP)
 		// View
@@ -225,7 +224,6 @@ public:
 		UPDATE_ELEMENT(ID_VIEW_TYPES, UPDUI_MENUPOPUP)
 		UPDATE_ELEMENT(ID_VIEW_COMPONENTS, UPDUI_MENUPOPUP)
 		UPDATE_ELEMENT(ID_VIEW_TASKS, UPDUI_MENUPOPUP)
-		UPDATE_ELEMENT(ID_VIEW_CODE, UPDUI_MENUPOPUP)
 		UPDATE_ELEMENT(ID_VIEW_LANGUAGES, UPDUI_MENUPOPUP)
 		// View->ISTool Sections
 		UPDATE_ELEMENT(ID_VIEW_SCRIPT, UPDUI_MENUPOPUP)
@@ -254,37 +252,37 @@ public:
 		MESSAGE_HANDLER(WM_CREATE, OnCreate)
 		MESSAGE_HANDLER(WM_SIZE, OnSize)
 		MESSAGE_HANDLER(WM_CLOSE, OnClose)
-		MESSAGE_HANDLER(WM_USER+101, OnPostCreate)
+		MESSAGE_HANDLER(WM_USER + 101, OnPostCreate)
 		MESSAGE_HANDLER(WM_COPYDATA, OnDebuggerCopyData)
 		MESSAGE_HANDLER(WM_Debugger_Hello, OnDebuggerHello)
-		COMMAND_ID_HANDLER(ID_PANE_CLOSE,OnPaneClose)
+		COMMAND_ID_HANDLER(ID_PANE_CLOSE, OnPaneClose)
 		// MenuFile.cpp
-		COMMAND_ID_HANDLER(ID_FILE_PREFERENCES,OnFilePreferences)
+		COMMAND_ID_HANDLER(ID_FILE_PREFERENCES, OnFilePreferences)
 		COMMAND_ID_HANDLER(ID_FILE_PRINT_SETUP, OnFilePrintSetup)
-		COMMAND_ID_HANDLER(ID_APP_EXIT,OnAppExit)
-		COMMAND_ID_HANDLER(ID_FILE_NEW,OnFileNew)
-		COMMAND_ID_HANDLER(ID_FILE_OPEN,OnFileOpen)
-		COMMAND_ID_HANDLER(ID_FILE_MERGE,OnFileMerge)
-		COMMAND_ID_HANDLER(ID_FILE_SAVE,OnFileSave)
-		COMMAND_ID_HANDLER(ID_FILE_SAVE_AS,OnFileSaveAs)
-		COMMAND_ID_HANDLER(ID_FILE_SAVE_COPY_AS,OnFileSaveCopyAs)
+		COMMAND_ID_HANDLER(ID_APP_EXIT, OnAppExit)
+		COMMAND_ID_HANDLER(ID_FILE_NEW, OnFileNew)
+		COMMAND_ID_HANDLER(ID_FILE_OPEN, OnFileOpen)
+		COMMAND_ID_HANDLER(ID_FILE_MERGE, OnFileMerge)
+		COMMAND_ID_HANDLER(ID_FILE_SAVE, OnFileSave)
+		COMMAND_ID_HANDLER(ID_FILE_SAVE_AS, OnFileSaveAs)
+		COMMAND_ID_HANDLER(ID_FILE_SAVE_COPY_AS, OnFileSaveCopyAs)
 		COMMAND_ID_HANDLER(ID_FILE_PAGE_SETUP, OnFilePageSetup)
 		COMMAND_ID_HANDLER(ID_FILE_PRINT_PREVIEW, OnFilePrintPreview)
-		COMMAND_ID_HANDLER(ID_FILE_PRINT,OnFilePrint)
-		COMMAND_ID_HANDLER(ID_ACC_CALLTIP,OnAccCallTip)
+		COMMAND_ID_HANDLER(ID_FILE_PRINT, OnFilePrint)
+		COMMAND_ID_HANDLER(ID_ACC_CALLTIP, OnAccCallTip)
 		//COMMAND_ID_HANDLER(ID_FILE_PRINT,m_wndScript.OnFilePrint)
 		COMMAND_RANGE_HANDLER(ID_FILE_MRU_FIRST, ID_FILE_MRU_LAST, OnFileRecent)
 		// MenuEdit.h
-		COMMAND_ID_HANDLER(ID_EDIT_CUT,OnEditCut)
-		COMMAND_ID_HANDLER(ID_EDIT_COPY,OnEditCopy)
-		COMMAND_ID_HANDLER(ID_EDIT_PASTE,OnEditPaste)
+		COMMAND_ID_HANDLER(ID_EDIT_CUT, OnEditCut)
+		COMMAND_ID_HANDLER(ID_EDIT_COPY, OnEditCopy)
+		COMMAND_ID_HANDLER(ID_EDIT_PASTE, OnEditPaste)
 		COMMAND_ID_HANDLER(ID_EDIT_NEWITEM, OnEditNewItem)
 		COMMAND_ID_HANDLER(ID_EDIT_SELECT_ALL, OnEditSelectAll)
 		COMMAND_ID_HANDLER(ID_EDIT_DELETEITEM, OnEditDelete)
 		COMMAND_ID_HANDLER(ID_EDIT_MOVEUP, OnEditMoveUp)
 		COMMAND_ID_HANDLER(ID_EDIT_MOVEDOWN, OnEditMoveDown)
 		COMMAND_ID_HANDLER(ID_EDIT_FIND, OnEditFind)
-		COMMAND_ID_HANDLER(ID_EDIT_REPEAT,OnEditRepeat)
+		COMMAND_ID_HANDLER(ID_EDIT_REPEAT, OnEditRepeat)
 		COMMAND_ID_HANDLER(ID_EDIT_REPLACE, OnEditReplace)
 		COMMAND_ID_HANDLER(ID_EDIT_GOTO, OnEditGoto)
 		COMMAND_ID_HANDLER(ID_EDIT_UNDO, OnEditUndo)
@@ -295,33 +293,32 @@ public:
 		COMMAND_ID_HANDLER(ID_VIEW_TOOLBAR, OnViewToolBar)
 		COMMAND_ID_HANDLER(ID_VIEW_STATUS_BAR, OnViewStatusBar)
 		COMMAND_ID_HANDLER(ID_VIEW_SECTIONPANEL, OnViewSectionPanel)
-		COMMAND_ID_HANDLER(ID_VIEW_TYPES,OnViewSection)
-		COMMAND_ID_HANDLER(ID_VIEW_FILES,OnViewSection)
-		COMMAND_ID_HANDLER(ID_VIEW_ICONS,OnViewSection)
-		COMMAND_ID_HANDLER(ID_VIEW_INI,OnViewSection)
-		COMMAND_ID_HANDLER(ID_VIEW_REGISTRY,OnViewSection)
-		COMMAND_ID_HANDLER(ID_VIEW_INSTALLDELETE,OnViewSection)
-		COMMAND_ID_HANDLER(ID_VIEW_UNINSTALLDELETE,OnViewSection)
-		COMMAND_ID_HANDLER(ID_VIEW_RUN,OnViewSection)
-		COMMAND_ID_HANDLER(ID_VIEW_UNINSTALLRUN,OnViewSection)
-		COMMAND_ID_HANDLER(ID_VIEW_MESSAGES,OnViewSection)
-		COMMAND_ID_HANDLER(ID_VIEW_CUSTOMMESSAGES,OnViewSection)
-		COMMAND_ID_HANDLER(ID_VIEW_COMPONENTS,OnViewSection)
-		COMMAND_ID_HANDLER(ID_VIEW_TASKS,OnViewSection)
-		COMMAND_ID_HANDLER(ID_VIEW_PRECOMPILATIONSTEPS,OnViewSection)
-		COMMAND_ID_HANDLER(ID_VIEW_POSTCOMPILATIONSTEPS,OnViewSection)
-		COMMAND_ID_HANDLER(ID_VIEW_SCRIPT,OnViewSection)
-		COMMAND_ID_HANDLER(ID_VIEW_CODE,OnViewSection)
-		COMMAND_ID_HANDLER(ID_VIEW_LANGUAGES,OnViewSection)
-		COMMAND_ID_HANDLER(ID_VIEW_DOWNLOAD,OnViewSection)
-		COMMAND_ID_HANDLER(ID_VIEW_FILESASLIST,OnViewAsList)
-		COMMAND_ID_HANDLER(ID_VIEW_ICONSASLIST,OnViewAsList)
-		COMMAND_ID_HANDLER(ID_VIEW_REGISTRYASLIST,OnViewAsList)
+		COMMAND_ID_HANDLER(ID_VIEW_TYPES, OnViewSection)
+		COMMAND_ID_HANDLER(ID_VIEW_FILES, OnViewSection)
+		COMMAND_ID_HANDLER(ID_VIEW_ICONS, OnViewSection)
+		COMMAND_ID_HANDLER(ID_VIEW_INI, OnViewSection)
+		COMMAND_ID_HANDLER(ID_VIEW_REGISTRY, OnViewSection)
+		COMMAND_ID_HANDLER(ID_VIEW_INSTALLDELETE, OnViewSection)
+		COMMAND_ID_HANDLER(ID_VIEW_UNINSTALLDELETE, OnViewSection)
+		COMMAND_ID_HANDLER(ID_VIEW_RUN, OnViewSection)
+		COMMAND_ID_HANDLER(ID_VIEW_UNINSTALLRUN, OnViewSection)
+		COMMAND_ID_HANDLER(ID_VIEW_MESSAGES, OnViewSection)
+		COMMAND_ID_HANDLER(ID_VIEW_CUSTOMMESSAGES, OnViewSection)
+		COMMAND_ID_HANDLER(ID_VIEW_COMPONENTS, OnViewSection)
+		COMMAND_ID_HANDLER(ID_VIEW_TASKS, OnViewSection)
+		COMMAND_ID_HANDLER(ID_VIEW_PRECOMPILATIONSTEPS, OnViewSection)
+		COMMAND_ID_HANDLER(ID_VIEW_POSTCOMPILATIONSTEPS, OnViewSection)
+		COMMAND_ID_HANDLER(ID_VIEW_SCRIPT, OnViewSection)
+		COMMAND_ID_HANDLER(ID_VIEW_LANGUAGES, OnViewSection)
+		COMMAND_ID_HANDLER(ID_VIEW_DOWNLOAD, OnViewSection)
+		COMMAND_ID_HANDLER(ID_VIEW_FILESASLIST, OnViewAsList)
+		COMMAND_ID_HANDLER(ID_VIEW_ICONSASLIST, OnViewAsList)
+		COMMAND_ID_HANDLER(ID_VIEW_REGISTRYASLIST, OnViewAsList)
 		COMMAND_ID_HANDLER(ID_VIEW_PROPERTIES, OnViewProperties)
 		COMMAND_ID_HANDLER(ID_VIEW_CUSTOMIZE, OnViewCustomize)
 		// MenuProject.cpp
-		COMMAND_RANGE_HANDLER(ID_PROJECT_OPTIONS,ID_PROJECT_OPTIONS_UNINSTALL,OnProjectOptions)
-		COMMAND_ID_HANDLER(ID_PROJECT_INSTALL_FONTS,OnProjectInstallFonts)
+		COMMAND_RANGE_HANDLER(ID_PROJECT_OPTIONS, ID_PROJECT_OPTIONS_UNINSTALL, OnProjectOptions)
+		COMMAND_ID_HANDLER(ID_PROJECT_INSTALL_FONTS, OnProjectInstallFonts)
 		COMMAND_ID_HANDLER(ID_PROJECT_CREATE_DIRECTORY, OnProjectCreateDirectory)
 		COMMAND_ID_HANDLER(ID_PROJECT_INSERT_FILES, OnProjectInsertFiles)
 		COMMAND_ID_HANDLER(ID_PROJECT_USE_ABSOLUTE_PATHS, OnProjectUseAbsolutePaths)
@@ -445,10 +442,10 @@ public:
 protected:
 	void CreateClient();
 
-	static CMainFrame*	m_pMainWnd;
-	static CMyDoc*		m_pDoc;
+	static CMainFrame* m_pMainWnd;
+	static CMyDoc* m_pDoc;
 
 public:
-	void OnUpdate(LONG lHint,void* pParam);
-	CFindReplaceDialog*	m_pFindReplaceDlg;
+	void OnUpdate(LONG lHint, void* pParam);
+	CFindReplaceDialog* m_pFindReplaceDlg;
 };
