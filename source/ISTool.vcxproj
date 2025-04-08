@@ -377,6 +377,7 @@
     <ClInclude Include="ViewScript.h" />
     <ClInclude Include="ViewTasks.h" />
     <ClInclude Include="ViewTypes.h" />
+    <ClInclude Include="WebUpdate.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\res\imagelist-16.bmp" />

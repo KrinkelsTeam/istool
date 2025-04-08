@@ -82,8 +82,6 @@ BOOL CMyDoc::OnOpenDocument(HWND hWnd,LPCTSTR lpszPathName) {
 
 	if(VBIsVBFile(lpszPathName)) {
 		VBLoadFile(lpszPathName);
-	} else if(iwz_IsIWZFile(lpszPathName)) {
-		iwz_LoadFile(lpszPathName);
 	} else {
 		if(!GetScript().LoadScript(lpszPathName))
 			return FALSE;
@@ -911,8 +909,7 @@ bool CMyDoc::DoFileSave(HWND hWnd) {
 }
 
 static LPCTSTR lpszFilter = "Inno Setup Scripts (*.iss)\0*.iss\0All Files (*.*)\0*.*\0";
-//static LPCTSTR lpszOpenFilter = "Supported Files\0*.iss;*.lst\0Inno Setup Scripts (*.iss)\0*.iss\0VB Setup Files (*.lst)\0*.lst\0All Files (*.*)\0*.*\0";
-static LPCTSTR lpszOpenFilter = "Supported Files\0*.iss;*.lst;*.iwz\0Inno Setup Scripts (*.iss)\0*.iss\0VB Setup Files (*.lst)\0*.lst\0InstallShield Projects (*.iwz)\0*.iwz\0All Files (*.*)\0*.*\0";
+static LPCTSTR lpszOpenFilter = "Supported Files\0*.iss;*.lst\0Inno Setup Scripts (*.iss)\0*.iss\0VB Setup Files (*.lst)\0*.lst\0All Files (*.*)\0*.*\0";
 
 bool CMyDoc::DoSave(HWND hWnd,LPCTSTR lpszPathName, bool bReplace/*=true*/)
 	// Save the document data to a file

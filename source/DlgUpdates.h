@@ -4,8 +4,8 @@
 /////////////////////////////////////////////////////////////////////////////
 // CDlgUpdates dialog
 
-class CDlgUpdates : 
-	public CDialogImpl<CDlgUpdates>, 
+class CDlgUpdates :
+	public CDialogImpl<CDlgUpdates>,
 	public CWinDataExchange<CDlgUpdates>,
 	public CMyDialogBase<CDlgUpdates>
 {
@@ -14,25 +14,25 @@ public:
 
 	CDlgUpdates() {
 		CString strLibrary;
-		if(::GetModuleFileName(_Module.GetModuleInstance(), strLibrary.GetBuffer(_MAX_PATH), _MAX_PATH)) {
+		if (::GetModuleFileName(_Module.GetModuleInstance(), strLibrary.GetBuffer(_MAX_PATH), _MAX_PATH)) {
 			int nPos = strLibrary.ReverseFind('\\');
-			if(nPos<0) nPos = strLibrary.ReverseFind('/');
-			if(nPos>=0) {
-				strLibrary.ReleaseBuffer(nPos+1);
+			if (nPos < 0) nPos = strLibrary.ReverseFind('/');
+			if (nPos >= 0) {
+				strLibrary.ReleaseBuffer(nPos + 1);
 			}
 		}
 		strLibrary += "isxdl.dll";
 
 		m_hLib = LoadLibrary(strLibrary);
-		if(m_hLib) {
-			isxdl_Download = (long(__stdcall*)(HWND,LPCTSTR,LPCTSTR))GetProcAddress(m_hLib,"isxdl_Download");
-			isxdl_ClearFiles = (void(__stdcall*)())GetProcAddress(m_hLib,"isxdl_ClearFiles");
-			isxdl_SetOption = (void(__stdcall*)(LPCTSTR,LPCTSTR))GetProcAddress(m_hLib,"isxdl_SetOption");
+		if (m_hLib) {
+			isxdl_Download = (long(__stdcall*)(HWND, LPCTSTR, LPCTSTR))GetProcAddress(m_hLib, "isxdl_Download");
+			isxdl_ClearFiles = (void(__stdcall*)())GetProcAddress(m_hLib, "isxdl_ClearFiles");
+			isxdl_SetOption = (void(__stdcall*)(LPCTSTR, LPCTSTR))GetProcAddress(m_hLib, "isxdl_SetOption");
 		}
 	}
 
 	virtual ~CDlgUpdates() {
-		if(m_hLib) CloseHandle(m_hLib);
+		if (m_hLib) CloseHandle(m_hLib);
 	}
 
 	BEGIN_MSG_MAP(CDlgUpdates)
@@ -51,9 +51,9 @@ public:
 	CString	m_strInfo, m_strAddress;
 	CString m_strFileUpdate;
 	HMODULE m_hLib;
-	long(__stdcall*isxdl_Download)(HWND,LPCTSTR,LPCTSTR);
-	void(__stdcall*isxdl_ClearFiles)();
-	void(__stdcall*isxdl_SetOption)(LPCTSTR,LPCTSTR);
+	long(__stdcall* isxdl_Download)(HWND, LPCTSTR, LPCTSTR);
+	void(__stdcall* isxdl_ClearFiles)();
+	void(__stdcall* isxdl_SetOption)(LPCTSTR, LPCTSTR);
 
 	LRESULT OnCloseCmd(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {
 		EndDialog(wID);
@@ -61,7 +61,7 @@ public:
 	}
 
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) {
-		_L(m_hWnd,"Updates");
+		_L(m_hWnd, "Updates");
 		CenterWindow(GetParent());
 		DoDataExchange(DDX_LOAD);
 
@@ -71,7 +71,7 @@ public:
 
 	LRESULT OnUpdatesWebPage(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {
 		CWaitCursor wait;
-		ShellExecute(AfxGetMainWnd(),"open",m_strAddress,NULL,NULL,SW_SHOWDEFAULT);
+		ShellExecute(AfxGetMainWnd(), "open", m_strAddress, NULL, NULL, SW_SHOWDEFAULT);
 		return 0;
 	}
 
@@ -82,22 +82,23 @@ public:
 
 		CString str;
 		str.LoadString(WTL_IDS_APP_TITLE);
-		isxdl_SetOption("title",str);
-		isxdl_SetOption("label",str);
+		isxdl_SetOption("title", str);
+		isxdl_SetOption("label", str);
 		str.LoadString(IDS_DOWNLOADING_UPDATE);
-		isxdl_SetOption("description",str);
+		isxdl_SetOption("description", str);
 
-		GetTempPath(MAX_PATH,m_strFileUpdate.GetBuffer(MAX_PATH));
+		GetTempPath(MAX_PATH, m_strFileUpdate.GetBuffer(MAX_PATH));
 		m_strFileUpdate.ReleaseBuffer();
-		CMyUtils::EndWith(m_strFileUpdate,'\\');
+		CMyUtils::EndWith(m_strFileUpdate, '\\');
 		m_strFileUpdate += "istoolupdate.exe";
 
 		isxdl_ClearFiles();
-		if(isxdl_Download(m_hWnd,"http://www.istool.org/getistool.aspx",m_strFileUpdate)) {
+		if (isxdl_Download(m_hWnd, "https://istool.krinkels.org/download/istool", m_strFileUpdate)) {
 			EndDialog(IDOK);
-		} else {
+		}
+		else {
 			m_strFileUpdate.Empty();
-			AtlMessageBox(m_hWnd,_L("The update was not downloaded."),IDR_MAINFRAME,MB_OK|MB_ICONWARNING);
+			AtlMessageBox(m_hWnd, _L("The update was not downloaded."), IDR_MAINFRAME, MB_OK | MB_ICONWARNING);
 		}
 
 		return 0;

@@ -165,6 +165,7 @@
 #define IDC_UNINSDELETEKEY              1105
 #define IDC_UNINSDELETEVALUE            1106
 #define IDC_EMAIL                       1107
+#define IDC_AUTHOR                      1108
 #define IDC_MINIMUM_VERSION_9X          1123
 #define IDC_MINIMUM_VERSION_NT          1124
 #define IDC_ONLY_BELOW_VERSION_9X       1125
@@ -627,7 +628,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        272
+#define _APS_NEXT_RESOURCE_VALUE        273
 #define _APS_NEXT_COMMAND_VALUE         32948
 #define _APS_NEXT_CONTROL_VALUE         1682
 #define _APS_NEXT_SYMED_VALUE           105

@@ -202,13 +202,13 @@ bool CTranslate::IgnoreWord(LPCTSTR pszWord) {
 		"List1", 
 		"Spin1", 
 		"X.X.X",
-		"http://www.istool.org/",
+		"https://istool.krinkels.org/",
 		"ISTool",
 		"Bjørnar Henden",
-		"Copyright © 1999 - 2004 Bjørnar Henden.",
-		"http://www.innosetup.com/",
+		"Copyright © 1999 - 2009 Bjørnar Henden.",
+		"https://www.innosetup.com/",
 		"Inno Setup",
-		"IWZ2ISS",
+		"KrinkelsTeam",
 		NULL
 	};
 	LPCTSTR* pszWordList = pszIgnoreList;

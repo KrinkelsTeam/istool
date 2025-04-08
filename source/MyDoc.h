@@ -69,8 +69,6 @@ private:
 	bool VBReplaceFileConstant(CString& str,bool bPrivate);
 	bool VBLoadFile(LPCTSTR lpszPathName);
 	bool VBIsVBFile(LPCTSTR pszPathName);
-	bool iwz_IsIWZFile(LPCTSTR lpszPathName);
-	bool iwz_LoadFile(LPCTSTR lpszPathName);
 
 	CInnoScriptEx*	m_pScript;
 	CInnoScriptEx*	m_pMessages;

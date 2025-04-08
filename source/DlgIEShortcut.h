@@ -39,7 +39,7 @@ public:
 		CenterWindow(GetParent());
 
 		m_strFileName = "{app}\\ISTool.url";
-		m_strURL = "http://www.istool.org/";
+		m_strURL = "https://istool.krinkels.org/";
 		DoDataExchange(DDX_LOAD);
 		return TRUE;
 	}

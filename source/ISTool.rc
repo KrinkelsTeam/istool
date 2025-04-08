@@ -14,13 +14,11 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// English (U.S.) resources
+// English (United States) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-#ifdef _WIN32
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -30,8 +28,11 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDR_MAINFRAME           ICON                    "res\\ISTool.ico"
+
 IDI_ICON2               ICON                    "res\\ISTool2.ico"
+
 IDI_ICON3               ICON                    "res\\ISTool3.ico"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -39,8 +40,8 @@ IDI_ICON3               ICON                    "res\\ISTool3.ico"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 5,3,0,1
- PRODUCTVERSION 5,3,0,1
+ FILEVERSION 6,0,0,0
+ PRODUCTVERSION 6,0,0,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -55,15 +56,15 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "Comments", "http://www.istool.org/"
+            VALUE "Comments", "https://istool.krinkels.org/"
             VALUE "CompanyName", "Bjørnar Henden"
             VALUE "FileDescription", "ISTool Application"
-            VALUE "FileVersion", "5, 3, 0, 1"
+            VALUE "FileVersion", "6.0.0.0"
             VALUE "InternalName", "ISTool"
             VALUE "LegalCopyright", "Copyright (C) 1999-2009"
             VALUE "OriginalFilename", "ISTool.exe"
             VALUE "ProductName", "ISTool Application"
-            VALUE "ProductVersion", "5, 3, 0, 1"
+            VALUE "ProductVersion", "6.0.0.0"
         END
     END
     BLOCK "VarFileInfo"
@@ -80,12 +81,13 @@ END
 
 1                       RT_MANIFEST             "res\\manifest.xml"
 
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // Accelerator
 //
 
-IDR_MAINFRAME ACCELERATORS 
+IDR_MAINFRAME ACCELERATORS
 BEGIN
     VK_SPACE,       ID_ACC_CALLTIP,         VIRTKEY, CONTROL, NOINVERT
     VK_F1,          ID_CONTEXT_HELP,        VIRTKEY, SHIFT, NOINVERT
@@ -142,13 +144,21 @@ END
 //
 
 IDB_XPTOOLBAR_SMALL2    BITMAP                  "res\\xptoolbar-small2.bmp"
+
 IDB_IMAGELIST           BITMAP                  "res\\imagelist.bmp"
+
 IDB_IMAGELIST32         BITMAP                  "res\\imagelist-32.bmp"
+
 IDB_IMAGELIST16         BITMAP                  "res\\imagelist-16.bmp"
+
 IDB_GLYPHS              BITMAP                  "res\\printer.bmp"
+
 IDR_PRINTPREVIEW        BITMAP                  "res\\printpreview.bmp"
+
 IDR_MAINFRAME           BITMAP                  "res\\toolbar.bmp"
+
 IDB_XPTOOLBAR_SMALL1    BITMAP                  "res\\xptoolbar-small1.bmp"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -156,9 +166,9 @@ IDB_XPTOOLBAR_SMALL1    BITMAP                  "res\\xptoolbar-small1.bmp"
 //
 
 IDD_VERSION DIALOGEX 0, 0, 186, 103
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Edit Version"
-FONT 8, "MS Sans Serif", 0, 0, 0x0
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     COMBOBOX        IDC_VER_COMBO,7,7,92,89,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Major:",IDC_STATIC,7,28,49,8
@@ -174,9 +184,9 @@ BEGIN
 END
 
 IDD_UPDATES DIALOGEX 0, 0, 302, 130
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "New Version Available"
-FONT 8, "MS Sans Serif", 0, 0, 0x0
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     PUSHBUTTON      "Download",IDC_DOWNLOAD,120,109,50,14
     PUSHBUTTON      "Open Web Page",IDC_UPDATES_WEB_PAGE,175,109,66,14
@@ -184,10 +194,10 @@ BEGIN
     EDITTEXT        IDC_UPDATES_INFO,7,7,288,97,ES_MULTILINE | ES_READONLY | WS_VSCROLL
 END
 
-IDD_TYPE DIALOG  0, 0, 186, 84
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+IDD_TYPE DIALOGEX 0, 0, 186, 84
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Setup Type"
-FONT 8, "MS Sans Serif"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     LTEXT           "&Name:",IDC_STATIC,7,9,49,8
     EDITTEXT        IDC_TYPE_NAME,57,7,122,12,ES_AUTOHSCROLL
@@ -198,9 +208,9 @@ BEGIN
 END
 
 IDD_TASK DIALOGEX 0, 0, 186, 174
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Task"
-FONT 8, "MS Sans Serif", 0, 0, 0x0
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     LTEXT           "&Name:",IDC_STATIC,7,9,62,8
     EDITTEXT        IDC_TASK_NAME,70,7,109,12,ES_AUTOHSCROLL
@@ -217,10 +227,10 @@ BEGIN
     CONTROL         "Checkable Alone",IDC_CHECKABLEALONE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,142,159,10
 END
 
-IDD_SYSPATH DIALOG  0, 0, 223, 82
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+IDD_SYSPATH DIALOGEX 0, 0, 223, 82
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Select Directory"
-FONT 8, "MS Sans Serif"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     LTEXT           "Directory:",IDC_STATIC,7,43,43,8
     EDITTEXT        IDC_SYSPATH,53,41,149,12,ES_AUTOHSCROLL
@@ -235,9 +245,9 @@ BEGIN
 END
 
 IDD_SETUP_UNINSTALL DIALOGEX 0, 0, 356, 243
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Uninstall"
-FONT 8, "MS Sans Serif", 0, 0, 0x0
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     CONTROL         "Uninstallable",IDC_UNINSTALLABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,7,176,10
     LTEXT           "Uninstall log mode:",IDC_STATIC2,7,23,68,8
@@ -287,9 +297,9 @@ BEGIN
 END
 
 IDD_SETUP_APPEARANCE DIALOGEX 0, 0, 291, 220
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Appearance"
-FONT 8, "MS Sans Serif", 0, 0, 0x1
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Wizard Window",IDC_STATIC,7,7,277,79
     LTEXT           "Normal Image:",IDC_STATIC,18,21,102,8
@@ -320,9 +330,9 @@ BEGIN
 END
 
 IDD_SETUP_PAGES DIALOGEX 0, 0, 357, 182
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Pages"
-FONT 8, "MS Sans Serif", 0, 0, 0x0
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     LTEXT           "Show Language Dialog:",IDC_STATIC,7,10,98,8
     COMBOBOX        IDC_SHOWLANGUAGEDIALOG,105,7,80,56,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
@@ -351,9 +361,9 @@ BEGIN
 END
 
 IDD_SETUP_APPLICATION DIALOGEX 0, 0, 358, 222
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Application"
-FONT 8, "MS Sans Serif", 0, 0, 0x0
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     LTEXT           "Application name:",IDC_STATIC,7,9,72,8
     EDITTEXT        IDC_APPNAME,80,7,90,12,ES_AUTOHSCROLL
@@ -409,9 +419,9 @@ BEGIN
 END
 
 IDD_SETUP_COMPILER DIALOGEX 0, 0, 358, 270
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Compiler"
-FONT 8, "MS Sans Serif", 0, 0, 0x0
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     CONTROL         "Use setup loader",IDC_CHECKUSESETUPLDR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,7,159,10
     CONTROL         "Merge Duplicate Files",IDC_MERGEDUPLICATEFILES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,21,162,10
@@ -465,9 +475,9 @@ BEGIN
 END
 
 IDD_SELECTFONTS DIALOGEX 0, 0, 327, 172
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Select Fonts"
-FONT 8, "MS Sans Serif", 0, 0, 0x1
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,270,7,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,270,24,50,14
@@ -476,9 +486,9 @@ BEGIN
 END
 
 IDD_RUN DIALOGEX 0, 0, 319, 257
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Run"
-FONT 8, "MS Sans Serif", 0, 0, 0x0
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     LTEXT           "Filename:",IDC_STATIC,7,9,56,8
     COMBOBOX        IDC_RUN_FILENAME,64,7,248,176,CBS_DROPDOWN | CBS_AUTOHSCROLL | CBS_SORT | WS_VSCROLL | WS_TABSTOP
@@ -515,9 +525,9 @@ BEGIN
 END
 
 IDD_REGISTRY DIALOGEX 0, 0, 235, 291
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Registry"
-FONT 8, "MS Sans Serif", 0, 0, 0x0
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     LTEXT           "Root:",IDC_STATIC,7,9,51,8
     COMBOBOX        IDC_ROOT,59,7,169,101,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
@@ -549,9 +559,9 @@ BEGIN
 END
 
 IDD_PREFS_PATHS DIALOGEX 0, 0, 290, 166
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Paths"
-FONT 8, "MS Sans Serif", 0, 0, 0x1
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     COMBOBOX        IDC_PROJECT_TYPE,3,5,122,112,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     CONTROL         "List1",IDC_FILE_LIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | WS_TABSTOP,3,21,284,142,WS_EX_CLIENTEDGE
@@ -559,9 +569,9 @@ BEGIN
 END
 
 IDD_PREFS_GENERAL DIALOGEX 0, 0, 229, 215
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "General"
-FONT 8, "MS Sans Serif", 0, 0, 0x0
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     LTEXT           "&Compiler directory:",IDC_STATIC,7,8,71,8
     EDITTEXT        IDC_PREFS1_COMPILERDIR,79,7,129,12,ES_AUTOHSCROLL
@@ -593,9 +603,9 @@ BEGIN
 END
 
 IDD_ODBC DIALOGEX 0, 0, 329, 220
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Select ODBC Profile"
-FONT 8, "MS Sans Serif", 0, 0, 0x1
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     CONTROL         "List1",IDC_LIST,"SysListView32",LVS_REPORT | LVS_SHOWSELALWAYS | LVS_SORTASCENDING | WS_BORDER | WS_TABSTOP,7,7,258,206,WS_EX_CLIENTEDGE
     DEFPUSHBUTTON   "OK",IDOK,272,7,50,14
@@ -603,10 +613,10 @@ BEGIN
     PUSHBUTTON      "&Help",IDHELP,272,41,50,14
 END
 
-IDD_MESSAGE DIALOG  0, 0, 252, 214
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+IDD_MESSAGE DIALOGEX 0, 0, 252, 214
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Message"
-FONT 8, "MS Sans Serif"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     LTEXT           "ID:",IDC_STATIC,7,10,39,8
     COMBOBOX        IDC_MESSAGE_KEY,51,7,145,148,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
@@ -617,9 +627,9 @@ BEGIN
 END
 
 IDD_LANGOPTIONS DIALOGEX 0, 0, 258, 184
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Language Options"
-FONT 8, "MS Sans Serif", 0, 0, 0x0
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     LTEXT           "Language:",IDC_STATIC,7,7,120,8
     COMBOBOX        IDC_LANGOPTIONS_LANGUAGENAME,7,15,141,190,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
@@ -654,9 +664,9 @@ BEGIN
 END
 
 IDD_INI DIALOGEX 0, 0, 199, 146
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "INI"
-FONT 8, "MS Sans Serif", 0, 0, 0x0
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     LTEXT           "Filename:",IDC_STATIC,7,9,50,8
     COMBOBOX        IDC_INI_FILENAME,58,7,134,115,CBS_DROPDOWN | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
@@ -677,9 +687,9 @@ BEGIN
 END
 
 IDD_IESHORTCUT DIALOGEX 0, 0, 206, 70
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Create Internet Shortcut"
-FONT 8, "MS Sans Serif", 0, 0, 0x0
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     LTEXT           "&File Name:",IDC_STATIC,7,9,63,8
     EDITTEXT        IDC_IESHORTCUT_FILENAME,75,7,124,12,ES_AUTOHSCROLL
@@ -691,9 +701,9 @@ BEGIN
 END
 
 IDD_ICONS DIALOGEX 0, 0, 372, 156
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Icons"
-FONT 8, "MS Sans Serif", 0, 0, 0x0
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     LTEXT           "Name:",IDC_STATIC,7,9,52,8
     EDITTEXT        IDC_ICONS_NAME,60,7,94,12,ES_AUTOHSCROLL
@@ -724,9 +734,9 @@ BEGIN
 END
 
 IDD_FILES DIALOGEX 0, 0, 420, 329
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Files"
-FONT 8, "MS Sans Serif", 0, 0, 0x0
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     LTEXT           "Source:",IDC_STATIC,7,9,75,8
     EDITTEXT        IDC_SOURCE,89,7,90,12,ES_AUTOHSCROLL
@@ -793,10 +803,10 @@ BEGIN
     EDITTEXT        IDC_STRONGASSEMBLYNAME,89,132,97,12,ES_AUTOHSCROLL
 END
 
-IDD_FILE_ASSOCIATION DIALOG  0, 0, 212, 146
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+IDD_FILE_ASSOCIATION DIALOGEX 0, 0, 212, 146
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "File Association"
-FONT 8, "MS Sans Serif"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     LTEXT           "File extension:",IDC_STATIC,7,8,72,8
     EDITTEXT        IDC_FA_FILE_EXTENSION,85,7,40,12,ES_AUTOHSCROLL
@@ -816,9 +826,9 @@ BEGIN
 END
 
 IDD_DIRS DIALOGEX 0, 0, 174, 190
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Dirs"
-FONT 8, "MS Sans Serif", 0, 0, 0x0
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     LTEXT           "Name:",IDC_STATIC,7,9,65,8
     EDITTEXT        IDC_NAME,72,7,95,12,ES_AUTOHSCROLL
@@ -838,9 +848,9 @@ BEGIN
 END
 
 IDD_DELETE DIALOGEX 0, 0, 196, 45
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Delete"
-FONT 8, "MS Sans Serif", 0, 0, 0x0
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     LTEXT           "Name:",IDC_STATIC,7,9,25,8
     LTEXT           "Type:",IDC_STATIC,7,26,25,8
@@ -849,9 +859,9 @@ BEGIN
 END
 
 IDD_CUSTOMIZE DIALOGEX 0, 0, 241, 138
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Customize Columns"
-FONT 8, "MS Sans Serif", 0, 0, 0x1
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,184,7,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,184,24,50,14
@@ -860,9 +870,9 @@ BEGIN
 END
 
 IDD_COMPONENT DIALOGEX 0, 0, 231, 250
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Component"
-FONT 8, "MS Sans Serif", 0, 0, 0x1
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     LTEXT           "&Name:",IDC_STATIC,7,9,93,8
     EDITTEXT        IDC_COMPONENT_NAME,100,7,124,12,ES_AUTOHSCROLL
@@ -882,10 +892,10 @@ BEGIN
     CONTROL         "Checkable Alone",IDC_CHECKABLEALONE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,224,177,10
 END
 
-IDD_COMPILE_STEP_EDIT DIALOG  0, 0, 202, 90
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+IDD_COMPILE_STEP_EDIT DIALOGEX 0, 0, 202, 90
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Edit compile step"
-FONT 8, "MS Sans Serif"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     LTEXT           "Name:",IDC_STATIC,7,9,60,8
     EDITTEXT        IDC_CSE_NAME,71,7,111,12,ES_AUTOHSCROLL
@@ -898,9 +908,9 @@ BEGIN
 END
 
 IDD_COMPILE DIALOGEX 0, 0, 400, 199
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Compiling Script"
-FONT 8, "MS Sans Serif", 0, 0, 0x0
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     DEFPUSHBUTTON   "Abort",IDCANCEL,347,182,50,14
     LISTBOX         IDC_COMPILE_LIST,3,3,394,176,NOT LBS_NOTIFY | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
@@ -909,9 +919,9 @@ BEGIN
 END
 
 IDD_COMMON_TASKS DIALOGEX 0, 0, 211, 98
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Tasks"
-FONT 8, "MS Sans Serif", 0, 0, 0x1
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     CONTROL         "List1",IDC_TASKS_LIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_NOCOLUMNHEADER | WS_TABSTOP,7,7,197,45,WS_EX_CLIENTEDGE
     LTEXT           "NOTE: If no tasks are selected, the setup will always perform the install (if the component is installed).",IDC_TASKS_NOTE,7,74,197,17
@@ -919,9 +929,9 @@ BEGIN
 END
 
 IDD_COMMON_NEW DIALOGEX 0, 0, 173, 169
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Common"
-FONT 8, "MS Sans Serif", 0, 0, 0x0
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     GROUPBOX        "Minimum version",IDC_MINVERSION,7,7,159,41
     LTEXT           "Windows:",IDC_STATIC,13,19,53,8
@@ -947,19 +957,19 @@ BEGIN
 END
 
 IDD_COMMON_COMPONENTS DIALOGEX 0, 0, 212, 98
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Components"
-FONT 8, "MS Sans Serif", 0, 0, 0x1
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     CONTROL         "List1",IDC_COMMON_COMPONENTLIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_NOCOLUMNHEADER | WS_TABSTOP,7,7,198,45,WS_EX_CLIENTEDGE
     LTEXT           "NOTE: A file without a components parameter is always installed.",IDC_COMMON_COMPONENTSTEXT,7,74,198,17
     EDITTEXT        IDC_EDIT,7,57,198,12,ES_AUTOHSCROLL
 END
 
-IDD_BDE_ALIAS DIALOG  0, 0, 268, 71
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+IDD_BDE_ALIAS DIALOGEX 0, 0, 268, 71
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Create BDE Alias"
-FONT 8, "MS Sans Serif"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     LTEXT           "Alias name:",IDC_STATIC,7,8,72,8
     EDITTEXT        IDC_BDE_ALIAS_NAME,85,7,117,12,ES_AUTOHSCROLL
@@ -973,9 +983,9 @@ BEGIN
 END
 
 IDD_ADD_DIRECTORY DIALOGEX 0, 0, 172, 142
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Add Directory"
-FONT 8, "MS Sans Serif", 0, 0, 0x0
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     GROUPBOX        "Options",IDC_STATIC,7,7,158,106
     CONTROL         "Add directories",IDC_CHECK_ADD_DIRECTORIES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,22,138,10
@@ -992,34 +1002,34 @@ BEGIN
     PUSHBUTTON      "&Help",IDHELP,115,121,50,14
 END
 
-IDD_ABOUTBOX DIALOGEX 0, 0, 422, 126
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+IDD_ABOUTBOX DIALOGEX 0, 0, 215, 228
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "About ISTool"
-FONT 8, "MS Sans Serif", 0, 0, 0x0
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    GROUPBOX        "ISTool",IDC_STATIC,7,7,200,99
+    GROUPBOX        "ISTool",IDC_STATIC,7,7,200,104
     LTEXT           "Home page:",IDC_STATIC,15,20,71,8
-    LTEXT           "http://www.istool.org/",IDC_HOMEPAGE,92,20,108,8
+    LTEXT           "https://istool.krinkels.org/",IDC_HOMEPAGE,92,20,108,8
     LTEXT           "Version:",IDC_STATIC,15,32,71,8
     LTEXT           "X.X.X",IDC_VERSION,92,32,108,8,SS_NOPREFIX
-    LTEXT           "Author:",IDC_STATIC,15,43,71,8
-    LTEXT           "Bjørnar Henden",IDC_EMAIL,92,43,108,8
-    LTEXT           "Translated by:",IDC_STATIC,15,55,71,8
-    LTEXT           "Not translated",IDC_TRANSLATOR,92,55,108,8
-    LTEXT           "Copyright © 1999 - 2009 Bjørnar Henden.",IDC_STATIC,15,83,185,8
-    GROUPBOX        "Inno Setup",IDC_STATIC,215,7,200,52
-    LTEXT           "Home page:",IDC_STATIC,223,18,71,8
-    LTEXT           "http://www.innosetup.com/",IDC_ISHOMEPAGE,300,18,108,8
-    LTEXT           "Version supported:",IDC_STATIC,223,31,71,8
-    LTEXT           "X.X.X",IDC_ISVERSION,300,31,108,8
-    LTEXT           "Version installed:",IDC_STATIC,223,43,54,8
-    LTEXT           "X.X.X",IDC_ISVERSION_INSTALLED,300,42,108,8
-    DEFPUSHBUTTON   "OK",IDOK,365,105,50,14,WS_GROUP
-    GROUPBOX        "IWZ2ISS",IDC_STATIC,215,63,200,34
-    LTEXT           "Plugin created by Michal Kulczycki",IDC_STATIC,223,79,185,8
-    LTEXT           "Language version:",IDC_STATIC,15,67,71,8
-    LTEXT           "Not available",IDC_TRANSVER,92,67,108,8
-    LTEXT           "ISTool uses Scintilla which is Copyright 1998-2007 by Neil Hodgson <neilh@scintilla.org>",IDC_STATIC,7,111,337,8
+    LTEXT           "Author:",IDC_STATIC,15,44,71,8
+    LTEXT           "Bjørnar Henden",IDC_AUTHOR,92,44,108,8
+    LTEXT           "Translated by:",IDC_STATIC,15,68,71,8
+    LTEXT           "Not translated",IDC_TRANSLATOR,92,68,108,8
+    LTEXT           "Copyright © 1999 - 2009 Bjørnar Henden.",IDC_STATIC,15,96,185,8
+    DEFPUSHBUTTON   "OK",IDOK,158,207,50,14,WS_GROUP
+    LTEXT           "Language version:",IDC_STATIC,15,80,71,8
+    LTEXT           "Not available",IDC_TRANSVER,92,80,108,8
+    LTEXT           "ISTool uses Scintilla which is Copyright 1998-2021 by Neil Hodgson <neilh@scintilla.org>",IDC_STATIC,7,179,200,18
+    LTEXT           "Home page:",IDC_STATIC,15,125,71,8
+    GROUPBOX        "Inno Setup",IDC_STATIC,7,114,201,52
+    LTEXT           "https://www.innosetup.com/",IDC_ISHOMEPAGE,92,125,108,8
+    LTEXT           "Version supported:",IDC_STATIC,15,138,71,8
+    LTEXT           "X.X.X",IDC_ISVERSION,92,138,108,8
+    LTEXT           "Version installed:",IDC_STATIC,15,151,54,8
+    LTEXT           "X.X.X",IDC_ISVERSION_INSTALLED,92,149,108,8
+    LTEXT           "Updates && Support:",IDC_STATIC,15,56,71,8
+    LTEXT           "KrinkelsTeam",IDC_EMAIL,92,56,108,8
 END
 
 IDD_DOWNLOAD DIALOGEX 0, 0, 224, 70
@@ -1060,9 +1070,9 @@ BEGIN
 END
 
 IDD_LANGUAGES DIALOGEX 0, 0, 218, 95
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Languages"
-FONT 8, "MS Sans Serif", 0, 0, 0x0
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     LTEXT           "&Name:",IDC_STATIC,7,9,67,8
     EDITTEXT        IDC_LANGUAGES_NAME,74,7,122,12,ES_AUTOHSCROLL
@@ -1150,9 +1160,9 @@ BEGIN
 END
 
 IDD_COMMON_LANGUAGES DIALOGEX 0, 0, 211, 98
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Languages"
-FONT 8, "MS Sans Serif", 0, 0, 0x1
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     CONTROL         "List1",IDC_LANGUAGES_LIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_NOCOLUMNHEADER | WS_TABSTOP,7,7,197,47,WS_EX_CLIENTEDGE
     LTEXT           "An entry without a Languages parameter is always installed, unless other parameters say it shouldn't.",IDC_LANGUAGES_NOTE,7,74,197,17
@@ -1198,9 +1208,9 @@ BEGIN
 END
 
 IDD_CUSTOMMESSAGE DIALOGEX 0, 0, 252, 122
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Custom Message"
-FONT 8, "MS Sans Serif", 0, 0, 0x0
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     LTEXT           "ID:",-1,7,9,39,8
     EDITTEXT        IDC_MESSAGE_KEY,36,7,209,12,ES_AUTOHSCROLL
@@ -1319,7 +1329,7 @@ END
 // Menu
 //
 
-IDR_POPUP MENU 
+IDR_POPUP MENU
 BEGIN
     POPUP "POPUP"
     BEGIN
@@ -1436,7 +1446,7 @@ BEGIN
     END
 END
 
-IDR_MAINFRAME MENU 
+IDR_MAINFRAME MENU
 BEGIN
     POPUP "&File"
     BEGIN
@@ -1582,7 +1592,7 @@ BEGIN
     END
 END
 
-IDR_COMBOPOPUP MENU 
+IDR_COMBOPOPUP MENU
 BEGIN
     POPUP "_"
     BEGIN
@@ -1616,14 +1626,14 @@ END
 // Toolbar
 //
 
-IDR_PRINTPREVIEW TOOLBAR  16, 16
+IDR_PRINTPREVIEW TOOLBAR 16, 16
 BEGIN
     BUTTON      ID_PP_BACK
     BUTTON      ID_PP_FORWARD
     BUTTON      ID_PP_CLOSE
 END
 
-IDR_MAINFRAME TOOLBAR  16, 15
+IDR_MAINFRAME TOOLBAR 16, 15
 BEGIN
     BUTTON      ID_FILE_NEW
     BUTTON      ID_FILE_OPEN
@@ -1649,7 +1659,7 @@ BEGIN
     BUTTON      ID_HELP_FINDER
 END
 
-IDB_XPTOOLBAR_SMALL1 TOOLBAR  16, 16
+IDB_XPTOOLBAR_SMALL1 TOOLBAR 16, 16
 BEGIN
     BUTTON      ID_FILE_NEW
     BUTTON      ID_FILE_OPEN
@@ -1682,7 +1692,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_VERSION, DIALOG
     BEGIN
@@ -1956,6 +1966,10 @@ BEGIN
         HORZGUIDE, 144
     END
 
+    IDD_COMPILE_STEP_EDIT, DIALOG
+    BEGIN
+    END
+
     IDD_COMPILE, DIALOG
     BEGIN
         LEFTMARGIN, 3
@@ -2011,15 +2025,14 @@ BEGIN
     IDD_ABOUTBOX, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 415
+        RIGHTMARGIN, 208
         VERTGUIDE, 15
         VERTGUIDE, 86
         VERTGUIDE, 92
         VERTGUIDE, 200
         VERTGUIDE, 207
-        VERTGUIDE, 215
         TOPMARGIN, 7
-        BOTTOMMARGIN, 119
+        BOTTOMMARGIN, 221
     END
 
     IDD_DOWNLOAD, DIALOG
@@ -2133,29 +2146,225 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 //
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_ABOUTBOX AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_ADD_DIRECTORY AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_BDE_ALIAS AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_COMMON_COMPONENTS AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_COMMON_LANGUAGES AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_COMMON_NEW AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_COMMON_TASKS AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_COMPILE AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_COMPILE_STEP_EDIT AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_COMPONENT AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_CUSTOMIZE AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_CUSTOMMESSAGE AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_DELETE AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_DIRS AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_FILE_ASSOCIATION AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_FILES AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_ICONS AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_IESHORTCUT AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_INI AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_LANGOPTIONS AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_LANGUAGES AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_ODBC AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_PREFS_GENERAL AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_PREFS_PATHS AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_REGISTRY AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_RUN AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_SELECTFONTS AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_SETUP_APPEARANCE AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_SETUP_APPLICATION AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_SETUP_COMPILER AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_SETUP_PAGES AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_SETUP_UNINSTALL AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_SYSPATH AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_TASK AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_TYPE AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_UPDATES AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_MESSAGE AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_VERSION AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
 // String Table
 //
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     WTL_IDS_SAVEFILE        "Save As"
     WTL_IDS_SAVEFILECOPY    "Save Copy As"
     WTL_IDS_OPENFILE        "Open"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDR_MAINFRAME           "ISTool"
     IDS_DOWNLOADING_UPDATE  "Downloading the latest version of ISTool"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     WTL_IDS_APP_TITLE       "ISTool"
     ATL_IDS_IDLEMESSAGE     "Press F1 for help"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_FILE_NEW             "Create a new document\nNew"
     ID_FILE_OPEN            "Open an existing script\nOpen"
@@ -2167,7 +2376,7 @@ BEGIN
     ID_FILE_SAVE_COPY_AS    "Save a copy of the script\nSave Copy As"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_APP_ABOUT            "Display program information, version number and copyright\nAbout"
     ID_APP_EXIT             "Quit the application; prompts to save documents\nExit"
@@ -2177,7 +2386,7 @@ BEGIN
     ID_HELP                 "Show Help Topics...\nHelp"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_EDIT_CLEAR           "Erase the selection\nErase"
     ID_EDIT_COPY            "Copy the selection and put it on the Clipboard\nCopy"
@@ -2189,15 +2398,16 @@ BEGIN
     ID_EDIT_SELECT_ALL      "Select all rows\nSelect All"
     ID_EDIT_UNDO            "Undo the last action\nUndo"
     ID_EDIT_REDO            "Redo the previously undone action\nRedo"
+    ID_EDIT_FIND_PREVIOUS   "Find the previous occurrence of the specified text\nFind Previous"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_VIEW_TOOLBAR         "Show or hide the toolbar\nToggle ToolBar"
     ID_VIEW_STATUS_BAR      "Show or hide the status bar\nToggle StatusBar"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ATL_IDS_SCSIZE          "Change the window size\nSc Size"
     ATL_IDS_SCMOVE          "Change the window position\nSc Move"
@@ -2208,7 +2418,7 @@ BEGIN
     ATL_IDS_SCCLOSE         "Close the active window and prompts to save the documents\nScClose"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ATL_IDS_SCRESTORE       "Restore the window to normal size\nSc Restore"
     ATL_IDS_SCTASKLIST      "Activate Task List\nSc Task List"
@@ -2216,13 +2426,13 @@ BEGIN
     ID_COL_PANE             "Col: 99999"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_EDIT_NEWITEM         "Insert new item\nNew Item"
     ID_POPUP_CREATEICON     "Create icon(s) for selected file(s)\nCreate Icon"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_PROJECT_OPEN_COMPILER "Opens the script in the compiler\nOpen Compiler"
     ID_VIEW_FILES           "Show files in the main view\nFiles"
@@ -2234,7 +2444,7 @@ BEGIN
     ID_VIEW_UNINSTALLDELETE "Show delete entries at uninstall\nUninstall Delete"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_VIEW_SCRIPT          "Show script\nScript"
     ID_EDIT_CHECK_SCRIPT    "Check script\nCheck Script"
@@ -2255,7 +2465,7 @@ BEGIN
     ID_PROJECT_OPTIONS_PAGES "Edit page options\nPage Options"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_PROJECT_OPTIONS_APPEARANCE 
                             "Edit appearance options\nAppearance Options"
@@ -2266,14 +2476,14 @@ BEGIN
     ID_VIEW_TASKS           "Show tasks\nTasks"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_VIEW_UNINSTALLRUN    "Show entries run at uninstallation\nUninstall Run"
     ID_PROJECT_CREATE_DIRECTORY "Create directory\nCreate Directory"
     ID_PROJECT_INSERT_FILES "Insert files\nInsert Files"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_EDIT_MOVEDOWN        "Move entry down\nMove Down"
     ID_EDIT_MOVEUP          "Move entry up\nMove Up"
@@ -2288,7 +2498,7 @@ BEGIN
     ID_PROJECT_IMPORT_REGISTRY "Import from file\nImport From File"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_VIEW_MESSAGES        "Show messages\nMessages"
     ID_PROJECT_IMPORT_MESSAGES 
@@ -2299,7 +2509,7 @@ BEGIN
     ID_VIEW_REGISTRYASLIST  "Display registry in a list\nRegistry As List"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_PROJECT_EXPORT_REGISTRY "Export to file\nExport To File"
     ID_VIEW_PRECOMPILATIONSTEPS 
@@ -2319,12 +2529,12 @@ BEGIN
     ID_HELP_SEARCH          "Searches the online documentation\nSearch"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_MERGEFILE           "Merge"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_EDIT_INDICATOR_COL   "========="
     ID_EDIT_INDICATOR_READ  "Read"
@@ -2332,12 +2542,7 @@ BEGIN
     ID_EDIT_INDICATOR_POSITION "============"
 END
 
-STRINGTABLE 
-BEGIN
-    ID_EDIT_FIND_PREVIOUS   "Find the previous occurrence of the specified text\nFind Previous"
-END
-
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_HELP_UPDATES         "Check for updates\nCheck For Updates"
     ID_PROJECT_LANG_OPTIONS "Edit language options\nLanguage Options"
@@ -2347,17 +2552,17 @@ BEGIN
                             "Create entry for uninstall icon\nCreate Uninstall Icon"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_ERROR_INNOFOLDER    "You need to enter a valid path where Inno\nSetup is installed in the preferences dialog."
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ATL_IDS_MRU_FILE        "Open this file\nRecent File"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_PP_BACK              "Previous Page"
     ID_PP_FORWARD           "Next Page"
@@ -2365,17 +2570,17 @@ BEGIN
     ID_VIEW_LANGUAGES       "Show languages\nLanguages"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_EDIT_GOTO            "Go to line\nGo To"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_PROJECT_LOGFILE      "Log compile progress to file\nLog File"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_PROJECT_UNINSTALL    "Uninstalls the application\nUninstall"
     ID_EDIT_COMMENTSELECTION 
@@ -2384,24 +2589,22 @@ BEGIN
                             "Uncomment the current selection\nUncomment Selection"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_HELP_ISPP            "Open Inno Setup Preprocessor help\nInno Setup Preprocessor Help"
     ID_VIEW_CUSTOMMESSAGES  "Show custom messages\nCustom Messages"
 END
 
-#endif    // English (U.S.) resources
+#endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
 /////////////////////////////////////////////////////////////////////////////
-// Norwegian (Bokmal) resources
+// Norwegian BokmA?l (Norway) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NOR)
-#ifdef _WIN32
 LANGUAGE LANG_NORWEGIAN, SUBLANG_NORWEGIAN_BOKMAL
 #pragma code_page(1252)
-#endif //_WIN32
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -2429,7 +2632,7 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
-#endif    // Norwegian (Bokmal) resources
+#endif    // Norwegian BokmA?l (Norway) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

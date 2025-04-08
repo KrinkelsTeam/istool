@@ -534,6 +534,9 @@
     <ClInclude Include="Scintilla\ScintillaView.h">
       <Filter>Scintilla</Filter>
     </ClInclude>
+    <ClInclude Include="WebUpdate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\res\imagelist-16.bmp">
