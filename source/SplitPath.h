@@ -4,80 +4,71 @@ File:	SplitPath.h
 Owner:	russf@gipsysoft.com
 Purpose:	Convientient wrapper for the split/make path functions.
 					Also adds some checking when setting the path components
-					Not yet UNICODE
-					All inline.
+					
+					Rewrited by YURSHAT
+					Added Unicode support
 ----------------------------------------------------------------------*/
-#ifndef SPLITPATH_H
-#define SPLITPATH_H
 
-#ifndef _INC_STDLIB
-	#include <stdlib.h>
-#endif	//	_INC_STDLIB
+#pragma once
 
 class CSplitPath
 {
 public:
-	inline CSplitPath( const char * pcszSplit = NULL );
-	inline void Split( const char * pcszSplit );
-	inline void Make( char *szPathBuffer );
-
-	inline const char *GetDrive() const { return m_szDrive; }
-	inline const char *GetDirectory() const { return m_szDirectory; }
-	inline const char *GetFilename() const { return m_szFilename; }
-	inline const char *GetExtension() const { return m_szExtension; }
-
-	inline void SetDrive( const char *pcszDrive );
-	inline void SetDirectory( const char *pcszDirectory );
-	inline void SetFilename( const char *pcszFilename );
-	inline void SetExtension( const char *pcszExtension );
-
-	char m_szDrive[ _MAX_DRIVE ];
-	char m_szDirectory[ _MAX_DIR ];
-	char m_szFilename[ _MAX_FNAME ];
-	char m_szExtension[ _MAX_EXT ];
-};
-
-
-inline CSplitPath::CSplitPath( LPCTSTR pcszSplit /*= NULL*/ )
+	CSplitPath(LPCTSTR pcszPath = nullptr)
 	{
-		if( pcszSplit )
-			Split( pcszSplit );
+		if (pcszPath)
+			Split(pcszPath);
 	}
 
+	void Split(LPCTSTR pcszPath)
+	{
+		ATLASSERT(pcszPath != nullptr);
+		_tsplitpath_s(pcszPath,
+			m_szDrive, _countof(m_szDrive),
+			m_szDirectory, _countof(m_szDirectory),
+			m_szFilename, _countof(m_szFilename),
+			m_szExtension, _countof(m_szExtension));
+	}
 
-inline void CSplitPath::Split( const char * pcszSplit )
-{
-    ATLASSERT( pcszSplit );
-    _splitpath_s( pcszSplit, m_szDrive, sizeof(m_szDrive), m_szDirectory, sizeof(m_szDirectory), m_szFilename, sizeof(m_szFilename), m_szExtension, sizeof(m_szExtension) );
-}
+	void Make(LPTSTR szPathBuffer)
+	{
+		ATLASSERT(szPathBuffer != nullptr);
+		_tmakepath_s(szPathBuffer, _MAX_PATH,
+			m_szDrive, m_szDirectory, m_szFilename, m_szExtension);
+	}
 
-inline void CSplitPath::Make( char *szPathBuffer )
-{
-    _makepath_s( szPathBuffer, _MAX_PATH, m_szDrive, m_szDirectory, m_szFilename, m_szExtension );
-}
+	CString GetDrive() const { return m_szDrive; }
+	CString GetDirectory() const { return m_szDirectory; }
+	CString GetFilename() const { return m_szFilename; }
+	CString GetExtension() const { return m_szExtension; }
 
-inline void CSplitPath::SetDrive( const char *pcszDrive )
-{
-    ATLASSERT( _tcslen( pcszDrive ) < sizeof( m_szDrive ) );
-    strcpy_s( m_szDrive, sizeof(m_szDrive), pcszDrive );
-}
+	void SetDrive(LPCTSTR pcszDrive)
+	{
+		ATLASSERT(pcszDrive != nullptr);
+		_tcsncpy_s(m_szDrive, pcszDrive, _TRUNCATE);
+	}
 
-inline void CSplitPath::SetDirectory( const char *pcszDirectory )
-{
-    ATLASSERT( _tcslen( pcszDirectory ) < sizeof( m_szDirectory ) );
-    strcpy_s( m_szDirectory, sizeof(m_szDirectory), pcszDirectory );
-}
+	void SetDirectory(LPCTSTR pcszDirectory)
+	{
+		ATLASSERT(pcszDirectory != nullptr);
+		_tcsncpy_s(m_szDirectory, pcszDirectory, _TRUNCATE);
+	}
 
-inline void CSplitPath::SetFilename( const char *pcszFilename )
-{
-    ATLASSERT( _tcslen( pcszFilename ) < sizeof( m_szFilename ) );
-    strcpy_s( m_szFilename, sizeof(m_szFilename), pcszFilename );
-}
+	void SetFilename(LPCTSTR pcszFilename)
+	{
+		ATLASSERT(pcszFilename != nullptr);
+		_tcsncpy_s(m_szFilename, pcszFilename, _TRUNCATE);
+	}
 
-inline void CSplitPath::SetExtension( const char *pcszExtension )
-{
-    ATLASSERT( _tcslen( pcszExtension ) < sizeof( m_szExtension ) );
-    strcpy_s( m_szExtension, sizeof(m_szExtension), pcszExtension );
-}
+	void SetExtension(LPCTSTR pcszExtension)
+	{
+		ATLASSERT(pcszExtension != nullptr);
+		_tcsncpy_s(m_szExtension, pcszExtension, _TRUNCATE);
+	}
 
-#endif //SPLITPATH_H
+private:
+	TCHAR m_szDrive[_MAX_DRIVE] = {};
+	TCHAR m_szDirectory[_MAX_DIR] = {};
+	TCHAR m_szFilename[_MAX_FNAME] = {};
+	TCHAR m_szExtension[_MAX_EXT] = {};
+};
