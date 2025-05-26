@@ -31,7 +31,6 @@
 #define IDD_CUSTOMIZE                   177
 #define IDD_SETUP_UNINSTALL             178
 #define IDR_COMBOPOPUP                  180
-#define IDD_ODBC                        181
 #define IDD_PREFS_PATHS                 185
 #define IDD_SYSPATH                     187
 #define IDD_TYPE                        191
@@ -43,7 +42,6 @@
 #define IDD_COMMON_COMPONENTS           202
 #define IDD_VERSION                     217
 #define IDD_COMPILE                     218
-#define IDD_BDE_ALIAS                   219
 #define IDD_IESHORTCUT                  220
 #define IDD_UPDATES                     221
 #define IDD_LANGOPTIONS                 222
@@ -230,7 +228,6 @@
 #define IDC_BACKCOLOR2                  1208
 #define IDC_DAO                         1210
 #define IDC_MSJET                       1211
-#define IDC_ODBCDIRECT                  1212
 #define IDC_MSJETREPLICATION            1213
 #define IDC_XBASEFORMATS                1214
 #define IDC_PARADOXFORMATS              1215
@@ -323,10 +320,6 @@
 #define IDC_COMPONENT_EXTRADISKSPACEREQUIRED 1375
 #define IDC_FILES_ONLYIFDESTFILEEXISTS  1376
 #define IDC_SCRIPTING_CHECK             1378
-#define IDC_BDE_OVERWRITE               1379
-#define IDC_BDE_ALIAS_NAME              1380
-#define IDC_BDE_DATA_DIRECTORY          1381
-#define IDC_BDE_DRIVER_NAME             1382
 #define IDC_ISVERSION_INSTALLED         1384
 #define IDC_EXT_DISABLE_READY_PAGE      1385
 #define IDC_IESHORTCUT_FILENAME         1386
@@ -572,7 +565,6 @@
 #define ID_VIEW_SCRIPT                  32849
 #define ID_EDIT_CHECK_SCRIPT            32850
 #define ID_VIEW_SECTIONDROPDOWN         32851
-#define ID_PROJECT_CREATE_ODBC_PROFILE  32852
 #define ID_PROJECT_OPTIONS              32856
 #define ID_PROJECT_OPTIONS_COMPILER     32857
 #define ID_PROJECT_OPTIONS_DISKSPANNING 32858
@@ -595,7 +587,6 @@
 #define ID_PROJECT_USE_ABSOLUTE_PATHS   32887
 #define ID_PROJECT_RUN_SETUP            32888
 #define ID_PROJECT_COMPILE_AND_RUN_SETUP 32889
-#define ID_PROJECT_CREATE_BDE_ALIAS     32891
 #define ID_PROJECT_CREATE_INTERNET_SHORTCUT 32893
 #define ID_PROJECT_VERIFY_FILES         32894
 #define ID_HELP_SEARCH                  32895

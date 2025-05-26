@@ -237,7 +237,6 @@
     <ClCompile Include="MyDropTarget.cpp" />
     <ClCompile Include="MyListView.cpp" />
     <ClCompile Include="MyTreeView.cpp" />
-    <ClCompile Include="Registry.cpp" />
     <ClCompile Include="ScintillaPrefs.cpp" />
     <ClCompile Include="Scintilla\ScintillaView.cpp" />
     <ClCompile Include="Sheets.cpp" />
@@ -277,7 +276,6 @@
     <ClInclude Include="ConstantListBox.h" />
     <ClInclude Include="DebugStruct.h" />
     <ClInclude Include="DlgAddDirectory.h" />
-    <ClInclude Include="DlgBdeAlias.h" />
     <ClInclude Include="DlgCompile.h" />
     <ClInclude Include="DlgCustomize.h" />
     <ClInclude Include="DlgFileAssociation.h" />
@@ -285,7 +283,6 @@
     <ClInclude Include="DlgIEShortcut.h" />
     <ClInclude Include="DlgLangOptions.h" />
     <ClInclude Include="DlgLogFile.h" />
-    <ClInclude Include="DlgODBC.h" />
     <ClInclude Include="DlgSelectFonts.h" />
     <ClInclude Include="DlgSelectLanguageFiles.h" />
     <ClInclude Include="DlgSysPath.h" />
@@ -333,7 +330,6 @@
     <ClInclude Include="PageType.h" />
     <ClInclude Include="PrefsEditor.h" />
     <ClInclude Include="PrefsGeneral.h" />
-    <ClInclude Include="Registry.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="ScintillaPrefs.h" />
     <ClInclude Include="Scintilla\ScintillaView.h" />
@@ -353,6 +349,7 @@
     <ClInclude Include="StringToken.h" />
     <ClInclude Include="Translate.h" />
     <ClInclude Include="Update.h" />
+    <ClInclude Include="Utils.h" />
     <ClInclude Include="ViewCompileStep.h" />
     <ClInclude Include="ViewCompileStepPost.h" />
     <ClInclude Include="ViewCompileStepPre.h" />

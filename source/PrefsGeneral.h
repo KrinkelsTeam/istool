@@ -5,14 +5,13 @@
 /////////////////////////////////////////////////////////////////////////////
 // CPrefsGeneral dialog
 
-#include "Registry.h"
 #include "kFontCombo.h"
 
-static const LPCTSTR pszAssPath = "InnoSetupScriptFile\\shell\\open\\command";
-static const LPCTSTR pszISToolPath = "InnoSetupScriptFile\\shell\\OpenWithISTool\\command";
-static const LPCTSTR pszISetupPath = "InnoSetupScriptFile\\shell\\OpenWithInnoSetup\\command";
+static const LPCTSTR pszAssPath = "Software\\Classes\\InnoSetupScriptFile\\shell\\open\\command";
+static const LPCTSTR pszISToolPath = "Software\\Classes\\InnoSetupScriptFile\\shell\\OpenWithISTool\\command";
+static const LPCTSTR pszISetupPath = "Software\\Classes\\InnoSetupScriptFile\\shell\\OpenWithInnoSetup\\command";
 
-class CPrefsGeneral : 
+class CPrefsGeneral :
 	public CPropertyPageImpl<CPrefsGeneral>,
 	public CMyPropertyPageBase<CPrefsGeneral>,
 	public CWinDataExchange<CPrefsGeneral>,
@@ -42,7 +41,7 @@ public:
 	END_MSG_MAP()
 
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) {
-		_L(m_hWnd,"PrefsGeneral");
+		_L(m_hWnd, "PrefsGeneral");
 
 		struct {
 			LPCTSTR		pszName;
@@ -55,10 +54,10 @@ public:
 
 		CComboBox wnd(GetDlgItem(IDC_STARTUPSECTION));
 		UINT nSec = 0;
-		while(sections[nSec].pszName) {
+		while (sections[nSec].pszName) {
 			int iItem = wnd.AddString(_L(sections[nSec].pszName));
-			wnd.SetItemData(iItem,sections[nSec].nID);
-			if(CMyApp::m_prefs.m_uStartupSection==sections[nSec].nID)
+			wnd.SetItemData(iItem, sections[nSec].nID);
+			if (CMyApp::m_prefs.m_uStartupSection == sections[nSec].nID)
 				//wnd.SetCurSel(iItem);
 				m_nStartupSection = iItem;
 			nSec++;
@@ -87,34 +86,32 @@ public:
 		DDX_CHECK(IDC_PREPROCESS, m_bPreProcess)
 		DDX_CHECK(IDC_NOOUTPUTEXEFILENAME, m_bNoOutputExeFilename)
 	END_DDX_MAP()
-	
+
 	Henden::CButtonFolder	m_btnCompilerDir;
 	Henden::CButtonFile		m_btnLanguageDLL;
 
 	CString	m_strCompilerDir;
-	BOOL			m_bIgnoreDefaults;
-	BOOL			m_bOpenLast;
-	BOOL			m_bUseNewScriptWizard;
-	BOOL			m_bReplaceCopy;
-	BOOL			m_bAutoComponentSelect;
-	BOOL			m_bTestCompiledSetup;
-	BOOL			m_bOverwriteMessages;
+	BOOL	m_bIgnoreDefaults;
+	BOOL	m_bOpenLast;
+	BOOL	m_bUseNewScriptWizard;
+	BOOL	m_bReplaceCopy;
+	BOOL	m_bAutoComponentSelect;
+	BOOL	m_bTestCompiledSetup;
+	BOOL	m_bOverwriteMessages;
 	CString	m_strLanguageFile;
-	int				m_nStartupSection;
-	BOOL			m_bPreProcess;
-	BOOL			m_bNoOutputExeFilename;
+	int		m_nStartupSection;
+	BOOL	m_bPreProcess;
+	BOOL	m_bNoOutputExeFilename;
 
-	CPrefsGeneral(CMyDoc* pDoc,LPCTSTR pszTitle) : 
+	CPrefsGeneral(CMyDoc* pDoc, LPCTSTR pszTitle) :
 		m_pDoc(pDoc),
 		m_btnCompilerDir("Select compiler directory"),
-		m_btnLanguageDLL(true,"Language Files (*.lng)|*.lng|All Files (*.*)|*.*|"), 
+		m_btnLanguageDLL(true, "Language Files (*.lng)|*.lng|All Files (*.*)|*.*|"),
 		CPropertyPageImpl<CPrefsGeneral>(pszTitle)
 	{
-		//{{AFX_DATA_INIT(CPrefsGeneral)
 		m_bIgnoreDefaults = FALSE;
 		m_bUseNewScriptWizard = CMyApp::m_prefs.m_bShowNewWizard;
 		m_bOverwriteMessages = FALSE;
-		//}}AFX_DATA_INIT
 
 		m_strCompilerDir = CMyApp::m_prefs.m_strInnoFolder;
 		m_bIgnoreDefaults = CMyApp::m_prefs.m_bIgnoreDefaults;
@@ -129,7 +126,7 @@ public:
 		m_nStartupSection = -1;
 		m_strLanguageFile = CMyApp::m_prefs.m_strLanguageFile;
 		m_bPreProcess = CMyApp::m_prefs.m_bPreProcess;
-		m_bNoOutputExeFilename	= CMyApp::m_prefs.m_bNoOutputExeFilename;
+		m_bNoOutputExeFilename = CMyApp::m_prefs.m_bNoOutputExeFilename;
 	}
 
 	LRESULT OnModified(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {
@@ -150,7 +147,7 @@ public:
 		CMyApp::m_prefs.m_bTestCompiledSetup = m_bTestCompiledSetup ? true : false;
 		CMyApp::m_prefs.m_bOverwriteMessages = m_bOverwriteMessages ? true : false;
 
-		if(m_nStartupSection>=0) {
+		if (m_nStartupSection >= 0) {
 			CComboBox wnd(GetDlgItem(IDC_STARTUPSECTION));
 			CMyApp::m_prefs.m_uStartupSection = wnd.GetItemData(m_nStartupSection);
 			wnd.Detach();
@@ -166,66 +163,71 @@ public:
 
 	bool IsAssociated() {
 		// Check if associate check box should be checked or not
-		CRegistryEx reg;
-		CString strPath;
-		if(!reg.Open(HKEY_CLASSES_ROOT,pszAssPath)) return false;
-		if(!reg.Read("",strPath)) return false;
+		HKEY hRoot = CMyUtils::IsAdminLoggedOn() ? HKEY_LOCAL_MACHINE : HKEY_CURRENT_USER;
+		CRegKey reg;
+		TCHAR szValue[1024] = {};
+		ULONG len = _countof(szValue);
+
+		if (reg.Open(hRoot, pszAssPath, KEY_READ) != ERROR_SUCCESS) return false;
+		if (reg.QueryStringValue(nullptr, szValue, &len) != ERROR_SUCCESS) return false;
 		reg.Close();
 
-		if(!strPath.IsEmpty()) {
-			LPCTSTR pszPath = strPath;
-			while(*pszPath) {
-				if(!_tcsnicmp(pszPath,"ISTool",6)) return true;
-				pszPath++;
-			}
+		LPCTSTR pszPath = szValue;
+		while (*pszPath) {
+			if (!_tcsnicmp(pszPath, _T("ISTool"), 6)) return true;
+			pszPath++;
 		}
 		return false;
 	}
 
 	LRESULT OnAssociateISTool(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {
 		CString err;
-		CRegistryEx reg;
 		CString strData;
-		LPCTSTR pszPath;
 		bool bError = false;
 
 		CWaitCursor wait;
 
 		DoDataExchange(DDX_SAVE);
-		//if(m_bAssociateISTool)
-			pszPath = pszISToolPath;
-		//else
-		//	pszPath = pszISetupPath;
 
-		if(!bError && !reg.Open(HKEY_CLASSES_ROOT,pszPath)) {
-			CMyUtils::GetSysError(err,reg.m_Info.lMessage);
-			AtlMessageBox(m_hWnd,(LPCTSTR)err,IDR_MAINFRAME,MB_OK|MB_ICONERROR);
+		HKEY hRoot = CMyUtils::IsAdminLoggedOn() ? HKEY_LOCAL_MACHINE : HKEY_CURRENT_USER;
+		
+		// Read command from OpenWithISTool
+		CRegKey reg;
+		if (LONG lResult = reg.Open(hRoot, pszISToolPath, KEY_READ); lResult != ERROR_SUCCESS) {
+			CMyUtils::GetSysError(err, lResult);
+			AtlMessageBox(m_hWnd, static_cast<LPCTSTR>(err), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 			bError = true;
-		}
-		if(!bError && !reg.Read("",strData)) {
-			CMyUtils::GetSysError(err,reg.m_Info.lMessage);
-			AtlMessageBox(m_hWnd,(LPCTSTR)err,IDR_MAINFRAME,MB_OK|MB_ICONERROR);
-			bError = true;
-		}
-		reg.Close();
-
-		if(!bError && !strData.IsEmpty()) {
-			if(!bError && !reg.CreateKey(HKEY_CLASSES_ROOT,pszAssPath)) {
-				CMyUtils::GetSysError(err,reg.m_Info.lMessage);
-				AtlMessageBox(m_hWnd,(LPCTSTR)err,IDR_MAINFRAME,MB_OK|MB_ICONERROR);
+		} else {
+			TCHAR szValue[1024] = {};
+			ULONG len = _countof(szValue);
+			if (LONG lResult2 = reg.QueryStringValue(nullptr, szValue, &len); lResult2 != ERROR_SUCCESS) {
+				CMyUtils::GetSysError(err, lResult2);
+				AtlMessageBox(m_hWnd, static_cast<LPCTSTR>(err), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 				bError = true;
+			} else {
+				strData = szValue;
 			}
-			if(!bError && !reg.Write("",strData)) {
-				CMyUtils::GetSysError(err,reg.m_Info.lMessage);
-				AtlMessageBox(m_hWnd,(LPCTSTR)err,IDR_MAINFRAME,MB_OK|MB_ICONERROR);
+			reg.Close();
+		}
+
+		// Write command to default open action
+		if (!bError && !strData.IsEmpty()) {
+			if (LONG lResult = reg.Create(hRoot, pszAssPath); lResult != ERROR_SUCCESS) {
+				CMyUtils::GetSysError(err, lResult);
+				AtlMessageBox(m_hWnd, static_cast<LPCTSTR>(err), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
+				bError = true;
+			} else if (LONG lResult2 = reg.SetStringValue(nullptr, strData); lResult2 != ERROR_SUCCESS) {
+				CMyUtils::GetSysError(err, lResult2);
+				AtlMessageBox(m_hWnd, static_cast<LPCTSTR>(err), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 				bError = true;
 			}
 			reg.Close();
-
-			if(!bError) SHChangeNotify(SHCNE_ASSOCCHANGED, 0, NULL, NULL);
-		} else if(!bError) {
-			AtlMessageBox(m_hWnd,_L("AssocFailed","Failed to associate ISTool with .iss files"),IDR_MAINFRAME,MB_OK|MB_ICONERROR);
 		}
+
+		if (!bError)
+			SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, nullptr, nullptr); // Notify Explorer
+		else
+			AtlMessageBox(m_hWnd, _L("AssocFailed", "Failed to associate ISTool with .iss files"), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 
 		GetDlgItem(IDC_ASSOCIATE_ISTOOL).EnableWindow(!IsAssociated());
 
@@ -233,23 +235,23 @@ public:
 	}
 
 	BEGIN_TOOLTIP_MAP()
-		TOOLTIP_HANDLER(IDC_PREFS1_COMPILERDIR, _L("Help|General|CompilerDir","The directory where Inno Setup is installed."))
-		TOOLTIP_HANDLER(IDC_GENERAL_IGNOREDEFAULTS, _L("Help|General|IgnoreDefaults","Setup directives that equals the default value aren't written to the script."))
-		TOOLTIP_HANDLER(IDC_GENERAL_OPENLAST, _L("Help|General|OpenLast","Opens last opened script when ISTool starts."))
-		TOOLTIP_HANDLER(IDC_GENERAL_USENEWSCRIPTWIZARD, _L("Help|General|ScriptWiz","Should ISTool use the Inno Setup wizard when creating new scripts."))
-		TOOLTIP_HANDLER(IDC_GENERAL_REPLACECOPY, _L("Help|General|ReplaceCopy","When you type \"(c)\" it will be replaced with ©"))
-		TOOLTIP_HANDLER(IDC_GENERAL_AUTOCOMPONENTSELECT, _L("Help|General|AutoCompSelect","Automatically sets component for a file based on directory or something!?!"))
-		TOOLTIP_HANDLER(IDC_GENERAL_TEST_COMPILED_SETUP, _L("Help|General|TestCompiledSetup","After compilation ISTool asks if you want to run the setup."))
-		TOOLTIP_HANDLER(IDC_GENERAL_OVERWRITE_MESSAGES, _L("Help|General|OverwriteMessages","Deletes existing messages when importing a message file."))
-		TOOLTIP_HANDLER(IDC_PREFS1_LANGUAGEDLL, _L("Help|General|LanguageFile","The file used to translate ISTool."))
-		TOOLTIP_HANDLER(IDC_PREFS1_COMPILERDIR_B, _L("Help|General|CompilerDirButton","Click this button to select the directory where Inno Setup is installed."))
-		TOOLTIP_HANDLER(IDC_PREFS1_LANGUAGEDLL_BTN, _L("Help|General|LanguageFileButton","Click this button to select a language file."))
-		TOOLTIP_HANDLER(IDC_STARTUPSECTION, _L("Help|General|StartupSection","Tells what section is active when ISTool opens."))
-		TOOLTIP_HANDLER(IDC_PREPROCESS, _L("Help|General|PreProcess","If this is checked ISTool will pre-process the script before sending it to Inno Setup for compilation."))
-		TOOLTIP_HANDLER(IDC_NOOUTPUTEXEFILENAME, _L("Help|General|NoOutputExeFileName","If this is checked, the name of the compiled setup will not be written to the script."))
-		TOOLTIP_HANDLER(IDC_ASSOCIATE_ISTOOL, _L("Help|General|Associate","Click this button to associate ISTool with Inno Setup scripts."))
+		TOOLTIP_HANDLER(IDC_PREFS1_COMPILERDIR, _L("Help|General|CompilerDir", "The directory where Inno Setup is installed."))
+		TOOLTIP_HANDLER(IDC_GENERAL_IGNOREDEFAULTS, _L("Help|General|IgnoreDefaults", "Setup directives that equals the default value aren't written to the script."))
+		TOOLTIP_HANDLER(IDC_GENERAL_OPENLAST, _L("Help|General|OpenLast", "Opens last opened script when ISTool starts."))
+		TOOLTIP_HANDLER(IDC_GENERAL_USENEWSCRIPTWIZARD, _L("Help|General|ScriptWiz", "Should ISTool use the Inno Setup wizard when creating new scripts."))
+		TOOLTIP_HANDLER(IDC_GENERAL_REPLACECOPY, _L("Help|General|ReplaceCopy", "When you type \"(c)\" it will be replaced with ©"))
+		TOOLTIP_HANDLER(IDC_GENERAL_AUTOCOMPONENTSELECT, _L("Help|General|AutoCompSelect", "Automatically sets component for a file based on directory or something!?!"))
+		TOOLTIP_HANDLER(IDC_GENERAL_TEST_COMPILED_SETUP, _L("Help|General|TestCompiledSetup", "After compilation ISTool asks if you want to run the setup."))
+		TOOLTIP_HANDLER(IDC_GENERAL_OVERWRITE_MESSAGES, _L("Help|General|OverwriteMessages", "Deletes existing messages when importing a message file."))
+		TOOLTIP_HANDLER(IDC_PREFS1_LANGUAGEDLL, _L("Help|General|LanguageFile", "The file used to translate ISTool."))
+		TOOLTIP_HANDLER(IDC_PREFS1_COMPILERDIR_B, _L("Help|General|CompilerDirButton", "Click this button to select the directory where Inno Setup is installed."))
+		TOOLTIP_HANDLER(IDC_PREFS1_LANGUAGEDLL_BTN, _L("Help|General|LanguageFileButton", "Click this button to select a language file."))
+		TOOLTIP_HANDLER(IDC_STARTUPSECTION, _L("Help|General|StartupSection", "Tells what section is active when ISTool opens."))
+		TOOLTIP_HANDLER(IDC_PREPROCESS, _L("Help|General|PreProcess", "If this is checked ISTool will pre-process the script before sending it to Inno Setup for compilation."))
+		TOOLTIP_HANDLER(IDC_NOOUTPUTEXEFILENAME, _L("Help|General|NoOutputExeFileName", "If this is checked, the name of the compiled setup will not be written to the script."))
+		TOOLTIP_HANDLER(IDC_ASSOCIATE_ISTOOL, _L("Help|General|Associate", "Click this button to associate ISTool with Inno Setup scripts."))
 	END_TOOLTIP_MAP()
 
 protected:
-	CMyDoc*	m_pDoc;
+	CMyDoc* m_pDoc;
 };

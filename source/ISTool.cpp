@@ -6,7 +6,6 @@
 
 #include "MainFrm.h"
 #include "MyDoc.h"
-#include "Registry.h"
 
 CMyApp theApp;
 
@@ -88,11 +87,9 @@ void Run(LPTSTR /*lpstrCmdLine*/ = NULL, int nCmdShow = SW_SHOWDEFAULT) {
 
 int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR lpstrCmdLine, int nCmdShow)
 {
-	//	HRESULT hRes = ::CoInitialize(NULL);
-	HRESULT hRes = ::OleInitialize(NULL);
 	// If you are running on NT 4.0 or higher you can use the following call instead to 
 	// make the EXE free threaded. This means that calls come in on a random RPC thread.
-	//	HRESULT hRes = ::CoInitializeEx(NULL, COINIT_MULTITHREADED);
+	HRESULT hRes = ::CoInitializeEx(NULL, COINIT_MULTITHREADED);
 	ATLASSERT(SUCCEEDED(hRes));
 
 	// this resolves ATL window thunking problem when Microsoft Layer for Unicode (MSLU) is used
@@ -106,8 +103,7 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR lp
 	Run(lpstrCmdLine, nCmdShow);
 
 	_Module.Term();
-	//::CoUninitialize();
-	::OleUninitialize();
+	::CoUninitialize();
 
 	return CMyApp::m_nExitCode;
 }
@@ -273,35 +269,48 @@ BOOL CMyApp::InitInstance() {
 	bm.Detach();
 
 	// Make sure our registry key is there
-	CRegistryEx reg;
-	if (!reg.VerifyKey(HKEY_CLASSES_ROOT, "InnoSetupScriptFile\\shell\\OpenWithISTool"))
-		reg.CreateKey(HKEY_CLASSES_ROOT, "InnoSetupScriptFile\\shell\\OpenWithISTool");
-	if (!reg.VerifyKey(HKEY_CLASSES_ROOT, "InnoSetupScriptFile\\shell\\OpenWithISTool\\command"))
-		reg.CreateKey(HKEY_CLASSES_ROOT, "InnoSetupScriptFile\\shell\\OpenWithISTool\\command");
+	bool bChanged = false;
+	HKEY hRoot = CMyUtils::IsAdminLoggedOn() ? HKEY_LOCAL_MACHINE : HKEY_CURRENT_USER;
 
-	reg.Open(HKEY_CLASSES_ROOT, "InnoSetupScriptFile\\shell\\OpenWithISTool");
-	if (!reg.VerifyValue("")) reg.Write("", _L("Open with &ISTool"));
-	reg.Close();
+	LPCTSTR szVerbKey = _T("Software\\Classes\\InnoSetupScriptFile\\shell\\OpenWithISTool");
+	LPCTSTR szCmdKey = _T("Software\\Classes\\InnoSetupScriptFile\\shell\\OpenWithISTool\\command");
 
-	reg.Open(HKEY_CLASSES_ROOT, "InnoSetupScriptFile\\shell\\OpenWithISTool\\command");
-	if (!reg.VerifyValue("")) {
-		CString str;
-		str.Format("\"%s\" \"%%1\"", __argv[0]);
-		if (reg.Write("", str))
-			SHChangeNotify(SHCNE_ASSOCCHANGED, 0, NULL, NULL);
+	CRegKey key;
+	if (key.Create(hRoot, szVerbKey) == ERROR_SUCCESS) {
+		TCHAR szValue[256] = {};
+		ULONG len = _countof(szValue);
+		if (key.QueryStringValue(nullptr, szValue, &len) != ERROR_SUCCESS ||
+			_tcscmp(szValue, _T("Open with &ISTool")) != 0) {
+			key.SetStringValue(nullptr, _T("Open with &ISTool"));
+			bChanged = true;
+		}
 	}
-	reg.Close();
+	key.Close();
+
+	if (key.Create(hRoot, szCmdKey) == ERROR_SUCCESS) {
+		TCHAR szValue[1024] = {};
+		ULONG len = _countof(szValue);
+		CString cmdLine;
+		cmdLine.Format(_T("\"%s\" \"%%1\""), __argv[0]);
+
+		if (key.QueryStringValue(nullptr, szValue, &len) != ERROR_SUCCESS ||
+			_tcscmp(szValue, cmdLine) != 0) {
+			key.SetStringValue(nullptr, cmdLine);
+			bChanged = true;
+		}
+	}
+	key.Close();
+
+	if (bChanged)
+		SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, nullptr, nullptr);
 
 	if (CMyUtils::IsAdminLoggedOn()) {
 		/*
 		** Check if Inno Setup 6 is installed, and the user
 		** if he wants to open Inno Setup's web page.
 		*/
-		CRegistryEx	reg;
-		if (
-			!reg.Open(HKEY_LOCAL_MACHINE, m_pszKeyIS) &&
-			!reg.Open(HKEY_CURRENT_USER, m_pszKeyIS))
-		{
+		CRegKey key;
+		if (key.Open(HKEY_LOCAL_MACHINE, m_pszKeyIS, KEY_READ | KEY_WOW64_32KEY) != ERROR_SUCCESS) {
 			CString txt = _L("NeedIS5", "You don't seem to have Inno Setup 6 installed. This is\nrequired to compile the scripts you create with ISTool.\n\nDo you want to go to https://www.innosetup.com/ and download it now?");
 			if (AtlMessageBox(AfxGetMainHWnd(), (LPCTSTR)txt, IDR_MAINFRAME, MB_YESNO | MB_ICONQUESTION) == IDYES) {
 				CWaitCursor wait;

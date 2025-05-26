@@ -324,8 +324,6 @@ public:
 		COMMAND_ID_HANDLER(ID_PROJECT_USE_ABSOLUTE_PATHS, OnProjectUseAbsolutePaths)
 		COMMAND_ID_HANDLER(ID_PROJECT_LANG_OPTIONS, OnProjectLangOptions)
 		COMMAND_ID_HANDLER(ID_PROJECT_CREATE_ASSOCIATION, OnProjectCreateAssociation)
-		COMMAND_ID_HANDLER(ID_PROJECT_CREATE_ODBC_PROFILE, OnProjectCreateOdbcProfile)
-		COMMAND_ID_HANDLER(ID_PROJECT_CREATE_BDE_ALIAS, OnProjectCreateBdeAlias)
 		COMMAND_ID_HANDLER(ID_PROJECT_CREATE_INTERNET_SHORTCUT, OnProjectCreateInternetShortcut)
 		COMMAND_ID_HANDLER(ID_PROJECT_CREATE_UNINSTALL_ICON, OnProjectCreateUninstallIcon)
 		COMMAND_ID_HANDLER(ID_PROJECT_VERIFY_FILES, OnProjectVerifyFiles)
@@ -417,8 +415,6 @@ public:
 	LRESULT OnProjectUseAbsolutePaths(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 	LRESULT OnProjectLangOptions(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 	LRESULT OnProjectCreateAssociation(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
-	LRESULT OnProjectCreateOdbcProfile(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
-	LRESULT OnProjectCreateBdeAlias(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 	LRESULT OnProjectCreateInternetShortcut(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 	LRESULT OnProjectCreateUninstallIcon(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 	LRESULT OnProjectVerifyFiles(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);

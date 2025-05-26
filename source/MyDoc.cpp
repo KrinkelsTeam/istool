@@ -6,7 +6,6 @@
 #include "MyDoc.h"
 #include "SplitPath.h"
 #include "StringToken.h"
-#include "Registry.h"
 #include "MainFrm.h"
 #include "DlgCompile.h"
 

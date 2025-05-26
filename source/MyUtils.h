@@ -31,31 +31,31 @@ public:
 		return isAdmin;
 	}
 
-	static bool GetSysError(CString& strError,DWORD dwError,LPCTSTR pszModule=NULL) {
+	static bool GetSysError(CString& strError, DWORD dwError, LPCTSTR pszModule = NULL) {
 		HMODULE hModule = NULL;
 		DWORD dwFlags = FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS;
 
-		if(pszModule) {
+		if (pszModule) {
 			hModule = ::GetModuleHandle(pszModule);
 			dwFlags |= FORMAT_MESSAGE_FROM_HMODULE;
 		}
 
-		if(!dwError) dwError = GetLastError();
+		if (!dwError) dwError = GetLastError();
 		LPVOID lpMsgBuf = NULL;
-		if(!::FormatMessage(	
+		if (!::FormatMessage(
 			dwFlags,
-			hModule,	 
-			dwError,	
-			MAKELANGID(LANG_NEUTRAL,SUBLANG_DEFAULT), // Default language    
-			(LPTSTR)&lpMsgBuf,    
-			0,    
+			hModule,
+			dwError,
+			MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language    
+			(LPTSTR)&lpMsgBuf,
+			0,
 			NULL
 		)) {
-			strError.Format(_T("Error code: %d"),dwError);
+			strError.Format(_T("Error code: %d"), dwError);
 			return false;
 		} else {
 			strError = (LPCTSTR)lpMsgBuf;
-			LocalFree(lpMsgBuf); 
+			LocalFree(lpMsgBuf);
 			return true;
 		}
 	}
@@ -65,8 +65,8 @@ public:
 		DWORD	dwError;
 		DWORD	dwBufferLength = 0;
 
-		InternetGetLastResponseInfo(&dwError,strResponse.GetBuffer(0),&dwBufferLength);
-		InternetGetLastResponseInfo(&dwError,strResponse.GetBuffer(dwBufferLength),&dwBufferLength);
+		InternetGetLastResponseInfo(&dwError, strResponse.GetBuffer(0), &dwBufferLength);
+		InternetGetLastResponseInfo(&dwError, strResponse.GetBuffer(dwBufferLength), &dwBufferLength);
 	}
 #endif
 
@@ -74,10 +74,10 @@ public:
 	static bool IsRelativePath(LPCTSTR pszPath) {
 		int nLen = lstrlen(pszPath);
 
-		if(nLen>=2 && pszPath[1]==_T(':'))
+		if (nLen >= 2 && pszPath[1] == _T(':'))
 			return false;
 
-		if(nLen>2 && pszPath[0]==_T('\\') && pszPath[1]==_T('\\'))
+		if (nLen > 2 && pszPath[0] == _T('\\') && pszPath[1] == _T('\\'))
 			return false;
 
 		// This one isn't absolute anyway
@@ -90,19 +90,19 @@ public:
 	// Returns true if specified file name is a file or directory
 	static bool FileExists(LPCTSTR lpszFileName) {
 		WIN32_FIND_DATA wfd;
-		
-		HANDLE hFind = FindFirstFile(lpszFileName,&wfd);
-		if(hFind==INVALID_HANDLE_VALUE) return false;
+
+		HANDLE hFind = FindFirstFile(lpszFileName, &wfd);
+		if (hFind == INVALID_HANDLE_VALUE) return false;
 		FindClose(hFind);
 		return true;
 	}
-	
+
 	// Returns true if specified file name is a directory
 	static bool IsDirectory(LPCTSTR lpszFileName) {
 		DWORD dw = GetFileAttributes(lpszFileName);
-		return dw!=INVALID_FILE_ATTRIBUTES && dw & FILE_ATTRIBUTE_DIRECTORY;
+		return dw != INVALID_FILE_ATTRIBUTES && dw & FILE_ATTRIBUTE_DIRECTORY;
 	}
-	
+
 	// Returns true if specified file name is a file
 	static bool IsFile(LPCTSTR lpszFileName) {
 		return !IsDirectory(lpszFileName) && FileExists(lpszFileName);
@@ -110,28 +110,28 @@ public:
 
 	// Returns true if specified folder was retrieved
 	// See SHGetSpecialFolderLocation for folder constants
-	static bool GetShellFolderPath(const int nFolder,LPTSTR pszValue) {
+	static bool GetShellFolderPath(const int nFolder, LPTSTR pszValue) {
 		IMalloc* Malloc;
 		ITEMIDLIST* pidl;
 
 		*pszValue = _T('\0');
-		
-		if(FAILED(SHGetMalloc(&Malloc)))
+
+		if (FAILED(SHGetMalloc(&Malloc)))
 			Malloc = NULL;
 
-		if(SUCCEEDED(SHGetSpecialFolderLocation(NULL, nFolder, &pidl))) {
-		    if(!SHGetPathFromIDList(pidl, pszValue))
-		    	*pszValue = _T('\0');
-		    if(Malloc) Malloc->Free(pidl);
+		if (SUCCEEDED(SHGetSpecialFolderLocation(NULL, nFolder, &pidl))) {
+			if (!SHGetPathFromIDList(pidl, pszValue))
+				*pszValue = _T('\0');
+			if (Malloc) Malloc->Free(pidl);
 		}
-		return *pszValue!=0;
+		return *pszValue != 0;
 	}
 
 #ifdef __ATLSTR_H__
 	// Returns true if specified folder was retrieved
 	// See SHGetSpecialFolderLocation for folder constants
-	static bool GetShellFolderPath(const int nFolder,CString& strValue) {
-		GetShellFolderPath(nFolder,strValue.GetBuffer(_MAX_PATH));
+	static bool GetShellFolderPath(const int nFolder, CString& strValue) {
+		GetShellFolderPath(nFolder, strValue.GetBuffer(_MAX_PATH));
 		strValue.ReleaseBuffer();
 		return !strValue.IsEmpty();
 	}
@@ -140,23 +140,23 @@ public:
 	// Displays system messages. Find res with GetLastError()
 	static void ShowSysMsg(LONG res) {
 		LPVOID lpMsgBuf;
-		FormatMessage(	
-			FORMAT_MESSAGE_ALLOCATE_BUFFER | 
-			FORMAT_MESSAGE_FROM_SYSTEM |	 
+		FormatMessage(
+			FORMAT_MESSAGE_ALLOCATE_BUFFER |
+			FORMAT_MESSAGE_FROM_SYSTEM |
 			FORMAT_MESSAGE_IGNORE_INSERTS,
-			NULL,	 
-			res,	
-			MAKELANGID(LANG_NEUTRAL,SUBLANG_DEFAULT), // Default language    
-			(LPTSTR)&lpMsgBuf,    
-			0,    
+			NULL,
+			res,
+			MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language    
+			(LPTSTR)&lpMsgBuf,
+			0,
 			NULL
 		);
 #ifdef _MFC_VER
 		AfxMessageBox((char*)lpMsgBuf);
 #else
-		MessageBox(NULL,(LPTSTR)lpMsgBuf,_T("Information"),MB_OK|MB_ICONINFORMATION);
+		MessageBox(NULL, (LPTSTR)lpMsgBuf, _T("Information"), MB_OK | MB_ICONINFORMATION);
 #endif
-		LocalFree(lpMsgBuf); 
+		LocalFree(lpMsgBuf);
 	}
 
 	/** Append a character to the end of the string if the string does not
@@ -166,22 +166,22 @@ public:
 	character specified by nChar, this function will be a NOOP. This
 	function will only succeed on a string that already has length. It will
 	not set the first character of an otherwise empty string to nChar.*/
-	static void EndWith(LPTSTR pszStr,TCHAR nChar) {
+	static void EndWith(LPTSTR pszStr, TCHAR nChar) {
 		int nLength = (int)_tcslen(pszStr);
 
-		if(nLength) {
-			if(*(pszStr + (nLength-1)) != nChar) {
+		if (nLength) {
+			if (*(pszStr + (nLength - 1)) != nChar) {
 				pszStr[nLength++] = nChar;
 				pszStr[nLength] = 0;
 			}
 		}
 	}
 
-//#ifdef _MFC_VER
+	//#ifdef _MFC_VER
 #ifdef __CSTRINGT_H__
-	static void EndWith(CString& ref,TCHAR nChar) {
+	static void EndWith(CString& ref, TCHAR nChar) {
 		int nLength = (int)_tcslen(ref);
-		if(!nLength || ref[nLength-1]!=nChar)
+		if (!nLength || ref[nLength - 1] != nChar)
 			ref += _T('\\');
 	}
 #endif
@@ -190,32 +190,32 @@ public:
 	/*
 	** MessageBox with formatting
 	*/
-	static int MessageBox(UINT nType,LPCTSTR pszText,...) {
+	static int MessageBox(UINT nType, LPCTSTR pszText, ...) {
 		char szBuf[512];
 		va_list args;
-		va_start(args,pszText);
-		wvsprintf(szBuf,pszText,args);
-		return AfxMessageBox(szBuf,nType==0 ? MB_OK : nType);
+		va_start(args, pszText);
+		wvsprintf(szBuf, pszText, args);
+		return AfxMessageBox(szBuf, nType == 0 ? MB_OK : nType);
 	}
 #endif
 
 #if 1
-	static bool GetRegString(CRegKey& reg,LPCTSTR pszValueName,CString& out,LPCTSTR pszDefault=NULL) {
+	static bool GetRegString(CRegKey& reg, LPCTSTR pszValueName, CString& out, LPCTSTR pszDefault = NULL) {
 		ULONG nChars = 1024;
-		if(reg.QueryStringValue(pszValueName,out.GetBuffer(nChars),&nChars)==ERROR_SUCCESS) {
-			out.ReleaseBufferSetLength(nChars-1);
+		if (reg.QueryStringValue(pszValueName, out.GetBuffer(nChars), &nChars) == ERROR_SUCCESS) {
+			out.ReleaseBufferSetLength(nChars - 1);
 			return true;
 		} else {
-			if(pszDefault)
+			if (pszDefault)
 				out = pszDefault;
 			else
 				out.Empty();
 			return false;
 		}
 	}
-	static bool GetRegLong(CRegKey& reg,LPCTSTR pszValueName,long& out,long nDefault=0) {
+	static bool GetRegLong(CRegKey& reg, LPCTSTR pszValueName, long& out, long nDefault = 0) {
 		DWORD dw;
-		if(reg.QueryDWORDValue(pszValueName,dw)==ERROR_SUCCESS) {
+		if (reg.QueryDWORDValue(pszValueName, dw) == ERROR_SUCCESS) {
 			out = dw;
 			return true;
 		} else {
@@ -230,18 +230,18 @@ public:
 		DWORD dwVersion = 0;
 
 		hinstDll = LoadLibrary(lpszDllName);
-		
-		if(hinstDll) {
+
+		if (hinstDll) {
 			DLLGETVERSIONPROC pDllGetVersion;
 
-			pDllGetVersion = (DLLGETVERSIONPROC) GetProcAddress(hinstDll, "DllGetVersion");
+			pDllGetVersion = (DLLGETVERSIONPROC)GetProcAddress(hinstDll, "DllGetVersion");
 			/*
 			** Because some DLLs may not implement this function, you
-			** must test for it explicitly. Depending on the particular 
+			** must test for it explicitly. Depending on the particular
 			** DLL, the lack of a DllGetVersion function may
 			** be a useful indicator of the version.
 			*/
-			if(pDllGetVersion) {
+			if (pDllGetVersion) {
 				DLLVERSIONINFO dvi;
 				HRESULT hr;
 
@@ -250,7 +250,7 @@ public:
 
 				hr = (*pDllGetVersion)(&dvi);
 
-				if(SUCCEEDED(hr)) {
+				if (SUCCEEDED(hr)) {
 					dwVersion = PACKVERSION(dvi.dwMajorVersion, dvi.dwMinorVersion);
 				}
 			}
@@ -277,26 +277,24 @@ public:
 
 		bool bRetVal = false;
 
-		const int nLength = (int)_tcslen( pcszDirectory ) + 1;
-		LPTSTR pszDirectoryPath = (LPTSTR)malloc( nLength * sizeof( TCHAR ) );
-		if( pszDirectoryPath )
-		{
+		const int nLength = (int)_tcslen(pcszDirectory) + 1;
+		LPTSTR pszDirectoryPath = (LPTSTR)malloc(nLength * sizeof(TCHAR));
+		if (pszDirectoryPath) {
 
 			LPCTSTR pcszNextDirectory = pcszDirectory;
 
 			//
 			//	Determine if the path is a UNC path. We do this by looking at the first two bytes
 			//	and checkin they are both backslashes
-			if( nLength > 2 && *pcszNextDirectory == cSlash && *(pcszNextDirectory+1) == cSlash )
-			{
+			if (nLength > 2 && *pcszNextDirectory == cSlash && *(pcszNextDirectory + 1) == cSlash) {
 				//	We need to skip passed this bit and copy it into out local path.
 				//	"\\Russ\C\"
 				pcszNextDirectory += 2;
-				while( *pcszNextDirectory && *pcszNextDirectory != cSlash )	pcszNextDirectory++;
+				while (*pcszNextDirectory && *pcszNextDirectory != cSlash)	pcszNextDirectory++;
 				pcszNextDirectory++;
-				while( *pcszNextDirectory && *pcszNextDirectory != cSlash )	pcszNextDirectory++;
-                _tcsncpy_s(pszDirectoryPath, nLength, pcszDirectory, pcszNextDirectory - pcszDirectory);
-				pszDirectoryPath[ pcszNextDirectory - pcszDirectory ] = '\000';
+				while (*pcszNextDirectory && *pcszNextDirectory != cSlash)	pcszNextDirectory++;
+				_tcsncpy_s(pszDirectoryPath, nLength, pcszDirectory, pcszNextDirectory - pcszDirectory);
+				pszDirectoryPath[pcszNextDirectory - pcszDirectory] = '\000';
 			}
 
 			//
@@ -306,29 +304,25 @@ public:
 
 			//
 			//	Now, loop over the path, creating directories as we go. If we fail at any point then get out of the loop
-			do
-			{
-				if( *pcszNextDirectory )
+			do {
+				if (*pcszNextDirectory)
 					pcszNextDirectory++;
 
-				while( *pcszNextDirectory && *pcszNextDirectory != cSlash && *pcszNextDirectory!='/')
+				while (*pcszNextDirectory && *pcszNextDirectory != cSlash && *pcszNextDirectory != '/')
 					pcszNextDirectory++;
 
-                _tcsncpy_s(pszDirectoryPath, nLength, pcszDirectory, pcszNextDirectory - pcszDirectory);
-				pszDirectoryPath[ pcszNextDirectory - pcszDirectory ] = '\000';
+				_tcsncpy_s(pszDirectoryPath, nLength, pcszDirectory, pcszNextDirectory - pcszDirectory);
+				pszDirectoryPath[pcszNextDirectory - pcszDirectory] = '\000';
 
-				if( _taccess( pszDirectoryPath, 0 ) )
-				{
-					if( !CreateDirectory( pszDirectoryPath, NULL ) )
-					{
+				if (_taccess(pszDirectoryPath, 0)) {
+					if (!CreateDirectory(pszDirectoryPath, NULL)) {
 						bRetVal = false;
 						break;
 					}
 				}
-			}
-			while( *pcszNextDirectory );
+			} while (*pcszNextDirectory);
 
-			free( pszDirectoryPath );
+			free(pszDirectoryPath);
 			pszDirectoryPath = NULL;
 		}
 		return bRetVal;
@@ -342,19 +336,19 @@ class CIniFile {
 public:
 	CIniFile(LPCTSTR pszFile) : m_strFile(pszFile) {}
 
-	void GetString(LPCTSTR pszSection,LPCTSTR pszKey,CString& ref) {
+	void GetString(LPCTSTR pszSection, LPCTSTR pszKey, CString& ref) {
 		DWORD dwResult, dwSize = 128;
 		do {
 			dwSize *= 2;
-			dwResult = GetPrivateProfileString(pszSection,pszKey,NULL,ref.GetBuffer(dwSize),dwSize,m_strFile);
-		} while(dwResult==dwSize-1);
+			dwResult = GetPrivateProfileString(pszSection, pszKey, NULL, ref.GetBuffer(dwSize), dwSize, m_strFile);
+		} while (dwResult == dwSize - 1);
 		ref.ReleaseBuffer(dwResult);
 	}
 
-	LONG GetLong(LPCTSTR pszSection,LPCTSTR pszKey,LONG nDefault) {
+	LONG GetLong(LPCTSTR pszSection, LPCTSTR pszKey, LONG nDefault) {
 		CString str;
-		GetString(pszSection,pszKey,str);
-		if(str.IsEmpty())
+		GetString(pszSection, pszKey, str);
+		if (str.IsEmpty())
 			return nDefault;
 		else
 			return _ttol(str);
@@ -369,40 +363,40 @@ protected:
 */
 class CMyThread {
 public:
-    CMyThread() : _isDying(0) {
-        _handle = CreateThread(
-            0, // Security attributes
-            0, // Stack size
-            ThreadEntry,
-            this,
-            CREATE_SUSPENDED,
-            &_tid);
+	CMyThread() : _isDying(0) {
+		_handle = CreateThread(
+			0, // Security attributes
+			0, // Stack size
+			ThreadEntry,
+			this,
+			CREATE_SUSPENDED,
+			&_tid);
 	}
 
-    virtual ~CMyThread() {
-		CloseHandle(_handle); 
+	virtual ~CMyThread() {
+		CloseHandle(_handle);
 	}
-    
-	void Kill(DWORD dwMilliSeconds=INFINITE) {
+
+	void Kill(DWORD dwMilliSeconds = INFINITE) {
 		_isDying++;
 		FlushThread();
 		// Let's make sure it's gone
-        WaitForSingleObject(_handle, dwMilliSeconds);
+		WaitForSingleObject(_handle, dwMilliSeconds);
 	}
-    
-	void Resume () { ResumeThread (_handle); }
+
+	void Resume() { ResumeThread(_handle); }
 
 protected:
-    int		_isDying;
+	int		_isDying;
 
-    virtual void Run () = 0;
-    virtual void FlushThread () = 0;
+	virtual void Run() = 0;
+	virtual void FlushThread() = 0;
 
 private:
-    HANDLE	_handle;
-    DWORD	_tid;     // thread id
+	HANDLE	_handle;
+	DWORD	_tid;     // thread id
 
-    static DWORD WINAPI ThreadEntry(void* pArg) {
+	static DWORD WINAPI ThreadEntry(void* pArg) {
 		reinterpret_cast<CMyThread*>(pArg)->Run();
 		return 0;
 	}
@@ -423,7 +417,7 @@ public:
 		}
 		printf("!\n");
 	}
-    virtual void FlushThread() {};
+	virtual void FlushThread() {};
 };
 */
 
@@ -431,35 +425,35 @@ class CStringSplitter {
 public:
 	CStringSplitter() : m_strings(NULL) {
 	}
-	
-	CStringSplitter(LPCTSTR pszString,LPCTSTR pszSplit) : m_strings(NULL) {
-		Split(pszString,pszSplit);
+
+	CStringSplitter(LPCTSTR pszString, LPCTSTR pszSplit) : m_strings(NULL) {
+		Split(pszString, pszSplit);
 	}
 
-	void Split(LPCTSTR pszString,LPCTSTR pszSplit) {
+	void Split(LPCTSTR pszString, LPCTSTR pszSplit) {
 		Free();
 
 		// 1. Scan string and find string count
 		UINT nCount = 1;
 		LPCTSTR ptr = pszString;
-		while(*ptr) {
-			if(_tcschr(pszSplit,*ptr)) nCount++;
+		while (*ptr) {
+			if (_tcschr(pszSplit, *ptr)) nCount++;
 			ptr++;
 		}
 
 		// 2. Allocate array of pointers
-		m_strings = new TCHAR*[nCount+1];
+		m_strings = new TCHAR * [nCount + 1];
 		nCount = 0;
 		ptr = pszString;
-		while(*ptr) {
+		while (*ptr) {
 			UINT nLength = 0;
-			while(ptr[nLength] && !_tcschr(pszSplit,ptr[nLength])) nLength++;
-			m_strings[nCount] = new TCHAR[nLength+1];
-            _tcsncpy_s(m_strings[nCount], nLength + 1, ptr, nLength);
+			while (ptr[nLength] && !_tcschr(pszSplit, ptr[nLength])) nLength++;
+			m_strings[nCount] = new TCHAR[nLength + 1];
+			_tcsncpy_s(m_strings[nCount], nLength + 1, ptr, nLength);
 			m_strings[nCount][nLength] = 0;
 			nCount++;
-			
-			if(!ptr[nLength]) break;
+
+			if (!ptr[nLength]) break;
 			ptr += nLength + 1;
 			//while(strchr(pszSplit,*ptr)) ptr++;
 		}
@@ -467,16 +461,16 @@ public:
 	}
 
 	UINT GetLength() {
-		if(!m_strings) return 0;
+		if (!m_strings) return 0;
 
 		TCHAR** ptr = m_strings;
 		UINT nCount = 0;
-		while(ptr[nCount]) nCount++;
+		while (ptr[nCount]) nCount++;
 		return nCount;
 	}
 
 	LPCTSTR GetAt(UINT n) {
-		if(!m_strings) return NULL;
+		if (!m_strings) return NULL;
 		return m_strings[n];
 	}
 
@@ -486,18 +480,18 @@ public:
 
 protected:
 	void Free() {
-		if(m_strings) {
+		if (m_strings) {
 			TCHAR** ptr = m_strings;
-			while(*ptr) {
-				delete []*ptr;
+			while (*ptr) {
+				delete[] * ptr;
 				ptr++;
 			}
-			delete []m_strings;
+			delete[]m_strings;
 			m_strings = NULL;
 		}
 	}
 
-	TCHAR**	m_strings;
+	TCHAR** m_strings;
 };
 
 

@@ -22,7 +22,6 @@ public:
 		REFLECT_NOTIFICATIONS()
 	END_MSG_MAP()
 
-	BEGIN_DDX_MAP(CDlgBdeAlias)
 	//DDX_Control(IDC_SYSPATH_B, m_wndSysPath);
 	DDX_TEXT(IDC_SYSPATH, m_strSysPath);
 	DDX_TEXT(IDC_SYSFILE, m_strSysFile);

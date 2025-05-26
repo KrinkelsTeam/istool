@@ -14,7 +14,6 @@
 #include "DlgCompile.h"
 #include "DlgFileAssociation.h"
 #include "FilesHelper.h"
-#include "DlgBdeAlias.h"
 #include "DlgIEShortcut.h"
 #include "DlgLangOptions.h"
 #include "DlgLogFile.h"
@@ -381,48 +380,6 @@ LRESULT CMainFrame::OnProjectCreateDirectory(WORD /*wNotifyCode*/, WORD /*wID*/,
 	m_document.GetScript().AddLine(pLine);
 	m_document.UpdateAll();
 	
-	return 0;
-}
-
-LRESULT CMainFrame::OnProjectCreateOdbcProfile(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {
-	// Allow all views to apply any changes not applied yet
-	m_document.UpdateAll(m_document.HINT_APPLYCHANGES);
-
-	CFilesHelper helper(&m_document);
-	if(helper.CreateODBCProfile())
-		m_document.UpdateAll();
-	return 0;
-}
-
-LRESULT CMainFrame::OnProjectCreateBdeAlias(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {
-	// Allow all views to apply any changes not applied yet
-	m_document.UpdateAll(m_document.HINT_APPLYCHANGES);
-
-	CDlgBdeAlias dlg;
-	if(dlg.DoModal(AfxGetMainWnd())==IDOK) {
-		CScriptLine* pLine = new CScriptLine(CInnoScript::SEC_FILES);
-		pLine->SetParameter("Source","AddAlias.exe");
-		pLine->SetParameter("DestDir","{tmp}");
-		m_document.GetScript().AddLine(pLine);
-
-		m_document.GetScript().AddLine(new CInnoScript::CLineComment(CInnoScript::SEC_RUN,"; Alias "+dlg.m_strAliasName));
-
-		CString strParams = "\"";
-		if(dlg.m_bOverwrite) strParams += "-";
-		strParams += dlg.m_strAliasName;
-		strParams += "\" \"";
-		strParams += dlg.m_strDataDirectory;
-		strParams += "\" \"";
-		strParams += dlg.m_strDriverName;
-		strParams += "\"";
-
-		CScriptLine* pRun = new CScriptLine(CInnoScript::SEC_RUN);
-		pRun->SetParameter("Filename","{tmp}\\AddAlias.exe");
-		pRun->SetParameter("Parameters",strParams);
-		m_document.GetScript().AddLine(pRun);
-		m_document.UpdateAll();
-		m_document.SetModifiedFlag();
-	}
 	return 0;
 }
 

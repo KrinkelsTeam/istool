@@ -15,7 +15,6 @@ public:
 	void CreateIcon(HWND hWnd,CScriptLine*);
 	void OnFileAddFiles(LPCTSTR);
 	bool ImportRegistry(HWND hWnd,LPCTSTR lpszRegFile);
-	bool CreateODBCProfile();
 	bool ImportIni(HWND hWnd,LPCTSTR pszPathName);
 	void AutoComponentSelect(CScriptList& list);
 	void AutoComponentSelect(CScriptLine* pLine);

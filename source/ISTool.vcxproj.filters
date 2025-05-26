@@ -127,9 +127,6 @@
     <ClCompile Include="IconComboBox.cpp">
       <Filter>Library Files</Filter>
     </ClCompile>
-    <ClCompile Include="Registry.cpp">
-      <Filter>Library Files</Filter>
-    </ClCompile>
     <ClCompile Include="InnoScript\InnoScript.cpp">
       <Filter>Inno Script</Filter>
     </ClCompile>
@@ -303,9 +300,6 @@
     <ClInclude Include="kFontCombo.h">
       <Filter>Library Files</Filter>
     </ClInclude>
-    <ClInclude Include="Registry.h">
-      <Filter>Library Files</Filter>
-    </ClInclude>
     <ClInclude Include="CompInt.h">
       <Filter>Inno Script</Filter>
     </ClInclude>
@@ -414,9 +408,6 @@
     <ClInclude Include="DlgAddDirectory.h">
       <Filter>Dialog Files</Filter>
     </ClInclude>
-    <ClInclude Include="DlgBdeAlias.h">
-      <Filter>Dialog Files</Filter>
-    </ClInclude>
     <ClInclude Include="DlgCompile.h">
       <Filter>Dialog Files</Filter>
     </ClInclude>
@@ -436,9 +427,6 @@
       <Filter>Dialog Files</Filter>
     </ClInclude>
     <ClInclude Include="DlgLogFile.h">
-      <Filter>Dialog Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DlgODBC.h">
       <Filter>Dialog Files</Filter>
     </ClInclude>
     <ClInclude Include="DlgSelectFonts.h">
@@ -535,6 +523,9 @@
       <Filter>Scintilla</Filter>
     </ClInclude>
     <ClInclude Include="WebUpdate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

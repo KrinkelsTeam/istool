@@ -26,10 +26,12 @@ LRESULT CMainFrame::OnHelpISPP(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCt
 	CWaitCursor wait;
 	CString strHelp(CMyApp::m_prefs.m_strInnoFolder);
 	CMyUtils::EndWith(strHelp, '\\');
-	strHelp += "ISPP.chm";
+	strHelp += "ISetup.chm";
 
-	//::WinHelp(AfxGetMainWnd(),strHelp,HELP_FINDER,0);
-	::ShellExecute(AfxGetMainWnd(), _T("open"), strHelp, NULL, NULL, SW_SHOWDEFAULT);
+	CString strTopic;
+	strTopic.Format(_T("%s::/topic_isppoverview.htm"), strHelp.GetString());
+
+	::HtmlHelp(m_hWnd, strTopic, HH_DISPLAY_TOPIC, 0);
 	return 0;
 }
 LRESULT CMainFrame::OnAppAbout(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {

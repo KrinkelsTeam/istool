@@ -11,7 +11,6 @@
 #include "FileInfo.h"
 #include "SplitPath.h"
 #include "StringToken.h"
-#include "DlgODBC.h"
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -379,12 +378,6 @@ bool CFilesHelper::ImportRegistry(HWND hWnd, LPCTSTR lpszRegFile) {
 		AtlMessageBox(hWnd, (LPCTSTR)txt, IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 	}
 	return bRet;
-}
-
-bool CFilesHelper::CreateODBCProfile() {
-	CDlgODBC	dlg(m_pDoc);
-
-	return dlg.DoModal(AfxGetMainWnd()) == IDOK;
 }
 
 void CFilesHelper::OnDropFilesRegistry(HWND hWnd, HDROP hDropInfo) {
