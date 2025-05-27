@@ -41,10 +41,10 @@ public:
 			DoDataExchange(DDX_SAVE);
 
 			UINT nMajor, nMinor, nBuild, nSP;
-			nMajor = atol(m_strMajor);
-			nMinor = atol(m_strMinor);
-			nBuild = atol(m_strBuild);
-			nSP = atol(m_strSP);
+			nMajor = _ttol(m_strMajor);
+			nMinor = _ttol(m_strMinor);
+			nBuild = _ttol(m_strBuild);
+			nSP = _ttol(m_strSP);
 
 			m_strVer.Empty();
 			CString tmp;

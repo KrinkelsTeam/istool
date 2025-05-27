@@ -266,6 +266,8 @@
     <ClCompile Include="ViewTypes.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ButtonFile.h" />
+    <ClInclude Include="ButtonFolder.h" />
     <ClInclude Include="Scintilla\AtlScintilla.h" />
     <ClInclude Include="AboutDlg.h" />
     <ClInclude Include="ButtonVer.h" />
@@ -347,6 +349,7 @@
     <ClInclude Include="SplitPath.h" />
     <ClInclude Include="StdAfx.h" />
     <ClInclude Include="StringToken.h" />
+    <ClInclude Include="ToolTipDialog.h" />
     <ClInclude Include="Translate.h" />
     <ClInclude Include="Update.h" />
     <ClInclude Include="Utils.h" />
@@ -377,20 +380,13 @@
     <ClInclude Include="WebUpdate.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\res\imagelist-16.bmp" />
-    <Image Include="..\res\imagelist.bmp" />
-    <Image Include="..\res\states.bmp" />
-    <Image Include="..\res\xptoolbar-small1.bmp" />
-    <Image Include="..\res\xptoolbar-small2.bmp" />
     <Image Include="res\imagelist-16.bmp" />
     <Image Include="res\imagelist-32.bmp" />
     <Image Include="res\imagelist.bmp" />
     <Image Include="res\ISTool.ico" />
     <Image Include="res\ISTool2.ico" />
     <Image Include="res\ISTool3.ico" />
-    <Image Include="res\printer.bmp" />
     <Image Include="res\printpreview.bmp" />
-    <Image Include="res\states.bmp" />
     <Image Include="res\toolbar.bmp" />
     <Image Include="res\xptoolbar-small1.bmp" />
     <Image Include="res\xptoolbar-small2.bmp" />

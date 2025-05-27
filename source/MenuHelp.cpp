@@ -64,7 +64,7 @@ LRESULT CMainFrame::OnHelpUpdates(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWn
 		UINT nCount = 4;
 		DWORD dwNewVersion = 0;
 		while (nCount-- && (psz = ver.GetNext())) {
-			dwNewVersion |= atol(psz) << (nCount * 8);
+			dwNewVersion |= _ttol(psz) << (nCount * 8);
 		}
 
 #ifdef VER_BUILD

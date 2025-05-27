@@ -252,7 +252,7 @@ public:
 				str = str.Left(nPos);
 			}
 		} else if(nPos!=-1) {
-			m_nCompressLevel = atol(str.Mid(nPos+1));
+			m_nCompressLevel = _ttol(str.Mid(nPos+1));
 			str = str.Left(nPos);
 		} else if(!_stricmp(str,"zip")) {
 			m_nCompressLevel = 7;

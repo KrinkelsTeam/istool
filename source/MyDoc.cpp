@@ -119,9 +119,9 @@ BOOL CMyDoc::OnOpenDocument(HWND hWnd, LPCTSTR lpszPathName) {
 			CScriptLine* pLine = list[nPos];
 			if (pLine->GetSection() == CInnoScript::SEC_SETUP) {
 				if (!_stricmp(pLine->GetKey(), "CompressLevel")) {
-					if (atol(pLine->GetValue()) != 7) {
+					if (_ttol(pLine->GetValue()) != 7) {
 						CString str;
-						str.Format("zip/%d", atol(pLine->GetValue()));
+						str.Format("zip/%d", _ttol(pLine->GetValue()));
 						GetScript().SetPropertyString("Compression", str);
 					}
 					GetScript().DeleteLine(pLine);

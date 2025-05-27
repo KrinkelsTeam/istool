@@ -278,7 +278,7 @@ bool CInnoScriptEx::GetBoolean(LPCTSTR pszValue) {
 		return true;
 	if(!_stricmp(pszValue,"true"))
 		return true;
-	if(atol(pszValue))
+	if(_ttol(pszValue))
 		return true;
 	return false;
 }
@@ -447,7 +447,7 @@ bool CInnoScriptEx::GetPropertyBool(LPCTSTR pszName,SECTION sec/*=SEC_SETUP*/) {
 }
 
 LONG CInnoScriptEx::GetPropertyNumber(LPCTSTR pszName,SECTION sec/*=SEC_SETUP*/) {
-	return atol(GetPropertyString(pszName,sec));
+	return _ttol(GetPropertyString(pszName,sec));
 }
 
 LPCTSTR CInnoScriptEx::GetPropertyString(LPCTSTR pszName,SECTION sec/*=SEC_SETUP*/) {
@@ -833,7 +833,7 @@ void CInnoScriptEx::Split(const CString& Str,TSetupVersionDataVersion& Ver,WORD&
 
 	I = Z.Find("sp");
 	if(I>=0) {
-		J = atol(Z.Mid(I+2));
+		J = _ttol(Z.Mid(I+2));
 		if(J<0 || J>255) throw 0;
 		ServicePack = J;
 		Z.SetAt(I,0);
@@ -843,7 +843,7 @@ void CInnoScriptEx::Split(const CString& Str,TSetupVersionDataVersion& Ver,WORD&
 	I = Z.Find(".");
 	if(I==Z.GetLength()-1) throw 0;
 	if(I>=0) {
-		J = atol(Z.Left(I));
+		J = _ttol(Z.Left(I));
 		if(J<0 || J>255) throw 0;
 		Ver.Major = J;
 		Z = Z.Mid(I+1);
@@ -857,17 +857,17 @@ void CInnoScriptEx::Split(const CString& Str,TSetupVersionDataVersion& Ver,WORD&
 			B = Z.Mid(I+1);
 			Z = Z.Left(I);
 		}
-		J = atol(Z);
+		J = _ttol(Z);
 		if(J<0 || J>99) throw 0;
 		if(J<10 && Z[0]!='0') J *= 10;
 		Ver.Minor = J;
 		if(HasBuild) {
-			J = atol(B);
+			J = _ttol(B);
 			if(J<0 || J>65535) throw 0;
 			Ver.Build = J;
 		}
 	} else { // no minor version specified }
-		J = atol(Str);
+		J = _ttol(Str);
 		if(J<0 || J>255) throw 0;
 		Ver.Major = J;
 	}

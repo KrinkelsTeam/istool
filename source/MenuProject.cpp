@@ -275,7 +275,7 @@ LRESULT CMainFrame::OnProjectExportRegistry(WORD /*wNotifyCode*/, WORD /*wID*/, 
 				if(strValueData[0]=='$') {
 					strValueData = "dword:" + strValueData.Mid(1);
 				} else {
-					DWORD dwValueData = atol(strValueData);
+					DWORD dwValueData = _ttol(strValueData);
 					strValueData.Format("dword:%08X",dwValueData);
 				}
 			} else {

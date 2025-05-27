@@ -124,7 +124,7 @@ public:
 			if(m_strHotKey.CompareNoCase(SAFESTR(pLine->GetParameter("HotKey"))))
 				m_strHotKey.Empty();
 
-			if(m_nIconIndex!=atol(SAFESTR(pLine->GetParameter("IconIndex"))))
+			if(m_nIconIndex!=_ttol(SAFESTR(pLine->GetParameter("IconIndex"))))
 				m_nIconIndex = -1;
 
 			if(m_bCreateOnlyIfFileExists != (pLine->GetParameterFlag("Flags","createonlyiffileexists") ? TRUE : FALSE)) {
@@ -343,7 +343,7 @@ public:
 			m_strParameters = pLine->GetParameter("Parameters");
 			m_strWorkingDir = pLine->GetParameter("WorkingDir");
 			m_strIconFilename = pLine->GetParameter("IconFilename");
-			m_nIconIndex = atol(SAFESTR(pLine->GetParameter("IconIndex")));
+			m_nIconIndex = _ttol(SAFESTR(pLine->GetParameter("IconIndex")));
 			m_strComment = pLine->GetParameter("Comment");
 			m_strHotKey = pLine->GetParameter("HotKey");
 

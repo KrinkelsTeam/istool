@@ -45,7 +45,6 @@
 #define IDD_IESHORTCUT                  220
 #define IDD_UPDATES                     221
 #define IDD_LANGOPTIONS                 222
-#define IDB_GLYPHS                      223
 #define IDI_ICON1                       228
 #define IDB_XPTOOLBAR_SMALL1            231
 #define IDB_XPTOOLBAR_SMALL2            232

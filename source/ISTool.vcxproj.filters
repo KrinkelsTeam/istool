@@ -528,18 +528,21 @@
     <ClInclude Include="Utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ButtonFile.h">
+      <Filter>Library Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonFolder.h">
+      <Filter>Library Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolTipDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\res\imagelist-16.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="res\imagelist-16.bmp">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\imagelist-32.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="..\res\imagelist.bmp">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\imagelist.bmp">
@@ -554,28 +557,13 @@
     <Image Include="res\ISTool3.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="res\printer.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="res\printpreview.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="..\res\states.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="res\states.bmp">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\toolbar.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="..\res\xptoolbar-small1.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="res\xptoolbar-small1.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="..\res\xptoolbar-small2.bmp">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\xptoolbar-small2.bmp">

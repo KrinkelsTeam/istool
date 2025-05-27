@@ -344,7 +344,7 @@ public:
 		CString str(script.GetPropertyString("UninstallDisplayIcon"));
 		int nPos = str.ReverseFind(',');
 		if(nPos>0) {
-			m_nUninstallDisplayIconIndex = atol(str.Mid(nPos+1));
+			m_nUninstallDisplayIconIndex = _ttol(str.Mid(nPos+1));
 			m_strUninstallDisplayIcon = str.Left(nPos);
 		} else
 			m_strUninstallDisplayIcon = str;

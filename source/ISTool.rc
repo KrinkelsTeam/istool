@@ -151,8 +151,6 @@ IDB_IMAGELIST32         BITMAP                  "res\\imagelist-32.bmp"
 
 IDB_IMAGELIST16         BITMAP                  "res\\imagelist-16.bmp"
 
-IDB_GLYPHS              BITMAP                  "res\\printer.bmp"
-
 IDR_PRINTPREVIEW        BITMAP                  "res\\printpreview.bmp"
 
 IDR_MAINFRAME           BITMAP                  "res\\toolbar.bmp"
