@@ -53,17 +53,17 @@ public:
 
 	CAboutDlg() {
 #ifdef _DEBUG
-	#ifdef VER_BUILD
+#ifdef VER_BUILD
 		m_strVersion.Format("%d.%d.%d.%d DEBUG", VER_MAJOR, VER_MINOR, VER_REVISION, VER_BUILD);
-	#else
-		m_strVersion.Format("%d.%d.%d DEBUG", VER_MAJOR, VER_MINOR, VER_REVISION);
-	#endif
 #else
-	#ifdef VER_BUILD
+		m_strVersion.Format("%d.%d.%d DEBUG", VER_MAJOR, VER_MINOR, VER_REVISION);
+#endif
+#else
+#ifdef VER_BUILD
 		m_strVersion.Format("%d.%d.%d.%d", VER_MAJOR, VER_MINOR, VER_REVISION, VER_BUILD);
-	#else
+#else
 		m_strVersion.Format("%d.%d.%d", VER_MAJOR, VER_MINOR, VER_REVISION);
-	#endif
+#endif
 #endif
 		m_strISVersion.Format("%s", ISVERSION);
 

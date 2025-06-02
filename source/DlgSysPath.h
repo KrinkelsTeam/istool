@@ -6,8 +6,8 @@
 /////////////////////////////////////////////////////////////////////////////
 // CDlgSysPath dialog
 
-class CDlgSysPath : 
-	public CDialogImpl<CDlgSysPath>, 
+class CDlgSysPath :
+	public CDialogImpl<CDlgSysPath>,
 	public CWinDataExchange<CDlgSysPath>,
 	public CMyDialogBase<CDlgSysPath>
 {

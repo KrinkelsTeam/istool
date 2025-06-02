@@ -21,7 +21,7 @@ class CMyListView : public CWindowImpl<CMyListView, CListViewCtrl>, public CMyVi
 public:
 	DECLARE_WND_SUPERCLASS(NULL, CListViewCtrl::GetWndClassName())
 
-	CMyListView(CInnoScript::SECTION sec);           // protected constructor used by dynamic creation
+	CMyListView(CInnoScript::SECTION sec); // protected constructor used by dynamic creation
 	virtual ~CMyListView();
 	virtual void UpdateView();
 	virtual bool ApplyView();

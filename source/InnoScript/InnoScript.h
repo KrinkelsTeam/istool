@@ -2,8 +2,7 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#if !defined(_INNOSCRIPT_H)
-#define _INNOSCRIPT_H
+#pragma once
 
 #include <windows.h>
 #include <stdio.h>
@@ -73,5 +72,3 @@ protected:
 
 	CAtlArray<CLine*>	m_lines;
 };
-
-#endif // !defined(_INNOSCRIPT_H)

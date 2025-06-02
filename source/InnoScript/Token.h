@@ -2,23 +2,18 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#if !defined(_TOKEN_H)
-#define _TOKEN_H
+#pragma once
 
-#ifndef _INNOSCRIPT_H
 #include "InnoScript.h"
-#endif
 
 class CInnoScript::CToken {
 public:
-	CToken(LPCTSTR pszLine,LPCTSTR pszDelim);
+	CToken(LPCTSTR pszLine, LPCTSTR pszDelim);
 	virtual ~CToken();
 	LPSTR GetNext();
 	LPSTR GetRest();
 protected:
-	LPSTR		m_pszLine;
-	LPSTR		m_pszDelim;
-	LPSTR		m_pszCurrPos;
+	LPSTR m_pszLine;
+	LPSTR m_pszDelim;
+	LPSTR m_pszCurrPos;
 };
-
-#endif // !defined(_TOKEN_H)

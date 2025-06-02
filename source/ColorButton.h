@@ -1,5 +1,4 @@
-#ifndef DSSI_COLORBUTTON_H
-#define DSSI_COLORBUTTON_H
+#pragma once
 
 //-----------------------------------------------------------------------------
 // 
@@ -608,5 +607,3 @@ protected:
 
 	COLORREF				m_clrText;
 };
-
-#endif // DSSI_COLORBUTTON_H

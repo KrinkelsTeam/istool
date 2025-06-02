@@ -8,7 +8,7 @@
 
 class CViewRun : public CMyListView {
 public:
-	CViewRun(CInnoScript::SECTION sec);           // protected constructor used by dynamic creation
+	CViewRun(CInnoScript::SECTION sec);  // protected constructor used by dynamic creation
 
 protected:
 	static const CListInfo m_colInfo[];

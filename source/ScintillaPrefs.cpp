@@ -49,26 +49,26 @@ long CScintillaPrefs::GetStyleCount() {
 }
 
 void CScintillaPrefs::SavePrefs(CMyApp& app) {
-	for(int i=0;i<NUMSTYLES;i++) {
+	for (int i = 0; i < NUMSTYLES; i++) {
 		CString strEntry;
-		strEntry.Format("Style%X",i);
+		strEntry.Format("Style%X", i);
 
 		Style s = m_styles[i];
 		s.pszName = 0;
-		app.WriteProfileBinary("Editor",strEntry,&s,sizeof s);
+		app.WriteProfileBinary("Editor", strEntry, &s, sizeof s);
 	}
 }
 
 void CScintillaPrefs::LoadPrefs(CMyApp& app) {
-	for(int i=0;i<NUMSTYLES;i++) {
+	for (int i = 0; i < NUMSTYLES; i++) {
 		CString strEntry;
-		strEntry.Format("Style%X",i);
+		strEntry.Format("Style%X", i);
 
 		Style s;
 		ULONG nSize = sizeof s;
-		if(!app.GetProfileBinary("Editor",strEntry,&s,&nSize) || nSize!=sizeof s)
+		if (!app.GetProfileBinary("Editor", strEntry, &s, &nSize) || nSize != sizeof s)
 			break;
-		
+
 		s.pszName = m_styles[i].pszName;
 		m_styles[i] = s;
 	}

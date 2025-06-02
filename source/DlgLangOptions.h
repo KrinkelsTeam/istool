@@ -157,8 +157,8 @@ static const struct {
 /////////////////////////////////////////////////////////////////////////////
 // CDlgLangOptions dialog
 
-class CDlgLangOptions : 
-	public CDialogImpl<CDlgLangOptions>, 
+class CDlgLangOptions :
+	public CDialogImpl<CDlgLangOptions>,
 	public CWinDataExchange<CDlgLangOptions>,
 	public CMyDialogBase<CDlgLangOptions>
 {
@@ -169,8 +169,8 @@ public:
 		MESSAGE_HANDLER(WM_INITDIALOG, OnInitDialog)
 		COMMAND_ID_HANDLER(IDOK, OnCloseCmd)
 		COMMAND_ID_HANDLER(IDCANCEL, OnCloseCmd)
-		COMMAND_HANDLER(IDC_LANGOPTIONS_LANGUAGENAME,CBN_SELCHANGE,OnSelChangeLanguageName)
-		COMMAND_HANDLER(IDC_LANGOPTIONS_LANGUAGEID,CBN_SELCHANGE,OnSelChangeLanguageID)
+		COMMAND_HANDLER(IDC_LANGOPTIONS_LANGUAGENAME, CBN_SELCHANGE, OnSelChangeLanguageName)
+		COMMAND_HANDLER(IDC_LANGOPTIONS_LANGUAGEID, CBN_SELCHANGE, OnSelChangeLanguageID)
 		CHAIN_MSG_MAP(CMyDialogBase<CDlgLangOptions>)
 	END_MSG_MAP()
 
@@ -214,43 +214,43 @@ public:
 	BOOL	m_bRightToLeft;
 
 	LRESULT OnCloseCmd(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {
-		if(wID==IDOK) {
+		if (wID == IDOK) {
 			DoDataExchange(DDX_SAVE);
 			CInnoScriptEx& script = m_pDoc->GetScript();
 			CString		strLanguageName = m_langInfo[m_nLanguageName].m_pszLanguageName;
-			CString		strLanguageID; strLanguageID.Format("$%04X",m_langInfo[m_nLanguageName].m_nLanguageID);
+			CString		strLanguageID; strLanguageID.Format("$%04X", m_langInfo[m_nLanguageName].m_nLanguageID);
 
 			int n = strLanguageName.Find('(');
-			if(n>=0) {
+			if (n >= 0) {
 				strLanguageName.GetBufferSetLength(n);
 				strLanguageName.TrimRight();
 			}
 
 			CString str;
-			
-			script.SetPropertyString("LanguageName",strLanguageName,CInnoScript::SEC_LANGOPTIONS);
-			script.SetPropertyString("LanguageID",strLanguageID,CInnoScript::SEC_LANGOPTIONS);
-			m_wndDialogFontName.GetWindowText(str.GetBuffer(255),256); str.ReleaseBuffer();
-			script.SetPropertyString("DialogFontName",str,CInnoScript::SEC_LANGOPTIONS);
-			script.SetPropertyNumber("DialogFontSize",m_nDialogFontSize,CInnoScript::SEC_LANGOPTIONS);
-			script.SetPropertyNumber("DialogFontStandardHeight",m_nDialogFontStandardHeight,CInnoScript::SEC_LANGOPTIONS);
-			m_wndTitleFontName.GetWindowText(str.GetBuffer(255),256); str.ReleaseBuffer();
-			script.SetPropertyString("TitleFontName",str,CInnoScript::SEC_LANGOPTIONS);
-			script.SetPropertyNumber("TitleFontSize",m_nTitleFontSize,CInnoScript::SEC_LANGOPTIONS);
-			m_wndWelcomeFontName.GetWindowText(str.GetBuffer(255),256); str.ReleaseBuffer();
-			script.SetPropertyString("WelcomeFontName",str,CInnoScript::SEC_LANGOPTIONS);
-			script.SetPropertyNumber("WelcomeFontSize",m_nWelcomeFontSize,CInnoScript::SEC_LANGOPTIONS);
-			m_wndCopyrightFontName.GetWindowText(str.GetBuffer(255),256); str.ReleaseBuffer();
-			script.SetPropertyString("CopyrightFontName",str,CInnoScript::SEC_LANGOPTIONS);
-			script.SetPropertyNumber("CopyrightFontSize",m_nCopyrightFontSize,CInnoScript::SEC_LANGOPTIONS);
-			script.SetPropertyBool("RightToLeft",m_bRightToLeft ? true : false,CInnoScript::SEC_LANGOPTIONS);
+
+			script.SetPropertyString("LanguageName", strLanguageName, CInnoScript::SEC_LANGOPTIONS);
+			script.SetPropertyString("LanguageID", strLanguageID, CInnoScript::SEC_LANGOPTIONS);
+			m_wndDialogFontName.GetWindowText(str.GetBuffer(255), 256); str.ReleaseBuffer();
+			script.SetPropertyString("DialogFontName", str, CInnoScript::SEC_LANGOPTIONS);
+			script.SetPropertyNumber("DialogFontSize", m_nDialogFontSize, CInnoScript::SEC_LANGOPTIONS);
+			script.SetPropertyNumber("DialogFontStandardHeight", m_nDialogFontStandardHeight, CInnoScript::SEC_LANGOPTIONS);
+			m_wndTitleFontName.GetWindowText(str.GetBuffer(255), 256); str.ReleaseBuffer();
+			script.SetPropertyString("TitleFontName", str, CInnoScript::SEC_LANGOPTIONS);
+			script.SetPropertyNumber("TitleFontSize", m_nTitleFontSize, CInnoScript::SEC_LANGOPTIONS);
+			m_wndWelcomeFontName.GetWindowText(str.GetBuffer(255), 256); str.ReleaseBuffer();
+			script.SetPropertyString("WelcomeFontName", str, CInnoScript::SEC_LANGOPTIONS);
+			script.SetPropertyNumber("WelcomeFontSize", m_nWelcomeFontSize, CInnoScript::SEC_LANGOPTIONS);
+			m_wndCopyrightFontName.GetWindowText(str.GetBuffer(255), 256); str.ReleaseBuffer();
+			script.SetPropertyString("CopyrightFontName", str, CInnoScript::SEC_LANGOPTIONS);
+			script.SetPropertyNumber("CopyrightFontSize", m_nCopyrightFontSize, CInnoScript::SEC_LANGOPTIONS);
+			script.SetPropertyBool("RightToLeft", m_bRightToLeft ? true : false, CInnoScript::SEC_LANGOPTIONS);
 		}
 		EndDialog(wID);
 		return 0;
 	}
 
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) {
-		_L(m_hWnd,"LangOptions");
+		_L(m_hWnd, "LangOptions");
 		CenterWindow(GetParent());
 
 		m_wndSpin1.Attach(GetDlgItem(IDC_SPIN1));
@@ -273,47 +273,47 @@ public:
 		m_nDialogFontName = -1;
 
 		CInnoScriptEx& script = m_pDoc->GetScript();
-		m_nDialogFontSize = script.GetPropertyNumber("DialogFontSize",CInnoScript::SEC_LANGOPTIONS);
-		m_nTitleFontSize = script.GetPropertyNumber("TitleFontSize",CInnoScript::SEC_LANGOPTIONS);
-		m_nWelcomeFontSize = script.GetPropertyNumber("WelcomeFontSize",CInnoScript::SEC_LANGOPTIONS);
-		m_nCopyrightFontSize = script.GetPropertyNumber("CopyrightFontSize",CInnoScript::SEC_LANGOPTIONS);
-		m_nDialogFontStandardHeight = script.GetPropertyNumber("DialogFontStandardHeight",CInnoScript::SEC_LANGOPTIONS);
+		m_nDialogFontSize = script.GetPropertyNumber("DialogFontSize", CInnoScript::SEC_LANGOPTIONS);
+		m_nTitleFontSize = script.GetPropertyNumber("TitleFontSize", CInnoScript::SEC_LANGOPTIONS);
+		m_nWelcomeFontSize = script.GetPropertyNumber("WelcomeFontSize", CInnoScript::SEC_LANGOPTIONS);
+		m_nCopyrightFontSize = script.GetPropertyNumber("CopyrightFontSize", CInnoScript::SEC_LANGOPTIONS);
+		m_nDialogFontStandardHeight = script.GetPropertyNumber("DialogFontStandardHeight", CInnoScript::SEC_LANGOPTIONS);
 
 		m_wndDialogFontName.Initialize();
 		m_wndTitleFontName.Initialize();
 		m_wndWelcomeFontName.Initialize();
 		m_wndCopyrightFontName.Initialize();
-		m_wndSpin1.SetRange32(6,128);
-		m_wndSpin2.SetRange32(6,128);
-		m_wndSpin3.SetRange32(6,128);
-		m_wndSpin4.SetRange32(6,128);
-		m_wndSpin5.SetRange32(6,128);
+		m_wndSpin1.SetRange32(6, 128);
+		m_wndSpin2.SetRange32(6, 128);
+		m_wndSpin3.SetRange32(6, 128);
+		m_wndSpin4.SetRange32(6, 128);
+		m_wndSpin5.SetRange32(6, 128);
 
-		CString strLanguageID = script.GetPropertyString("LanguageID",CInnoScript::SEC_LANGOPTIONS);
+		CString strLanguageID = script.GetPropertyString("LanguageID", CInnoScript::SEC_LANGOPTIONS);
 		UINT nLanguage = 0;
-		while(m_langInfo[nLanguage].m_nLanguageID && m_langInfo[nLanguage].m_pszLanguageName) {
+		while (m_langInfo[nLanguage].m_nLanguageID && m_langInfo[nLanguage].m_pszLanguageName) {
 			m_wndLanguageName.AddString(m_langInfo[nLanguage].m_pszLanguageName);
 			CString strID;
-			strID.Format("$%04X",m_langInfo[nLanguage].m_nLanguageID);
+			strID.Format("$%04X", m_langInfo[nLanguage].m_nLanguageID);
 			int nIndex = m_wndLanguageID.AddString(strID);
-			if(!_stricmp(strLanguageID,strID)) {
+			if (!_stricmp(strLanguageID, strID)) {
 				m_nLanguageName = nIndex;
 				m_nLanguageID = nIndex;
 			}
 			nLanguage++;
 		}
 
-		m_nDialogFontName = m_wndDialogFontName.FindStringExact(0,script.GetPropertyString("DialogFontName",CInnoScript::SEC_LANGOPTIONS));
+		m_nDialogFontName = m_wndDialogFontName.FindStringExact(0, script.GetPropertyString("DialogFontName", CInnoScript::SEC_LANGOPTIONS));
 		m_wndDialogFontName.SetCurSel(m_nDialogFontName);
-		m_nTitleFontName = m_wndTitleFontName.FindStringExact(0,script.GetPropertyString("TitleFontName",CInnoScript::SEC_LANGOPTIONS));
+		m_nTitleFontName = m_wndTitleFontName.FindStringExact(0, script.GetPropertyString("TitleFontName", CInnoScript::SEC_LANGOPTIONS));
 		m_wndTitleFontName.SetCurSel(m_nTitleFontName);
-		m_nWelcomeFontName = m_wndWelcomeFontName.FindStringExact(0,script.GetPropertyString("WelcomeFontName",CInnoScript::SEC_LANGOPTIONS));
+		m_nWelcomeFontName = m_wndWelcomeFontName.FindStringExact(0, script.GetPropertyString("WelcomeFontName", CInnoScript::SEC_LANGOPTIONS));
 		m_wndWelcomeFontName.SetCurSel(m_nWelcomeFontName);
-		m_nCopyrightFontName = m_wndCopyrightFontName.FindStringExact(0,script.GetPropertyString("CopyrightFontName",CInnoScript::SEC_LANGOPTIONS));
+		m_nCopyrightFontName = m_wndCopyrightFontName.FindStringExact(0, script.GetPropertyString("CopyrightFontName", CInnoScript::SEC_LANGOPTIONS));
 		m_wndCopyrightFontName.SetCurSel(m_nCopyrightFontName);
 
-		m_nTitleFontSize = script.GetPropertyNumber("TitleFontSize",CInnoScript::SEC_LANGOPTIONS);
-		m_bRightToLeft = script.GetPropertyBool("RightToLeft",CInnoScript::SEC_LANGOPTIONS);
+		m_nTitleFontSize = script.GetPropertyNumber("TitleFontSize", CInnoScript::SEC_LANGOPTIONS);
+		m_bRightToLeft = script.GetPropertyBool("RightToLeft", CInnoScript::SEC_LANGOPTIONS);
 
 		DoDataExchange(DDX_LOAD);
 		return TRUE;
@@ -335,5 +335,5 @@ public:
 
 	CDlgLangOptions(CMyDoc* pDoc) : m_pDoc(pDoc) {}
 protected:
-	CMyDoc*	m_pDoc;
+	CMyDoc* m_pDoc;
 };

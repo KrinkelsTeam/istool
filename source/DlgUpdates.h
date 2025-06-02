@@ -95,8 +95,7 @@ public:
 		isxdl_ClearFiles();
 		if (isxdl_Download(m_hWnd, "https://istool.krinkels.org/download/istool", m_strFileUpdate)) {
 			EndDialog(IDOK);
-		}
-		else {
+		} else {
 			m_strFileUpdate.Empty();
 			AtlMessageBox(m_hWnd, _L("The update was not downloaded."), IDR_MAINFRAME, MB_OK | MB_ICONWARNING);
 		}

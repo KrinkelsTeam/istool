@@ -7,7 +7,7 @@
 
 class CViewIconsL : public CMyListView {
 public:
-	CViewIconsL();           // protected constructor used by dynamic creation
+	CViewIconsL(); // protected constructor used by dynamic creation
 
 protected:
 	static const CListInfo m_colInfo[];

@@ -3,16 +3,16 @@
 /*
 Module : ICONCOMBOBOX.H
 Purpose: Defines the interface for 2 MFC classes
-         to implement an icon selection combo box
+		 to implement an icon selection combo box
 Created: PJN / 2-08-1998
 History: None
 
-Copyright (c) 1998 by PJ Naughter.  
+Copyright (c) 1998 by PJ Naughter.
 All rights reserved.
 
 */
 
-class CSmallIconComboBox : public CWindowImpl<CSmallIconComboBox,CComboBox> {
+class CSmallIconComboBox : public CWindowImpl<CSmallIconComboBox, CComboBox> {
 public:
 	int  AddIcon(UINT nIconID);
 	int  InsertIcon(int nIndex, UINT nIconID);
@@ -25,9 +25,9 @@ public:
 	BOOL SubclassWindow(HWND hWnd);
 
 	BEGIN_MSG_MAP(CSmallIconComboBox)
-		MESSAGE_HANDLER(WM_MEASUREITEM,OnMeasureItem)
-		MESSAGE_HANDLER(WM_DRAWITEM,OnDrawItem)
-	    MESSAGE_HANDLER(OCM__BASE + WM_DRAWITEM, OnDrawItem)
+		MESSAGE_HANDLER(WM_MEASUREITEM, OnMeasureItem)
+		MESSAGE_HANDLER(WM_DRAWITEM, OnDrawItem)
+		MESSAGE_HANDLER(OCM__BASE + WM_DRAWITEM, OnDrawItem)
 	END_MSG_MAP()
 
 	LRESULT OnMeasureItem(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
@@ -37,16 +37,16 @@ public:
 
 class CLargeIconComboBox : public CSmallIconComboBox {
 public:
-//Methods
+	//Methods
 	int  AddIcon(UINT nIconID);
-	int  AddIcon(HICON hIcon,UINT nIconID/*=-1*/);
+	int  AddIcon(HICON hIcon, UINT nIconID/*=-1*/);
 	int  InsertIcon(int nIndex, UINT nIconID);
 	BOOL SubclassWindow(HWND hWnd);
 
 	BEGIN_MSG_MAP(CLargeIconComboBox)
-		MESSAGE_HANDLER(WM_MEASUREITEM,OnMeasureItem)
-		MESSAGE_HANDLER(WM_DRAWITEM,OnDrawItem)
-	    MESSAGE_HANDLER(OCM__BASE + WM_DRAWITEM, OnDrawItem)
+		MESSAGE_HANDLER(WM_MEASUREITEM, OnMeasureItem)
+		MESSAGE_HANDLER(WM_DRAWITEM, OnDrawItem)
+		MESSAGE_HANDLER(OCM__BASE + WM_DRAWITEM, OnDrawItem)
 	END_MSG_MAP()
 
 	LRESULT OnMeasureItem(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);

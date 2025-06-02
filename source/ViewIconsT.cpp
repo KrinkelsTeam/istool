@@ -21,29 +21,29 @@ void CViewIconsT::Populate() {
 	GetTreeCtrl().DeleteAllItems();
 
 	CScriptList	list;
-	GetDocument()->GetScript().GetList(m_sec,list);
+	GetDocument()->GetScript().GetList(m_sec, list);
 
-	for(int nPos=0;nPos<list.GetSize();nPos++)
+	for (int nPos = 0; nPos < list.GetSize(); nPos++)
 		InsertItem(list[nPos]);
 }
 
 HTREEITEM CViewIconsT::InsertItem(CScriptLine* pLine) {
-	if(pLine->GetComment()) return NULL;
+	if (pLine->GetComment()) return NULL;
 
 	CString strName(pLine->GetParameter("Name"));
 	CString strFolder;
 	int pos = strName.ReverseFind('\\');
-	if(pos<=0) pos = strName.ReverseFind(':');
-	if(pos>=0) {
+	if (pos <= 0) pos = strName.ReverseFind(':');
+	if (pos >= 0) {
 		strFolder = strName.Left(pos);
-		strName = strName.Mid(pos+1);
+		strName = strName.Mid(pos + 1);
 	}
 
-	HTREEITEM hParent = CMyApp::FindParentItem(GetTreeCtrl(),strFolder);
-	HTREEITEM hItem = GetTreeCtrl().InsertItem(strName,0,0,hParent,TVI_SORT);
-	GetTreeCtrl().SetItemData(hItem,(DWORD)pLine);
+	HTREEITEM hParent = CMyApp::FindParentItem(GetTreeCtrl(), strFolder);
+	HTREEITEM hItem = GetTreeCtrl().InsertItem(strName, 0, 0, hParent, TVI_SORT);
+	GetTreeCtrl().SetItemData(hItem, (DWORD)pLine);
 	GetTreeCtrl().SortChildren(hParent);
-	CMyApp::MyExpand(GetTreeCtrl(),hParent);
+	CMyApp::MyExpand(GetTreeCtrl(), hParent);
 	return hItem;
 }
 
@@ -51,26 +51,26 @@ void CViewIconsT::OnPreNewItem(CScriptLine* pLine) {
 	CString strName;
 	GetCurrentFolder(strName);
 	strName += "\\";
-	pLine->SetParameter("Name",strName);
+	pLine->SetParameter("Name", strName);
 }
 
 void CViewIconsT::GetCurrentFolder(CString& strFolder) {
 	CTreeViewCtrl& ctrl = GetTreeCtrl();
 	strFolder.Empty();
 	HTREEITEM hItem = ctrl.GetSelectedItem();
-	while(hItem) {
+	while (hItem) {
 		CScriptLine* pBase = reinterpret_cast<CScriptLine*>(ctrl.GetItemData(hItem));
-		if(!pBase) {
+		if (!pBase) {
 			// Folder not specifically created by user
-			while(hItem) {
-				if(!strFolder.IsEmpty()) strFolder = "\\" + strFolder;
+			while (hItem) {
+				if (!strFolder.IsEmpty()) strFolder = "\\" + strFolder;
 				CString strTmp;
-				ctrl.GetItemText(hItem,strTmp);
+				ctrl.GetItemText(hItem, strTmp);
 				strFolder = (LPCTSTR)strTmp + strFolder;
 				hItem = ctrl.GetParentItem(hItem);
 			}
 		}
 		hItem = ctrl.GetParentItem(hItem);
 	}
-	if(strFolder.IsEmpty()) strFolder = "{group}";
+	if (strFolder.IsEmpty()) strFolder = "{group}";
 }

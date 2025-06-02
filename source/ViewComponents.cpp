@@ -35,20 +35,20 @@ const CListInfo CViewComponents::m_colInfo[] = {
 
 void CViewComponents::OnDeleteItem(CScriptLine* pLine) {
 	LPCTSTR pszComponent = pLine->GetParameter("Name");
-	if(!pszComponent || !*pszComponent) return;
+	if (!pszComponent || !*pszComponent) return;
 
 	CScriptList list;
 	UINT nCount = 0;
 	GetDocument()->GetScript().GetCompleteList(list);
-	for(int i=0;i<list.GetSize();i++) {
-		if(list[i]->GetParameterFlag("Components",pszComponent)) {
-			list[i]->SetParameterFlag("Components",pszComponent,false);
+	for (int i = 0; i < list.GetSize(); i++) {
+		if (list[i]->GetParameterFlag("Components", pszComponent)) {
+			list[i]->SetParameterFlag("Components", pszComponent, false);
 			nCount++;
 		}
 	}
 #ifdef _DEBUG
 	CString tmp;
-	tmp.Format("Removed %d references to the %s component.",nCount,pszComponent);
-	AtlMessageBox(m_hWnd,(LPCTSTR)tmp,IDR_MAINFRAME);
+	tmp.Format("Removed %d references to the %s component.", nCount, pszComponent);
+	AtlMessageBox(m_hWnd, (LPCTSTR)tmp, IDR_MAINFRAME);
 #endif
 }

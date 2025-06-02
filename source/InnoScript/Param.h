@@ -2,17 +2,14 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#if !defined(_PARAM_H)
-#define _PARAM_H
+#pragma once
 
-#ifndef _INNOSCRIPT_H
 #include "InnoScript.h"
-#endif
 
 class CInnoScript::CParam {
 	friend class CLine;
 public:
-	CParam(LPCTSTR pszName,LPCTSTR pszValue);
+	CParam(LPCTSTR pszName, LPCTSTR pszValue);
 	virtual ~CParam();
 	void AddTail(CParam* pParam);
 	CParam* GetNext();
@@ -21,9 +18,7 @@ public:
 	void SetValue(LPCTSTR pszValue);
 	void SetName(LPCTSTR pszName);
 protected:
-	LPSTR		m_pszName;
-	LPSTR		m_pszValue;
-	CParam*		m_pNext;
+	LPSTR	m_pszName;
+	LPSTR	m_pszValue;
+	CParam* m_pNext;
 };
-
-#endif // !defined(_PARAM_H)

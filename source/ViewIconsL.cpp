@@ -31,6 +31,6 @@ const CListInfo CViewIconsL::m_colInfo[] = {
 	"OnlyBelowVersion",	LVCFMT_LEFT,	 80, CLI_HIDE,
 	"Components",		LVCFMT_LEFT,	100, CLI_HIDE,
 	"Tasks",			LVCFMT_LEFT,	100, CLI_HIDE,
-	"Languages",				LVCFMT_LEFT,	 80, CLI_HIDE,
+	"Languages",		LVCFMT_LEFT,	 80, CLI_HIDE,
 	NULL
 };

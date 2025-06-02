@@ -16,8 +16,8 @@ extern CMyApp theApp;
 // See ISTool.cpp for the implementation of this class
 //
 
-int myFind(const CString& ref,TCHAR ch,int startPos=0);
-int myReverseFind(const CString& ref,TCHAR ch);
+int myFind(const CString& ref, TCHAR ch, int startPos = 0);
+int myReverseFind(const CString& ref, TCHAR ch);
 
 #include "Func.h"
 
@@ -25,25 +25,25 @@ class CShellApi {
 public:
 	CShellApi() {
 		m_hModule = LoadLibrary(_T("shlwapi.dll"));
-		if(m_hModule) {
-			m_SHAutoComplete = (HRESULT(WINAPI *)(HWND,DWORD))GetProcAddress(m_hModule,"SHAutoComplete");
+		if (m_hModule) {
+			m_SHAutoComplete = (HRESULT(WINAPI*)(HWND, DWORD))GetProcAddress(m_hModule, "SHAutoComplete");
 		} else {
 			m_SHAutoComplete = NULL;
 		}
 	}
 	~CShellApi() {
-		if(m_hModule) FreeLibrary(m_hModule);
+		if (m_hModule) FreeLibrary(m_hModule);
 	}
 
-	HRESULT SHAutoComplete(HWND hwndEdit,DWORD dwFlags) {
-		if(!m_SHAutoComplete) 
+	HRESULT SHAutoComplete(HWND hwndEdit, DWORD dwFlags) {
+		if (!m_SHAutoComplete)
 			return E_FAIL;
 		else
-			return m_SHAutoComplete(hwndEdit,dwFlags);
+			return m_SHAutoComplete(hwndEdit, dwFlags);
 	}
 protected:
 	HMODULE		m_hModule;
-	HRESULT		(WINAPI *m_SHAutoComplete)(HWND,DWORD);
+	HRESULT(WINAPI* m_SHAutoComplete)(HWND, DWORD);
 };
 
 typedef struct {
@@ -117,41 +117,41 @@ public:
 		return m_strHtmlHelpFile;
 	}
 
-	bool WriteProfileBinary(LPCTSTR lpszSection,LPCTSTR lpszEntry,LPVOID pData,ULONG nBytes) {
+	bool WriteProfileBinary(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPVOID pData, ULONG nBytes) {
 		Henden::CAppFile appFile(IDR_MAINFRAME);
-		return appFile.SetBinaryValue(lpszSection,lpszEntry,pData,nBytes);
+		return appFile.SetBinaryValue(lpszSection, lpszEntry, pData, nBytes);
 	}
 
-	bool WriteProfileInt(LPCTSTR lpszSection,LPCTSTR lpszEntry,int nValue) {
+	bool WriteProfileInt(LPCTSTR lpszSection, LPCTSTR lpszEntry, int nValue) {
 		Henden::CAppFile appFile(IDR_MAINFRAME);
-		appFile.SetDWORDValue(lpszSection,lpszEntry,nValue);
+		appFile.SetDWORDValue(lpszSection, lpszEntry, nValue);
 		return true;
 	}
 
-	bool WriteProfileString(LPCTSTR lpszSection,LPCTSTR lpszEntry,LPCTSTR lpszValue) {
+	bool WriteProfileString(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPCTSTR lpszValue) {
 		Henden::CAppFile appFile(IDR_MAINFRAME);
-		appFile.SetStringValue(lpszSection,lpszEntry,lpszValue);
+		appFile.SetStringValue(lpszSection, lpszEntry, lpszValue);
 		return true;
 	}
 
-	bool GetProfileBinary(LPCTSTR lpszSection,LPCTSTR lpszEntry,LPVOID pData,ULONG* pnBytes) {
+	bool GetProfileBinary(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPVOID pData, ULONG* pnBytes) {
 		Henden::CAppFile appFile(IDR_MAINFRAME);
-		return appFile.QueryBinaryValue(lpszSection,lpszEntry,pData,*pnBytes);
+		return appFile.QueryBinaryValue(lpszSection, lpszEntry, pData, *pnBytes);
 	}
 
-	UINT GetProfileInt(LPCTSTR lpszSection,LPCTSTR lpszEntry,int nDefault) {
+	UINT GetProfileInt(LPCTSTR lpszSection, LPCTSTR lpszEntry, int nDefault) {
 		Henden::CAppFile appFile(IDR_MAINFRAME);
 		DWORD dwRet = nDefault;
-		if(!appFile.QueryDWORDValue(lpszSection,lpszEntry,dwRet))
+		if (!appFile.QueryDWORDValue(lpszSection, lpszEntry, dwRet))
 			dwRet = nDefault;
 		return dwRet;
 	}
 
-	CString GetProfileString(LPCTSTR lpszSection,LPCTSTR lpszEntry,LPCTSTR lpszDefault = NULL) {
+	CString GetProfileString(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPCTSTR lpszDefault = NULL) {
 		Henden::CAppFile appFile(IDR_MAINFRAME);
 		ULONG nChars = MAX_PATH;
 		CString str;
-		if(!appFile.QueryStringValue(lpszSection,lpszEntry,str))
+		if (!appFile.QueryStringValue(lpszSection, lpszEntry, str))
 			return lpszDefault;
 		return str;
 	}
@@ -174,11 +174,11 @@ public:
 	void ExitInstance();
 
 	static CImageList	m_imageList;
-	static HTREEITEM FindParentItem(CTreeViewCtrl&,LPCTSTR lpszFolder,bool bSystem=false);
-	static void MyExpand(CTreeViewCtrl&,HTREEITEM);
-	static DWORD MyExec(LPCTSTR pszFilename,LPCTSTR pszParams,LPCTSTR pszWorkingDir=NULL,bool bWaitUntilTerminated=true,bool bRunMinimized=false,bool bWaitForIdle=false);
+	static HTREEITEM FindParentItem(CTreeViewCtrl&, LPCTSTR lpszFolder, bool bSystem = false);
+	static void MyExpand(CTreeViewCtrl&, HTREEITEM);
+	static DWORD MyExec(LPCTSTR pszFilename, LPCTSTR pszParams, LPCTSTR pszWorkingDir = NULL, bool bWaitUntilTerminated = true, bool bRunMinimized = false, bool bWaitForIdle = false);
 	static CMyPrefs		m_prefs;
-	void OpenHtmlHelp(UINT nCmd,DWORD dwData);
+	void OpenHtmlHelp(UINT nCmd, DWORD dwData);
 	static bool IsBooleanExp(LPCTSTR pszArg);
 
 protected:

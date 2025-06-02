@@ -4,7 +4,7 @@ class CSheets {
 private:
 	CSheets() {}
 public:
-	static bool ShowSheet(HWND hWnd,CScriptList& list,bool bNewItem);	// Returns true if modified
+	static bool ShowSheet(HWND hWnd, CScriptList& list, bool bNewItem);	// Returns true if modified
 private:
 	enum {
 		SHEET_COMMON			= 0x00000001,
@@ -36,5 +36,5 @@ private:
 		PAGE_ISUNINSTALL		= 0x80000000
 	};
 
-	static bool ShowSheet(HWND hWnd,CScriptList& list,DWORD dwSheets,bool bNewItem);	// Returns true if modified
+	static bool ShowSheet(HWND hWnd, CScriptList& list, DWORD dwSheets, bool bNewItem);	// Returns true if modified
 };

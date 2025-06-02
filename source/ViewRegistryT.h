@@ -7,7 +7,7 @@
 
 class CViewRegistryT : public CMyTreeView {
 public:
-	CViewRegistryT();           // protected constructor used by dynamic creation
+	CViewRegistryT(); // protected constructor used by dynamic creation
 
 	LRESULT OnDropFiles(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
 

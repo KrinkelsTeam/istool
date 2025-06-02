@@ -13,9 +13,9 @@ public:
 	CViewFilesT();
 
 	BEGIN_MSG_MAP(CViewFilesT)
-		MESSAGE_HANDLER(WM_CREATE,OnCreate)
-		MESSAGE_HANDLER(UWM_CREATEICON,OnCreateIcon)
-		MESSAGE_HANDLER(UWM_UPDATEUI,OnUpdateUI)
+		MESSAGE_HANDLER(WM_CREATE, OnCreate)
+		MESSAGE_HANDLER(UWM_CREATEICON, OnCreateIcon)
+		MESSAGE_HANDLER(UWM_UPDATEUI, OnUpdateUI)
 		CHAIN_MSG_MAP(CMyTreeView)
 	END_MSG_MAP()
 
@@ -28,16 +28,16 @@ public:
 	virtual DWORD OnDrop(IDataObject* pDataObject, DWORD grfKeyState, CPoint point, DWORD dropEffect);
 
 public:
-	void GetCurrentFolder(CString& strFolder,HTREEITEM hItem=NULL);
+	void GetCurrentFolder(CString& strFolder, HTREEITEM hItem = NULL);
 protected:
-//	CMyDropTarget		m_dropTarget;
-	void GetItemDirectory(HTREEITEM,CString&);
+	//	CMyDropTarget		m_dropTarget;
+	void GetItemDirectory(HTREEITEM, CString&);
 	virtual void Populate();
-	void SetItemData(HTREEITEM hItem,CInnoScript::CLine* pBase);
+	void SetItemData(HTREEITEM hItem, CInnoScript::CLine* pBase);
 	void SortChildren(HTREEITEM hParent);
 	static int CALLBACK CompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort);
 	void InsertFileName(LPCTSTR lpszFileName);
-	HTREEITEM GetDropItem(const CPoint& point,UINT uFlags);
+	HTREEITEM GetDropItem(const CPoint& point, UINT uFlags);
 
 private:
 	virtual HTREEITEM InsertItem(CScriptLine*);

@@ -3,7 +3,7 @@
 // (c) 1998 James R. Twine
 //
 // Based On Code That Was Found On www.codeguru.com, And Was 
-// © 1997 Baldvin Hansson
+// Â© 1997 Baldvin Hansson
 //
 //	Bug Fixes And Additions:
 //

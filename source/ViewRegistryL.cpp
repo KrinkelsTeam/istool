@@ -37,9 +37,9 @@ const CListInfo CViewRegistryL::m_colInfo[] = {
 
 LRESULT CViewRegistryL::OnDropFiles(UINT /*uMsg*/, WPARAM wParam, LPARAM /*lParam*/, BOOL& /*bHandled*/) {
 	HDROP hDropInfo = (HDROP)wParam;
-	SetActiveWindow();      // activate us first !
+	SetActiveWindow(); // activate us first !
 	CFilesHelper helper(GetDocument());
-	helper.OnDropFilesRegistry(m_hWnd,hDropInfo);
+	helper.OnDropFilesRegistry(m_hWnd, hDropInfo);
 	Populate();
 	return 0;
 }

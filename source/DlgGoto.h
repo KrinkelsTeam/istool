@@ -4,8 +4,8 @@
 /////////////////////////////////////////////////////////////////////////////
 // CDlgGoto dialog
 
-class CDlgGoto : 
-	public CDialogImpl<CDlgGoto>, 
+class CDlgGoto :
+	public CDialogImpl<CDlgGoto>,
 	public CWinDataExchange<CDlgGoto>,
 	public CMyDialogBase<CDlgGoto>
 {
@@ -26,7 +26,7 @@ public:
 	CString	m_strLineNumber;
 
 	LRESULT OnCloseCmd(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {
-		if(wID==IDOK) {
+		if (wID == IDOK) {
 			DoDataExchange(DDX_SAVE);
 		}
 		EndDialog(wID);
@@ -34,7 +34,7 @@ public:
 	}
 
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) {
-		_L(m_hWnd,"Goto");
+		_L(m_hWnd, "Goto");
 		CenterWindow(GetParent());
 		DoDataExchange(DDX_LOAD);
 		return TRUE;

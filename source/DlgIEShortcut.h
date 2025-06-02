@@ -4,8 +4,8 @@
 /////////////////////////////////////////////////////////////////////////////
 // CDlgIEShortcut dialog
 
-class CDlgIEShortcut : 
-	public CDialogImpl<CDlgIEShortcut>, 
+class CDlgIEShortcut :
+	public CDialogImpl<CDlgIEShortcut>,
 	public CWinDataExchange<CDlgIEShortcut>,
 	public CMyDialogBase<CDlgIEShortcut>
 {
@@ -35,7 +35,7 @@ public:
 	}
 
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) {
-		_L(m_hWnd,"IEShortCut");
+		_L(m_hWnd, "IEShortCut");
 		CenterWindow(GetParent());
 
 		m_strFileName = "{app}\\ISTool.url";
@@ -45,10 +45,10 @@ public:
 	}
 
 	LRESULT OnKillFocus(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {
-		DoDataExchange(DDX_SAVE,IDC_IESHORTCUT_FILENAME);
-		if(m_strFileName.GetLength()<4 || m_strFileName.Right(4).CompareNoCase(".url")) {
+		DoDataExchange(DDX_SAVE, IDC_IESHORTCUT_FILENAME);
+		if (m_strFileName.GetLength() < 4 || m_strFileName.Right(4).CompareNoCase(".url")) {
 			m_strFileName += ".url";
-			DoDataExchange(DDX_LOAD,IDC_IESHORTCUT_FILENAME);
+			DoDataExchange(DDX_LOAD, IDC_IESHORTCUT_FILENAME);
 		}
 		return 0;
 	}

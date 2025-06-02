@@ -6,8 +6,7 @@
    PARTICULAR PURPOSE.
    Author: Leon Finker  1/2001
 **************************************************************************/
-#ifndef __DRAGDROPIMPL_H__
-#define __DRAGDROPIMPL_H__
+#pragma once
 //#include <ShlDisp.h>
 ///////////////////////////////////////////////////////////////////////////////////////////////
 class CEnumFormatEtc : public IEnumFORMATETC
@@ -231,6 +230,7 @@ public:
             di.ptOffset.y = pt.y - rc.top;
         return pDragSourceHelper->InitializeFromBitmap(&di, pDataObject);
 	}
+
     HRESULT InitializeFromWindow(HWND hwnd, POINT& pt,IDataObject* pDataObject)
 	{		
 		if(pDragSourceHelper == NULL)
@@ -238,4 +238,3 @@ public:
 		return pDragSourceHelper->InitializeFromWindow(hwnd, &pt, pDataObject);
 	}
 };
-#endif //__DRAGDROPIMPL_H__

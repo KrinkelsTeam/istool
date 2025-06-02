@@ -1,7 +1,7 @@
 /*==============================================================================
 
   $Id: MenuFile.cpp,v 1.1 2002/03/21 17:55:38 net Exp $
-  
+
   Implements the File menu in the CMainFrame class
 
 ==============================================================================*/
@@ -14,14 +14,14 @@
 #include "PrefsEditor.h"
 
 LRESULT CMainFrame::OnFilePreferences(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {
-	CString			strTitle = _L("DialogTitles|Preferences","Preferences");
-	CString			strPage1 = _L("DialogTitles|General","General");
-	CString			strPage3 = _L("DialogTitles|Editor","Editor");
+	CString			strTitle = _L("DialogTitles|Preferences", "Preferences");
+	CString			strPage1 = _L("DialogTitles|General", "General");
+	CString			strPage3 = _L("DialogTitles|Editor", "Editor");
 
 	CMyPropertySheet	sheet((LPCTSTR)strTitle);
 
-	CPrefsGeneral	page1(&m_document,strPage1);
-	CPrefsEditor	page3(&m_document,strPage3);
+	CPrefsGeneral	page1(&m_document, strPage1);
+	CPrefsEditor	page3(&m_document, strPage3);
 
 	sheet.AddPage(page1);
 	sheet.AddPage(page3);
@@ -40,18 +40,18 @@ LRESULT CMainFrame::OnAppExit(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl
 }
 
 LRESULT CMainFrame::OnFileNew(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {
-	m_document.OnNewDocument(m_hWnd,false);
+	m_document.OnNewDocument(m_hWnd, false);
 	return 0;
 }
 
 LRESULT CMainFrame::OnFileOpen(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {
 	CString newName;
 
-	if(!m_document.DoPrompt(m_hWnd,newName,true,WTL_IDS_OPENFILE))
+	if (!m_document.DoPrompt(m_hWnd, newName, true, WTL_IDS_OPENFILE))
 		return 0;
 
 	CWaitCursor wait;
-	if(m_document.OnOpenDocument(m_hWnd,newName))
+	if (m_document.OnOpenDocument(m_hWnd, newName))
 		AfxGetMainWnd().AddToRecentFileList(newName);
 	return 0;
 }
@@ -59,36 +59,36 @@ LRESULT CMainFrame::OnFileOpen(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCt
 LRESULT CMainFrame::OnFileMerge(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {
 	CString newName;
 
-	if(!m_document.DoPrompt(m_hWnd,newName,true,IDS_MERGEFILE))
+	if (!m_document.DoPrompt(m_hWnd, newName, true, IDS_MERGEFILE))
 		return 0;
 
 	CWaitCursor wait;
-	m_document.OnMergeDocument(m_hWnd,newName);
+	m_document.OnMergeDocument(m_hWnd, newName);
 	return 0;
 }
 
 LRESULT CMainFrame::OnFileSave(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {
-	m_document.DoSave(m_hWnd,m_document.GetPathName());
+	m_document.DoSave(m_hWnd, m_document.GetPathName());
 	return 0;
 }
 
 LRESULT CMainFrame::OnFileSaveAs(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {
-	m_document.DoSave(m_hWnd,NULL);
+	m_document.DoSave(m_hWnd, NULL);
 	return 0;
 }
 
 LRESULT CMainFrame::OnFileSaveCopyAs(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {
-	m_document.DoSave(NULL,false);
+	m_document.DoSave(NULL, false);
 	return 0;
 }
 
 LRESULT CMainFrame::OnFileRecent(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {
 	// get file name from the MRU list
 	TCHAR szFile[MAX_PATH];
-	if(m_mru.GetFromList(wID, szFile, MAX_PATH)) {
+	if (m_mru.GetFromList(wID, szFile, MAX_PATH)) {
 		// open file
 		CWaitCursor wait;
-		if(m_document.OnOpenDocument(m_hWnd,szFile)) {
+		if (m_document.OnOpenDocument(m_hWnd, szFile)) {
 			m_mru.MoveToTop(wID);
 		} else {
 			m_mru.RemoveFromList(wID);
@@ -106,7 +106,7 @@ LRESULT CMainFrame::OnFilePageSetup(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*h
 	dlg.m_psd.hDevNames = m_printer.CopyToHDEVNAMES();
 	dlg.m_psd.rtMargin = m_rcMargin;
 
-	if(dlg.DoModal(m_hWnd) == IDOK) {
+	if (dlg.DoModal(m_hWnd) == IDOK) {
 		m_devmode.CopyFromHDEVMODE(dlg.m_psd.hDevMode);
 		m_printer.ClosePrinter();
 		m_printer.OpenPrinter(dlg.m_psd.hDevNames, m_devmode.m_pDevMode);
@@ -115,7 +115,7 @@ LRESULT CMainFrame::OnFilePageSetup(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*h
 
 	GlobalFree(dlg.m_psd.hDevMode);
 	GlobalFree(dlg.m_psd.hDevNames);
-	
+
 	return 0;
 }
 
@@ -126,14 +126,14 @@ LRESULT CMainFrame::OnFilePrintPreview(WORD /*wNotifyCode*/, WORD /*wID*/, HWND 
 
 LRESULT CMainFrame::OnFilePrint(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {
 	HWND hWndFocus = GetFocusView();
-	if(hWndFocus)
-		::SendMessage(hWndFocus,UWM_PRINT,0,0);
+	if (hWndFocus)
+		::SendMessage(hWndFocus, UWM_PRINT, 0, 0);
 	return 0;
 }
 
 LRESULT CMainFrame::OnAccCallTip(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {
 	HWND hWndFocus = GetFocusView();
-	if(hWndFocus)
-		::SendMessage(hWndFocus,UWM_CALLTIP,0,0);
+	if (hWndFocus)
+		::SendMessage(hWndFocus, UWM_CALLTIP, 0, 0);
 	return 0;
 }

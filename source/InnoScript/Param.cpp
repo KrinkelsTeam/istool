@@ -5,22 +5,14 @@
 #include "stdafx.h"
 #include "Param.h"
 
-#ifdef _MFC_VER
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-#endif
-
 //////////////////////////////////////////////////////////////////////
 // CParam class.
 
-CInnoScript::CParam::CParam(LPCTSTR pszName,LPCTSTR pszValue) : m_pNext(NULL), m_pszName(NULL), m_pszValue(NULL) {
-	m_pszName = new char[_tcslen(pszName)+1];
+CInnoScript::CParam::CParam(LPCTSTR pszName, LPCTSTR pszValue) : m_pNext(NULL), m_pszName(NULL), m_pszValue(NULL) {
+	m_pszName = new char[_tcslen(pszName) + 1];
 	_tcscpy_s(m_pszName, _tcslen(pszName) + 1, pszName);
-	if(pszValue) {
-		m_pszValue = new char[_tcslen(pszValue)+1];
+	if (pszValue) {
+		m_pszValue = new char[_tcslen(pszValue) + 1];
 		_tcscpy_s(m_pszValue, _tcslen(pszValue) + 1, pszValue);
 	} else {
 		m_pszValue = new char[1];
@@ -29,8 +21,8 @@ CInnoScript::CParam::CParam(LPCTSTR pszName,LPCTSTR pszValue) : m_pNext(NULL), m
 }
 
 CInnoScript::CParam::~CParam() {
-	if(m_pszName) delete []m_pszName;
-	if(m_pszValue) delete []m_pszValue;
+	if (m_pszName) delete[]m_pszName;
+	if (m_pszValue) delete[]m_pszValue;
 }
 
 CInnoScript::CParam* CInnoScript::CParam::GetNext() {
@@ -39,7 +31,7 @@ CInnoScript::CParam* CInnoScript::CParam::GetNext() {
 
 void CInnoScript::CParam::AddTail(CParam* pParam) {
 	CParam* p = this;
-	while(p->m_pNext) p = p->m_pNext;
+	while (p->m_pNext) p = p->m_pNext;
 	p->m_pNext = pParam;
 }
 
@@ -52,13 +44,13 @@ LPCTSTR CInnoScript::CParam::GetValue() {
 }
 
 void CInnoScript::CParam::SetValue(LPCTSTR pszValue) {
-	if(m_pszValue) delete []m_pszValue;
-	m_pszValue = new char[_tcslen(pszValue)+1];
+	if (m_pszValue) delete[]m_pszValue;
+	m_pszValue = new char[_tcslen(pszValue) + 1];
 	_tcscpy_s(m_pszValue, _tcslen(pszValue) + 1, pszValue);
 }
 
 void CInnoScript::CParam::SetName(LPCTSTR pszName) {
-	if(m_pszName) delete []m_pszName;
-	m_pszName = new char[_tcslen(pszName)+1];
+	if (m_pszName) delete[]m_pszName;
+	m_pszName = new char[_tcslen(pszName) + 1];
 	_tcscpy_s(m_pszName, _tcslen(pszName) + 1, pszName);
 }

@@ -44,10 +44,10 @@ LRESULT CViewIni::OnDropFiles(UINT /*uMsg*/, WPARAM wParam, LPARAM /*lParam*/, B
 	CFilesHelper helper(GetDocument());
 
 	UINT nFiles = ::DragQueryFile(hDropInfo, (UINT)-1, NULL, 0);
-	for(UINT iFile = 0; iFile < nFiles; iFile++) {
+	for (UINT iFile = 0; iFile < nFiles; iFile++) {
 		TCHAR szFileName[_MAX_PATH];
 		::DragQueryFile(hDropInfo, iFile, szFileName, _MAX_PATH);
-		helper.ImportIni(m_hWnd,szFileName);
+		helper.ImportIni(m_hWnd, szFileName);
 	}
 	::DragFinish(hDropInfo);
 	return 0;

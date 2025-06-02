@@ -23,7 +23,7 @@ public:
 
 	LRESULT OnHelpCmd(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {
 		T* pT = static_cast<T*>(this);
-		AfxGetApp()->OpenHtmlHelp(HH_DISPLAY_TOPIC,pT->IDD);
+		AfxGetApp()->OpenHtmlHelp(HH_DISPLAY_TOPIC, pT->IDD);
 		return TRUE;
 	}
 };
@@ -32,7 +32,7 @@ class CMyPropertySheet : public CPropertySheetImpl<CMyPropertySheet> {
 public:
 	CMyPropertySheet(_U_STRINGorID title = (LPCTSTR)NULL, UINT uStartPage = 0, HWND hWndParent = NULL)
 		: CPropertySheetImpl<CMyPropertySheet>(title, uStartPage, hWndParent)
-	{ 
+	{
 		m_psh.dwFlags |= PSH_NOCONTEXTHELP | PSH_HASHELP;
 		m_bCentered = false;
 	}
@@ -45,18 +45,18 @@ public:
 	END_MSG_MAP()
 
 	LRESULT OnShowWindow(UINT /*uMsg*/, WPARAM wParam, LPARAM /*lParam*/, BOOL& bHandled) {
-		if(wParam && !m_bCentered) {
+		if (wParam && !m_bCentered) {
 			CenterWindow(AfxGetMainHWnd());
 			m_bCentered = true;
 
 			CWindow wnd = GetDlgItem(IDOK);
-			if(wnd) wnd.SetWindowText(_L("System|OK","OK"));
+			if (wnd) wnd.SetWindowText(_L("System|OK", "OK"));
 			wnd = GetDlgItem(IDCANCEL);
-			if(wnd) wnd.SetWindowText(_L("System|Cancel","Cancel"));
+			if (wnd) wnd.SetWindowText(_L("System|Cancel", "Cancel"));
 			wnd = GetDlgItem(0x3021);
-			if(wnd) wnd.SetWindowText(_L("System|Apply","&Apply"));
+			if (wnd) wnd.SetWindowText(_L("System|Apply", "&Apply"));
 			wnd = GetDlgItem(IDHELP);
-			if(wnd) wnd.SetWindowText(_L("System|Help","Help"));
+			if (wnd) wnd.SetWindowText(_L("System|Help", "Help"));
 		}
 		bHandled = FALSE;
 		return 0;
@@ -74,9 +74,9 @@ public:
 
 	LRESULT OnNotify(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, BOOL& bHandled) {
 		NMHDR* pNMHDR = (NMHDR*)lParam;
-		if(pNMHDR->code==PSN_HELP) {
+		if (pNMHDR->code == PSN_HELP) {
 			T* pT = static_cast<T*>(this);
-			AfxGetApp()->OpenHtmlHelp(HH_DISPLAY_TOPIC,pT->IDD);
+			AfxGetApp()->OpenHtmlHelp(HH_DISPLAY_TOPIC, pT->IDD);
 		} else
 			bHandled = FALSE;
 		return 0;
@@ -87,10 +87,10 @@ public:
 		pT->m_psp.dwFlags |= PSP_HASHELP;
 	}
 
-	void MyModifyStyle(UINT nID,DWORD dwRemove,DWORD dwAdd) {
+	void MyModifyStyle(UINT nID, DWORD dwRemove, DWORD dwAdd) {
 		T* pT = static_cast<T*>(this);
 		CWindow wnd(pT->GetDlgItem(nID));
-		wnd.ModifyStyle(dwRemove,dwAdd);
+		wnd.ModifyStyle(dwRemove, dwAdd);
 	}
 };
 
@@ -137,17 +137,17 @@ public:
 
 namespace WTL {
 
-class CMutex {
-public:
-	CMutex(BOOL bInitiallyOwn = FALSE,LPCTSTR lpszName = NULL,LPSECURITY_ATTRIBUTES lpsaAttribute = NULL) {
-		m_hMutex = CreateMutex(lpsaAttribute,bInitiallyOwn,lpszName);
-	}
-	~CMutex() {
-		CloseHandle(m_hMutex);
-	}
-protected:
-	HANDLE	m_hMutex;
-};
+	class CMutex {
+	public:
+		CMutex(BOOL bInitiallyOwn = FALSE, LPCTSTR lpszName = NULL, LPSECURITY_ATTRIBUTES lpsaAttribute = NULL) {
+			m_hMutex = CreateMutex(lpsaAttribute, bInitiallyOwn, lpszName);
+		}
+		~CMutex() {
+			CloseHandle(m_hMutex);
+		}
+	protected:
+		HANDLE	m_hMutex;
+	};
 
 };
 
@@ -158,7 +158,7 @@ public:
 
 	void CheckSelectedItems(int nCurrItem) {
 		CCheckListViewCtrlImpl<CMyCheckListViewCtrl>::CheckSelectedItems(nCurrItem);
-		GetParent().PostMessage(WM_USER,0,0);
+		GetParent().PostMessage(WM_USER, 0, 0);
 	}
 
 	BOOL SetCheckStateIndeterminate(int nItem)

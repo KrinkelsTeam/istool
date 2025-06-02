@@ -239,7 +239,7 @@ public:
 		TOOLTIP_HANDLER(IDC_GENERAL_IGNOREDEFAULTS, _L("Help|General|IgnoreDefaults", "Setup directives that equals the default value aren't written to the script."))
 		TOOLTIP_HANDLER(IDC_GENERAL_OPENLAST, _L("Help|General|OpenLast", "Opens last opened script when ISTool starts."))
 		TOOLTIP_HANDLER(IDC_GENERAL_USENEWSCRIPTWIZARD, _L("Help|General|ScriptWiz", "Should ISTool use the Inno Setup wizard when creating new scripts."))
-		TOOLTIP_HANDLER(IDC_GENERAL_REPLACECOPY, _L("Help|General|ReplaceCopy", "When you type \"(c)\" it will be replaced with ©"))
+		TOOLTIP_HANDLER(IDC_GENERAL_REPLACECOPY, _L("Help|General|ReplaceCopy", "When you type \"(c)\" it will be replaced with Â©"))
 		TOOLTIP_HANDLER(IDC_GENERAL_AUTOCOMPONENTSELECT, _L("Help|General|AutoCompSelect", "Automatically sets component for a file based on directory or something!?!"))
 		TOOLTIP_HANDLER(IDC_GENERAL_TEST_COMPILED_SETUP, _L("Help|General|TestCompiledSetup", "After compilation ISTool asks if you want to run the setup."))
 		TOOLTIP_HANDLER(IDC_GENERAL_OVERWRITE_MESSAGES, _L("Help|General|OverwriteMessages", "Deletes existing messages when importing a message file."))

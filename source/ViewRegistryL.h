@@ -7,7 +7,7 @@
 
 class CViewRegistryL : public CMyListView {
 public:
-	CViewRegistryL();           // protected constructor used by dynamic creation
+	CViewRegistryL(); // protected constructor used by dynamic creation
 
 protected:
 	static const CListInfo m_colInfo[];
@@ -16,7 +16,7 @@ protected:
 	LRESULT OnDropFiles(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
 
 	BEGIN_MSG_MAP(CViewRegistryL)
-		MESSAGE_HANDLER(WM_DROPFILES,OnDropFiles)
+		MESSAGE_HANDLER(WM_DROPFILES, OnDropFiles)
 		CHAIN_MSG_MAP(CMyListView)
 	END_MSG_MAP()
 };

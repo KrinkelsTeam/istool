@@ -9,7 +9,7 @@ class CScriptComponent;
 
 class CViewComponents : public CMyListView {
 public:
-	CViewComponents();           // protected constructor used by dynamic creation
+	CViewComponents(); // protected constructor used by dynamic creation
 	
 protected:
 	static const CListInfo m_colInfo[];

@@ -12,7 +12,7 @@ struct {
 	LPCTSTR	m_pszValue;
 } m_defaults2[] = {
 	// [LangOptions]
-	
+
 	"LanguageName",					"English",
 	"LanguageID",					"$0409",
 	"DialogFontName",				"MS Shell Dlg",
@@ -25,7 +25,7 @@ struct {
 	"CopyrightFontName",			"Arial",
 	"CopyrightFontSize",			"8",
 	"RightToLeft",					"false",
-		
+
 	// [Setup]
 	// Inno Setup 5.2.4
 	"SignTool",						"",
@@ -184,15 +184,15 @@ struct {
 	"AppVersion",					"",
 	"CreateUninstallRegKey",		"true",
 	"UninstallLogMode",				"append",
-	
+
 	// Inno Setup 1.3.1
 	"UsePreviousAppDir",			"true",
-	
+
 	// Inno Setup 1.3.3
 	"BackColor2",					"clBlack",
 	"BackColorDirection",			"toptobottom",
 	"UninstallFilesDir",			"{app}",
-	
+
 	// Inno Setup 1.3.6
 	"DirExistsWarning",				"auto",
 	"UninstallDisplayIcon",			"",
@@ -214,48 +214,48 @@ CInnoScriptEx::CInnoScriptEx() {}
 
 CInnoScriptEx::~CInnoScriptEx() {}
 
-void CInnoScriptEx::GetList(SECTION sec,CScriptList& list) {
-	for(long i=0;i<GetSize();i++) {
+void CInnoScriptEx::GetList(SECTION sec, CScriptList& list) {
+	for (long i = 0; i < GetSize(); i++) {
 		CLine* pLine = m_lines[i];
-		if((sec==SEC_CODE || !pLine->GetComment()) && pLine->GetSection()==sec) {
+		if ((sec == SEC_CODE || !pLine->GetComment()) && pLine->GetSection() == sec) {
 			list.Add(pLine);
 		}
 	}
 }
 
 void CInnoScriptEx::GetCompleteList(CScriptList& list) {
-	for(long i=0;i<GetSize();i++)
+	for (long i = 0; i < GetSize(); i++)
 		list.Add(m_lines[i]);
 }
 
 void CInnoScriptEx::AddLine(CLine* pLine) {
 	bool bFound = false;
-	for(long i=0;i<GetSize();i++) {
-		if(bFound && m_lines[i]->GetSection()!=pLine->GetSection()) {
+	for (long i = 0; i < GetSize(); i++) {
+		if (bFound && m_lines[i]->GetSection() != pLine->GetSection()) {
 #if 1
 			// Rewind
-			while(i>0 && m_lines[i-1]->GetSection()==pLine->GetSection()) {
+			while (i > 0 && m_lines[i - 1]->GetSection() == pLine->GetSection()) {
 				CString strLine;
-				m_lines[i-1]->Write(strLine.GetBufferSetLength(10000),10000);
+				m_lines[i - 1]->Write(strLine.GetBufferSetLength(10000), 10000);
 				strLine.ReleaseBuffer();
-				if(strLine.Trim().IsEmpty())
+				if (strLine.Trim().IsEmpty())
 					i--;
 				else
 					break;
 			}
 #endif
-			m_lines.InsertAt(i,pLine);
+			m_lines.InsertAt(i, pLine);
 			return;
 		}
-		if(m_lines[i]->GetSection()==pLine->GetSection())
+		if (m_lines[i]->GetSection() == pLine->GetSection())
 			bFound = true;
 	}
 	m_lines.Add(pLine);
 }
 
 void CInnoScriptEx::DeleteLine(CLine* pLine) {
-	for(long i=0;i<GetSize();i++) {
-		if(m_lines[i]==pLine) {
+	for (long i = 0; i < GetSize(); i++) {
+		if (m_lines[i] == pLine) {
 			m_lines.RemoveAt(i);
 			delete pLine;
 			break;
@@ -265,199 +265,199 @@ void CInnoScriptEx::DeleteLine(CLine* pLine) {
 
 UINT CInnoScriptEx::CountLines(SECTION sec) {
 	UINT nCount = 0;
-	for(long i=0;i<GetSize();i++) {
+	for (long i = 0; i < GetSize(); i++) {
 		CLine* pLine = m_lines[i];
-		if(pLine->GetSection()==sec && !pLine->GetComment())
+		if (pLine->GetSection() == sec && !pLine->GetComment())
 			nCount++;
 	}
 	return nCount;
 }
 
 bool CInnoScriptEx::GetBoolean(LPCTSTR pszValue) {
-	if(!_stricmp(pszValue,"yes"))
+	if (!_stricmp(pszValue, "yes"))
 		return true;
-	if(!_stricmp(pszValue,"true"))
+	if (!_stricmp(pszValue, "true"))
 		return true;
-	if(_ttol(pszValue))
+	if (_ttol(pszValue))
 		return true;
 	return false;
 }
 
-int CInnoScriptEx::Convert(const CConverter* pData,LPCTSTR pszValue) {
-	if(!pszValue) return -1;
-	for(UINT n=0;pData[n].m_pszString;n++) {
-		if(!_stricmp(pszValue,pData[n].m_pszString))
+int CInnoScriptEx::Convert(const CConverter* pData, LPCTSTR pszValue) {
+	if (!pszValue) return -1;
+	for (UINT n = 0; pData[n].m_pszString; n++) {
+		if (!_stricmp(pszValue, pData[n].m_pszString))
 			return pData[n].m_nValue;
 	}
 	return -1;
 }
 
-LPCTSTR CInnoScriptEx::Convert(const CConverter* pData,int nValue) {
-	for(UINT n=0;pData[n].m_pszString;n++) {
-		if(nValue==pData[n].m_nValue)
+LPCTSTR CInnoScriptEx::Convert(const CConverter* pData, int nValue) {
+	for (UINT n = 0; pData[n].m_pszString; n++) {
+		if (nValue == pData[n].m_nValue)
 			return pData[n].m_pszString;
 	}
 	return NULL;
 }
 
-void CInnoScriptEx::GetDestDir(CLine* pLine,CString& ref) {
+void CInnoScriptEx::GetDestDir(CLine* pLine, CString& ref) {
 	ref.Empty();
-	
-	if(pLine->GetSection()!=SEC_DIRS) return;
+
+	if (pLine->GetSection() != SEC_DIRS) return;
 
 	CString str(pLine->GetParameter("Name"));
 	int pos = str.ReverseFind('\\');
-	if(pos>=0) ref = str.Left(pos);
+	if (pos >= 0) ref = str.Left(pos);
 	else ref.Empty();
 }
 
-void CInnoScriptEx::GetDestName(CLine* pLine,CString& ref) {
+void CInnoScriptEx::GetDestName(CLine* pLine, CString& ref) {
 	ref.Empty();
-	if(pLine->GetSection()!=SEC_FILES) return;
+	if (pLine->GetSection() != SEC_FILES) return;
 
 	ref = pLine->GetParameter("DestDir");
-	CMyUtils::EndWith(ref,'\\');
+	CMyUtils::EndWith(ref, '\\');
 	LPCTSTR pszDestName = pLine->GetParameter("DestName");
-	if(!pszDestName) {
+	if (!pszDestName) {
 		CString tmp(pLine->GetParameter("Source"));
 		int pos = tmp.ReverseFind('\\');
-		if(pos<=0) pos = tmp.ReverseFind(':');
-		if(pos>=0) ref += tmp.Mid(pos+1);
+		if (pos <= 0) pos = tmp.ReverseFind(':');
+		if (pos >= 0) ref += tmp.Mid(pos + 1);
 		else ref += pLine->GetParameter("Source");
 	} else
 		ref += pszDestName;
 }
 
-void CInnoScriptEx::GetDestTitle(CLine* pLine,CString& ref) {
+void CInnoScriptEx::GetDestTitle(CLine* pLine, CString& ref) {
 	ref.Empty();
-	if(pLine->GetSection()==SEC_FILES) {
+	if (pLine->GetSection() == SEC_FILES) {
 		LPCTSTR pszDestName = pLine->GetParameter("DestName");
-		if(!pszDestName) {
+		if (!pszDestName) {
 			CString tmp(pLine->GetParameter("Source"));
 			int pos = tmp.ReverseFind('\\');
-			if(pos<=0) pos = tmp.ReverseFind(':');
-			if(pos>=0) ref = tmp.Mid(pos+1);
+			if (pos <= 0) pos = tmp.ReverseFind(':');
+			if (pos >= 0) ref = tmp.Mid(pos + 1);
 			else ref = pLine->GetParameter("Source");
 		} else {
 			ref = pszDestName;
 		}
-	} else if(pLine->GetSection()==SEC_DIRS) {
+	} else if (pLine->GetSection() == SEC_DIRS) {
 		CString str(pLine->GetParameter("Name"));
 		int pos = str.ReverseFind('\\');
-		if(pos>=0) ref = str.Mid(pos+1);
+		if (pos >= 0) ref = str.Mid(pos + 1);
 		else ref = pLine->GetParameter("Name");
 	}
 }
 
-void CInnoScriptEx::SetString(CLine* pLine,bool bForce,LPCTSTR pszName,LPCTSTR pszValue) {
-//	if(bForce || !m_strName.IsEmpty()) pLine->m_strName = m_strName;
+void CInnoScriptEx::SetString(CLine* pLine, bool bForce, LPCTSTR pszName, LPCTSTR pszValue) {
+	//	if(bForce || !m_strName.IsEmpty()) pLine->m_strName = m_strName;
 
-	if(bForce || (pszValue && *pszValue)) {
-		if(pszValue && *pszValue)
-			pLine->SetParameter(pszName,pszValue);
+	if (bForce || (pszValue && *pszValue)) {
+		if (pszValue && *pszValue)
+			pLine->SetParameter(pszName, pszValue);
 		else
 			pLine->DeleteParameter(pszName);
 	}
 }
 
-void CInnoScriptEx::SetLong(CLine* pLine,bool bForce,LPCTSTR pszName,LONG nDefault,LONG nValue) {
-//	if(bForce || m_nIconIndex!=-1) pLine->m_nIconIndex = m_nIconIndex;
-	if(bForce || nValue!=nDefault) {
-		if(nValue!=nDefault) {
+void CInnoScriptEx::SetLong(CLine* pLine, bool bForce, LPCTSTR pszName, LONG nDefault, LONG nValue) {
+	//	if(bForce || m_nIconIndex!=-1) pLine->m_nIconIndex = m_nIconIndex;
+	if (bForce || nValue != nDefault) {
+		if (nValue != nDefault) {
 			CString strValue;
-			strValue.Format("%d",nValue);
-			pLine->SetParameter(pszName,strValue);
+			strValue.Format("%d", nValue);
+			pLine->SetParameter(pszName, strValue);
 		} else
 			pLine->DeleteParameter(pszName);
 	}
 }
 
-void CInnoScriptEx::SetFlag(CLine* pLine,LPCTSTR pszName,LPCTSTR pszFlag,int nFlag) {
-//	if(m_bReadOnly==TRUE) pFile->SetParameterFlag("Attribs","readonly",true);
-//	else if(m_bReadOnly==FALSE) pFile->SetParameterFlag("Attribs","readonly",false);
+void CInnoScriptEx::SetFlag(CLine* pLine, LPCTSTR pszName, LPCTSTR pszFlag, int nFlag) {
+	//	if(m_bReadOnly==TRUE) pFile->SetParameterFlag("Attribs","readonly",true);
+	//	else if(m_bReadOnly==FALSE) pFile->SetParameterFlag("Attribs","readonly",false);
 
-	if(nFlag==1)
-		pLine->SetParameterFlag(pszName,pszFlag,true);
-	else if(nFlag==0)
-		pLine->SetParameterFlag(pszName,pszFlag,false);
+	if (nFlag == 1)
+		pLine->SetParameterFlag(pszName, pszFlag, true);
+	else if (nFlag == 0)
+		pLine->SetParameterFlag(pszName, pszFlag, false);
 }
 
-void CInnoScriptEx::AddComment(SECTION sec,LPCTSTR pszComment) {
-	AddLine(new CLineComment(sec,pszComment));
+void CInnoScriptEx::AddComment(SECTION sec, LPCTSTR pszComment) {
+	AddLine(new CLineComment(sec, pszComment));
 }
 
-void CInnoScriptEx::SetPropertyBool(LPCTSTR pszName,bool bValue,SECTION sec/*=SEC_SETUP*/) {
-	SetPropertyString(pszName,bValue ? "true" : "false",sec);
+void CInnoScriptEx::SetPropertyBool(LPCTSTR pszName, bool bValue, SECTION sec/*=SEC_SETUP*/) {
+	SetPropertyString(pszName, bValue ? "true" : "false", sec);
 }
 
-void CInnoScriptEx::SetPropertyNumber(LPCTSTR pszName,LONG nValue,SECTION sec/*=SEC_SETUP*/) {
+void CInnoScriptEx::SetPropertyNumber(LPCTSTR pszName, LONG nValue, SECTION sec/*=SEC_SETUP*/) {
 	CString str;
-	str.Format("%d",nValue);
-	SetPropertyString(pszName,str,sec);
+	str.Format("%d", nValue);
+	SetPropertyString(pszName, str, sec);
 }
 
-LPCTSTR CInnoScriptEx::GetDefault(LPCTSTR pszName,SECTION sec/*=SEC_SETUP*/) {
-	if(sec!=SEC_SETUP && sec!=SEC_LANGOPTIONS) return NULL;
+LPCTSTR CInnoScriptEx::GetDefault(LPCTSTR pszName, SECTION sec/*=SEC_SETUP*/) {
+	if (sec != SEC_SETUP && sec != SEC_LANGOPTIONS) return NULL;
 
 	// If it equals default don't add it
-	for(UINT n=0;m_defaults2[n].m_pszName;n++) {
-		if(!_stricmp(pszName,m_defaults2[n].m_pszName))
+	for (UINT n = 0; m_defaults2[n].m_pszName; n++) {
+		if (!_stricmp(pszName, m_defaults2[n].m_pszName))
 			return m_defaults2[n].m_pszValue;
 	}
 #ifdef _DEBUG
 	CString strError;
-	strError.Format("Failed to find default value for setup directive %s!",pszName);
-	AtlMessageBox(AfxGetMainHWnd(),(LPCTSTR)strError,IDR_MAINFRAME,MB_OK|MB_ICONERROR);
+	strError.Format("Failed to find default value for setup directive %s!", pszName);
+	AtlMessageBox(AfxGetMainHWnd(), (LPCTSTR)strError, IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 #endif
 	return NULL;
 }
 
 
-void CInnoScriptEx::SetPropertyString(LPCTSTR pszName,LPCTSTR pszValue,SECTION sec/*=SEC_SETUP*/) {
-//	if(pszValue && !*pszValue) pszValue = NULL;
+void CInnoScriptEx::SetPropertyString(LPCTSTR pszName, LPCTSTR pszValue, SECTION sec/*=SEC_SETUP*/) {
+	//	if(pszValue && !*pszValue) pszValue = NULL;
 
-	for(long i=0;i<GetSize();i++) {
+	for (long i = 0; i < GetSize(); i++) {
 		CLine* pLine = m_lines[i];
-		if(pLine->GetSection()==sec && !pLine->GetComment() && pLine->GetKey() && !_stricmp(pLine->GetKey(),pszName)) {
-			if(pszValue)
-				pLine->SetParameter(pszName,pszValue);
+		if (pLine->GetSection() == sec && !pLine->GetComment() && pLine->GetKey() && !_stricmp(pLine->GetKey(), pszName)) {
+			if (pszValue)
+				pLine->SetParameter(pszName, pszValue);
 			else
 				pLine->DeleteParameter(pszName);
 			return;
 		}
 	}
 	// Not found so far
-	if(!pszValue) return;
+	if (!pszValue) return;
 
 	// If it equals default don't add it
-	LPCTSTR pszDefault = GetDefault(pszName,sec);
-	if((sec==SEC_SETUP || sec==SEC_LANGOPTIONS) && pszDefault && !_stricmp(pszDefault,pszValue))
+	LPCTSTR pszDefault = GetDefault(pszName, sec);
+	if ((sec == SEC_SETUP || sec == SEC_LANGOPTIONS) && pszDefault && !_stricmp(pszDefault, pszValue))
 		return;
 
 	CString str;
-	str.Format("%s=%s",pszName,pszValue);
-	CLine* pLine = new CLineSetup(sec,str);
-	pLine->SetParameter(pszName,pszValue);
+	str.Format("%s=%s", pszName, pszValue);
+	CLine* pLine = new CLineSetup(sec, str);
+	pLine->SetParameter(pszName, pszValue);
 	AddLine(pLine);
 }
 
-bool CInnoScriptEx::GetPropertyBool(LPCTSTR pszName,SECTION sec/*=SEC_SETUP*/) {
-	LPCTSTR pszValue = GetPropertyString(pszName,sec);
+bool CInnoScriptEx::GetPropertyBool(LPCTSTR pszName, SECTION sec/*=SEC_SETUP*/) {
+	LPCTSTR pszValue = GetPropertyString(pszName, sec);
 	return pszValue && GetBoolean(pszValue);
 }
 
-LONG CInnoScriptEx::GetPropertyNumber(LPCTSTR pszName,SECTION sec/*=SEC_SETUP*/) {
-	return _ttol(GetPropertyString(pszName,sec));
+LONG CInnoScriptEx::GetPropertyNumber(LPCTSTR pszName, SECTION sec/*=SEC_SETUP*/) {
+	return _ttol(GetPropertyString(pszName, sec));
 }
 
-LPCTSTR CInnoScriptEx::GetPropertyString(LPCTSTR pszName,SECTION sec/*=SEC_SETUP*/) {
-	for(long i=0;i<GetSize();i++) {
+LPCTSTR CInnoScriptEx::GetPropertyString(LPCTSTR pszName, SECTION sec/*=SEC_SETUP*/) {
+	for (long i = 0; i < GetSize(); i++) {
 		CLine* pLine = m_lines[i];
-		if(pLine->GetSection()==sec && !pLine->GetComment() && pLine->GetKey() && !_stricmp(pLine->GetKey(),pszName)) {
+		if (pLine->GetSection() == sec && !pLine->GetComment() && pLine->GetKey() && !_stricmp(pLine->GetKey(), pszName)) {
 			return pLine->GetValue();
 		}
 	}
-	return GetDefault(pszName,sec);
+	return GetDefault(pszName, sec);
 }
 
 static const CInnoScriptEx::CConverter m_valueType[] = {
@@ -472,11 +472,11 @@ static const CInnoScriptEx::CConverter m_valueType[] = {
 };
 
 LPCTSTR CInnoScriptEx::GetRegistryValueType(int nRoot) {
-	return Convert(m_valueType,nRoot);
+	return Convert(m_valueType, nRoot);
 }
 
 int CInnoScriptEx::GetRegistryValueType(LPCTSTR pszValue) {
-	return Convert(m_valueType,pszValue);
+	return Convert(m_valueType, pszValue);
 }
 
 static const CInnoScriptEx::CConverter m_dirExistsWarning[] = {
@@ -491,11 +491,11 @@ static const CInnoScriptEx::CConverter m_dirExistsWarning[] = {
 };
 
 int CInnoScriptEx::GetDirExistsWarning(LPCTSTR pszValue) {
-	return Convert(m_dirExistsWarning,pszValue);
+	return Convert(m_dirExistsWarning, pszValue);
 }
 
 LPCTSTR CInnoScriptEx::GetDirExistsWarning(int nMode) {
-	return Convert(m_dirExistsWarning,nMode);
+	return Convert(m_dirExistsWarning, nMode);
 }
 
 static const CInnoScriptEx::CConverter m_showLanguageDialog[] = {
@@ -510,11 +510,11 @@ static const CInnoScriptEx::CConverter m_showLanguageDialog[] = {
 };
 
 int CInnoScriptEx::GetShowLanguageDialog(LPCTSTR pszValue) {
-	return Convert(m_showLanguageDialog,pszValue);
+	return Convert(m_showLanguageDialog, pszValue);
 }
 
 LPCTSTR CInnoScriptEx::GetShowLanguageDialog(int nMode) {
-	return Convert(m_showLanguageDialog,nMode);
+	return Convert(m_showLanguageDialog, nMode);
 }
 
 static const CInnoScriptEx::CConverter m_privilegesRequired[] = {
@@ -525,11 +525,11 @@ static const CInnoScriptEx::CConverter m_privilegesRequired[] = {
 };
 
 LPCTSTR CInnoScriptEx::GetPrivilegesRequired(int nMode) {
-	return Convert(m_privilegesRequired,nMode);
+	return Convert(m_privilegesRequired, nMode);
 }
 
 int CInnoScriptEx::GetPrivilegesRequired(LPCTSTR pszValue) {
-	return Convert(m_privilegesRequired,pszValue);
+	return Convert(m_privilegesRequired, pszValue);
 }
 
 static const CInnoScriptEx::CConverter m_restartComputer[] = {
@@ -544,11 +544,11 @@ static const CInnoScriptEx::CConverter m_restartComputer[] = {
 };
 
 int CInnoScriptEx::GetRestartComputer(LPCTSTR pszValue) {
-	return Convert(m_restartComputer,pszValue);
+	return Convert(m_restartComputer, pszValue);
 }
 
 LPCTSTR CInnoScriptEx::GetRestartComputer(int nMode) {
-	return Convert(m_restartComputer,nMode);
+	return Convert(m_restartComputer, nMode);
 }
 
 static const CInnoScriptEx::CConverter m_deleteType[] = {
@@ -559,11 +559,11 @@ static const CInnoScriptEx::CConverter m_deleteType[] = {
 };
 
 int CInnoScriptEx::GetDeleteType(LPCTSTR pszType) {
-	return Convert(m_deleteType,pszType);
+	return Convert(m_deleteType, pszType);
 }
 
 LPCTSTR CInnoScriptEx::GetDeleteType(int nType) {
-	return Convert(m_deleteType,nType);
+	return Convert(m_deleteType, nType);
 }
 
 static const CInnoScriptEx::CConverter m_backColorDirection[] = {
@@ -573,11 +573,11 @@ static const CInnoScriptEx::CConverter m_backColorDirection[] = {
 };
 
 int CInnoScriptEx::GetBackColorDirection(LPCTSTR pszValue) {
-	return Convert(m_backColorDirection,pszValue);
+	return Convert(m_backColorDirection, pszValue);
 }
 
 LPCTSTR CInnoScriptEx::GetBackColorDirection(int nMode) {
-	return Convert(m_backColorDirection,nMode);
+	return Convert(m_backColorDirection, nMode);
 }
 
 static const CInnoScriptEx::CConverter m_langaugeDetectionMethod[] = {
@@ -588,11 +588,11 @@ static const CInnoScriptEx::CConverter m_langaugeDetectionMethod[] = {
 };
 
 int CInnoScriptEx::GetLanguageDetectionMethod(LPCTSTR pszValue) {
-	return Convert(m_langaugeDetectionMethod,pszValue);
+	return Convert(m_langaugeDetectionMethod, pszValue);
 }
 
 LPCTSTR CInnoScriptEx::GetLanguageDetectionMethod(int nMode) {
-	return Convert(m_langaugeDetectionMethod,nMode);
+	return Convert(m_langaugeDetectionMethod, nMode);
 }
 
 static const CInnoScriptEx::CConverter m_internalCompressLevel[] = {
@@ -606,11 +606,11 @@ static const CInnoScriptEx::CConverter m_internalCompressLevel[] = {
 };
 
 int CInnoScriptEx::GetInternalCompressLevel(LPCTSTR pszValue) {
-	return Convert(m_internalCompressLevel,pszValue);
+	return Convert(m_internalCompressLevel, pszValue);
 }
 
 LPCTSTR CInnoScriptEx::GetInternalCompressLevel(int nMode) {
-	return Convert(m_internalCompressLevel,nMode);
+	return Convert(m_internalCompressLevel, nMode);
 }
 
 static const CInnoScriptEx::CConverter m_uninstallLogMode[] = {
@@ -621,11 +621,11 @@ static const CInnoScriptEx::CConverter m_uninstallLogMode[] = {
 };
 
 int CInnoScriptEx::GetUninstallLogMode(LPCTSTR pszValue) {
-	return Convert(m_uninstallLogMode,pszValue);
+	return Convert(m_uninstallLogMode, pszValue);
 }
 
 LPCTSTR CInnoScriptEx::GetUninstallLogMode(int nMode) {
-	return Convert(m_uninstallLogMode,nMode);
+	return Convert(m_uninstallLogMode, nMode);
 }
 
 static const CInnoScriptEx::CConverter m_root[] = {
@@ -638,49 +638,49 @@ static const CInnoScriptEx::CConverter m_root[] = {
 };
 
 int CInnoScriptEx::GetRegistryRoot(LPCTSTR pszValue) {
-	return Convert(m_root,pszValue);
+	return Convert(m_root, pszValue);
 }
 
 LPCTSTR CInnoScriptEx::GetRegistryRoot(int nRoot) {
-	return Convert(m_root,nRoot);
+	return Convert(m_root, nRoot);
 }
 
 
 
 // File system additions
-bool CInnoScriptEx::GetFolderName(CString& ref,CScriptLine* p) {
+bool CInnoScriptEx::GetFolderName(CString& ref, CScriptLine* p) {
 	ref.Empty();
-	if(p->GetSection()==CInnoScript::SEC_ICONS) {
+	if (p->GetSection() == CInnoScript::SEC_ICONS) {
 		CString strDir(p->GetParameter("Name"));
 		int nPos = strDir.ReverseFind('\\');
-		if(nPos>=0) 
+		if (nPos >= 0)
 			ref = strDir.Left(nPos);
-	} else if(p->GetSection()==CInnoScript::SEC_FILES) {
+	} else if (p->GetSection() == CInnoScript::SEC_FILES) {
 		ref = p->GetParameter("DestDir");
-	} else if(p->GetSection()==CInnoScript::SEC_DIRS) {
+	} else if (p->GetSection() == CInnoScript::SEC_DIRS) {
 		ref = p->GetParameter("Name");
-	} else if(p->GetSection()==CInnoScript::SEC_REGISTRY) {
+	} else if (p->GetSection() == CInnoScript::SEC_REGISTRY) {
 		LPCTSTR pszRoot = p->GetParameter("Root");
 		LPCTSTR pszSubkey = p->GetParameter("Subkey");
-		if(pszRoot) pszRoot = GetRootName(pszRoot);
-		if(!pszRoot) pszRoot = "";
-		if(!pszSubkey) pszSubkey = "";
-		ref.Format("%s\\%s",pszRoot,pszSubkey);
+		if (pszRoot) pszRoot = GetRootName(pszRoot);
+		if (!pszRoot) pszRoot = "";
+		if (!pszSubkey) pszSubkey = "";
+		ref.Format("%s\\%s", pszRoot, pszSubkey);
 	} else {
 #ifdef _DEBUG
-		AtlMessageBox(AfxGetMainHWnd(),"Unhandled script section specified in GetFolderName().",IDR_MAINFRAME,MB_OK|MB_ICONERROR);
+		AtlMessageBox(AfxGetMainHWnd(), "Unhandled script section specified in GetFolderName().", IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 		ATLASSERT(FALSE);
 #endif
 	}
 
-	
-	if(!ref.IsEmpty() && ref[ref.GetLength()-1]=='\\') 
-		ref.ReleaseBuffer(ref.GetLength()-1);
+
+	if (!ref.IsEmpty() && ref[ref.GetLength() - 1] == '\\')
+		ref.ReleaseBuffer(ref.GetLength() - 1);
 
 	return ref.IsEmpty() ? false : true;
 }
 
-const CInnoScriptEx::CConstantInfo CInnoScriptEx::m_constants[]= {
+const CInnoScriptEx::CConstantInfo CInnoScriptEx::m_constants[] = {
 	// Directory Constants 
 	"{app}",			"The application directory", true,
 	"{win}",			"The system's Windows directory", true,
@@ -700,7 +700,7 @@ const CInnoScriptEx::CConstantInfo CInnoScriptEx::m_constants[]= {
 	// Shell Folder Constants 
 	"{group}",			"The path to the program group", true,
 	"{sendto}",			"The path to the current user's Send To folder", true,
-	
+
 	"{userappdata}",	"The path to the Application Data folder", true,
 	"{commonappdata}",	"The path to the Application Data folder", true,
 	"{userdesktop}",	"The path to the desktop folder", true,
@@ -752,8 +752,8 @@ const CInnoScriptEx::CConstantInfo CInnoScriptEx::m_constants[]= {
 
 bool CInnoScriptEx::IsFolderConstant(LPCTSTR pszConstant) {
 	UINT nPos = 0;
-	while(m_constants[nPos].m_pszConstant) {
-		if(!_stricmp(pszConstant,m_constants[nPos].m_pszConstant))
+	while (m_constants[nPos].m_pszConstant) {
+		if (!_stricmp(pszConstant, m_constants[nPos].m_pszConstant))
 			return true;
 		nPos++;
 	}
@@ -762,8 +762,8 @@ bool CInnoScriptEx::IsFolderConstant(LPCTSTR pszConstant) {
 
 LPCTSTR CInnoScriptEx::GetConstantName(LPCTSTR pszConstant) {
 	UINT nPos = 0;
-	while(m_constants[nPos].m_pszConstant) {
-		if(!_stricmp(pszConstant,m_constants[nPos].m_pszConstant))
+	while (m_constants[nPos].m_pszConstant) {
+		if (!_stricmp(pszConstant, m_constants[nPos].m_pszConstant))
 			return m_constants[nPos].m_pszName;
 		nPos++;
 	}
@@ -771,47 +771,47 @@ LPCTSTR CInnoScriptEx::GetConstantName(LPCTSTR pszConstant) {
 }
 
 LPCTSTR CInnoScriptEx::GetRootName(LPCTSTR pszRoot) {
-	if(!pszRoot) return NULL;
-	if(!_stricmp(pszRoot,"HKCR"))
+	if (!pszRoot) return NULL;
+	if (!_stricmp(pszRoot, "HKCR"))
 		return "HKEY_CLASSES_ROOT";
-	else if(!_stricmp(pszRoot,"HKCU"))
+	else if (!_stricmp(pszRoot, "HKCU"))
 		return "HKEY_CURRENT_USER";
-	else if(!_stricmp(pszRoot,"HKLM"))
+	else if (!_stricmp(pszRoot, "HKLM"))
 		return "HKEY_LOCAL_MACHINE";
-	else if(!_stricmp(pszRoot,"HKU"))
+	else if (!_stricmp(pszRoot, "HKU"))
 		return "HKEY_USERS";
-	else if(!_stricmp(pszRoot,"HKCC"))
+	else if (!_stricmp(pszRoot, "HKCC"))
 		return "HKEY_CURRENT_CONFIG";
 	return NULL;
 }
 
 LPCTSTR CInnoScriptEx::GetDisplayName(CScriptLine* p) {
-	if(p->GetSection()==CInnoScript::SEC_DIRS) {
+	if (p->GetSection() == CInnoScript::SEC_DIRS) {
 		LPCTSTR pszName = p->GetParameter("Name");
-		LPCTSTR psz = _tcsrchr(pszName,'\\');
-		if(psz)
-			return psz+1;
+		LPCTSTR psz = _tcsrchr(pszName, '\\');
+		if (psz)
+			return psz + 1;
 		return pszName;
-	} else if(p->GetSection()==CInnoScript::SEC_FILES) {
+	} else if (p->GetSection() == CInnoScript::SEC_FILES) {
 		LPCTSTR pszName = p->GetParameter("DestName");
-		if(pszName) return pszName;
+		if (pszName) return pszName;
 
 		pszName = p->GetParameter("Source");
-		LPCTSTR psz = _tcsrchr(pszName,'\\');
-		if(psz) 
-			return psz+1;
+		LPCTSTR psz = _tcsrchr(pszName, '\\');
+		if (psz)
+			return psz + 1;
 		return pszName;
-	} else if(p->GetSection()==CInnoScript::SEC_ICONS) {
+	} else if (p->GetSection() == CInnoScript::SEC_ICONS) {
 		LPCTSTR pszName = p->GetParameter("Name");
-		LPCTSTR psz = _tcsrchr(pszName,'\\');
-		if(psz) 
-			return psz+1;
+		LPCTSTR psz = _tcsrchr(pszName, '\\');
+		if (psz)
+			return psz + 1;
 		return pszName;
-	} else if(p->GetSection()==CInnoScript::SEC_REGISTRY) {
+	} else if (p->GetSection() == CInnoScript::SEC_REGISTRY) {
 		return p->GetParameter("ValueName");
 	} else {
 #ifdef _DEBUG
-		AtlMessageBox(AfxGetMainHWnd(),"Unhandled script section specified in GetDisplayName().",IDR_MAINFRAME,MB_OK|MB_ICONERROR);
+		AtlMessageBox(AfxGetMainHWnd(), "Unhandled script section specified in GetDisplayName().", IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 		ATLASSERT(FALSE);
 #endif
 	}
@@ -819,89 +819,88 @@ LPCTSTR CInnoScriptEx::GetDisplayName(CScriptLine* p) {
 	return NULL;
 }
 
-void CInnoScriptEx::Split(const CString& Str,TSetupVersionDataVersion& Ver,WORD& ServicePack) {
-//void Split(const CString& Str,DWORD& ver,WORD& ServicePack) {
-	int I,J;
+void CInnoScriptEx::Split(const CString& Str, TSetupVersionDataVersion& Ver, WORD& ServicePack) {
+	//void Split(const CString& Str,DWORD& ver,WORD& ServicePack) {
+	int I, J;
 	CString Z, B;
-    bool HasBuild;
+	bool HasBuild;
 
 	//Ver = 0;
-	memset(&Ver,0,sizeof Ver);
-    ServicePack = 0;
-	Z = Str; 
+	memset(&Ver, 0, sizeof Ver);
+	ServicePack = 0;
+	Z = Str;
 	Z.MakeLower();
 
 	I = Z.Find("sp");
-	if(I>=0) {
-		J = _ttol(Z.Mid(I+2));
-		if(J<0 || J>255) throw 0;
+	if (I >= 0) {
+		J = _ttol(Z.Mid(I + 2));
+		if (J < 0 || J>255) throw 0;
 		ServicePack = J;
-		Z.SetAt(I,0);
+		Z.SetAt(I, 0);
 		Z.ReleaseBuffer();
 	}
 
 	I = Z.Find(".");
-	if(I==Z.GetLength()-1) throw 0;
-	if(I>=0) {
+	if (I == Z.GetLength() - 1) throw 0;
+	if (I >= 0) {
 		J = _ttol(Z.Left(I));
-		if(J<0 || J>255) throw 0;
+		if (J < 0 || J>255) throw 0;
 		Ver.Major = J;
-		Z = Z.Mid(I+1);
+		Z = Z.Mid(I + 1);
 
 		I = Z.Find(".");
-		HasBuild = I>=0;
-		if(!HasBuild) {
+		HasBuild = I >= 0;
+		if (!HasBuild) {
 			I = Z.GetLength();
 			B.Empty();
 		} else {
-			B = Z.Mid(I+1);
+			B = Z.Mid(I + 1);
 			Z = Z.Left(I);
 		}
 		J = _ttol(Z);
-		if(J<0 || J>99) throw 0;
-		if(J<10 && Z[0]!='0') J *= 10;
+		if (J < 0 || J>99) throw 0;
+		if (J < 10 && Z[0] != '0') J *= 10;
 		Ver.Minor = J;
-		if(HasBuild) {
+		if (HasBuild) {
 			J = _ttol(B);
-			if(J<0 || J>65535) throw 0;
+			if (J < 0 || J>65535) throw 0;
 			Ver.Build = J;
 		}
 	} else { // no minor version specified }
 		J = _ttol(Str);
-		if(J<0 || J>255) throw 0;
+		if (J < 0 || J>255) throw 0;
 		Ver.Major = J;
 	}
 }
 
-bool CInnoScriptEx::StrToVersionNumbers(const CString& S,TSetupVersionData& VerData) {
+bool CInnoScriptEx::StrToVersionNumbers(const CString& S, TSetupVersionData& VerData) {
 	int I;
 	WORD SP;
 
 	try {
 		I = S.Find(",");
-		if(I<0) throw 0;
+		if (I < 0) throw 0;
 
 		CString tmp;
 		tmp = S.Left(I);
 		tmp.TrimLeft(), tmp.TrimRight();
-		Split(tmp,VerData.WinVersion,SP);
-		if(SP) throw 0; // only NT has service packs
-		tmp = S.Mid(I+1);
+		Split(tmp, VerData.WinVersion, SP);
+		if (SP) throw 0; // only NT has service packs
+		tmp = S.Mid(I + 1);
 		tmp.TrimLeft(), tmp.TrimRight();
-		Split(tmp,VerData.NTVersion, VerData.NTServicePack);
+		Split(tmp, VerData.NTVersion, VerData.NTServicePack);
 		return true;
-	}
-	catch(...) {
+	} catch (...) {
 		return false;
 	}
 }
 
-CString CInnoScriptEx::GetMessage(const CString& strName,CString strHomeDir) {
-	CMyUtils::EndWith(strHomeDir,'\\');
+CString CInnoScriptEx::GetMessage(const CString& strName, CString strHomeDir) {
+	CMyUtils::EndWith(strHomeDir, '\\');
 	CString strMessagesFile;
 	CScriptList lines;
-	GetList(CInnoScript::SEC_LANGUAGES,lines);
-	if(lines.GetSize()==0)
+	GetList(CInnoScript::SEC_LANGUAGES, lines);
+	if (lines.GetSize() == 0)
 		strMessagesFile = "compiler:default.isl";
 	else
 		strMessagesFile = lines[0]->GetParameter("MessagesFile");
@@ -909,24 +908,24 @@ CString CInnoScriptEx::GetMessage(const CString& strName,CString strHomeDir) {
 	long nPos = strMessagesFile.Trim().ReverseFind(',');
 	do {
 		CString strFile;
-		if(nPos<0) {
+		if (nPos < 0) {
 			strFile = strMessagesFile;
 			strMessagesFile.Empty();
 		} else {
-			strFile = strMessagesFile.Mid(nPos+1);
+			strFile = strMessagesFile.Mid(nPos + 1);
 			strMessagesFile.ReleaseBufferSetLength(nPos);
 		}
 
-		strFile.Trim().Replace("compiler:",strHomeDir);
+		strFile.Trim().Replace("compiler:", strHomeDir);
 
 		CString strMessage;
-		DWORD dwChars = GetPrivateProfileString("Messages",strName,NULL,strMessage.GetBuffer(1024),1024,strFile);
+		DWORD dwChars = GetPrivateProfileString("Messages", strName, NULL, strMessage.GetBuffer(1024), 1024, strFile);
 		strMessage.ReleaseBufferSetLength(dwChars);
-		if(!strMessage.IsEmpty())
+		if (!strMessage.IsEmpty())
 			return strMessage;
 
 		nPos = strMessagesFile.Trim().ReverseFind(',');
-	} while(!strMessagesFile.IsEmpty());
+	} while (!strMessagesFile.IsEmpty());
 
 
 	return "strMessagesFile";
