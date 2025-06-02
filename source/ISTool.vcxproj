@@ -404,9 +404,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\setup\calltips.txt" />
-    <Text Include="..\Credits.txt" />
-    <Text Include="..\History.txt" />
-    <Text Include="..\TODO.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
