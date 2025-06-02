@@ -585,6 +585,9 @@
     <None Include="..\scripts\ScintillaATLFacer.py">
       <Filter>Scripts</Filter>
     </None>
+    <None Include="..\scripts\CallTipGenerator.py">
+      <Filter>Scripts</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\setup\calltips.txt" />
