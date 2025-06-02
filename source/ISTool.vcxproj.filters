@@ -47,6 +47,9 @@
     <Filter Include="Extras\Dialog Files">
       <UniqueIdentifier>{ca23cf49-3101-41ae-816b-10872a6869f4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripts">
+      <UniqueIdentifier>{8487e424-db0f-4256-8c57-1af38ee89b73}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Debugger.cpp">
@@ -572,6 +575,15 @@
     </None>
     <None Include="..\Languages\istool-nb.lng">
       <Filter>Language Files</Filter>
+    </None>
+    <None Include="..\scripts\Face.py">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="..\scripts\FileGenerator.py">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="..\scripts\ScintillaATLFacer.py">
+      <Filter>Scripts</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

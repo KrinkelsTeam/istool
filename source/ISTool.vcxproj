@@ -397,6 +397,9 @@
   <ItemGroup>
     <None Include="..\Languages\istool-en.lng" />
     <None Include="..\Languages\istool-nb.lng" />
+    <None Include="..\scripts\Face.py" />
+    <None Include="..\scripts\FileGenerator.py" />
+    <None Include="..\scripts\ScintillaATLFacer.py" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\setup\calltips.txt" />
