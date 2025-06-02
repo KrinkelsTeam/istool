@@ -46,13 +46,13 @@ void CViewScript::UpdateView() {
 		CScriptLine* pLine = GetDocument()->GetScript()[i];
 		// New section?
 		if (pLine->GetSection() != sec) {
-#if 0
+		#if 0
 			if (sec != CInnoScript::SEC_NONE) {
 				sprintf(szLine, "[/%s]", CInnoScript::GetSectionName(sec));
 				str += szLine;
 				str += "\r\n";
 			}
-#endif
+		#endif
 			sec = pLine->GetSection();
 			if (sec != CInnoScript::SEC_NONE) {
 				sprintf_s(szLine, sizeof(szLine), "[%s]", CInnoScript::GetSectionName(sec));

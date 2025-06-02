@@ -138,21 +138,21 @@ public:
 	CViewItem<CViewIconsT, 1>			m_wndIconsT;
 	CViewItem<CViewIconsL, 0>			m_wndIconsL;
 	CViewItem<CViewIni, 0>				m_wndIni;
-	CViewItem<CViewRegistryL, 0>			m_wndRegistryL;
-	CViewItem<CViewRegistryT, 1>			m_wndRegistryT;
-	CViewItem<CViewDeleteInstall, 0>		m_wndDeleteInstall;
+	CViewItem<CViewRegistryL, 0>		m_wndRegistryL;
+	CViewItem<CViewRegistryT, 1>		m_wndRegistryT;
+	CViewItem<CViewDeleteInstall, 0>	m_wndDeleteInstall;
 	CViewItem<CViewDeleteUninstall, 0>	m_wndDeleteUninstall;
 	CViewItem<CViewRunInstall, 0>		m_wndRunInstall;
 	CViewItem<CViewRunUninstall, 0>		m_wndRunUninstall;
 	CViewItem<CViewMessages, 0>			m_wndMessages;
 	CViewItem<CViewCustomMessages, 0>	m_wndCustomMessages;
-	CViewItem<CViewTypes, 0>				m_wndTypes;
+	CViewItem<CViewTypes, 0>			m_wndTypes;
 	CViewItem<CViewComponents, 0>		m_wndComponents;
-	CViewItem<CViewTasks, 0>				m_wndTasks;
+	CViewItem<CViewTasks, 0>			m_wndTasks;
 	CViewItem<CViewCompileStepPre, 0>	m_wndCompileStepPre;
 	CViewItem<CViewCompileStepPost, 0>	m_wndCompileStepPost;
 	CViewItem<CViewDownload, 0>			m_wndDownload;
-	CViewItem<CViewLanguages, 0>			m_wndLanguages;
+	CViewItem<CViewLanguages, 0>		m_wndLanguages;
 
 	HWND GetFocusView() {
 		return m_wndView.m_hWnd;
@@ -185,8 +185,8 @@ public:
 		UPDATE_ELEMENT(ID_FILE_PRINT_SETUP, UPDUI_MENUPOPUP)
 		UPDATE_ELEMENT(ID_FILE_PRINT_PREVIEW, UPDUI_MENUPOPUP)
 		// Edit
-		UPDATE_ELEMENT(ID_EDIT_UNDO, UPDUI_MENUPOPUP)
-		UPDATE_ELEMENT(ID_EDIT_REDO, UPDUI_MENUPOPUP)
+		UPDATE_ELEMENT(ID_EDIT_UNDO, UPDUI_MENUPOPUP | UPDUI_TOOLBAR)
+		UPDATE_ELEMENT(ID_EDIT_REDO, UPDUI_MENUPOPUP | UPDUI_TOOLBAR)
 		UPDATE_ELEMENT(ID_EDIT_CUT, UPDUI_MENUPOPUP | UPDUI_TOOLBAR)
 		UPDATE_ELEMENT(ID_EDIT_COPY, UPDUI_MENUPOPUP | UPDUI_TOOLBAR)
 		UPDATE_ELEMENT(ID_EDIT_PASTE, UPDUI_MENUPOPUP | UPDUI_TOOLBAR)

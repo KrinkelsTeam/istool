@@ -15,6 +15,6 @@
 
 CViewCustomMessages::CViewCustomMessages() : CViewMessages(CInnoScript::SEC_CUSTOMMESSAGES) {
 	SetSubMenu(4);
-	m_nItemImage = 17;
+	m_nItemImage = 10;
 	m_dwFlags |= VFL_SETUP;
 }

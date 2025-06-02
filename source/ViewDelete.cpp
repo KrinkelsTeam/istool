@@ -11,6 +11,7 @@
 // CViewDelete
 
 CViewDelete::CViewDelete(CInnoScript::SECTION sec) : CMyListView(sec) {
+	m_nItemImage = 17;
 }
 
 const CListInfo CViewDelete::m_colInfo[] = {

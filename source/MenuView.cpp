@@ -34,7 +34,7 @@ LRESULT CMainFrame::OnViewSectionPanel(WORD /*wNotifyCode*/, WORD /*wID*/, HWND 
 }
 
 LRESULT CMainFrame::OnViewAsList(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {
-	switch(wID) {
+	switch (wID) {
 	case ID_VIEW_FILESASLIST:
 		CMyApp::m_prefs.m_bFilesList ^= 1;
 		SetSection(ID_VIEW_FILES);
@@ -53,15 +53,15 @@ LRESULT CMainFrame::OnViewAsList(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*
 
 LRESULT CMainFrame::OnViewProperties(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {
 	HWND hWndFocus = GetFocusView();
-	if(hWndFocus)
-		::SendMessage(hWndFocus,UWM_PROPERTIES,0,0);
+	if (hWndFocus)
+		::SendMessage(hWndFocus, UWM_PROPERTIES, 0, 0);
 	return 0;
 }
 
 LRESULT CMainFrame::OnViewCustomize(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {
 	HWND hWndFocus = GetFocusView();
-	if(hWndFocus)
-		::SendMessage(hWndFocus,UWM_CUSTOMIZE,0,0);
+	if (hWndFocus)
+		::SendMessage(hWndFocus, UWM_CUSTOMIZE, 0, 0);
 	return 0;
 }
 

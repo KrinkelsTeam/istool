@@ -265,10 +265,10 @@ BOOL CMyApp::InitInstance() {
 	CTranslate::AddFile(CMyApp::m_prefs.m_strLanguageFile);
 #endif
 
-	m_imageList.Create(16, 16, ILC_MASK | ILC_COLOR16, 8, 1);
+	m_imageList.Create(16, 16, ILC_MASK | ILC_COLOR32, 18, 1);
 	CBitmap bm;
-	bm.LoadBitmap(IDB_IMAGELIST);
-	m_imageList.Add(bm, RGB(255, 0, 255));
+	bm.LoadBitmap(IDB_SECTION_VIEW);
+	m_imageList.Add(bm, (COLORREF)0);
 	bm.Detach();
 
 	// Make sure our registry key is there
@@ -482,9 +482,9 @@ HTREEITEM CMyApp::FindParentItem(CTreeViewCtrl& ctrl, LPCTSTR lpszFolder, bool b
 				hRoot = ctrl.InsertItem(sub, 3, 3, hRoot, TVI_SORT);
 			else {
 				if (!CInnoScriptEx::IsFolderConstant(sub))
-					hRoot = ctrl.InsertItem(sub, 8, 9, hRoot, TVI_SORT);
+					hRoot = ctrl.InsertItem(sub, 2, 1, hRoot, TVI_SORT);
 				else
-					hRoot = ctrl.InsertItem(sub, 12, 13, hRoot, TVI_SORT);
+					hRoot = ctrl.InsertItem(sub, 9, 8, hRoot, TVI_SORT);
 			}
 #if 1 // Don't expand everything
 			HTREEITEM hParent = ctrl.GetParentItem(hRoot);

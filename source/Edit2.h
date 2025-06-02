@@ -6,12 +6,12 @@
 /////////////////////////////////////////////////////////////////////////////
 // CEdit2 window
 
-class CEdit2 : public CWindowImpl<CEdit2,CEdit> {
+class CEdit2 : public CWindowImpl<CEdit2, CEdit> {
 public:
 	CEdit2(CMyDoc* pDoc) : m_pDoc(pDoc) {}
 
 	BEGIN_MSG_MAP(CEdit2)
-		MESSAGE_HANDLER(WM_CONTEXTMENU,OnContextMenu)
+		MESSAGE_HANDLER(WM_CONTEXTMENU, OnContextMenu)
 		COMMAND_ID_HANDLER(ID_EDIT_CUT, OnEditCut)
 		COMMAND_ID_HANDLER(ID_EDIT_COPY, OnEditCopy)
 		COMMAND_ID_HANDLER(ID_EDIT_UNDO, OnEditUndo)
@@ -24,7 +24,7 @@ public:
 	END_MSG_MAP()
 
 	LRESULT OnContextMenu(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, BOOL& /*bHandled*/) {
-		CPoint point(GET_X_LPARAM(lParam),GET_Y_LPARAM(lParam));
+		CPoint point(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 		if (point.x == -1 && point.y == -1) {
 			//keystroke invocation
 			CRect rect;
@@ -42,21 +42,21 @@ public:
 		CMenuHandle pSubMenu = pPopup.GetSubMenu(9);
 
 		// Undo
-		pPopup.EnableMenuItem(ID_EDIT_UNDO,SendMessage(EM_CANUNDO,0,0)?MF_ENABLED:MF_GRAYED);
+		pPopup.EnableMenuItem(ID_EDIT_UNDO, SendMessage(EM_CANUNDO, 0, 0) ? MF_ENABLED : MF_GRAYED);
 		// Cut/copy/clear
 		int nStart, nEnd;
-		GetSel(nStart,nEnd);
-		pPopup.EnableMenuItem(ID_EDIT_CUT,nEnd>nStart?MF_ENABLED:MF_GRAYED);
-		pPopup.EnableMenuItem(ID_EDIT_COPY,nEnd>nStart?MF_ENABLED:MF_GRAYED);
-		pPopup.EnableMenuItem(ID_EDIT_DELETEITEM,nEnd>nStart?MF_ENABLED:MF_GRAYED);
+		GetSel(nStart, nEnd);
+		pPopup.EnableMenuItem(ID_EDIT_CUT, nEnd > nStart ? MF_ENABLED : MF_GRAYED);
+		pPopup.EnableMenuItem(ID_EDIT_COPY, nEnd > nStart ? MF_ENABLED : MF_GRAYED);
+		pPopup.EnableMenuItem(ID_EDIT_DELETEITEM, nEnd > nStart ? MF_ENABLED : MF_GRAYED);
 		// Paste
-		pPopup.EnableMenuItem(ID_EDIT_PASTE,IsClipboardFormatAvailable(CF_TEXT)?MF_ENABLED:MF_GRAYED);
+		pPopup.EnableMenuItem(ID_EDIT_PASTE, IsClipboardFormatAvailable(CF_TEXT) ? MF_ENABLED : MF_GRAYED);
 
-		while(pSubMenu.DeleteMenu(0, MF_BYPOSITION));
+		while (pSubMenu.DeleteMenu(0, MF_BYPOSITION));
 		int nPos = 0;
-		while(CInnoScriptEx::m_constants[nPos].m_pszConstant) {
-			if(CInnoScriptEx::m_constants[nPos].m_bFolder) {
-				if(CInnoScriptEx::m_constants[nPos].m_pszConstant[0]=='-') {
+		while (CInnoScriptEx::m_constants[nPos].m_pszConstant) {
+			if (CInnoScriptEx::m_constants[nPos].m_bFolder) {
+				if (CInnoScriptEx::m_constants[nPos].m_pszConstant[0] == '-') {
 					pSubMenu.AppendMenu(MF_STRING | MF_SEPARATOR, 0);
 				} else {
 					CString str;
@@ -72,12 +72,12 @@ public:
 
 		pSubMenu = pPopup.GetSubMenu(10);
 		ATLASSERT(pSubMenu != NULL);
-		while(pSubMenu.DeleteMenu(0, MF_BYPOSITION));
+		while (pSubMenu.DeleteMenu(0, MF_BYPOSITION));
 
 		nPos = 0;
-		while(CInnoScriptEx::m_constants[nPos].m_pszConstant) {
-			if(!CInnoScriptEx::m_constants[nPos].m_bFolder) {
-				if(CInnoScriptEx::m_constants[nPos].m_pszConstant[0]=='-') {
+		while (CInnoScriptEx::m_constants[nPos].m_pszConstant) {
+			if (!CInnoScriptEx::m_constants[nPos].m_bFolder) {
+				if (CInnoScriptEx::m_constants[nPos].m_pszConstant[0] == '-') {
 					pSubMenu.AppendMenu(MF_STRING | MF_SEPARATOR, 0);
 				} else {
 					CString str;
@@ -94,18 +94,18 @@ public:
 
 		pSubMenu = pPopup.GetSubMenu(11);
 		ATLASSERT(pSubMenu != NULL);
-		while(pSubMenu.DeleteMenu(0, MF_BYPOSITION));
+		while (pSubMenu.DeleteMenu(0, MF_BYPOSITION));
 		nPos = 0;
 
 		CScriptList dirs;
-		m_pDoc->GetScript().GetList(CInnoScript::SEC_DIRS,dirs);
+		m_pDoc->GetScript().GetList(CInnoScript::SEC_DIRS, dirs);
 
-		for(int nPos2=0;nPos2<dirs.GetSize();nPos2++) {
+		for (int nPos2 = 0; nPos2 < dirs.GetSize(); nPos2++) {
 			CScriptLine* pLine = dirs[nPos2];
-			pSubMenu.AppendMenu(MF_STRING|MF_ENABLED, 0xF00 + nPos++, SAFESTR(pLine->GetParameter("Name")));
+			pSubMenu.AppendMenu(MF_STRING | MF_ENABLED, 0xF00 + nPos++, SAFESTR(pLine->GetParameter("Name")));
 		}
-		if(!nPos)
-			pSubMenu.AppendMenu(MF_STRING|MF_GRAYED, (UINT_PTR)0, "Empty");
+		if (!nPos)
+			pSubMenu.AppendMenu(MF_STRING | MF_GRAYED, (UINT_PTR)0, "Empty");
 
 		pPopup.TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, point.x, point.y, *this);
 
@@ -133,19 +133,19 @@ public:
 		return 0;
 	}
 	LRESULT OnEditSelectAll(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {
-		SetSel(0,-1);
+		SetSel(0, -1);
 		return 0;
 	}
 
 	LRESULT OnDirectoryConstant(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {
-		LPCTSTR lpszConstant = CInnoScriptEx::m_constants[wID-0xE00].m_pszConstant;
+		LPCTSTR lpszConstant = CInnoScriptEx::m_constants[wID - 0xE00].m_pszConstant;
 
 		CString str;
-		GetWindowText(str.GetBuffer(256),256);
+		GetWindowText(str.GetBuffer(256), 256);
 		int nPos = str.Find('}');
-		if(nPos>0 && str[0]=='{') {
-			str = str.Mid(nPos+1);
-			if(str.GetLength()>0 && str[0]=='\\') str = str.Mid(1);
+		if (nPos > 0 && str[0] == '{') {
+			str = str.Mid(nPos + 1);
+			if (str.GetLength() > 0 && str[0] == '\\') str = str.Mid(1);
 		}
 		str = CString(lpszConstant) + "\\" + str;
 		SetWindowText(str);
@@ -153,8 +153,8 @@ public:
 	}
 
 	LRESULT OnOtherConstant(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {
-		LPCTSTR lpszConstant = CInnoScriptEx::m_constants[wID-0xE80].m_pszConstant;
-		ReplaceSel(lpszConstant,TRUE);
+		LPCTSTR lpszConstant = CInnoScriptEx::m_constants[wID - 0xE80].m_pszConstant;
+		ReplaceSel(lpszConstant, TRUE);
 		return 0;
 	}
 
@@ -163,23 +163,23 @@ public:
 		CScriptLine* pLine = NULL;
 
 		CScriptList dirs;
-		m_pDoc->GetScript().GetList(CInnoScript::SEC_DIRS,dirs);
+		m_pDoc->GetScript().GetList(CInnoScript::SEC_DIRS, dirs);
 
 		pLine = dirs[nDir];
 
 		CString str, str2(pLine->GetParameter("Name"));
-		GetWindowText(str.GetBuffer(256),256);
+		GetWindowText(str.GetBuffer(256), 256);
 		int nPos = str.ReverseFind('\\');
-		if(nPos>=0) {
-			str = str.Mid(nPos+1);
-			if(str.GetLength()>0 && str[0]=='\\') str = str.Mid(1);
+		if (nPos >= 0) {
+			str = str.Mid(nPos + 1);
+			if (str.GetLength() > 0 && str[0] == '\\') str = str.Mid(1);
 		}
-		if(str2[str2.GetLength()-1]!='\\') str2 += "\\";
+		if (str2[str2.GetLength() - 1] != '\\') str2 += "\\";
 		str = str2 + str;
 		SetWindowText(str);
 		return 0;
 	}
 
 protected:
-	CMyDoc*	m_pDoc;
+	CMyDoc* m_pDoc;
 };

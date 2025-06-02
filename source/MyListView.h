@@ -10,7 +10,7 @@ typedef struct {
 } CListInfo;
 
 enum {
-	CLI_HIDE	= 1,	// Default hidden
+	CLI_HIDE = 1,	// Default hidden
 };
 
 /////////////////////////////////////////////////////////////////////////////
@@ -27,8 +27,8 @@ public:
 	virtual bool ApplyView();
 
 protected:
-	UINT					m_nCommentImage;
-	UINT					m_nItemImage;
+	UINT	m_nCommentImage;
+	UINT	m_nItemImage;
 
 public:
 	CScriptLine* GetSelectedEntry();
@@ -45,49 +45,50 @@ protected:
 	virtual const CListInfo* GetListInfo();
 
 	typedef struct {
-		CHAR		m_szTitle[32];
-		int			m_nFormat;
-		bool		m_bVisible;
-		int			m_nWidth;
+		CHAR	m_szTitle[32];
+		int		m_nFormat;
+		bool	m_bVisible;
+		int		m_nWidth;
 	} CColumnInfo;
-	CSimpleArray<CColumnInfo*>			m_columnList;
-	void AddColumn(LPCTSTR lpszName,int nFormat,int nWidth,bool bVisible);
-	void DoDisplay(bool bDontRead=false);
-	void WriteDisplayInfo();
-	void SetItemText(int nItem,int nDisplayColumn,LPCTSTR lpszText);
 
-	void WriteRegistryInfo(WORD* pDisplayInfo,UINT nCount);
-	bool ReadRegistryInfo(WORD* pDisplayInfo,UINT nCount);
-	bool ReadColumnOrderInfo(WORD* pDisplayInfo,UINT nCount);
+	CSimpleArray<CColumnInfo*>			m_columnList;
+	void AddColumn(LPCTSTR lpszName, int nFormat, int nWidth, bool bVisible);
+	void DoDisplay(bool bDontRead = false);
+	void WriteDisplayInfo();
+	void SetItemText(int nItem, int nDisplayColumn, LPCTSTR lpszText);
+
+	void WriteRegistryInfo(WORD* pDisplayInfo, UINT nCount);
+	bool ReadRegistryInfo(WORD* pDisplayInfo, UINT nCount);
+	bool ReadColumnOrderInfo(WORD* pDisplayInfo, UINT nCount);
 	int GetDisplayColumn(int nCol);
 
 
 	CFont		m_boldFont;
 
-	DWORD	m_dwFlags;	
+	DWORD	m_dwFlags;
 	enum {
-		VFL_DRAGACCEPTFILES	= 0x01,	// The section supports drag and drop
-		VFL_SETUP			= 0x02	// For setup and messages section
+		VFL_DRAGACCEPTFILES = 0x01,	// The section supports drag and drop
+		VFL_SETUP = 0x02	// For setup and messages section
 	};
 
 	BEGIN_MSG_MAP(CMyListView)
-		MESSAGE_HANDLER(WM_CREATE,OnCreate)
-		MESSAGE_HANDLER(WM_CONTEXTMENU,OnContextMenu)
-		MESSAGE_HANDLER(WM_DESTROY,OnDestroy)
-		MESSAGE_HANDLER(WM_KEYDOWN,OnKeyDown)
-		MESSAGE_HANDLER(WM_CUT,OnCut)
-		MESSAGE_HANDLER(WM_COPY,OnCopy)
-		MESSAGE_HANDLER(WM_PASTE,OnPaste)
-		MESSAGE_HANDLER(UWM_NEWITEM,OnNewItem)
-		MESSAGE_HANDLER(UWM_SELECTALL,OnSelectAll)
-		MESSAGE_HANDLER(UWM_DELETE,OnDelete)
-		MESSAGE_HANDLER(UWM_MOVEUP,OnMoveUp)
-		MESSAGE_HANDLER(UWM_MOVEDOWN,OnMoveDown)
-		MESSAGE_HANDLER(UWM_PROPERTIES,OnProperties)
-		MESSAGE_HANDLER(UWM_CUSTOMIZE,OnCustomize)
-		MESSAGE_HANDLER(UWM_UPDATEUI,OnUpdateUI)
-		REFLECTED_NOTIFY_CODE_HANDLER(NM_DBLCLK,OnDoubleClick)
-		REFLECTED_NOTIFY_CODE_HANDLER(NM_CUSTOMDRAW,OnCustomDraw)
+		MESSAGE_HANDLER(WM_CREATE, OnCreate)
+		MESSAGE_HANDLER(WM_CONTEXTMENU, OnContextMenu)
+		MESSAGE_HANDLER(WM_DESTROY, OnDestroy)
+		MESSAGE_HANDLER(WM_KEYDOWN, OnKeyDown)
+		MESSAGE_HANDLER(WM_CUT, OnCut)
+		MESSAGE_HANDLER(WM_COPY, OnCopy)
+		MESSAGE_HANDLER(WM_PASTE, OnPaste)
+		MESSAGE_HANDLER(UWM_NEWITEM, OnNewItem)
+		MESSAGE_HANDLER(UWM_SELECTALL, OnSelectAll)
+		MESSAGE_HANDLER(UWM_DELETE, OnDelete)
+		MESSAGE_HANDLER(UWM_MOVEUP, OnMoveUp)
+		MESSAGE_HANDLER(UWM_MOVEDOWN, OnMoveDown)
+		MESSAGE_HANDLER(UWM_PROPERTIES, OnProperties)
+		MESSAGE_HANDLER(UWM_CUSTOMIZE, OnCustomize)
+		MESSAGE_HANDLER(UWM_UPDATEUI, OnUpdateUI)
+		REFLECTED_NOTIFY_CODE_HANDLER(NM_DBLCLK, OnDoubleClick)
+		REFLECTED_NOTIFY_CODE_HANDLER(NM_CUSTOMDRAW, OnCustomDraw)
 		CHAIN_MSG_MAP(CMyView<CMyListView>)
 		DEFAULT_REFLECTION_HANDLER()
 	END_MSG_MAP()
@@ -113,6 +114,6 @@ protected:
 	virtual void OnFinalMessage(HWND /*hWnd*/);
 
 protected:
-	virtual void OnUpdate(LONG lHint,void* pParam);
+	virtual void OnUpdate(LONG lHint, void* pParam);
 	virtual void OnDeleteItem(CScriptLine* pLine) {}
 };

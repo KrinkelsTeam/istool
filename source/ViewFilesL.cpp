@@ -22,7 +22,7 @@ CViewFilesL::CViewFilesL() : CMyListView(CInnoScript::SEC_FILES) {
 
 void CViewFilesL::RefreshText() {
 	LONG nCount = GetItemCount();
-	while(nCount--) SetItemTexts(nCount);
+	while (nCount--) SetItemTexts(nCount);
 }
 
 void CViewFilesL::Populate() {
@@ -31,13 +31,13 @@ void CViewFilesL::Populate() {
 	DeleteAllItems();
 
 	CScriptList	files, dirs;
-	AfxGetDocument()->GetScript().GetList(CInnoScript::SEC_FILES,files);
-	AfxGetDocument()->GetScript().GetList(CInnoScript::SEC_DIRS,dirs);
+	AfxGetDocument()->GetScript().GetList(CInnoScript::SEC_FILES, files);
+	AfxGetDocument()->GetScript().GetList(CInnoScript::SEC_DIRS, dirs);
 
-	for(int nPos=0;nPos<dirs.GetSize();nPos++)
+	for (int nPos = 0; nPos < dirs.GetSize(); nPos++)
 		InsertItem(dirs[nPos]);
 
-	for(int nPos=0;nPos<files.GetSize();nPos++)
+	for (int nPos = 0; nPos < files.GetSize(); nPos++)
 		InsertItem(files[nPos]);
 
 	SetRedraw(TRUE);
@@ -64,40 +64,40 @@ void CViewFilesL::SetItemTexts(UINT nItem) {
 	CScriptLine* pLine = (CScriptLine*)GetItemData(nItem);
 
 	LPCTSTR pszComment = pLine->GetComment();
-	if(pszComment) {
-		SetItemText(nItem,0,pszComment);
+	if (pszComment) {
+		SetItemText(nItem, 0, pszComment);
 		return;
 	}
 
-	if(pLine->GetSection()==CInnoScript::SEC_FILES) {
+	if (pLine->GetSection() == CInnoScript::SEC_FILES) {
 		const CListInfo* pInfo = GetListInfo();
 
 		UINT nColumn = 0;
 		CString strDestName;
-		CInnoScriptEx::GetDestTitle(pLine,strDestName);
-		while(pInfo && pInfo->m_pszParameter) {
-			if(nColumn==0)
-				SetItemText(nItem,nColumn++,strDestName);
+		CInnoScriptEx::GetDestTitle(pLine, strDestName);
+		while (pInfo && pInfo->m_pszParameter) {
+			if (nColumn == 0)
+				SetItemText(nItem, nColumn++, strDestName);
 			else
-				SetItemText(nItem,nColumn++,pLine->GetParameter(pInfo->m_pszParameter));
+				SetItemText(nItem, nColumn++, pLine->GetParameter(pInfo->m_pszParameter));
 			pInfo++;
 		}
-	} else if(pLine->GetSection()==CInnoScript::SEC_DIRS) {
+	} else if (pLine->GetSection() == CInnoScript::SEC_DIRS) {
 		CString strDestDir, strTitle;
-		CInnoScriptEx::GetDestDir(pLine,strDestDir);
-		CInnoScriptEx::GetDestTitle(pLine,strTitle);
+		CInnoScriptEx::GetDestDir(pLine, strDestDir);
+		CInnoScriptEx::GetDestTitle(pLine, strTitle);
 
 		const CListInfo* pInfo = GetListInfo();
 		UINT nColumn = 0;
 		CString strDestName;
-		CInnoScriptEx::GetDestTitle(pLine,strDestName);
-		while(pInfo && pInfo->m_pszParameter) {
-			if(nColumn==0)
-				SetItemText(nItem,nColumn++,strTitle);
-			else if(nColumn==2)
-				SetItemText(nItem,nColumn++,strDestDir);
+		CInnoScriptEx::GetDestTitle(pLine, strDestName);
+		while (pInfo && pInfo->m_pszParameter) {
+			if (nColumn == 0)
+				SetItemText(nItem, nColumn++, strTitle);
+			else if (nColumn == 2)
+				SetItemText(nItem, nColumn++, strDestDir);
 			else
-				SetItemText(nItem,nColumn++,pLine->GetParameter(pInfo->m_pszParameter));
+				SetItemText(nItem, nColumn++, pLine->GetParameter(pInfo->m_pszParameter));
 			pInfo++;
 		}
 	}
@@ -106,12 +106,12 @@ void CViewFilesL::SetItemTexts(UINT nItem) {
 UINT CViewFilesL::InsertItem(CScriptLine* pLine) {
 	int nItem = GetItemCount();
 
-	if(pLine->GetSection()==CInnoScript::SEC_FILES)
-		nItem = CListViewCtrl::InsertItem(nItem,NULL,pLine->GetComment() ? 11 : 0);
+	if (pLine->GetSection() == CInnoScript::SEC_FILES)
+		nItem = CListViewCtrl::InsertItem(nItem, NULL, pLine->GetComment() ? 7 : 0);
 	else
-		nItem = CListViewCtrl::InsertItem(nItem,NULL,pLine->GetComment() ? 11 : 1);
+		nItem = CListViewCtrl::InsertItem(nItem, NULL, pLine->GetComment() ? 7 : 1);
 
-	SetItemData(nItem,(DWORD)pLine);
+	SetItemData(nItem, (DWORD)pLine);
 	SetItemTexts(nItem);
 	return nItem;
 }
@@ -121,7 +121,7 @@ LRESULT CViewFilesL::OnDropFiles(UINT /*uMsg*/, WPARAM wParam, LPARAM /*lParam*/
 	SetActiveWindow();      // activate us first !
 	CString strFolder;
 	CFilesHelper helper(AfxGetDocument());
-	helper.OnDropFiles(m_hWnd,hDropInfo,"{app}");
+	helper.OnDropFiles(m_hWnd, hDropInfo, "{app}");
 	Populate();
 	return 0;
 }
@@ -130,19 +130,19 @@ LRESULT CViewFilesL::OnCreateIcon(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lPa
 	CFilesHelper helper(AfxGetDocument());
 
 	UINT nItem = GetItemCount();
-	while(nItem--)
-		if(GetItemState(nItem,LVIS_SELECTED)==LVIS_SELECTED) {
+	while (nItem--)
+		if (GetItemState(nItem, LVIS_SELECTED) == LVIS_SELECTED) {
 			CScriptLine* pItem = reinterpret_cast<CScriptLine*>(GetItemData(nItem));
 
-			if(!pItem || pItem->GetComment() || pItem->GetSection()!=CInnoScript::SEC_FILES) continue;
-			helper.CreateIcon(m_hWnd,pItem);
+			if (!pItem || pItem->GetComment() || pItem->GetSection() != CInnoScript::SEC_FILES) continue;
+			helper.CreateIcon(m_hWnd, pItem);
 		}
 	return 0;
 }
 
 LRESULT CViewFilesL::OnUpdateUI(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled) {
-	if(wParam==ID_POPUP_CREATEICON)
-		return GetSelectedCount()>0;
+	if (wParam == ID_POPUP_CREATEICON)
+		return GetSelectedCount() > 0;
 	else
-		return CMyListView::OnUpdateUI(uMsg,wParam,lParam,bHandled);
+		return CMyListView::OnUpdateUI(uMsg, wParam, lParam, bHandled);
 }

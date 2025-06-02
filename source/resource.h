@@ -23,7 +23,7 @@
 #define IDD_ADD_DIRECTORY               151
 #define IDS_MERGEFILE                   152
 #define IDS_STRING156                   156
-#define IDB_IMAGELIST                   161
+#define IDB_SECTION_VIEW                161
 #define IDD_FILE_ASSOCIATION            166
 #define IDD_MESSAGE                     167
 #define IDD_PREFS_GENERAL               168
@@ -45,18 +45,12 @@
 #define IDD_IESHORTCUT                  220
 #define IDD_UPDATES                     221
 #define IDD_LANGOPTIONS                 222
-#define IDI_ICON1                       228
-#define IDB_XPTOOLBAR_SMALL1            231
-#define IDB_XPTOOLBAR_SMALL2            232
-#define IDR_TOOLBAR1                    234
+#define IDB_TOOLBAR_HOT                 232
 #define ID_FILE_PRINT236                236
 #define ID_FILE_PRINTPREVIEW            237
 #define IDR_PRINTPREVIEW                240
-#define IDB_IMAGELIST32                 244
+#define IDB_SECTIONS                    244
 #define ID_VIEW_SECTIONPANEL            245
-#define IDB_IMAGELIST16                 248
-#define IDI_ICON2                       251
-#define IDI_ICON3                       252
 #define IDD_DOWNLOAD                    253
 #define ID_EDIT_GOTO                    254
 #define IDD_GOTO                        255
@@ -72,6 +66,7 @@
 #define IDD_PREFS_EDITOR                268
 #define IDD_SELECT_LANGUAGEFILES        269
 #define IDD_CUSTOMMESSAGE               270
+#define IDB_TOOLBAR_DISABLED            273
 #define IDC_COMPRESSLEVEL               1003
 #define IDC_SPINCOMPRESSLEVEL           1004
 #define IDC_DISKCLUSTERSIZE             1005
@@ -617,7 +612,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        273
+#define _APS_NEXT_RESOURCE_VALUE        279
 #define _APS_NEXT_COMMAND_VALUE         32948
 #define _APS_NEXT_CONTROL_VALUE         1682
 #define _APS_NEXT_SYMED_VALUE           105

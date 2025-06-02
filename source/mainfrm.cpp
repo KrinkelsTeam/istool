@@ -24,10 +24,6 @@ LRESULT CMainFrame::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/
 	m_pDoc = &m_document;
 
 	UINT uResID = IDR_MAINFRAME;
-	DWORD dwMajor = 0;
-	DWORD dwMinor = 0;
-	HRESULT hRet = AtlGetCommCtrlVersion(&dwMajor, &dwMinor);
-	if (SUCCEEDED(hRet) && dwMajor >= 6) uResID = IDB_XPTOOLBAR_SMALL1;
 
 	_L(GetMenu(), "MainMenu");
 
@@ -44,10 +40,15 @@ LRESULT CMainFrame::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/
 
 	// ToolBar Setup
 	m_wndToolBar = CreateSimpleToolBarCtrl(m_hWnd, uResID, FALSE, ATL_SIMPLE_TOOLBAR_PANE_STYLE | TBSTYLE_LIST);
-	if (uResID == IDB_XPTOOLBAR_SMALL1) {
-		HIMAGELIST hImageHot = ImageList_LoadImage(_Module.GetResourceInstance(), MAKEINTRESOURCE(IDB_XPTOOLBAR_SMALL2), 16, 1, CLR_NONE, IMAGE_BITMAP, LR_CREATEDIBSECTION | LR_DEFAULTSIZE);
-		m_wndToolBar.SetHotImageList(hImageHot);
-	}
+	
+	// Load hot Images
+	HIMAGELIST hImageHot = ImageList_LoadImage(_Module.GetResourceInstance(), MAKEINTRESOURCE(IDB_TOOLBAR_HOT), 16, 1, CLR_NONE, IMAGE_BITMAP, LR_CREATEDIBSECTION | LR_DEFAULTSIZE);
+	m_wndToolBar.SetHotImageList(hImageHot);
+	
+	// Load disabled images
+	HIMAGELIST hImageDisabled = ImageList_LoadImage(_Module.GetResourceInstance(), MAKEINTRESOURCE(IDB_TOOLBAR_DISABLED), 16, 1, CLR_NONE, IMAGE_BITMAP, LR_CREATEDIBSECTION | LR_DEFAULTSIZE);
+	m_wndToolBar.SetDisabledImageList(hImageDisabled);
+	
 	m_wndToolBar.SetExtendedStyle(TBSTYLE_EX_DRAWDDARROWS);
 	TBBUTTONINFO bi = { sizeof TBBUTTONINFO };
 
@@ -219,16 +220,16 @@ void CMainFrame::CreateClient() {
 	m_wndSectionView.InsertItem(_L("SectionStrings|UninstallDelete", "Uninstall Delete"), ID_VIEW_UNINSTALLDELETE, 7);
 	m_wndSectionView.InsertItem(_L("SectionStrings|UninstallRun", "Uninstall Run"), ID_VIEW_UNINSTALLRUN, 8);
 	m_wndSectionView.InsertItem(_L("SectionStrings|Messages", "Messages"), ID_VIEW_MESSAGES, 9);
-	m_wndSectionView.InsertItem(_L("SectionStrings|CustomMessages", "Custom Messages"), ID_VIEW_CUSTOMMESSAGES, 9);
-	m_wndSectionView.InsertItem(_L("SectionStrings|Types", "Types"), ID_VIEW_TYPES, 10);
-	m_wndSectionView.InsertItem(_L("SectionStrings|Components", "Components"), ID_VIEW_COMPONENTS, 11);
-	m_wndSectionView.InsertItem(_L("SectionStrings|Tasks", "Tasks"), ID_VIEW_TASKS, 12);
-	m_wndSectionView.InsertItem(_L("SectionStrings|Languages", "Languages"), ID_VIEW_LANGUAGES, 0);
+	m_wndSectionView.InsertItem(_L("SectionStrings|CustomMessages", "Custom Messages"), ID_VIEW_CUSTOMMESSAGES, 10);
+	m_wndSectionView.InsertItem(_L("SectionStrings|Types", "Types"), ID_VIEW_TYPES, 11);
+	m_wndSectionView.InsertItem(_L("SectionStrings|Components", "Components"), ID_VIEW_COMPONENTS, 12);
+	m_wndSectionView.InsertItem(_L("SectionStrings|Tasks", "Tasks"), ID_VIEW_TASKS, 13);
+	m_wndSectionView.InsertItem(_L("SectionStrings|Languages", "Languages"), ID_VIEW_LANGUAGES, 14);
 
 	m_wndSectionView.InsertHeader(_L("SectionStrings|ISTool", "ISTool Sections"));
-	m_wndSectionView.InsertItem(_L("SectionStrings|Pre", "Pre Compilation Steps"), ID_VIEW_PRECOMPILATIONSTEPS, 13);
-	m_wndSectionView.InsertItem(_L("SectionStrings|Post", "Post Compilation Steps"), ID_VIEW_POSTCOMPILATIONSTEPS, 13);
-	m_wndSectionView.InsertItem(_L("SectionStrings|Download", "Download"), ID_VIEW_DOWNLOAD, 1);
+	m_wndSectionView.InsertItem(_L("SectionStrings|Pre", "Pre Compilation Steps"), ID_VIEW_PRECOMPILATIONSTEPS, 15);
+	m_wndSectionView.InsertItem(_L("SectionStrings|Post", "Post Compilation Steps"), ID_VIEW_POSTCOMPILATIONSTEPS, 16);
+	m_wndSectionView.InsertItem(_L("SectionStrings|Download", "Download"), ID_VIEW_DOWNLOAD, 17);
 }
 
 LRESULT CMainFrame::OnPaneClose(WORD /*wNotifyCode*/, WORD /*wID*/, HWND hWndCtl, BOOL& /*bHandled*/) {

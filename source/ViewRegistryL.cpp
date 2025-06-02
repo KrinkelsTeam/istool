@@ -13,7 +13,7 @@
 
 CViewRegistryL::CViewRegistryL() : CMyListView(CInnoScript::SEC_REGISTRY) {
 	SetSubMenu(2);
-	m_nItemImage = 7;
+	m_nItemImage = 6;
 	m_dwFlags |= VFL_DRAGACCEPTFILES;
 }
 

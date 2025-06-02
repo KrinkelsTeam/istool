@@ -12,7 +12,9 @@
 /////////////////////////////////////////////////////////////////////////////
 // CViewComponents
 
-CViewComponents::CViewComponents() : CMyListView(CInnoScript::SEC_COMPONENTS) {
+CViewComponents::CViewComponents() : CMyListView(CInnoScript::SEC_COMPONENTS)
+{
+	m_nItemImage = 13;
 }
 
 

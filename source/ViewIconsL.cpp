@@ -12,7 +12,7 @@
 // CViewIconsL
 
 CViewIconsL::CViewIconsL() : CMyListView(CInnoScript::SEC_ICONS) {
-	m_nItemImage = 6;
+	m_nItemImage = 5;
 }
 
 /////////////////////////////////////////////////////////////////////////////

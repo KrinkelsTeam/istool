@@ -29,10 +29,6 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // remains consistent on all systems.
 IDR_MAINFRAME           ICON                    "res\\ISTool.ico"
 
-IDI_ICON2               ICON                    "res\\ISTool2.ico"
-
-IDI_ICON3               ICON                    "res\\ISTool3.ico"
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -63,7 +59,7 @@ BEGIN
             VALUE "InternalName", "ISTool"
             VALUE "LegalCopyright", "Copyright (C) 1999-2009"
             VALUE "OriginalFilename", "ISTool.exe"
-            VALUE "ProductName", "ISTool Application"
+            VALUE "ProductName", "ISTool"
             VALUE "ProductVersion", "6.0.0.0"
         END
     END
@@ -143,19 +139,17 @@ END
 // Bitmap
 //
 
-IDB_XPTOOLBAR_SMALL2    BITMAP                  "res\\xptoolbar-small2.bmp"
+IDB_TOOLBAR_HOT         BITMAP                  "res\\toolbar_hot.bmp"
 
-IDB_IMAGELIST           BITMAP                  "res\\imagelist.bmp"
+IDB_SECTION_VIEW        BITMAP                  "res\\section_view.bmp"
 
-IDB_IMAGELIST32         BITMAP                  "res\\imagelist-32.bmp"
-
-IDB_IMAGELIST16         BITMAP                  "res\\imagelist-16.bmp"
+IDB_SECTIONS            BITMAP                  "res\\sections.bmp"
 
 IDR_PRINTPREVIEW        BITMAP                  "res\\printpreview.bmp"
 
 IDR_MAINFRAME           BITMAP                  "res\\toolbar.bmp"
 
-IDB_XPTOOLBAR_SMALL1    BITMAP                  "res\\xptoolbar-small1.bmp"
+IDB_TOOLBAR_DISABLED    BITMAP                  "res\\toolbar_disabled.bmp"
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -1599,37 +1593,14 @@ BEGIN
     BUTTON      ID_PP_CLOSE
 END
 
-IDR_MAINFRAME TOOLBAR 16, 15
+IDR_MAINFRAME TOOLBAR 16, 16
 BEGIN
     BUTTON      ID_FILE_NEW
     BUTTON      ID_FILE_OPEN
     BUTTON      ID_FILE_SAVE
     SEPARATOR
-    BUTTON      ID_EDIT_CUT
-    BUTTON      ID_EDIT_COPY
-    BUTTON      ID_EDIT_PASTE
-    SEPARATOR
-    BUTTON      ID_VIEW_PROPERTIES
-    BUTTON      ID_EDIT_NEWITEM
-    BUTTON      ID_EDIT_DELETEITEM
-    BUTTON      ID_EDIT_MOVEDOWN
-    BUTTON      ID_EDIT_MOVEUP
-    SEPARATOR
-    BUTTON      ID_PROJECT_OPTIONS
-    BUTTON      ID_VIEW_SECTIONDROPDOWN
-    SEPARATOR
-    BUTTON      ID_PROJECT_OPEN_COMPILER
-    BUTTON      ID_PROJECT_COMPILE_SCRIPT
-    BUTTON      ID_PROJECT_RUN_SETUP
-    SEPARATOR
-    BUTTON      ID_HELP_FINDER
-END
-
-IDB_XPTOOLBAR_SMALL1 TOOLBAR 16, 16
-BEGIN
-    BUTTON      ID_FILE_NEW
-    BUTTON      ID_FILE_OPEN
-    BUTTON      ID_FILE_SAVE
+    BUTTON      ID_EDIT_UNDO
+    BUTTON      ID_EDIT_REDO
     SEPARATOR
     BUTTON      ID_EDIT_CUT
     BUTTON      ID_EDIT_COPY

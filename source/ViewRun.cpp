@@ -11,7 +11,7 @@
 
 CViewRun::CViewRun(CInnoScript::SECTION sec) : CMyListView(sec)
 {
-	m_nItemImage = 5;
+	m_nItemImage = 16;
 }
 
 /////////////////////////////////////////////////////////////////////////////

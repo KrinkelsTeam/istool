@@ -14,19 +14,19 @@ public:
 	virtual bool ApplyView();
 
 	BEGIN_MSG_MAP(CMyTreeView)
-		MESSAGE_HANDLER(WM_CREATE,OnCreate)
-		MESSAGE_HANDLER(WM_CONTEXTMENU,OnContextMenu)
-		MESSAGE_HANDLER(WM_RBUTTONDOWN,OnRButtonDown)
-		MESSAGE_HANDLER(WM_KEYDOWN,OnKeyDown)
-		MESSAGE_HANDLER(WM_SHOWVIEW,OnShowView)
-		MESSAGE_HANDLER(WM_CUT,OnCut)
-		MESSAGE_HANDLER(WM_COPY,OnCopy)
-		MESSAGE_HANDLER(WM_PASTE,OnPaste)
-		MESSAGE_HANDLER(UWM_NEWITEM,OnNewItem)
-		MESSAGE_HANDLER(UWM_DELETE,OnDelete)
-		MESSAGE_HANDLER(UWM_PROPERTIES,OnProperties)
-		MESSAGE_HANDLER(UWM_UPDATEUI,OnUpdateUI)
-		REFLECTED_NOTIFY_CODE_HANDLER(NM_DBLCLK,OnDoubleClick)
+		MESSAGE_HANDLER(WM_CREATE, OnCreate)
+		MESSAGE_HANDLER(WM_CONTEXTMENU, OnContextMenu)
+		MESSAGE_HANDLER(WM_RBUTTONDOWN, OnRButtonDown)
+		MESSAGE_HANDLER(WM_KEYDOWN, OnKeyDown)
+		MESSAGE_HANDLER(WM_SHOWVIEW, OnShowView)
+		MESSAGE_HANDLER(WM_CUT, OnCut)
+		MESSAGE_HANDLER(WM_COPY, OnCopy)
+		MESSAGE_HANDLER(WM_PASTE, OnPaste)
+		MESSAGE_HANDLER(UWM_NEWITEM, OnNewItem)
+		MESSAGE_HANDLER(UWM_DELETE, OnDelete)
+		MESSAGE_HANDLER(UWM_PROPERTIES, OnProperties)
+		MESSAGE_HANDLER(UWM_UPDATEUI, OnUpdateUI)
+		REFLECTED_NOTIFY_CODE_HANDLER(NM_DBLCLK, OnDoubleClick)
 		REFLECTED_NOTIFY_CODE_HANDLER(TVN_ITEMEXPANDED, OnItemExpanded)
 		CHAIN_MSG_MAP(CMyView<CMyTreeView>)
 		DEFAULT_REFLECTION_HANDLER()
@@ -54,14 +54,14 @@ public:
 	virtual void Populate();
 
 protected:
-	DWORD	m_dwFlags;	
+	DWORD	m_dwFlags;
 	enum {
-		VFL_DRAGACCEPTFILES	= 0x01,	// The section supports drag and drop
-		VFL_SETUP			= 0x02	// For setup and messages section
+		VFL_DRAGACCEPTFILES = 0x01,	// The section supports drag and drop
+		VFL_SETUP = 0x02	// For setup and messages section
 	};
-	
+
 protected:
-	virtual void OnUpdate(LONG lHint,void* pParam);
+	virtual void OnUpdate(LONG lHint, void* pParam);
 	virtual void OnPreNewItem(CScriptLine* pLine) {}
 	virtual HTREEITEM InsertItem(CScriptLine* pLine) { return NULL; }
 };

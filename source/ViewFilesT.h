@@ -2,11 +2,6 @@
 
 class CISToolDoc;
 
-//#define SYSIMGLIST
-#ifdef SYSIMGLIST
-#include "SystemImageList.h"
-#endif
-
 #include "MyTreeView.h"
 #include "MyDropTarget.h"
 
@@ -36,9 +31,6 @@ public:
 	void GetCurrentFolder(CString& strFolder,HTREEITEM hItem=NULL);
 protected:
 //	CMyDropTarget		m_dropTarget;
-#ifdef SYSIMGLIST
-	CSystemImageList    m_ImgList;
-#endif
 	void GetItemDirectory(HTREEITEM,CString&);
 	virtual void Populate();
 	void SetItemData(HTREEITEM hItem,CInnoScript::CLine* pBase);

@@ -130,7 +130,7 @@
       <Optimization>Full</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <AdditionalIncludeDirectories>.\;$(SolutionDir)\includes\wtl\Include;$(SolutionDir)\includes\scintilla\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;NO_UTF;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -176,7 +176,7 @@
       <Optimization>Full</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <AdditionalIncludeDirectories>.\;$(SolutionDir)\includes\wtl\Include;$(SolutionDir)\includes\scintilla\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -380,16 +380,13 @@
     <ClInclude Include="WebUpdate.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\imagelist-16.bmp" />
-    <Image Include="res\imagelist-32.bmp" />
-    <Image Include="res\imagelist.bmp" />
     <Image Include="res\ISTool.ico" />
-    <Image Include="res\ISTool2.ico" />
-    <Image Include="res\ISTool3.ico" />
     <Image Include="res\printpreview.bmp" />
+    <Image Include="res\sections.bmp" />
+    <Image Include="res\section_view.bmp" />
     <Image Include="res\toolbar.bmp" />
-    <Image Include="res\xptoolbar-small1.bmp" />
-    <Image Include="res\xptoolbar-small2.bmp" />
+    <Image Include="res\toolbar_disabled.bmp" />
+    <Image Include="res\toolbar_hot.bmp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ISTool.rc" />

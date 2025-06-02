@@ -34,9 +34,6 @@
     <Filter Include="Property Page Files\Setup">
       <UniqueIdentifier>{d793c53e-8ead-4ae1-91f0-fa543b75fab3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Dialog Files">
-      <UniqueIdentifier>{ca23cf49-3101-41ae-816b-10872a6869f4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="View Files">
       <UniqueIdentifier>{cce62302-e409-4c00-9b10-52b8c345efb7}</UniqueIdentifier>
     </Filter>
@@ -46,6 +43,9 @@
     </Filter>
     <Filter Include="Scintilla">
       <UniqueIdentifier>{9dfcb04b-5628-4462-8533-7e4c6141383c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Extras\Dialog Files">
+      <UniqueIdentifier>{ca23cf49-3101-41ae-816b-10872a6869f4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -140,7 +140,7 @@
       <Filter>Inno Script</Filter>
     </ClCompile>
     <ClCompile Include="DlgCompile.cpp">
-      <Filter>Dialog Files</Filter>
+      <Filter>Extras\Dialog Files</Filter>
     </ClCompile>
     <ClCompile Include="ViewCompileStep.cpp">
       <Filter>View Files</Filter>
@@ -403,46 +403,46 @@
       <Filter>Property Page Files\Setup</Filter>
     </ClInclude>
     <ClInclude Include="AboutDlg.h">
-      <Filter>Dialog Files</Filter>
+      <Filter>Extras\Dialog Files</Filter>
     </ClInclude>
     <ClInclude Include="DlgAddDirectory.h">
-      <Filter>Dialog Files</Filter>
+      <Filter>Extras\Dialog Files</Filter>
     </ClInclude>
     <ClInclude Include="DlgCompile.h">
-      <Filter>Dialog Files</Filter>
+      <Filter>Extras\Dialog Files</Filter>
     </ClInclude>
     <ClInclude Include="DlgCustomize.h">
-      <Filter>Dialog Files</Filter>
+      <Filter>Extras\Dialog Files</Filter>
     </ClInclude>
     <ClInclude Include="DlgFileAssociation.h">
-      <Filter>Dialog Files</Filter>
+      <Filter>Extras\Dialog Files</Filter>
     </ClInclude>
     <ClInclude Include="DlgGoto.h">
-      <Filter>Dialog Files</Filter>
+      <Filter>Extras\Dialog Files</Filter>
     </ClInclude>
     <ClInclude Include="DlgIEShortcut.h">
-      <Filter>Dialog Files</Filter>
+      <Filter>Extras\Dialog Files</Filter>
     </ClInclude>
     <ClInclude Include="DlgLangOptions.h">
-      <Filter>Dialog Files</Filter>
+      <Filter>Extras\Dialog Files</Filter>
     </ClInclude>
     <ClInclude Include="DlgLogFile.h">
-      <Filter>Dialog Files</Filter>
+      <Filter>Extras\Dialog Files</Filter>
     </ClInclude>
     <ClInclude Include="DlgSelectFonts.h">
-      <Filter>Dialog Files</Filter>
+      <Filter>Extras\Dialog Files</Filter>
     </ClInclude>
     <ClInclude Include="DlgSelectLanguageFiles.h">
-      <Filter>Dialog Files</Filter>
+      <Filter>Extras\Dialog Files</Filter>
     </ClInclude>
     <ClInclude Include="DlgSysPath.h">
-      <Filter>Dialog Files</Filter>
+      <Filter>Extras\Dialog Files</Filter>
     </ClInclude>
     <ClInclude Include="DlgUpdates.h">
-      <Filter>Dialog Files</Filter>
+      <Filter>Extras\Dialog Files</Filter>
     </ClInclude>
     <ClInclude Include="DlgVersion.h">
-      <Filter>Dialog Files</Filter>
+      <Filter>Extras\Dialog Files</Filter>
     </ClInclude>
     <ClInclude Include="ViewCompileStep.h">
       <Filter>View Files</Filter>
@@ -539,22 +539,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\imagelist-16.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="res\imagelist-32.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="res\imagelist.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="res\ISTool.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="res\ISTool2.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="res\ISTool3.ico">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\printpreview.bmp">
@@ -563,10 +548,16 @@
     <Image Include="res\toolbar.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="res\xptoolbar-small1.bmp">
+    <Image Include="res\toolbar_hot.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="res\xptoolbar-small2.bmp">
+    <Image Include="res\toolbar_disabled.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\sections.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\section_view.bmp">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

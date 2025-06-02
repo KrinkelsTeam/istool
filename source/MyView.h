@@ -16,8 +16,8 @@ public:
 	}
 
 	BEGIN_MSG_MAP(CMyView)
-		MESSAGE_HANDLER(WM_SHOWVIEW,OnShowView)
-		MESSAGE_HANDLER(WM_HIDEVIEW,OnHideView)
+		MESSAGE_HANDLER(WM_SHOWVIEW, OnShowView)
+		MESSAGE_HANDLER(WM_HIDEVIEW, OnHideView)
 	END_MSG_MAP()
 
 	CInnoScript::SECTION GetSection() {
@@ -37,15 +37,15 @@ protected:
 	}
 
 	LRESULT OnHideView(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) {
-		if(!ApplyView())
+		if (!ApplyView())
 			return 1;
 		return 0;
 	}
 
-	virtual void OnUpdate(LONG lHint,void* pParam) {
-		if(!lHint)
+	virtual void OnUpdate(LONG lHint, void* pParam) {
+		if (!lHint)
 			UpdateView();
-		else if(lHint==CUpdate::HINT_APPLYCHANGES)
+		else if (lHint == CUpdate::HINT_APPLYCHANGES)
 			ApplyView();
 	}
 

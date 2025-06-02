@@ -10,7 +10,9 @@
 /////////////////////////////////////////////////////////////////////////////
 // CViewCompileStep
 
-CViewCompileStep::CViewCompileStep(CInnoScript::SECTION sec) : CMyListView(sec) {
+CViewCompileStep::CViewCompileStep(CInnoScript::SECTION sec) : CMyListView(sec)
+{
+	m_nItemImage = 18;
 }
 
 /////////////////////////////////////////////////////////////////////////////
