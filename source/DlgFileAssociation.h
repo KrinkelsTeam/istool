@@ -74,27 +74,28 @@ public:
 
 			CString strLine;
 
-			strLine.Format("Root: HKCR; SubKey: %s; ValueType: string; ValueData: %s; Flags: uninsdeletekey", m_strFileExtension, m_strTypeName);
+			strLine.Format(_T("Root: HKA; SubKey: Software\\Classes\\%s; ValueType: string; ValueData: %s; Flags: uninsdeletekey"), m_strFileExtension, m_strTypeName);
 			m_pDoc->GetScript().AddLine(new CInnoScript::CLineParam(CInnoScript::SEC_REGISTRY, strLine));
 
-			strLine.Format("Root: HKCR; SubKey: %s; ValueType: string; ValueData: %s; Flags: uninsdeletekey", m_strTypeName, m_strDocumentDescription);
+			strLine.Format(_T("Root: HKA; SubKey: Software\\Classes\\%s; ValueType: string; ValueData: %s; Flags: uninsdeletekey"), m_strTypeName, m_strDocumentDescription);
 			m_pDoc->GetScript().AddLine(new CInnoScript::CLineParam(CInnoScript::SEC_REGISTRY, strLine));
 
-			strLine.Format("Root: HKCR; SubKey: %s; ValueType: string; ValueData: %s; Flags: uninsdeletevalue",
-				m_strTypeName + "\\Shell\\Open\\Command",
-				"\"\"" + m_strAssociateWith + "\"\" \"%1\"\"\"");
+			strLine.Format(_T("Root: HKA; SubKey: Software\\Classes\\%s; ValueType: string; ValueData: %s; Flags: uninsdeletevalue"),
+				m_strTypeName + _T("\\Shell\\Open\\Command"),
+				_T("\"\"") + m_strAssociateWith + _T("\"\" \"%1\"\"\""));
 			m_pDoc->GetScript().AddLine(new CInnoScript::CLineParam(CInnoScript::SEC_REGISTRY, strLine));
 
 			// Default Icon
 			if (!m_strIconFilename.IsEmpty()) {
-				strLine.Format("Root: HKCR; Subkey: %s; ValueType: string; ValueData: %s,%d; Flags: uninsdeletevalue",
-					m_strTypeName + "\\DefaultIcon",
+				strLine.Format(_T("Root: HKA; Subkey: Software\\Classes\\%s; ValueType: string; ValueData: %s,%d; Flags: uninsdeletevalue"),
+					m_strTypeName + _T("\\DefaultIcon"),
 					m_strIconFilename,
 					m_nIconIndex
 				);
 				m_pDoc->GetScript().AddLine(new CInnoScript::CLineParam(CInnoScript::SEC_REGISTRY, strLine));
 			}
 
+			m_pDoc->GetScript().SetPropertyString(_T("ChangesAssociations"), _T("yes"));
 			m_pDoc->SetModifiedFlag();
 		}
 		EndDialog(wID);
