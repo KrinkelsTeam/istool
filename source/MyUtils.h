@@ -1,5 +1,4 @@
-#ifndef _MYUTILS_H
-#define _MYUTILS_H
+#pragma once
 
 #include <windows.h>
 #include <shlobj.h>
@@ -8,7 +7,7 @@
 #include <tchar.h>
 #include <winsvc.h>
 
-#define PACKVERSION(major,minor) MAKELONG(minor,major)
+#define PACKVERSION(major, minor) MAKELONG(minor, major)
 
 class CMyUtils {
 public:
@@ -151,11 +150,8 @@ public:
 			0,
 			NULL
 		);
-#ifdef _MFC_VER
-		AfxMessageBox((char*)lpMsgBuf);
-#else
-		MessageBox(NULL, (LPTSTR)lpMsgBuf, _T("Information"), MB_OK | MB_ICONINFORMATION);
-#endif
+
+		AtlMessageBox(::GetActiveWindow(), (LPTSTR)lpMsgBuf, _T("Information"), MB_OK | MB_ICONINFORMATION);
 		LocalFree(lpMsgBuf);
 	}
 
@@ -186,20 +182,6 @@ public:
 	}
 #endif
 
-#ifdef _MFC_VER
-	/*
-	** MessageBox with formatting
-	*/
-	static int MessageBox(UINT nType, LPCTSTR pszText, ...) {
-		char szBuf[512];
-		va_list args;
-		va_start(args, pszText);
-		wvsprintf(szBuf, pszText, args);
-		return AfxMessageBox(szBuf, nType == 0 ? MB_OK : nType);
-	}
-#endif
-
-#if 1
 	static bool GetRegString(CRegKey& reg, LPCTSTR pszValueName, CString& out, LPCTSTR pszDefault = NULL) {
 		ULONG nChars = 1024;
 		if (reg.QueryStringValue(pszValueName, out.GetBuffer(nChars), &nChars) == ERROR_SUCCESS) {
@@ -223,7 +205,6 @@ public:
 			return false;
 		}
 	}
-#endif
 
 	static DWORD GetDllVersion(LPCTSTR lpszDllName) {
 		HINSTANCE hinstDll;
@@ -493,6 +474,3 @@ protected:
 
 	TCHAR** m_strings;
 };
-
-
-#endif

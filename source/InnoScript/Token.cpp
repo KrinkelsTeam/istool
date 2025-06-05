@@ -5,14 +5,6 @@
 #include "stdafx.h"
 #include "Token.h"
 
-#ifdef _MFC_VER
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-#endif
-
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
