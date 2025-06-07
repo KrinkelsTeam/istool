@@ -90,82 +90,82 @@ public:
 
 		CComboBox box;
 		box.Attach(GetDlgItem(IDC_ROOT));
-		box.AddString("HKEY_CLASSES_ROOT");
-		box.AddString("HKEY_CURRENT_USER");
-		box.AddString("HKEY_LOCAL_MACHINE");
-		box.AddString("HKEY_USERS");
-		box.AddString("HKEY_CURRENT_CONFIG");
+		box.AddString(_T("HKEY_CLASSES_ROOT"));
+		box.AddString(_T("HKEY_CURRENT_USER"));
+		box.AddString(_T("HKEY_LOCAL_MACHINE"));
+		box.AddString(_T("HKEY_USERS"));
+		box.AddString(_T("HKEY_CURRENT_CONFIG"));
 		box.Detach();
 
 		box.Attach(GetDlgItem(IDC_VALUETYPE));
-		box.AddString("none");
-		box.AddString("string");
-		box.AddString("expandsz");
-		box.AddString("multisz");
-		box.AddString("dword");
-		box.AddString("binary");
-		box.AddString("qword");
+		box.AddString(_T("none"));
+		box.AddString(_T("string"));
+		box.AddString(_T("expandsz"));
+		box.AddString(_T("multisz"));
+		box.AddString(_T("dword"));
+		box.AddString(_T("binary"));
+		box.AddString(_T("qword"));
 		box.Detach();
 
-		if (!_stricmp("none", SAFESTR(CInnoScriptEx::GetRegistryValueType(m_nValueType))))
+		if (!_stricmp(_T("none"), SAFESTR(CInnoScriptEx::GetRegistryValueType(m_nValueType))))
 			m_wndValueData.EnableWindow(FALSE);
 
 		for (int nPos = 0; nPos < m_list.GetSize(); nPos++) {
 			CScriptLine* pItem = m_list[nPos];
 
-			if (m_nRoot != CInnoScriptEx::GetRegistryRoot(SAFESTR(pItem->GetParameter("Root")))) m_nRoot = -1;
-			if (m_strSubkey.CompareNoCase(SAFESTR(pItem->GetParameter("Subkey")))) m_strSubkey.Empty();
-			if (m_nValueType != CInnoScriptEx::GetRegistryValueType(SAFESTR(pItem->GetParameter("ValueType")))) m_nValueType = -1;
-			if (m_strValueName.CompareNoCase(SAFESTR(pItem->GetParameter("ValueName")))) m_strValueName.Empty();
-			if (m_strValueData.CompareNoCase(SAFESTR(pItem->GetParameter("ValueData")))) m_strValueData.Empty();
-			if (m_strPermissions.CompareNoCase(SAFESTR(pItem->GetParameter("Permissions")))) m_strPermissions.Empty();
+			if (m_nRoot != CInnoScriptEx::GetRegistryRoot(SAFESTR(pItem->GetParameter(_T("Root"))))) m_nRoot = -1;
+			if (m_strSubkey.CompareNoCase(SAFESTR(pItem->GetParameter(_T("Subkey"))))) m_strSubkey.Empty();
+			if (m_nValueType != CInnoScriptEx::GetRegistryValueType(SAFESTR(pItem->GetParameter(_T("ValueType"))))) m_nValueType = -1;
+			if (m_strValueName.CompareNoCase(SAFESTR(pItem->GetParameter(_T("ValueName"))))) m_strValueName.Empty();
+			if (m_strValueData.CompareNoCase(SAFESTR(pItem->GetParameter(_T("ValueData"))))) m_strValueData.Empty();
+			if (m_strPermissions.CompareNoCase(SAFESTR(pItem->GetParameter(_T("Permissions"))))) m_strPermissions.Empty();
 
-			if (m_nCreateValueIfDoesntExist != (pItem->GetParameterFlag("Flags", "createvalueifdoesntexist") ? TRUE : FALSE)) {
+			if (m_nCreateValueIfDoesntExist != (pItem->GetParameterFlag(_T("Flags"), _T("createvalueifdoesntexist")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_CREATEVALUEIFDOESNTEXIST).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nCreateValueIfDoesntExist = 2;
 			}
 
-			if (m_nUninsClearValue != (pItem->GetParameterFlag("Flags", "uninsclearvalue") ? TRUE : FALSE)) {
+			if (m_nUninsClearValue != (pItem->GetParameterFlag(_T("Flags"), _T("uninsclearvalue")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_UNINSCLEARVALUE).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nUninsClearValue = 2;
 			}
 
-			if (m_nUninsDeleteKey != (pItem->GetParameterFlag("Flags", "uninsdeletekey") ? TRUE : FALSE)) {
+			if (m_nUninsDeleteKey != (pItem->GetParameterFlag(_T("Flags"), _T("uninsdeletekey")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_UNINSDELETEKEY).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nUninsDeleteKey = 2;
 			}
 
-			if (m_nUninsDeleteKeyIfEmpty != (pItem->GetParameterFlag("Flags", "uninsdeletekeyifempty") ? TRUE : FALSE)) {
+			if (m_nUninsDeleteKeyIfEmpty != (pItem->GetParameterFlag(_T("Flags"), _T("uninsdeletekeyifempty")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_UNINSDELETEKEYIFEMPTY).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nUninsDeleteKeyIfEmpty = 2;
 			}
 
-			if (m_nUninsDeleteValue != (pItem->GetParameterFlag("Flags", "uninsdeletevalue") ? TRUE : FALSE)) {
+			if (m_nUninsDeleteValue != (pItem->GetParameterFlag(_T("Flags"), _T("uninsdeletevalue")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_UNINSDELETEVALUE).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nUninsDeleteValue = 2;
 			}
 
-			if (m_bPreserveStringType != (pItem->GetParameterFlag("Flags", "preservestringtype") ? TRUE : FALSE)) {
+			if (m_bPreserveStringType != (pItem->GetParameterFlag(_T("Flags"), _T("preservestringtype")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_PRESERVESTRINGTYPE).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_bPreserveStringType = 2;
 			}
 
-			if (m_nDeleteKey != (pItem->GetParameterFlag("Flags", "deletekey") ? TRUE : FALSE)) {
+			if (m_nDeleteKey != (pItem->GetParameterFlag(_T("Flags"), _T("deletekey")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_REGISTRY_DELETEKEY).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nDeleteKey = 2;
 			}
 
-			if (m_nDeleteValue != (pItem->GetParameterFlag("Flags", "deletevalue") ? TRUE : FALSE)) {
+			if (m_nDeleteValue != (pItem->GetParameterFlag(_T("Flags"), _T("deletevalue")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_REGISTRY_DELETEVALUE).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nDeleteValue = 2;
 			}
 
-			if (m_nNoError != (pItem->GetParameterFlag("Flags", "noerror") ? TRUE : FALSE)) {
+			if (m_nNoError != (pItem->GetParameterFlag(_T("Flags"), _T("noerror")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_REGISTRY_NOERROR).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nNoError = 2;
 			}
 
-			if (m_nNoError != (pItem->GetParameterFlag("Flags", "noerror") ? TRUE : FALSE)) {
+			if (m_nNoError != (pItem->GetParameterFlag(_T("Flags"), _T("noerror")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_REGISTRY_NOERROR).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nNoError = 2;
 			}
@@ -195,24 +195,24 @@ public:
 		for (int nPos = 0; nPos < m_list.GetSize(); nPos++) {
 			CScriptLine* pLine = m_list[nPos];
 
-			CInnoScriptEx::SetString(pLine, bForce, "Root", CInnoScriptEx::GetRegistryRoot(m_nRoot));
-			CInnoScriptEx::SetString(pLine, bForce, "Subkey", m_strSubkey);
-			CInnoScriptEx::SetString(pLine, bForce, "ValueType", CInnoScriptEx::GetRegistryValueType(m_nValueType));
-			CInnoScriptEx::SetString(pLine, bForce, "ValueName", m_strValueName);
-			CInnoScriptEx::SetString(pLine, bForce, "ValueData", m_strValueData);
-			CInnoScriptEx::SetString(pLine, bForce, "Permissions", m_strPermissions);
+			CInnoScriptEx::SetString(pLine, bForce, _T("Root"), CInnoScriptEx::GetRegistryRoot(m_nRoot));
+			CInnoScriptEx::SetString(pLine, bForce, _T("Subkey"), m_strSubkey);
+			CInnoScriptEx::SetString(pLine, bForce, _T("ValueType"), CInnoScriptEx::GetRegistryValueType(m_nValueType));
+			CInnoScriptEx::SetString(pLine, bForce, _T("ValueName"), m_strValueName);
+			CInnoScriptEx::SetString(pLine, bForce, _T("ValueData"), m_strValueData);
+			CInnoScriptEx::SetString(pLine, bForce, _T("Permissions"), m_strPermissions);
 
 			// Flags
-			CInnoScriptEx::SetFlag(pLine, "Flags", "createvalueifdoesntexist", m_nCreateValueIfDoesntExist);
-			CInnoScriptEx::SetFlag(pLine, "Flags", "uninsclearvalue", m_nUninsClearValue);
-			CInnoScriptEx::SetFlag(pLine, "Flags", "uninsdeletekey", m_nUninsDeleteKey);
-			CInnoScriptEx::SetFlag(pLine, "Flags", "uninsdeletekeyifempty", m_nUninsDeleteKeyIfEmpty);
-			CInnoScriptEx::SetFlag(pLine, "Flags", "uninsdeletevalue", m_nUninsDeleteValue);
-			CInnoScriptEx::SetFlag(pLine, "Flags", "preservestringtype", m_bPreserveStringType);
-			CInnoScriptEx::SetFlag(pLine, "Flags", "deletekey", m_nDeleteKey);
-			CInnoScriptEx::SetFlag(pLine, "Flags", "deletevalue", m_nDeleteValue);
-			CInnoScriptEx::SetFlag(pLine, "Flags", "noerror", m_nNoError);
-			CInnoScriptEx::SetFlag(pLine, "Flags", "dontcreatekey", m_nDontCreateKey);
+			CInnoScriptEx::SetFlag(pLine, _T("Flags"), _T("createvalueifdoesntexist"), m_nCreateValueIfDoesntExist);
+			CInnoScriptEx::SetFlag(pLine, _T("Flags"), _T("uninsclearvalue"), m_nUninsClearValue);
+			CInnoScriptEx::SetFlag(pLine, _T("Flags"), _T("uninsdeletekey"), m_nUninsDeleteKey);
+			CInnoScriptEx::SetFlag(pLine, _T("Flags"), _T("uninsdeletekeyifempty"), m_nUninsDeleteKeyIfEmpty);
+			CInnoScriptEx::SetFlag(pLine, _T("Flags"), _T("uninsdeletevalue"), m_nUninsDeleteValue);
+			CInnoScriptEx::SetFlag(pLine, _T("Flags"), _T("preservestringtype"), m_bPreserveStringType);
+			CInnoScriptEx::SetFlag(pLine, _T("Flags"), _T("deletekey"), m_nDeleteKey);
+			CInnoScriptEx::SetFlag(pLine, _T("Flags"), _T("deletevalue"), m_nDeleteValue);
+			CInnoScriptEx::SetFlag(pLine, _T("Flags"), _T("noerror"), m_nNoError);
+			CInnoScriptEx::SetFlag(pLine, _T("Flags"), _T("dontcreatekey"), m_nDontCreateKey);
 		}
 		return PSNRET_NOERROR;
 	}
@@ -225,7 +225,7 @@ public:
 	LRESULT OnSelChangeValueType(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {
 		if (!m_bNew) SetModified();
 		DoDataExchange(DDX_SAVE);
-		BOOL bEnable = _stricmp("none", SAFESTR(CInnoScriptEx::GetRegistryValueType(m_nValueType)));
+		BOOL bEnable = _stricmp(_T("none"), SAFESTR(CInnoScriptEx::GetRegistryValueType(m_nValueType)));
 		m_wndValueData.EnableWindow(bEnable);
 		return 0;
 	}
@@ -272,23 +272,23 @@ public:
 		m_nDontCreateKey = FALSE;
 		for (int nPos = 0; nPos < m_list.GetSize(); nPos++) {
 			CScriptLine* pItem = m_list[nPos];
-			m_nRoot = CInnoScriptEx::GetRegistryRoot(pItem->GetParameter("Root"));
-			m_strSubkey = pItem->GetParameter("Subkey");
-			m_nValueType = CInnoScriptEx::GetRegistryValueType(pItem->GetParameter("ValueType"));
-			m_strValueName = pItem->GetParameter("ValueName");
-			m_strValueData = pItem->GetParameter("ValueData");
-			m_strPermissions = pItem->GetParameter("Permissions");
+			m_nRoot = CInnoScriptEx::GetRegistryRoot(pItem->GetParameter(_T("Root")));
+			m_strSubkey = pItem->GetParameter(_T("Subkey"));
+			m_nValueType = CInnoScriptEx::GetRegistryValueType(pItem->GetParameter(_T("ValueType")));
+			m_strValueName = pItem->GetParameter(_T("ValueName"));
+			m_strValueData = pItem->GetParameter(_T("ValueData"));
+			m_strPermissions = pItem->GetParameter(_T("Permissions"));
 
-			if (pItem->GetParameterFlag("Flags", "createvalueifdoesntexist")) m_nCreateValueIfDoesntExist = 1;
-			if (pItem->GetParameterFlag("Flags", "uninsclearvalue")) m_nUninsClearValue = 1;
-			if (pItem->GetParameterFlag("Flags", "uninsdeletekey")) m_nUninsDeleteKey = 1;
-			if (pItem->GetParameterFlag("Flags", "uninsdeletekeyifempty")) m_nUninsDeleteKeyIfEmpty = 1;
-			if (pItem->GetParameterFlag("Flags", "uninsdeletevalue")) m_nUninsDeleteValue = 1;
-			if (pItem->GetParameterFlag("Flags", "preservestringtype")) m_bPreserveStringType = 1;
-			if (pItem->GetParameterFlag("Flags", "deletekey")) m_nDeleteKey = 1;
-			if (pItem->GetParameterFlag("Flags", "deletevalue")) m_nDeleteValue = 1;
-			if (pItem->GetParameterFlag("Flags", "noerror")) m_nNoError = 1;
-			if (pItem->GetParameterFlag("Flags", "dontcreatekey")) m_nDontCreateKey = 1;
+			if (pItem->GetParameterFlag(_T("Flags"), _T("createvalueifdoesntexist"))) m_nCreateValueIfDoesntExist = 1;
+			if (pItem->GetParameterFlag(_T("Flags"), _T("uninsclearvalue"))) m_nUninsClearValue = 1;
+			if (pItem->GetParameterFlag(_T("Flags"), _T("uninsdeletekey"))) m_nUninsDeleteKey = 1;
+			if (pItem->GetParameterFlag(_T("Flags"), _T("uninsdeletekeyifempty"))) m_nUninsDeleteKeyIfEmpty = 1;
+			if (pItem->GetParameterFlag(_T("Flags"), _T("uninsdeletevalue"))) m_nUninsDeleteValue = 1;
+			if (pItem->GetParameterFlag(_T("Flags"), _T("preservestringtype"))) m_bPreserveStringType = 1;
+			if (pItem->GetParameterFlag(_T("Flags"), _T("deletekey"))) m_nDeleteKey = 1;
+			if (pItem->GetParameterFlag(_T("Flags"), _T("deletevalue"))) m_nDeleteValue = 1;
+			if (pItem->GetParameterFlag(_T("Flags"), _T("noerror"))) m_nNoError = 1;
+			if (pItem->GetParameterFlag(_T("Flags"), _T("dontcreatekey"))) m_nDontCreateKey = 1;
 			break;
 		}
 	}

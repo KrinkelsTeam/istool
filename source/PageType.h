@@ -42,11 +42,11 @@ public:
 		for (int nPos = 0; nPos < m_list.GetSize(); nPos++) {
 			CScriptLine* pLine = m_list[nPos];
 
-			if (m_strName.CompareNoCase(SAFESTR(pLine->GetParameter("Name")))) m_strName.Empty();
-			if (m_strDescription.CompareNoCase(SAFESTR(pLine->GetParameter("Description")))) m_strDescription.Empty();
+			if (m_strName.CompareNoCase(SAFESTR(pLine->GetParameter(_T("Name"))))) m_strName.Empty();
+			if (m_strDescription.CompareNoCase(SAFESTR(pLine->GetParameter(_T("Description"))))) m_strDescription.Empty();
 
 			//Flags
-			if (m_bIsCustom != (pLine->GetParameterFlag("Flags", "iscustom") ? TRUE : FALSE)) {
+			if (m_bIsCustom != (pLine->GetParameterFlag(_T("Flags"), _T("iscustom")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_TYPE_ISCUSTOM).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_bIsCustom = 2;
 			}
@@ -73,17 +73,17 @@ public:
 			m_strName.Replace(' ', '_');
 
 			if (bForce) {
-				CString strOldName(pLine->GetParameter("Name"));
+				CString strOldName(pLine->GetParameter(_T("Name")));
 				if (strOldName.CompareNoCase(m_strName)) {
 					CFilesHelper(m_pDoc).RenameType(strOldName, m_strName);
 				}
 			}
 
-			CInnoScriptEx::SetString(pLine, bForce, "Name", m_strName);
-			CInnoScriptEx::SetString(pLine, bForce, "Description", m_strDescription);
+			CInnoScriptEx::SetString(pLine, bForce, _T("Name"), m_strName);
+			CInnoScriptEx::SetString(pLine, bForce, _T("Description"), m_strDescription);
 
 			// Flags
-			CInnoScriptEx::SetFlag(pLine, "Flags", "iscustom", m_bIsCustom);
+			CInnoScriptEx::SetFlag(pLine, _T("Flags"), _T("iscustom"), m_bIsCustom);
 		}
 
 		/*
@@ -96,26 +96,26 @@ public:
 		m_pDoc->GetScript().GetList(CInnoScript::SEC_TYPES, listTypes);
 		for (int nPos = 0; nPos < list.GetSize(); nPos++) {
 			CScriptLine* pLine = list[nPos];
-			CString strTypes = pLine->GetParameter("Types");
+			CString strTypes = pLine->GetParameter(_T("Types"));
 
-			CStringToken token(strTypes, " ");
+			CStringToken token(strTypes, _T(" "));
 			while (LPCTSTR pszType = token.GetNext()) {
 				bool bFound = false;
 				for (int nPos2 = 0; nPos2 < listTypes.GetSize(); nPos2++) {
 					CScriptLine* pType = listTypes[nPos2];
-					CString strTypeName = pType->GetParameter("Name");
+					CString strTypeName = pType->GetParameter(_T("Name"));
 					if (!_stricmp(strTypeName, pszType)) {
 						bFound = true;
 						break;
 					}
 				}
 				if (!bFound) {
-					if (strMessage.GetLength() > 0) strMessage += "\n";
+					if (strMessage.GetLength() > 0) strMessage += _T("\n");
 					CString txt = _L("FixedComponentErrorType", "Fixed component '%1' which used non-existing type '%2'.");
-					txt.Replace("%1", pLine->GetParameter("Description"));
-					txt.Replace("%2", pszType);
+					txt.Replace(_T("%1"), pLine->GetParameter(_T("Description")));
+					txt.Replace(_T("%2"), pszType);
 					strMessage += (LPCTSTR)txt;
-					pLine->SetParameterFlag("Types", pszType, false);
+					pLine->SetParameterFlag(_T("Types"), pszType, false);
 				}
 			}
 		}
@@ -139,10 +139,10 @@ public:
 		for (int nPos = 0; nPos < m_list.GetSize(); nPos++) {
 			CScriptLine* pLine = m_list[nPos];
 
-			m_strName = pLine->GetParameter("Name");
-			m_strDescription = pLine->GetParameter("Description");
+			m_strName = pLine->GetParameter(_T("Name"));
+			m_strDescription = pLine->GetParameter(_T("Description"));
 			//Flags
-			m_bIsCustom = pLine->GetParameterFlag("Flags", "iscustom");
+			m_bIsCustom = pLine->GetParameterFlag(_T("Flags"), _T("iscustom"));
 			break;
 		}
 	}

@@ -137,35 +137,35 @@ public:
 		CInnoScriptEx& script = m_pDoc->GetScript();
 
 		CString strTmp;
-		script.SetPropertyBool("Uninstallable", m_bUninstallable ? true : false);
-		script.SetPropertyBool("CreateUninstallRegKey", m_bCreateUninstallRegKey ? true : false);
-		script.SetPropertyString("UninstallLogMode", script.GetUninstallLogMode(m_nUninstallLogMode));
-		script.SetPropertyString("AppPublisher", m_strAppPublisher);
-		script.SetPropertyString("AppPublisherURL", m_strAppPublisherURL);
-		script.SetPropertyString("AppSupportURL", m_strAppSupportURL);
-		script.SetPropertyString("AppUpdatesURL", m_strAppUpdatesURL);
-		script.SetPropertyString("AppVersion", m_strAppVersion);
-		script.SetPropertyString("AppID", m_strAppID);
-		script.SetPropertyString("UninstallFilesDir", m_strUninstallFilesDir);
-		script.SetPropertyBool("UpdateUninstallLogAppName", m_bUpdateUninstallLogAppName ? true : false);
-		script.SetPropertyBool("UninstallRestartComputer", m_bUninstallRestartComputer ? true : false);
-		script.SetPropertyString("AppModifyPath", m_strAppModifyPath);
-		script.SetPropertyString("AppComments", m_strAppComments);
-		script.SetPropertyString("AppContact", m_strAppContact);
-		script.SetPropertyString("AppReadmeFile", m_strAppReadmeFile);
-		script.SetPropertyString("AppSupportPhone", m_strAppSupportPhone);
-		script.SetPropertyBool("SignedUninstaller", m_bSignedUninstaller ? true : false);
-		script.SetPropertyString("SignedUninstallerDir", m_strSignedUninstallerDir);
+		script.SetPropertyBool(_T("Uninstallable"), m_bUninstallable ? true : false);
+		script.SetPropertyBool(_T("CreateUninstallRegKey"), m_bCreateUninstallRegKey ? true : false);
+		script.SetPropertyString(_T("UninstallLogMode"), script.GetUninstallLogMode(m_nUninstallLogMode));
+		script.SetPropertyString(_T("AppPublisher"), m_strAppPublisher);
+		script.SetPropertyString(_T("AppPublisherURL"), m_strAppPublisherURL);
+		script.SetPropertyString(_T("AppSupportURL"), m_strAppSupportURL);
+		script.SetPropertyString(_T("AppUpdatesURL"), m_strAppUpdatesURL);
+		script.SetPropertyString(_T("AppVersion"), m_strAppVersion);
+		script.SetPropertyString(_T("AppID"), m_strAppID);
+		script.SetPropertyString(_T("UninstallFilesDir"), m_strUninstallFilesDir);
+		script.SetPropertyBool(_T("UpdateUninstallLogAppName"), m_bUpdateUninstallLogAppName ? true : false);
+		script.SetPropertyBool(_T("UninstallRestartComputer"), m_bUninstallRestartComputer ? true : false);
+		script.SetPropertyString(_T("AppModifyPath"), m_strAppModifyPath);
+		script.SetPropertyString(_T("AppComments"), m_strAppComments);
+		script.SetPropertyString(_T("AppContact"), m_strAppContact);
+		script.SetPropertyString(_T("AppReadmeFile"), m_strAppReadmeFile);
+		script.SetPropertyString(_T("AppSupportPhone"), m_strAppSupportPhone);
+		script.SetPropertyBool(_T("SignedUninstaller"), m_bSignedUninstaller ? true : false);
+		script.SetPropertyString(_T("SignedUninstallerDir"), m_strSignedUninstallerDir);
 
 		if (m_nUninstallDisplayIconIndex > 0) {
-			strTmp.Format("%s,%d",
+			strTmp.Format(_T("%s,%d"),
 				m_strUninstallDisplayIcon,
 				m_nUninstallDisplayIconIndex);
-			script.SetPropertyString("UninstallDisplayIcon", strTmp);
+			script.SetPropertyString(_T("UninstallDisplayIcon"), strTmp);
 		} else
-			script.SetPropertyString("UninstallDisplayIcon", m_strUninstallDisplayIcon);
+			script.SetPropertyString(_T("UninstallDisplayIcon"), m_strUninstallDisplayIcon);
 
-		script.SetPropertyString("UninstallDisplayName", m_strUninstallDisplayName);
+		script.SetPropertyString(_T("UninstallDisplayName"), m_strUninstallDisplayName);
 		return PSNRET_NOERROR;
 	}
 
@@ -186,7 +186,7 @@ public:
 		UuidCreate(&guid);
 
 		m_strAppID.Format(
-			"{{%08X-%04X-%04X-%02X%02X-%02X%02X%02X%02X%02X%02X}",
+			_T("{{%08X-%04X-%04X-%02X%02X-%02X%02X%02X%02X%02X%02X}"),
 			guid.Data1,
 			guid.Data2,
 			guid.Data3,
@@ -260,7 +260,7 @@ public:
 			script.GetDestName(pFile, strName);
 
 			if (!m_strUninstallDisplayIcon.CompareNoCase(strName)) {
-				UpdateIconList(pFile->GetParameter("Source"));
+				UpdateIconList(pFile->GetParameter(_T("Source")));
 				m_wndUninstallDisplayIconIndex.EnableWindow(m_bUninstallable);
 				return;
 			}
@@ -319,27 +319,27 @@ public:
 		m_bUpdateUninstallLogAppName = FALSE;
 		CInnoScriptEx& script = m_pDoc->GetScript();
 
-		m_bUninstallable = script.GetPropertyBool("Uninstallable");
-		m_bCreateUninstallRegKey = script.GetPropertyBool("CreateUninstallRegKey");
-		m_nUninstallLogMode = script.GetUninstallLogMode(script.GetPropertyString("UninstallLogMode"));
-		m_strAppPublisher = script.GetPropertyString("AppPublisher");
-		m_strAppPublisherURL = script.GetPropertyString("AppPublisherURL");
-		m_strAppSupportURL = script.GetPropertyString("AppSupportURL");
-		m_strAppUpdatesURL = script.GetPropertyString("AppUpdatesURL");
-		m_strAppVersion = script.GetPropertyString("AppVersion");
-		m_strAppID = script.GetPropertyString("AppID");
-		m_strUninstallFilesDir = script.GetPropertyString("UninstallFilesDir");
-		m_bUpdateUninstallLogAppName = script.GetPropertyBool("UpdateUninstallLogAppName");
-		m_bUninstallRestartComputer = script.GetPropertyBool("UninstallRestartComputer");
-		m_strAppModifyPath = script.GetPropertyString("AppModifyPath");
-		m_strAppComments = script.GetPropertyString("AppComments");
-		m_strAppContact = script.GetPropertyString("AppContact");
-		m_strAppReadmeFile = script.GetPropertyString("AppReadmeFile");
-		m_strAppSupportPhone = script.GetPropertyString("AppSupportPhone");
-		m_bSignedUninstaller = script.GetPropertyBool("SignedUninstaller");
-		m_strSignedUninstallerDir = script.GetPropertyString("SignedUninstallerDir");
+		m_bUninstallable = script.GetPropertyBool(_T("Uninstallable"));
+		m_bCreateUninstallRegKey = script.GetPropertyBool(_T("CreateUninstallRegKey"));
+		m_nUninstallLogMode = script.GetUninstallLogMode(script.GetPropertyString(_T("UninstallLogMode")));
+		m_strAppPublisher = script.GetPropertyString(_T("AppPublisher"));
+		m_strAppPublisherURL = script.GetPropertyString(_T("AppPublisherURL"));
+		m_strAppSupportURL = script.GetPropertyString(_T("AppSupportURL"));
+		m_strAppUpdatesURL = script.GetPropertyString(_T("AppUpdatesURL"));
+		m_strAppVersion = script.GetPropertyString(_T("AppVersion"));
+		m_strAppID = script.GetPropertyString(_T("AppID"));
+		m_strUninstallFilesDir = script.GetPropertyString(_T("UninstallFilesDir"));
+		m_bUpdateUninstallLogAppName = script.GetPropertyBool(_T("UpdateUninstallLogAppName"));
+		m_bUninstallRestartComputer = script.GetPropertyBool(_T("UninstallRestartComputer"));
+		m_strAppModifyPath = script.GetPropertyString(_T("AppModifyPath"));
+		m_strAppComments = script.GetPropertyString(_T("AppComments"));
+		m_strAppContact = script.GetPropertyString(_T("AppContact"));
+		m_strAppReadmeFile = script.GetPropertyString(_T("AppReadmeFile"));
+		m_strAppSupportPhone = script.GetPropertyString(_T("AppSupportPhone"));
+		m_bSignedUninstaller = script.GetPropertyBool(_T("SignedUninstaller"));
+		m_strSignedUninstallerDir = script.GetPropertyString(_T("SignedUninstallerDir"));
 
-		CString str(script.GetPropertyString("UninstallDisplayIcon"));
+		CString str(script.GetPropertyString(_T("UninstallDisplayIcon")));
 		int nPos = str.ReverseFind(',');
 		if (nPos > 0) {
 			m_nUninstallDisplayIconIndex = _ttol(str.Mid(nPos + 1));
@@ -347,7 +347,7 @@ public:
 		} else
 			m_strUninstallDisplayIcon = str;
 
-		m_strUninstallDisplayName = script.GetPropertyString("UninstallDisplayName");
+		m_strUninstallDisplayName = script.GetPropertyString(_T("UninstallDisplayName"));
 	}
 
 	CMyDoc* m_pDoc;

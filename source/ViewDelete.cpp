@@ -15,12 +15,12 @@ CViewDelete::CViewDelete(CInnoScript::SECTION sec) : CMyListView(sec) {
 }
 
 const CListInfo CViewDelete::m_colInfo[] = {
-	"Name",				LVCFMT_LEFT,	250, 0,
-	"Type",				LVCFMT_LEFT,	180, 0,
-	"MinVersion",		LVCFMT_LEFT,	 80, CLI_HIDE,
-	"OnlyBelowVersion",	LVCFMT_LEFT,	 80, CLI_HIDE,
-	"Components",		LVCFMT_LEFT,	100, CLI_HIDE,
-	"Tasks",			LVCFMT_LEFT,	100, CLI_HIDE,
-	"Languages",		LVCFMT_LEFT,	 80, CLI_HIDE,
+	_T("Name"),				LVCFMT_LEFT,	250, 0,
+	_T("Type"),				LVCFMT_LEFT,	180, 0,
+	_T("MinVersion"),		LVCFMT_LEFT,	 80, CLI_HIDE,
+	_T("OnlyBelowVersion"),	LVCFMT_LEFT,	 80, CLI_HIDE,
+	_T("Components"),		LVCFMT_LEFT,	100, CLI_HIDE,
+	_T("Tasks"),			LVCFMT_LEFT,	100, CLI_HIDE,
+	_T("Languages"),		LVCFMT_LEFT,	 80, CLI_HIDE,
 	NULL
 };

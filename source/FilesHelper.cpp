@@ -30,7 +30,7 @@ void CFilesHelper::OnDropFiles(HWND hWnd, HDROP hDropInfo, LPCTSTR lpszCurrentFo
 		DWORD dwAttr = ::GetFileAttributes(szFileName);
 		if (dwAttr == 0xFFFFFFFF) {
 			CString txt = _L("Error|GetFileAttributes", "Error getting information about %1.");
-			txt.Replace("%1", szFileName);
+			txt.Replace(_T("%1"), szFileName);
 			AtlMessageBox(hWnd, (LPCTSTR)txt, IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 		} else if (dwAttr & FILE_ATTRIBUTE_DIRECTORY) {
 			// Add directory
@@ -40,7 +40,7 @@ void CFilesHelper::OnDropFiles(HWND hWnd, HDROP hDropInfo, LPCTSTR lpszCurrentFo
 				if (dlg.m_bAddFiles && !dlg.m_strWildCard.IsEmpty())
 					strWildCard = dlg.m_strWildCard;
 				else
-					strWildCard = "*.*";
+					strWildCard = _T("*.*");
 				CFileInfoArray fia;
 				CWaitCursor wait;
 
@@ -63,7 +63,7 @@ void CFilesHelper::OnDropFiles(HWND hWnd, HDROP hDropInfo, LPCTSTR lpszCurrentFo
 
 					{ // Add the main directory entry
 						CScriptLine* pLine = new CScriptLine(CInnoScript::SEC_DIRS);
-						pLine->SetParameter("Name", strCurrentFolder);
+						pLine->SetParameter(_T("Name"), strCurrentFolder);
 						m_pDoc->GetScript().AddLine(pLine);
 					}
 					CMyUtils::EndWith(strCurrentFolder, '\\');
@@ -88,16 +88,16 @@ void CFilesHelper::OnDropFiles(HWND hWnd, HDROP hDropInfo, LPCTSTR lpszCurrentFo
 							}
 							if (dlg.m_bExternal && !dlg.m_strRoot.IsEmpty()) {
 								if (!_tcsnicmp(dlg.m_strRoot, strSource, dlg.m_strRoot.GetLength()))
-									strSource = "{src}\\" + strSource.Mid(dlg.m_strRoot.GetLength());
+									strSource = _T("{src}\\") + strSource.Mid(dlg.m_strRoot.GetLength());
 							}
 
-							pLine->SetParameter("Source", strSource);
-							pLine->SetParameter("DestDir", strCurrentFolder + strSubPath);
+							pLine->SetParameter(_T("Source"), strSource);
+							pLine->SetParameter(_T("DestDir"), strCurrentFolder + strSubPath);
 
-							if (fia[i].IsReadOnly()) pLine->SetParameterFlag("Attribs", "readonly", true);
-							if (fia[i].IsHidden()) pLine->SetParameterFlag("Attribs", "hidden", true);
-							if (fia[i].IsSystem()) pLine->SetParameterFlag("Attribs", "system", true);
-							if (dlg.m_bExternal) pLine->SetParameterFlag("Flags", "external", true);
+							if (fia[i].IsReadOnly()) pLine->SetParameterFlag(_T("Attribs"), _T("readonly"), true);
+							if (fia[i].IsHidden()) pLine->SetParameterFlag(_T("Attribs"), _T("hidden"), true);
+							if (fia[i].IsSystem()) pLine->SetParameterFlag(_T("Attribs"), _T("system"), true);
+							if (dlg.m_bExternal) pLine->SetParameterFlag(_T("Flags"), _T("external"), true);
 							m_pDoc->GetScript().AddLine(pLine);
 						} else if (dlg.m_bAddDirectories && fia[i].IsDirectory()) {
 							// Get path between szFileName and the files name
@@ -105,7 +105,7 @@ void CFilesHelper::OnDropFiles(HWND hWnd, HDROP hDropInfo, LPCTSTR lpszCurrentFo
 							strSubPath = strSubPath.Mid(_tcslen(szFileName)/*+1*/);
 
 							CScriptLine* pLine = new CScriptLine(CInnoScript::SEC_DIRS);
-							pLine->SetParameter("Name", strCurrentFolder + strSubPath);
+							pLine->SetParameter(_T("Name"), strCurrentFolder + strSubPath);
 							m_pDoc->GetScript().AddLine(pLine);
 						}
 					}
@@ -129,10 +129,10 @@ void CFilesHelper::InsertFileName(LPCTSTR lpszFileName, LPCTSTR lpszCurrentFolde
 	if (!m_pDoc->GetUseAbsolutePaths() && m_pDoc->GetSourceDir(strSourceDir)) {
 		CString strSource = CFunc::ExtractRelativePath(strSourceDir, lpszFileName);
 		if (strSource.IsEmpty()) strSource = lpszFileName;
-		pLine->SetParameter("Source", strSource);
+		pLine->SetParameter(_T("Source"), strSource);
 	} else
-		pLine->SetParameter("Source", lpszFileName);
-	pLine->SetParameter("DestDir", strCurrentFolder);
+		pLine->SetParameter(_T("Source"), lpszFileName);
+	pLine->SetParameter(_T("DestDir"), strCurrentFolder);
 
 	m_pDoc->GetScript().AddLine(pLine);
 	AutoComponentSelect(pLine);
@@ -144,15 +144,15 @@ void CFilesHelper::CreateIcon(HWND hWnd, CScriptLine* pItem) {
 	// Find sensible information for the icon
 	CString strDestName, strName, strFilename;
 	CSplitPath path;
-	if (pItem->GetParameter("DestName")) {
-		strDestName = pItem->GetParameter("DestName");
+	if (pItem->GetParameter(_T("DestName"))) {
+		strDestName = pItem->GetParameter(_T("DestName"));
 		path.Split(strDestName);
 	} else {
-		path.Split(pItem->GetParameter("Source"));
+		path.Split(pItem->GetParameter(_T("Source")));
 	}
-	strName = CString("{group}\\") + path.GetFilename();
-	path.SetDrive("");
-	path.SetDirectory(SAFESTR(pItem->GetParameter("DestDir")));
+	strName = CString(_T("{group}\\")) + path.GetFilename();
+	path.SetDrive(_T(""));
+	path.SetDirectory(SAFESTR(pItem->GetParameter(_T("DestDir"))));
 	path.Make(strFilename.GetBuffer(MAX_PATH));
 
 	// Enumerate icons to see if this file got an icon already
@@ -161,9 +161,9 @@ void CFilesHelper::CreateIcon(HWND hWnd, CScriptLine* pItem) {
 	m_pDoc->GetScript().GetList(CInnoScript::SEC_ICONS, icons);
 	for (int nPos = 0; nPos < icons.GetSize(); nPos++) {
 		CScriptLine* pIconCheck = icons[nPos];
-		if (strFilename == SAFESTR(pIconCheck->GetParameter("Filename"))) {
+		if (strFilename == SAFESTR(pIconCheck->GetParameter(_T("Filename")))) {
 			CString txt = _L("IconAlreadyExists", "An icon already exists for %1.\n\nCreate icon anyway?");
-			txt.Replace("%1", strFilename);
+			txt.Replace(_T("%1"), strFilename);
 			int nRet = AtlMessageBox(hWnd, (LPCTSTR)txt, MB_YESNOCANCEL | MB_DEFBUTTON2 | MB_ICONQUESTION);
 			if (nRet == IDCANCEL)
 				return;
@@ -176,11 +176,11 @@ void CFilesHelper::CreateIcon(HWND hWnd, CScriptLine* pItem) {
 	// Create the icon
 	if (bAddIcon) {
 		CScriptLine* pIcon = new CScriptLine(CInnoScript::SEC_ICONS);
-		pIcon->SetParameter("Name", strName);
-		pIcon->SetParameter("Filename", strFilename);
-		pIcon->SetParameter("WorkingDir", pItem->GetParameter("DestDir"));
-		pIcon->SetParameter("Comment", path.GetFilename());
-		pIcon->SetParameterFlag("Flags", "createonlyiffileexists", true);
+		pIcon->SetParameter(_T("Name"), strName);
+		pIcon->SetParameter(_T("Filename"), strFilename);
+		pIcon->SetParameter(_T("WorkingDir"), pItem->GetParameter(_T("DestDir")));
+		pIcon->SetParameter(_T("Comment"), path.GetFilename());
+		pIcon->SetParameterFlag(_T("Flags"), _T("createonlyiffileexists"), true);
 		m_pDoc->GetScript().AddLine(pIcon);
 		m_pDoc->SetModifiedFlag();
 	}
@@ -201,7 +201,7 @@ void CFilesHelper::OnFileAddFiles(LPCTSTR lpszCurrentFolder) {
 			while (*lpszFile) {
 				CString strFile(lpszFile);
 				while (*lpszFile++);
-				InsertFileName(strFolder + "\\" + strFile, lpszCurrentFolder);
+				InsertFileName(strFolder + _T("\\") + strFile, lpszCurrentFolder);
 			}
 		} else {
 			InsertFileName(dlg.m_ofn.lpstrFile, lpszCurrentFolder);
@@ -227,7 +227,7 @@ void CTextImport::GetTextFromFile(LPCTSTR lpszFileName, CString& str) {
 	str.Empty();
 
 	FILE* fp;
-	fopen_s(&fp, lpszFileName, "rb");
+	fopen_s(&fp, lpszFileName, _T("rb"));
 	fseek(fp, 0, SEEK_END);
 	int nLength = ftell(fp);
 	fseek(fp, 0, SEEK_SET);
@@ -261,10 +261,10 @@ bool CFilesHelper::ImportRegistry(HWND hWnd, LPCTSTR lpszRegFile) {
 
 	LPCTSTR pszRoot = NULL;
 	CString strSubkey;
-	CStringToken tok_lines(strFile, "\n\r");
+	CStringToken tok_lines(strFile, _T("\n\r"));
 	LPCTSTR lpszFormat = tok_lines.GetNext();
 
-	if (!_stricmp(lpszFormat, "REGEDIT4") || !_stricmp(lpszFormat, "Windows Registry Editor Version 5.00")) {
+	if (!_stricmp(lpszFormat, _T("REGEDIT4")) || !_stricmp(lpszFormat, _T("Windows Registry Editor Version 5.00"))) {
 		while (LPCTSTR lpszLine = tok_lines.GetNext()) {
 			CString str(lpszLine);
 			CScriptLine* p = NULL;
@@ -273,10 +273,10 @@ bool CFilesHelper::ImportRegistry(HWND hWnd, LPCTSTR lpszRegFile) {
 
 			if (str[0] == '[' && str[str.GetLength() - 1] == ']') {
 				// Find root and key
-				CStringToken token(str.Mid(1, str.GetLength() - 2), "\\");
+				CStringToken token(str.Mid(1, str.GetLength() - 2), _T("\\"));
 				LPCTSTR lpszRoot = token.GetNext();
 				strSubkey = token.GetRest();
-				strSubkey.Replace("{", "{{");
+				strSubkey.Replace(_T("{"), _T("{{"));
 
 				bool bDeleteKey = false;
 				if (*lpszRoot == '-') {
@@ -284,19 +284,19 @@ bool CFilesHelper::ImportRegistry(HWND hWnd, LPCTSTR lpszRegFile) {
 					lpszRoot++;
 				}
 
-				if (!_stricmp(lpszRoot, "HKEY_CLASSES_ROOT"))
-					pszRoot = "HKCR";
-				else if (!_stricmp(lpszRoot, "HKEY_CURRENT_USER"))
-					pszRoot = "HKCU";
-				else if (!_stricmp(lpszRoot, "HKEY_LOCAL_MACHINE"))
-					pszRoot = "HKLM";
-				else if (!_stricmp(lpszRoot, "HKEY_USERS"))
-					pszRoot = "HKU";
-				else if (!_stricmp(lpszRoot, "HKEY_CURRENT_CONFIG"))
-					pszRoot = "HKCC";
+				if (!_stricmp(lpszRoot, _T("HKEY_CLASSES_ROOT")))
+					pszRoot = _T("HKCR");
+				else if (!_stricmp(lpszRoot, _T("HKEY_CURRENT_USER")))
+					pszRoot = _T("HKCU");
+				else if (!_stricmp(lpszRoot, _T("HKEY_LOCAL_MACHINE")))
+					pszRoot = _T("HKLM");
+				else if (!_stricmp(lpszRoot, _T("HKEY_USERS")))
+					pszRoot = _T("HKU");
+				else if (!_stricmp(lpszRoot, _T("HKEY_CURRENT_CONFIG")))
+					pszRoot = _T("HKCC");
 				else {
 					CString txt = _L("Unknown registry root %1.");
-					txt.Replace("%1", lpszRoot);
+					txt.Replace(_T("%1"), lpszRoot);
 					AtlMessageBox(hWnd, (LPCTSTR)txt, IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 					pszRoot = NULL;
 				}
@@ -304,13 +304,13 @@ bool CFilesHelper::ImportRegistry(HWND hWnd, LPCTSTR lpszRegFile) {
 				//p = new CScriptRegistry(nRoot,strSubkey);
 				if (bDeleteKey) {
 					p = new CScriptLine(CInnoScript::SEC_REGISTRY);
-					p->SetParameter("Root", pszRoot);
-					p->SetParameter("SubKey", strSubkey);
-					p->SetParameterFlag("Flags", "deletekey", true);
+					p->SetParameter(_T("Root"), pszRoot);
+					p->SetParameter(_T("SubKey"), strSubkey);
+					p->SetParameterFlag(_T("Flags"), _T("deletekey"), true);
 				}
 			} else {
 				// Find value
-				while (str.Right(1) == "\\") {
+				while (str.Right(1) == _T("\\")) {
 					CString tmp = tok_lines.GetNext();
 					tmp.TrimLeft(); tmp.TrimRight();
 					if (!tmp.IsEmpty()) {
@@ -318,51 +318,51 @@ bool CFilesHelper::ImportRegistry(HWND hWnd, LPCTSTR lpszRegFile) {
 						str += tmp;
 					}
 				}
-				CStringToken token(str, "=");
+				CStringToken token(str, _T("="));
 				CString strValueName(token.GetNext());
 				CString strValueData(token.GetRest());
-				bool bDeleteValue = strValueData == "-";
-				if (strValueName[0] == '"' && strValueName[strValueName.GetLength() - 1] == '"')
+				bool bDeleteValue = strValueData == _T("-");
+				if (strValueName[0] == '_T("' && strValueName[strValueName.GetLength() - 1] == '")')
 					strValueName = strValueName.Mid(1, strValueName.GetLength() - 2);
-				if (strValueData[0] == '"' && strValueData[strValueData.GetLength() - 1] == '"')
+				if (strValueData[0] == '_T("' && strValueData[strValueData.GetLength() - 1] == '")')
 					strValueData = strValueData.Mid(1, strValueData.GetLength() - 2);
 
 				p = new CScriptLine(CInnoScript::SEC_REGISTRY);
-				p->SetParameter("Root", pszRoot);
-				p->SetParameter("SubKey", strSubkey);
+				p->SetParameter(_T("Root"), pszRoot);
+				p->SetParameter(_T("SubKey"), strSubkey);
 				int nPos = strValueData.Find(':');
 				if (nPos >= 0) {
-					CStringToken token(strValueData, ":");
+					CStringToken token(strValueData, _T(":"));
 					LPCTSTR lpszValueType = token.GetNext();
 					CString strNewValueData(token.GetRest());
 
-					if (!_stricmp(lpszValueType, "dword")) {
-						p->SetParameter("ValueType", "dword");
+					if (!_stricmp(lpszValueType, _T("dword"))) {
+						p->SetParameter(_T("ValueType"), _T("dword"));
 						if (strNewValueData[0] != '$')
-							strValueData = "$" + strNewValueData;
+							strValueData = _T("$") + strNewValueData;
 						else
 							strValueData = strNewValueData;
-					} else if (!_stricmp(lpszValueType, "hex")) {
-						p->SetParameter("ValueType", "binary");
+					} else if (!_stricmp(lpszValueType, _T("hex"))) {
+						p->SetParameter(_T("ValueType"), _T("binary"));
 						strValueData = strNewValueData;
-						strValueData.Replace(",", " ");	// Replace commas with spaces
+						strValueData.Replace(_T(","), _T(" "));	// Replace commas with spaces
 					} else {
-						p->SetParameter("ValueType", "string");
+						p->SetParameter(_T("ValueType"), _T("string"));
 					}
 				} else
-					p->SetParameter("ValueType", "string");
+					p->SetParameter(_T("ValueType"), _T("string"));
 
-				if (strValueName == "@") strValueName.Empty();
-				p->SetParameter("ValueName", strValueName);
+				if (strValueName == _T("@")) strValueName.Empty();
+				p->SetParameter(_T("ValueName"), strValueName);
 				// Replace { with {{
-				strValueData.Replace("{", "{{");
-				strValueData.Replace("\\\\", "\\");
+				strValueData.Replace(_T("{"), _T("{{"));
+				strValueData.Replace(_T("\\\\"), _T("\\"));
 
-				p->SetParameter("ValueData", strValueData);
+				p->SetParameter(_T("ValueData"), strValueData);
 				if (bDeleteValue) {
-					p->DeleteParameter("ValueData");
-					p->SetParameterFlag("Flags", "deletevalue", true);
-					p->SetParameter("ValueType", "none");
+					p->DeleteParameter(_T("ValueData"));
+					p->SetParameterFlag(_T("Flags"), _T("deletevalue"), true);
+					p->SetParameter(_T("ValueType"), _T("none"));
 				}
 			}
 			if (p) {
@@ -374,7 +374,7 @@ bool CFilesHelper::ImportRegistry(HWND hWnd, LPCTSTR lpszRegFile) {
 		}
 	} else {
 		CString txt = _L("Error|UnknownRegistryFormat", "Unknown or unimplemented registry format '%1'.");
-		txt.Replace("%1", lpszFormat);
+		txt.Replace(_T("%1"), lpszFormat);
 		AtlMessageBox(hWnd, (LPCTSTR)txt, IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 	}
 	return bRet;
@@ -394,10 +394,10 @@ void CFilesHelper::OnDropFilesRegistry(HWND hWnd, HDROP hDropInfo) {
 bool CFilesHelper::ImportIni(HWND hWnd, LPCTSTR pszPathName) {
 	CWaitCursor wait;
 	FILE* file;
-	errno_t err = fopen_s(&file, pszPathName, "r");
+	errno_t err = fopen_s(&file, pszPathName, _T("r"));
 	if (err != 0) {
 		CString txt = _L("Failed to open '%1'.");
-		txt.Replace("%1", pszPathName);
+		txt.Replace(_T("%1"), pszPathName);
 		AtlMessageBox(hWnd, (LPCTSTR)txt, IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 		return false;
 	}
@@ -414,15 +414,15 @@ bool CFilesHelper::ImportIni(HWND hWnd, LPCTSTR pszPathName) {
 		if (str[0] == '[' && str[str.GetLength() - 1] == ']') {
 			strSection = str.Mid(1, str.GetLength() - 2);
 		} else if (str[0] != ';') {
-			CStringToken token(str, "=");
+			CStringToken token(str, _T("="));
 			CString strKey(token.GetNext());
 			CString strString(token.GetRest());
 
 			CScriptLine* pLine = new CScriptLine(CInnoScript::SEC_INI);
-			pLine->SetParameter("Filename", strFilename);
-			pLine->SetParameter("Section", strSection);
-			pLine->SetParameter("Key", strKey);
-			pLine->SetParameter("String", strString);
+			pLine->SetParameter(_T("Filename"), strFilename);
+			pLine->SetParameter(_T("Section"), strSection);
+			pLine->SetParameter(_T("Key"), strKey);
+			pLine->SetParameter(_T("String"), strString);
 			bAdded = true;
 			m_pDoc->GetScript().AddLine(pLine);
 			m_pDoc->SetModifiedFlag();
@@ -438,7 +438,7 @@ void CFilesHelper::AutoComponentSelect(CScriptList& list) {
 	if (CMyApp::m_prefs.m_bAutoComponentSelect) {
 		for (int nPos0 = 0; nPos0 < list.GetSize(); nPos0++) {
 			CScriptLine* pFile = list[nPos0];
-			CString str(pFile->GetParameter("DestDir"));
+			CString str(pFile->GetParameter(_T("DestDir")));
 
 			if (str.IsEmpty()) continue;
 			if (str[str.GetLength() - 1] == '\\' || str[str.GetLength() - 1] == '/')
@@ -450,8 +450,8 @@ void CFilesHelper::AutoComponentSelect(CScriptList& list) {
 				CScriptList list;
 				m_pDoc->GetScript().GetList(CInnoScript::SEC_COMPONENTS, list);
 				for (int nPos = 0; nPos < list.GetSize(); nPos++) {
-					if (!str.CompareNoCase(list[nPos]->GetParameter("Name"))) {
-						pFile->SetParameterFlag("Components", str, true);
+					if (!str.CompareNoCase(list[nPos]->GetParameter(_T("Name")))) {
+						pFile->SetParameterFlag(_T("Components"), str, true);
 						break;
 					}
 				}
@@ -480,7 +480,7 @@ void CFilesHelper::RenameComponent(LPCTSTR pszFrom, LPCTSTR pszTo) {
 	script.GetList(CInnoScript::SEC_UNINSTALLDELETE, list);
 	script.GetList(CInnoScript::SEC_UNINSTALLRUN, list);
 	script.GetList(CInnoScript::SEC_TASKS, list);
-	const LPCTSTR pszSection = "Components";
+	const LPCTSTR pszSection = _T("Components");
 
 	for (int nPos = 0; nPos < list.GetSize(); nPos++) {
 		CScriptLine* pLine = list[nPos];
@@ -497,7 +497,7 @@ void CFilesHelper::RenameType(LPCTSTR pszFrom, LPCTSTR pszTo) {
 	CInnoScriptEx& script = m_pDoc->GetScript();
 
 	script.GetList(CInnoScript::SEC_COMPONENTS, list);
-	const LPCTSTR pszSection = "Types";
+	const LPCTSTR pszSection = _T("Types");
 
 	for (int nPos = 0; nPos < list.GetSize(); nPos++) {
 		CScriptLine* pLine = list[nPos];
@@ -521,7 +521,7 @@ void CFilesHelper::RenameTask(LPCTSTR pszFrom, LPCTSTR pszTo) {
 	script.GetList(CInnoScript::SEC_RUN, list);
 	script.GetList(CInnoScript::SEC_UNINSTALLDELETE, list);
 	script.GetList(CInnoScript::SEC_UNINSTALLRUN, list);
-	const LPCTSTR pszSection = "Tasks";
+	const LPCTSTR pszSection = _T("Tasks");
 
 	for (int nPos = 0; nPos < list.GetSize(); nPos++) {
 		CScriptLine* pLine = list[nPos];

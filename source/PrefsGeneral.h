@@ -7,9 +7,9 @@
 
 #include "kFontCombo.h"
 
-static const LPCTSTR pszAssPath = "Software\\Classes\\InnoSetupScriptFile\\shell\\open\\command";
-static const LPCTSTR pszISToolPath = "Software\\Classes\\InnoSetupScriptFile\\shell\\OpenWithISTool\\command";
-static const LPCTSTR pszISetupPath = "Software\\Classes\\InnoSetupScriptFile\\shell\\OpenWithInnoSetup\\command";
+static const LPCTSTR pszAssPath = _T("Software\\Classes\\InnoSetupScriptFile\\shell\\open\\command");
+static const LPCTSTR pszISToolPath = _T("Software\\Classes\\InnoSetupScriptFile\\shell\\OpenWithISTool\\command");
+static const LPCTSTR pszISetupPath = _T("Software\\Classes\\InnoSetupScriptFile\\shell\\OpenWithInnoSetup\\command");
 
 class CPrefsGeneral :
 	public CPropertyPageImpl<CPrefsGeneral>,
@@ -47,8 +47,8 @@ public:
 			LPCTSTR		pszName;
 			UINT		nID;
 		} sections[] = {
-			"Script",			ID_VIEW_SCRIPT,
-			"Files and Dirs",	ID_VIEW_FILES,
+			_T("Script"),			ID_VIEW_SCRIPT,
+			_T("Files and Dirs"),	ID_VIEW_FILES,
 			NULL
 		};
 
@@ -105,8 +105,8 @@ public:
 
 	CPrefsGeneral(CMyDoc* pDoc, LPCTSTR pszTitle) :
 		m_pDoc(pDoc),
-		m_btnCompilerDir("Select compiler directory"),
-		m_btnLanguageDLL(true, "Language Files (*.lng)|*.lng|All Files (*.*)|*.*|"),
+		m_btnCompilerDir(_T("Select compiler directory")),
+		m_btnLanguageDLL(true, _T("Language Files (*.lng)|*.lng|All Files (*.*)|*.*|")),
 		CPropertyPageImpl<CPrefsGeneral>(pszTitle)
 	{
 		m_bIgnoreDefaults = FALSE;

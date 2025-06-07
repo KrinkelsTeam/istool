@@ -45,7 +45,7 @@ CString CFunc::ExtractRelativePath(LPCTSTR pszBaseName, LPCTSTR pszDestName) {
 	UINT nLength = GetDriveLength(pszBaseName);
 
 	if (!nLength) {
-		return "";
+		return _T("");
 	} else if (_tcsnicmp(pszBaseName, pszDestName, nLength)) {
 		return pszDestName;
 	} else {
@@ -68,7 +68,7 @@ CString CFunc::ExtractRelativePath(LPCTSTR pszBaseName, LPCTSTR pszDestName) {
 		}
 
 		CString strResult;
-		while (i++ < nBaseDirCount) strResult += "..\\";
+		while (i++ < nBaseDirCount) strResult += _T("..\\");
 		strResult += pszDestName;
 
 		return strResult;

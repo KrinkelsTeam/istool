@@ -53,12 +53,12 @@ LRESULT CMainFrame::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/
 	TBBUTTONINFO bi = { sizeof TBBUTTONINFO };
 
 	bi.dwMask = TBIF_TEXT | TBIF_STYLE;
-	bi.pszText = "Sections";
+	bi.pszText = _T("Sections");
 	bi.fsStyle = BTNS_BUTTON | BTNS_AUTOSIZE | BTNS_WHOLEDROPDOWN;
 	m_wndToolBar.SetButtonInfo(ID_VIEW_SECTIONDROPDOWN, &bi);
 
 	bi.dwMask = TBIF_TEXT | TBIF_STYLE;
-	bi.pszText = "Options";
+	bi.pszText = _T("Options");
 	bi.fsStyle = BTNS_BUTTON | BTNS_AUTOSIZE | BTNS_DROPDOWN;
 	m_wndToolBar.SetButtonInfo(ID_PROJECT_OPTIONS, &bi);
 	// --
@@ -75,8 +75,8 @@ LRESULT CMainFrame::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/
 		ID_COL_PANE
 	};
 	m_sbar.SetPanes(arrParts, sizeof(arrParts) / sizeof(int), false);
-	m_sbar.SetPaneText(ID_ROW_PANE, "Row: ");
-	m_sbar.SetPaneText(ID_COL_PANE, "Col: ");
+	m_sbar.SetPaneText(ID_ROW_PANE, _T("Row: "));
+	m_sbar.SetPaneText(ID_COL_PANE, _T("Col: "));
 
 	CreateClient();	// Create splitters and panes
 
@@ -142,9 +142,9 @@ LRESULT CMainFrame::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/
 
 	if (__argc > 1) {
 		for (int n = 1; n < __argc; n++) {
-			if (!_stricmp(__argv[n], "-langedit")) {
+			if (!_stricmp(__argv[n], _T("-langedit"))) {
 				//CTransDialog::SetLanguageMode();
-			} else if (!_stricmp(__argv[n], "-compile")) {
+			} else if (!_stricmp(__argv[n], _T("-compile"))) {
 				m_document.m_bCompileAndExit = true;
 			} else {
 				if (m_document.OnOpenDocument(m_hWnd, __argv[n]))
@@ -196,10 +196,10 @@ void CMainFrame::CreateClient() {
 	m_wndSplitter.SetSplitterExtendedStyle(0, SPLIT_PROPORTIONAL);
 
 	m_wndSectionPane.Create(m_wndSplitter);
-	m_wndSectionPane.SetTitle("Sections");
+	m_wndSectionPane.SetTitle(_T("Sections"));
 
 	m_wndSectionMain.Create(m_wndSplitter);
-	m_wndSectionMain.SetTitle("Main");
+	m_wndSectionMain.SetTitle(_T("Main"));
 	m_wndSectionMain.SetPaneContainerExtendedStyle(PANECNT_NOCLOSEBUTTON);
 
 	m_wndSplitter.SetSplitterPane(0, m_wndSectionPane);
@@ -513,7 +513,7 @@ void CMainFrame::UIUpdateAll() {
 	CString strSourceDir;
 	UIEnable(ID_PROJECT_USE_ABSOLUTE_PATHS, m_document.GetSourceDir(strSourceDir));
 
-	UIEnable(ID_PROJECT_CREATE_UNINSTALL_ICON, m_document.GetScript().GetPropertyBool("Uninstallable"));
+	UIEnable(ID_PROJECT_CREATE_UNINSTALL_ICON, m_document.GetScript().GetPropertyBool(_T("Uninstallable")));
 
 	list.RemoveAll();
 	m_document.GetScript().GetList(CInnoScript::SEC_MESSAGES, list);
@@ -553,14 +553,14 @@ void CMainFrame::OnUpdate(LONG lHint, void* pParam) {
 bool CMainFrame::IsInstalled() {
 	CInnoScriptEx& script = m_document.GetScript();
 
-	if (!script.GetPropertyBool("Uninstallable"))
+	if (!script.GetPropertyBool(_T("Uninstallable")))
 		return false;
 
-	LPCTSTR pszKey = script.GetPropertyString("AppID");
+	LPCTSTR pszKey = script.GetPropertyString(_T("AppID"));
 	if (!pszKey || !*pszKey)
 		return false;
 
-	const LPCTSTR pszPath = "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\%s_is1";
+	const LPCTSTR pszPath = _T("Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\%s_is1");
 	CString strKey;
 	strKey.Format(pszPath, pszKey);
 

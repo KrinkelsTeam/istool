@@ -48,5 +48,5 @@ public:
 		return TRUE;
 	}
 
-	CDlgSysPath() : m_wndSysPath("Select Source Folder") {}
+	CDlgSysPath() : m_wndSysPath(_T("Select Source Folder")) {}
 };

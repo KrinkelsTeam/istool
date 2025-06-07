@@ -59,26 +59,26 @@ public:
 		_L(m_hWnd, "Component");
 		m_wndTypeList.SubclassWindow(GetDlgItem(IDC_COMPONENT_TYPES));
 
-		m_wndTypeList.InsertColumn(0, "Description", LVCFMT_LEFT, 10, 0);
+		m_wndTypeList.InsertColumn(0, _T("Description"), LVCFMT_LEFT, 10, 0);
 		m_wndTypeList.SetExtendedListViewStyle(LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);
 
 		CScriptList	listTypes;
 		m_script.GetList(CInnoScript::SEC_TYPES, listTypes);
 
 		if (!listTypes.GetSize()) {
-			m_wndTypeList.InsertItem(0, "Full installation");
-			m_wndTypeList.SetItemData(0, (DWORD)"full");
-			m_wndTypeList.InsertItem(1, "Compact installation");
-			m_wndTypeList.SetItemData(1, (DWORD)"compact");
-			m_wndTypeList.InsertItem(2, "Custom installation");
-			m_wndTypeList.SetItemData(2, (DWORD)"custom");
+			m_wndTypeList.InsertItem(0, _T("Full installation"));
+			m_wndTypeList.SetItemData(0, (DWORD)_T("full"));
+			m_wndTypeList.InsertItem(1, _T("Compact installation"));
+			m_wndTypeList.SetItemData(1, (DWORD)_T("compact"));
+			m_wndTypeList.InsertItem(2, _T("Custom installation"));
+			m_wndTypeList.SetItemData(2, (DWORD)_T("custom"));
 		} else {
 			int nItem = 0;
 			for (int nPos = 0; nPos < listTypes.GetSize(); nPos++) {
 				CScriptLine* pLine = listTypes[nPos];
 				if (pLine->GetComment()) continue;
-				LPCTSTR pszType = pLine->GetParameter("Name");
-				m_wndTypeList.InsertItem(nItem, pLine->GetParameter("Description"));
+				LPCTSTR pszType = pLine->GetParameter(_T("Name"));
+				m_wndTypeList.InsertItem(nItem, pLine->GetParameter(_T("Description")));
 				m_wndTypeList.SetItemData(nItem, (DWORD)pszType);
 				nItem++;
 			}
@@ -91,7 +91,7 @@ public:
 			int nState = -1;
 			for (int nPos = 0; nPos < m_list.GetSize(); nPos++) {
 				CScriptLine* pLine = m_list[nPos];
-				if (pLine->GetParameterFlag("Types", pszType)) {
+				if (pLine->GetParameterFlag(_T("Types"), pszType)) {
 					if (nState < 0) {
 						nState = 1;
 					} else if (nState != 1) {
@@ -120,32 +120,32 @@ public:
 		for (int nPos = 0; nPos < m_list.GetSize(); nPos++) {
 			CScriptLine* pItem = m_list[nPos];
 
-			if (m_strName.CompareNoCase(SAFESTR(pItem->GetParameter("Name")))) m_strName.Empty();
-			if (m_strDescription.CompareNoCase(SAFESTR(pItem->GetParameter("Description")))) m_strDescription.Empty();
-			if (m_strExtraDiskSpaceRequired.CompareNoCase(SAFESTR(pItem->GetParameter("ExtraDiskSpaceRequired")))) m_strExtraDiskSpaceRequired.Empty();
+			if (m_strName.CompareNoCase(SAFESTR(pItem->GetParameter(_T("Name"))))) m_strName.Empty();
+			if (m_strDescription.CompareNoCase(SAFESTR(pItem->GetParameter(_T("Description"))))) m_strDescription.Empty();
+			if (m_strExtraDiskSpaceRequired.CompareNoCase(SAFESTR(pItem->GetParameter(_T("ExtraDiskSpaceRequired"))))) m_strExtraDiskSpaceRequired.Empty();
 
 			//Flags
-			if (m_bFixed != (pItem->GetParameterFlag("Flags", "fixed") ? TRUE : FALSE)) {
+			if (m_bFixed != (pItem->GetParameterFlag(_T("Flags"), _T("fixed")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_COMPONENT_FIXED).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_bFixed = 2;
 			}
-			if (m_bRestart != (pItem->GetParameterFlag("Flags", "restart") ? TRUE : FALSE)) {
+			if (m_bRestart != (pItem->GetParameterFlag(_T("Flags"), _T("restart")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_COMPONENT_RESTART).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_bRestart = 2;
 			}
-			if (m_nDisableNoUninstallWarning != (pItem->GetParameterFlag("Flags", "disablenouninstallwarning") ? TRUE : FALSE)) {
+			if (m_nDisableNoUninstallWarning != (pItem->GetParameterFlag(_T("Flags"), _T("disablenouninstallwarning")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_COMPONENT_DISABLENOUNINSTALLWARNING).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nDisableNoUninstallWarning = 2;
 			}
-			if (m_nExclusive != (pItem->GetParameterFlag("Flags", "exclusive") ? TRUE : FALSE)) {
+			if (m_nExclusive != (pItem->GetParameterFlag(_T("Flags"), _T("exclusive")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_COMPONENTSEXCLUSIVE).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nExclusive = 2;
 			}
-			if (m_nDontInheritCheck != (pItem->GetParameterFlag("Flags", "dontinheritcheck") ? TRUE : FALSE)) {
+			if (m_nDontInheritCheck != (pItem->GetParameterFlag(_T("Flags"), _T("dontinheritcheck")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_DONTINHERITCHECK).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nDontInheritCheck = 2;
 			}
-			if (m_nCheckableAlone != (pItem->GetParameterFlag("Flags", "checkablealone") ? TRUE : FALSE)) {
+			if (m_nCheckableAlone != (pItem->GetParameterFlag(_T("Flags"), _T("checkablealone")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_CHECKABLEALONE).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nCheckableAlone = 2;
 			}
@@ -202,32 +202,32 @@ public:
 			m_strName.Replace(' ', '_');
 
 			if (bForce) {
-				CString strOldName(pItem->GetParameter("Name"));
+				CString strOldName(pItem->GetParameter(_T("Name")));
 				if (strOldName.CompareNoCase(m_strName)) {
 					CFilesHelper(m_pDoc).RenameComponent(strOldName, m_strName);
 				}
 			}
 
-			CInnoScriptEx::SetString(pItem, bForce, "Name", m_strName);
-			CInnoScriptEx::SetString(pItem, bForce, "Description", m_strDescription);
-			CInnoScriptEx::SetString(pItem, bForce, "ExtraDiskSpaceRequired", m_strExtraDiskSpaceRequired);
+			CInnoScriptEx::SetString(pItem, bForce, _T("Name"), m_strName);
+			CInnoScriptEx::SetString(pItem, bForce, _T("Description"), m_strDescription);
+			CInnoScriptEx::SetString(pItem, bForce, _T("ExtraDiskSpaceRequired"), m_strExtraDiskSpaceRequired);
 
 			// Flags
-			CInnoScriptEx::SetFlag(pItem, "Flags", "fixed", m_bFixed);
-			CInnoScriptEx::SetFlag(pItem, "Flags", "restart", m_bRestart);
-			CInnoScriptEx::SetFlag(pItem, "Flags", "disablenouninstallwarning", m_nDisableNoUninstallWarning);
-			CInnoScriptEx::SetFlag(pItem, "Flags", "exclusive", m_nExclusive);
-			CInnoScriptEx::SetFlag(pItem, "Flags", "dontinheritcheck", m_nDontInheritCheck);
-			CInnoScriptEx::SetFlag(pItem, "Flags", "checkablealone", m_nCheckableAlone);
+			CInnoScriptEx::SetFlag(pItem, _T("Flags"), _T("fixed"), m_bFixed);
+			CInnoScriptEx::SetFlag(pItem, _T("Flags"), _T("restart"), m_bRestart);
+			CInnoScriptEx::SetFlag(pItem, _T("Flags"), _T("disablenouninstallwarning"), m_nDisableNoUninstallWarning);
+			CInnoScriptEx::SetFlag(pItem, _T("Flags"), _T("exclusive"), m_nExclusive);
+			CInnoScriptEx::SetFlag(pItem, _T("Flags"), _T("dontinheritcheck"), m_nDontInheritCheck);
+			CInnoScriptEx::SetFlag(pItem, _T("Flags"), _T("checkablealone"), m_nCheckableAlone);
 
 			UINT nCount = m_wndTypeList.GetItemCount();
 			while (nCount--) {
 				LPCTSTR pszType = (LPCTSTR)m_wndTypeList.GetItemData(nCount);
 				if (m_wndTypeList.GetCheckState(nCount))
-					pItem->SetParameterFlag("Types", pszType, true);
+					pItem->SetParameterFlag(_T("Types"), pszType, true);
 				//pItem->SetType(pszType,false);
 				else
-					pItem->SetParameterFlag("Types", pszType, false);
+					pItem->SetParameterFlag(_T("Types"), pszType, false);
 				//pItem->SetType(pszType,true);
 			}
 		}
@@ -270,16 +270,16 @@ public:
 		for (int nPos = 0; nPos < m_list.GetSize(); nPos++) {
 			CInnoScript::CLine* pItem = m_list[nPos];
 
-			m_strName = pItem->GetParameter("Name");
-			m_strDescription = pItem->GetParameter("Description");
-			m_strExtraDiskSpaceRequired = pItem->GetParameter("ExtraDiskSpaceRequired");
+			m_strName = pItem->GetParameter(_T("Name"));
+			m_strDescription = pItem->GetParameter(_T("Description"));
+			m_strExtraDiskSpaceRequired = pItem->GetParameter(_T("ExtraDiskSpaceRequired"));
 			//Flags
-			m_bFixed = pItem->GetParameterFlag("Flags", "fixed");
-			m_bRestart = pItem->GetParameterFlag("Flags", "restart");
-			m_nDisableNoUninstallWarning = pItem->GetParameterFlag("Flags", "disablenouninstallwarning");
-			m_nExclusive = pItem->GetParameterFlag("Flags", "exclusive");
-			m_nDontInheritCheck = pItem->GetParameterFlag("Flags", "dontinheritcheck");
-			m_nCheckableAlone = pItem->GetParameterFlag("Flags", "checkablealone");
+			m_bFixed = pItem->GetParameterFlag(_T("Flags"), _T("fixed"));
+			m_bRestart = pItem->GetParameterFlag(_T("Flags"), _T("restart"));
+			m_nDisableNoUninstallWarning = pItem->GetParameterFlag(_T("Flags"), _T("disablenouninstallwarning"));
+			m_nExclusive = pItem->GetParameterFlag(_T("Flags"), _T("exclusive"));
+			m_nDontInheritCheck = pItem->GetParameterFlag(_T("Flags"), _T("dontinheritcheck"));
+			m_nCheckableAlone = pItem->GetParameterFlag(_T("Flags"), _T("checkablealone"));
 			break;
 		}
 	}

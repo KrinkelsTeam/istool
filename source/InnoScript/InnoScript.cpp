@@ -18,28 +18,28 @@ static const struct {
 	CInnoScript::SECTION	m_sec;
 	LPCTSTR					m_pszName;
 } m_sectionnames[] = {
-	CInnoScript::SEC_SETUP,				"Setup",
-	CInnoScript::SEC_DIRS,				"Dirs",
-	CInnoScript::SEC_FILES,				"Files",
-	CInnoScript::SEC_ICONS,				"Icons",
-	CInnoScript::SEC_INI,				"INI",
-	CInnoScript::SEC_INSTALLDELETE,		"InstallDelete",
-	CInnoScript::SEC_MESSAGES,			"Messages",
-	CInnoScript::SEC_REGISTRY,			"Registry",
-	CInnoScript::SEC_RUN,				"Run",
-	CInnoScript::SEC_UNINSTALLDELETE,	"UninstallDelete",
-	CInnoScript::SEC_UNINSTALLRUN,		"UninstallRun",
-	CInnoScript::SEC_TYPES,				"Types",
-	CInnoScript::SEC_COMPONENTS,		"Components",
-	CInnoScript::SEC_TASKS,				"Tasks",
-	CInnoScript::SEC_LANGOPTIONS,		"LangOptions",
-	CInnoScript::SEC_CODE,				"Code",
-	CInnoScript::SEC_LANGUAGES,			"Languages",
-	CInnoScript::SEC_CUSTOMMESSAGES,	"CustomMessages",
-	CInnoScript::PRJ_PRECOMPILESTEPS,	"_ISToolPreCompile",
-	CInnoScript::PRJ_POSTCOMPILESTEPS,	"_ISToolPostCompile",
-	CInnoScript::PRJ_DOWNLOAD,			"_ISToolDownload",
-	CInnoScript::PRJ_ISTOOL,			"_ISTool",
+	CInnoScript::SEC_SETUP,				_T("Setup"),
+	CInnoScript::SEC_DIRS,				_T("Dirs"),
+	CInnoScript::SEC_FILES,				_T("Files"),
+	CInnoScript::SEC_ICONS,				_T("Icons"),
+	CInnoScript::SEC_INI,				_T("INI"),
+	CInnoScript::SEC_INSTALLDELETE,		_T("InstallDelete"),
+	CInnoScript::SEC_MESSAGES,			_T("Messages"),
+	CInnoScript::SEC_REGISTRY,			_T("Registry"),
+	CInnoScript::SEC_RUN,				_T("Run"),
+	CInnoScript::SEC_UNINSTALLDELETE,	_T("UninstallDelete"),
+	CInnoScript::SEC_UNINSTALLRUN,		_T("UninstallRun"),
+	CInnoScript::SEC_TYPES,				_T("Types"),
+	CInnoScript::SEC_COMPONENTS,		_T("Components"),
+	CInnoScript::SEC_TASKS,				_T("Tasks"),
+	CInnoScript::SEC_LANGOPTIONS,		_T("LangOptions"),
+	CInnoScript::SEC_CODE,				_T("Code"),
+	CInnoScript::SEC_LANGUAGES,			_T("Languages"),
+	CInnoScript::SEC_CUSTOMMESSAGES,	_T("CustomMessages"),
+	CInnoScript::PRJ_PRECOMPILESTEPS,	_T("_ISToolPreCompile"),
+	CInnoScript::PRJ_POSTCOMPILESTEPS,	_T("_ISToolPostCompile"),
+	CInnoScript::PRJ_DOWNLOAD,			_T("_ISToolDownload"),
+	CInnoScript::PRJ_ISTOOL,			_T("_ISTool"),
 	CInnoScript::SEC_NONE,				NULL,
 };
 
@@ -71,7 +71,7 @@ void CInnoScript::Clear() {
 
 bool CInnoScript::LoadScript(LPCTSTR pszFileName) {
 	FILE* pFile;
-	errno_t err = fopen_s(&pFile, pszFileName, "r");
+	errno_t err = fopen_s(&pFile, pszFileName, _T("r"));
 	if (err != 0)
 		return false;
 
@@ -86,7 +86,7 @@ bool CInnoScript::AddLine(SECTION& sec, CString& strLine) {
 
 	// Concatenation
 #if 1
-	if (!strLine.Right(2).Compare(" \\")) {
+	if (!strLine.Right(2).Compare(_T(" \\"))) {
 		dwUserFlags |= CLine::FLG_CONCAT;
 		strLine = strLine.Left(strLine.GetLength() - 2);
 		strLine.ReleaseBuffer();
@@ -188,7 +188,7 @@ bool CInnoScript::LoadScript(FILE* pFile) {
 	while (fgets(szLine, sizeof szLine, pFile)) {
 		strLine = szLine;
 		strLine.TrimRight();
-		if (strLine.GetLength() > 2 && strLine.Left(2) == "[/")
+		if (strLine.GetLength() > 2 && strLine.Left(2) == _T("[/"))
 			continue;
 		AddLine(sec, strLine);
 	}
@@ -204,29 +204,29 @@ bool CInnoScript::WriteScript(FILE* fp) {
 		if (pLine->GetSection() != sec) {
 #if 0
 			if (sec != SEC_NONE)
-				fprintf(fp, "[/%s]\r\n", m_sectionnames[sec].m_pszName);
+				fprintf(fp, _T("[/%s]\r\n"), m_sectionnames[sec].m_pszName);
 #endif
 			sec = pLine->GetSection();
 			if (sec != SEC_NONE) {
-				fprintf(fp, "[%s]\r\n", m_sectionnames[sec].m_pszName);
+				fprintf(fp, _T("[%s]\r\n"), m_sectionnames[sec].m_pszName);
 			}
 		}
 
 		// Write line
 		char szLine[5000];
 		pLine->Write(szLine, 5000);
-		fprintf(fp, "%s\r\n", szLine);
+		fprintf(fp, _T("%s\r\n"), szLine);
 	}
 #if 0
 	if (sec != SEC_NONE)
-		fprintf(fp, "[/%s]\r\n", m_sectionnames[sec].m_pszName);
+		fprintf(fp, _T("[/%s]\r\n"), m_sectionnames[sec].m_pszName);
 #endif
 	return true;
 }
 
 bool CInnoScript::WriteScript(LPCTSTR pszName) {
 	FILE* fp;
-	errno_t err = fopen_s(&fp, pszName, "wb");
+	errno_t err = fopen_s(&fp, pszName, _T("wb"));
 	bool bRet = false;
 	if (err == 0 && fp) {
 		bRet = WriteScript(fp);

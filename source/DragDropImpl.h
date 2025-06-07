@@ -165,7 +165,7 @@ public:
 	virtual HRESULT STDMETHODCALLTYPE QueryInterface( 
 		/* [in] */ REFIID riid,
 		/* [iid_is][out] */ void __RPC_FAR *__RPC_FAR *ppvObject);
-	virtual ULONG STDMETHODCALLTYPE AddRef( void) { ATLTRACE("CIDropTarget::AddRef\n"); return ++m_cRefCount; }
+	virtual ULONG STDMETHODCALLTYPE AddRef( void) { ATLTRACE(_T("CIDropTarget::AddRef\n")); return ++m_cRefCount; }
 	virtual ULONG STDMETHODCALLTYPE Release( void);
 
     bool QueryDrop(DWORD grfKeyState, LPDWORD pdwEffect);

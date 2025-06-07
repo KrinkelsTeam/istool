@@ -77,15 +77,15 @@ public:
 		DoDataExchange(DDX_SAVE);
 		CInnoScriptEx& script = m_pDoc->GetScript();
 
-		script.SetPropertyBool("CreateAppDir", m_bCreateAppDir ? true : false);
-		script.SetPropertyBool("DisableDirPage", m_bDisableDirPage ? true : false);
-		script.SetPropertyString("DefaultDirName", m_strDefaultDirName);
-		script.SetPropertyBool("EnableDirDoesntExistWarning", m_bEnableDirDoesntExistWarning ? true : false);
-		script.SetPropertyBool("AllowRootDirectory", m_bAllowRootDirectory ? true : false);
-		script.SetPropertyBool("UsePreviousAppDir", m_bUsePreviousAppDir ? true : false);
-		script.SetPropertyString("DirExistsWarning", script.GetDirExistsWarning(m_nDirExistsWarning));
-		script.SetPropertyBool("AllowUNCPath", m_bAllowUNCPath ? true : false);
-		script.SetPropertyBool("AppendDefaultDirName", m_bAppendDefaultDirName ? true : false);
+		script.SetPropertyBool(_T("CreateAppDir"), m_bCreateAppDir ? true : false);
+		script.SetPropertyBool(_T("DisableDirPage"), m_bDisableDirPage ? true : false);
+		script.SetPropertyString(_T("DefaultDirName"), m_strDefaultDirName);
+		script.SetPropertyBool(_T("EnableDirDoesntExistWarning"), m_bEnableDirDoesntExistWarning ? true : false);
+		script.SetPropertyBool(_T("AllowRootDirectory"), m_bAllowRootDirectory ? true : false);
+		script.SetPropertyBool(_T("UsePreviousAppDir"), m_bUsePreviousAppDir ? true : false);
+		script.SetPropertyString(_T("DirExistsWarning"), script.GetDirExistsWarning(m_nDirExistsWarning));
+		script.SetPropertyBool(_T("AllowUNCPath"), m_bAllowUNCPath ? true : false);
+		script.SetPropertyBool(_T("AppendDefaultDirName"), m_bAppendDefaultDirName ? true : false);
 
 		return PSNRET_NOERROR;
 	}
@@ -130,15 +130,15 @@ public:
 	{
 		CInnoScriptEx& script = m_pDoc->GetScript();
 
-		m_bCreateAppDir = script.GetPropertyBool("CreateAppDir");
-		m_bDisableDirPage = script.GetPropertyBool("DisableDirPage");
-		m_strDefaultDirName = script.GetPropertyString("DefaultDirName");
-		m_bEnableDirDoesntExistWarning = script.GetPropertyBool("EnableDirDoesntExistWarning");
-		m_bAllowRootDirectory = script.GetPropertyBool("AllowRootDirectory");
-		m_bUsePreviousAppDir = script.GetPropertyBool("UsePreviousAppDir");
-		m_nDirExistsWarning = script.GetDirExistsWarning(script.GetPropertyString("DirExistsWarning"));
-		m_bAllowUNCPath = script.GetPropertyBool("AllowUNCPath");
-		m_bAppendDefaultDirName = script.GetPropertyBool("AppendDefaultDirName");
+		m_bCreateAppDir = script.GetPropertyBool(_T("CreateAppDir"));
+		m_bDisableDirPage = script.GetPropertyBool(_T("DisableDirPage"));
+		m_strDefaultDirName = script.GetPropertyString(_T("DefaultDirName"));
+		m_bEnableDirDoesntExistWarning = script.GetPropertyBool(_T("EnableDirDoesntExistWarning"));
+		m_bAllowRootDirectory = script.GetPropertyBool(_T("AllowRootDirectory"));
+		m_bUsePreviousAppDir = script.GetPropertyBool(_T("UsePreviousAppDir"));
+		m_nDirExistsWarning = script.GetDirExistsWarning(script.GetPropertyString(_T("DirExistsWarning")));
+		m_bAllowUNCPath = script.GetPropertyBool(_T("AllowUNCPath"));
+		m_bAppendDefaultDirName = script.GetPropertyBool(_T("AppendDefaultDirName"));
 	}
 
 	BEGIN_TOOLTIP_MAP()

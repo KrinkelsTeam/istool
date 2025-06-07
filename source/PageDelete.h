@@ -49,9 +49,9 @@ public:
 		for (int nPos = 0; nPos < m_list.GetSize(); nPos++) {
 			CInnoScript::CLine* pItem = m_list[nPos];
 
-			if (m_strName.CompareNoCase(SAFESTR(pItem->GetParameter("Name"))))
+			if (m_strName.CompareNoCase(SAFESTR(pItem->GetParameter(_T("Name")))))
 				m_strName.Empty();
-			if (m_nType != CInnoScriptEx::GetDeleteType(pItem->GetParameter("Type")))
+			if (m_nType != CInnoScriptEx::GetDeleteType(pItem->GetParameter(_T("Type"))))
 				m_nType = -1;
 		}
 		DoDataExchange(DDX_LOAD);
@@ -85,8 +85,8 @@ public:
 
 		for (int nPos = 0; nPos < m_list.GetSize(); nPos++) {
 			CInnoScript::CLine* pItem = m_list[nPos];
-			if (bForce || !m_strName.IsEmpty()) pItem->SetParameter("Name", m_strName);
-			if (bForce || m_nType != -1) pItem->SetParameter("Type", CInnoScriptEx::GetDeleteType(m_nType));
+			if (bForce || !m_strName.IsEmpty()) pItem->SetParameter(_T("Name"), m_strName);
+			if (bForce || m_nType != -1) pItem->SetParameter(_T("Type"), CInnoScriptEx::GetDeleteType(m_nType));
 		}
 		return PSNRET_NOERROR;
 	}
@@ -107,8 +107,8 @@ public:
 		for (int nPos = 0; nPos < m_list.GetSize(); nPos++) {
 			CInnoScript::CLine* pItem = m_list[nPos];
 
-			m_strName = pItem->GetParameter("Name");
-			m_nType = CInnoScriptEx::GetDeleteType(pItem->GetParameter("Type"));
+			m_strName = pItem->GetParameter(_T("Name"));
+			m_nType = CInnoScriptEx::GetDeleteType(pItem->GetParameter(_T("Type")));
 			break;
 		}
 	}

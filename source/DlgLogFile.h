@@ -29,16 +29,16 @@ public:
 	BOOL		m_bLogFileAppend;
 	Henden::CButtonFile	m_wndLogFile;
 
-	CDlgLogFile(CInnoScriptEx& script) : m_script(script), m_wndLogFile(false, "Log Files (*.log)|*.log|All Files (*.*)|*.*|") {
-		m_strLogFile = m_script.GetPropertyString("LogFile", CInnoScript::PRJ_ISTOOL);
-		m_bLogFileAppend = m_script.GetPropertyBool("LogFileAppend", CInnoScript::PRJ_ISTOOL);
+	CDlgLogFile(CInnoScriptEx& script) : m_script(script), m_wndLogFile(false, _T("Log Files (*.log)|*.log|All Files (*.*)|*.*|")) {
+		m_strLogFile = m_script.GetPropertyString(_T("LogFile"), CInnoScript::PRJ_ISTOOL);
+		m_bLogFileAppend = m_script.GetPropertyBool(_T("LogFileAppend"), CInnoScript::PRJ_ISTOOL);
 	}
 
 	LRESULT OnCloseCmd(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {
 		DoDataExchange(DDX_SAVE);
 		if (wID == IDOK) {
-			m_script.SetPropertyString("LogFile", m_strLogFile, CInnoScript::PRJ_ISTOOL);
-			m_script.SetPropertyBool("LogFileAppend", m_bLogFileAppend ? true : false, CInnoScript::PRJ_ISTOOL);
+			m_script.SetPropertyString(_T("LogFile"), m_strLogFile, CInnoScript::PRJ_ISTOOL);
+			m_script.SetPropertyBool(_T("LogFileAppend"), m_bLogFileAppend ? true : false, CInnoScript::PRJ_ISTOOL);
 		}
 		EndDialog(wID);
 		return 0;

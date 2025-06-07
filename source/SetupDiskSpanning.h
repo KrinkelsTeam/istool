@@ -61,11 +61,11 @@ public:
 		DoDataExchange(DDX_SAVE);
 		CInnoScriptEx& script = m_pDoc->GetScript();
 
-		script.SetPropertyBool("DiskSpanning", m_bDiskSpanning ? true : false);
-		script.SetPropertyNumber("DiskClusterSize", m_nDiskClusterSize);
-		script.SetPropertyNumber("ReserveBytes", m_nReserveBytes);
-		script.SetPropertyString("DiskSliceSize", m_strDiskSliceSize);
-		script.SetPropertyString("SlicesPerDisk", m_strSlicesPerDisk);
+		script.SetPropertyBool(_T("DiskSpanning"), m_bDiskSpanning ? true : false);
+		script.SetPropertyNumber(_T("DiskClusterSize"), m_nDiskClusterSize);
+		script.SetPropertyNumber(_T("ReserveBytes"), m_nReserveBytes);
+		script.SetPropertyString(_T("DiskSliceSize"), m_strDiskSliceSize);
+		script.SetPropertyString(_T("SlicesPerDisk"), m_strSlicesPerDisk);
 
 		return PSNRET_NOERROR;
 	}
@@ -77,11 +77,11 @@ public:
 	{
 		CInnoScriptEx& script = m_pDoc->GetScript();
 
-		m_bDiskSpanning = script.GetPropertyBool("DiskSpanning");
-		m_nDiskClusterSize = script.GetPropertyNumber("DiskClusterSize");
-		m_nReserveBytes = script.GetPropertyNumber("ReserveBytes");
-		m_strDiskSliceSize = script.GetPropertyString("DiskSliceSize");
-		m_strSlicesPerDisk = script.GetPropertyString("SlicesPerDisk");
+		m_bDiskSpanning = script.GetPropertyBool(_T("DiskSpanning"));
+		m_nDiskClusterSize = script.GetPropertyNumber(_T("DiskClusterSize"));
+		m_nReserveBytes = script.GetPropertyNumber(_T("ReserveBytes"));
+		m_strDiskSliceSize = script.GetPropertyString(_T("DiskSliceSize"));
+		m_strSlicesPerDisk = script.GetPropertyString(_T("SlicesPerDisk"));
 	}
 
 	LRESULT OnDiskSpanning(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {

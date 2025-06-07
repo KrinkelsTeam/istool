@@ -82,9 +82,9 @@ public:
 		m_wndSetupIconFile.SubclassWindow(GetDlgItem(IDC_SETUPICONFILE_B));
 
 		CInnoScriptEx& script = m_pDoc->GetScript();
-		m_wndBackColor.SetInnoColor(script.GetPropertyString("BackColor"));
-		m_wndBackColor2.SetInnoColor(script.GetPropertyString("BackColor2"));
-		m_wndWizardImageBackColor.SetInnoColor(script.GetPropertyString("WizardImageBackColor"));
+		m_wndBackColor.SetInnoColor(script.GetPropertyString(_T("BackColor")));
+		m_wndBackColor2.SetInnoColor(script.GetPropertyString(_T("BackColor2")));
+		m_wndWizardImageBackColor.SetInnoColor(script.GetPropertyString(_T("WizardImageBackColor")));
 
 		CComboBox box(GetDlgItem(IDC_BACKCOLORDIRECTION));
 		box.AddString(_L("Appearance|BackColorDirection|TopBottom", "Top to bottom"));
@@ -102,29 +102,29 @@ public:
 
 		CString strTmp;
 
-		script.SetPropertyBool("BackSolid", m_bBackSolid ? true : false);
-		script.SetPropertyBool("WindowShowCaption", m_bWindowShowCaption ? true : false);
-		script.SetPropertyBool("WindowStartMaximized", m_bWindowStartMaximized ? true : false);
-		script.SetPropertyBool("WindowResizable", m_bWindowResizable ? true : false);
-		script.SetPropertyBool("WindowVisible", m_bWindowVisible ? true : false);
-		script.SetPropertyString("WizardImageFile", m_strWizardImageFile);
-		script.SetPropertyString("BackColorDirection", script.GetBackColorDirection(m_nBackColorDirection));
+		script.SetPropertyBool(_T("BackSolid"), m_bBackSolid ? true : false);
+		script.SetPropertyBool(_T("WindowShowCaption"), m_bWindowShowCaption ? true : false);
+		script.SetPropertyBool(_T("WindowStartMaximized"), m_bWindowStartMaximized ? true : false);
+		script.SetPropertyBool(_T("WindowResizable"), m_bWindowResizable ? true : false);
+		script.SetPropertyBool(_T("WindowVisible"), m_bWindowVisible ? true : false);
+		script.SetPropertyString(_T("WizardImageFile"), m_strWizardImageFile);
+		script.SetPropertyString(_T("BackColorDirection"), script.GetBackColorDirection(m_nBackColorDirection));
 
 		m_wndBackColor.GetInnoColor(strTmp);
-		script.SetPropertyString("BackColor", strTmp);
+		script.SetPropertyString(_T("BackColor"), strTmp);
 
 		m_wndBackColor2.GetInnoColor(strTmp);
-		script.SetPropertyString("BackColor2", strTmp);
+		script.SetPropertyString(_T("BackColor2"), strTmp);
 
 		m_wndWizardImageBackColor.GetInnoColor(strTmp);
-		script.SetPropertyString("WizardImageBackColor", strTmp);
+		script.SetPropertyString(_T("WizardImageBackColor"), strTmp);
 
 		// Inno Setup 2.0.0
-		script.SetPropertyString("WizardSmallImageFile", m_strWizardSmallImageFile);
+		script.SetPropertyString(_T("WizardSmallImageFile"), m_strWizardSmallImageFile);
 		// Inno Setup 4.1.0
-		script.SetPropertyString("SetupIconFile", m_strSetupIconFile);
+		script.SetPropertyString(_T("SetupIconFile"), m_strSetupIconFile);
 		// Inno Script 4.1.3
-		script.SetPropertyBool("WizardImageStretch", m_bWizardImageStretch ? true : false);
+		script.SetPropertyBool(_T("WizardImageStretch"), m_bWizardImageStretch ? true : false);
 		return PSNRET_NOERROR;
 	}
 
@@ -156,26 +156,26 @@ public:
 	CSetupAppearance(CMyDoc* pDoc, const bool bNew, LPCTSTR pszTitle) :
 		m_pDoc(pDoc),
 		m_bNew(bNew),
-		m_wndWizardSmallImageFile(true, "Bitmap Files (*.bmp)|*.bmp|All Files (*.*)|*.*||"),
-		m_btnWizardImageFile(true, "Bitmap Files (*.bmp)|*.bmp|All Files (*.*)|*.*||"),
-		m_wndSetupIconFile(true, "Icon Files (*.ico)|*.ico|All Files (*.*)|*.*||"),
+		m_wndWizardSmallImageFile(true, _T("Bitmap Files (*.bmp)|*.bmp|All Files (*.*)|*.*||")),
+		m_btnWizardImageFile(true, _T("Bitmap Files (*.bmp)|*.bmp|All Files (*.*)|*.*||")),
+		m_wndSetupIconFile(true, _T("Icon Files (*.ico)|*.ico|All Files (*.*)|*.*||")),
 		CPropertyPageImpl<CSetupAppearance>(pszTitle)
 	{
 		CInnoScriptEx& script = m_pDoc->GetScript();
 
-		m_bBackSolid = script.GetPropertyBool("BackSolid");
-		m_bWindowShowCaption = script.GetPropertyBool("WindowShowCaption");
-		m_bWindowStartMaximized = script.GetPropertyBool("WindowStartMaximized");
-		m_bWindowResizable = script.GetPropertyBool("WindowResizable");
-		m_bWindowVisible = script.GetPropertyBool("WindowVisible");
-		m_strWizardImageFile = script.GetPropertyString("WizardImageFile");
-		m_nBackColorDirection = script.GetBackColorDirection(script.GetPropertyString("BackColorDirection"));
+		m_bBackSolid = script.GetPropertyBool(_T("BackSolid"));
+		m_bWindowShowCaption = script.GetPropertyBool(_T("WindowShowCaption"));
+		m_bWindowStartMaximized = script.GetPropertyBool(_T("WindowStartMaximized"));
+		m_bWindowResizable = script.GetPropertyBool(_T("WindowResizable"));
+		m_bWindowVisible = script.GetPropertyBool(_T("WindowVisible"));
+		m_strWizardImageFile = script.GetPropertyString(_T("WizardImageFile"));
+		m_nBackColorDirection = script.GetBackColorDirection(script.GetPropertyString(_T("BackColorDirection")));
 		// Inno Setup 2.0.0
-		m_strWizardSmallImageFile = script.GetPropertyString("WizardSmallImageFile");
+		m_strWizardSmallImageFile = script.GetPropertyString(_T("WizardSmallImageFile"));
 		// Inno Setup 4.1.0
-		m_strSetupIconFile = script.GetPropertyString("SetupIconFile");
+		m_strSetupIconFile = script.GetPropertyString(_T("SetupIconFile"));
 		// Inno Setup 4.1.3
-		m_bWizardImageStretch = script.GetPropertyBool("WizardImageStretch");
+		m_bWizardImageStretch = script.GetPropertyBool(_T("WizardImageStretch"));
 	}
 
 	BEGIN_TOOLTIP_MAP()

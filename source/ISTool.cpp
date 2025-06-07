@@ -114,52 +114,52 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR lp
 /////////////////////////////////////////////////////////////////////////////
 // CMyApp construction
 
-const LPCTSTR CMyApp::m_pszKeyIS = "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Inno Setup 6_is1";
+const LPCTSTR CMyApp::m_pszKeyIS = _T("Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Inno Setup 6_is1");
 
-CMyApp::CMyApp() : m_mutex(FALSE, "ISTool") {}
+CMyApp::CMyApp() : m_mutex(FALSE, _T("ISTool")) {}
 
 /////////////////////////////////////////////////////////////////////////////
 // The one and only CMyApp object
 
-CMyPrefs CMyApp::m_prefs("Prefs");
+CMyPrefs CMyApp::m_prefs(_T("Prefs"));
 
 CMyPrefs::CMyPrefs(LPCTSTR pszSubKey) : m_strSubKey(pszSubKey) {}
 
 bool CMyPrefs::SavePrefs() {
 	CMyApp& app = *AfxGetApp();
 
-	app.WriteProfileString(m_strSubKey, "FontName", m_strFontName);
-	app.WriteProfileInt(m_strSubKey, "FontHeight", m_nFontHeight);
-	app.WriteProfileInt(m_strSubKey, "TabStopValue", m_nTabStopValue);
-	app.WriteProfileInt(m_strSubKey, "ShowVerticalTabLines", m_bShowVerticalTabLines ? 1 : 0);
-	app.WriteProfileInt(m_strSubKey, "AutoIndent", m_bAutoIndent ? 1 : 0);
-	app.WriteProfileInt(m_strSubKey, "ShowLineNumbers", m_bShowLineNumbers ? 1 : 0);
+	app.WriteProfileString(m_strSubKey, _T("FontName"), m_strFontName);
+	app.WriteProfileInt(m_strSubKey, _T("FontHeight"), m_nFontHeight);
+	app.WriteProfileInt(m_strSubKey, _T("TabStopValue"), m_nTabStopValue);
+	app.WriteProfileInt(m_strSubKey, _T("ShowVerticalTabLines"), m_bShowVerticalTabLines ? 1 : 0);
+	app.WriteProfileInt(m_strSubKey, _T("AutoIndent"), m_bAutoIndent ? 1 : 0);
+	app.WriteProfileInt(m_strSubKey, _T("ShowLineNumbers"), m_bShowLineNumbers ? 1 : 0);
 
-	app.WriteProfileInt(m_strSubKey, "ReplaceCopy", m_bReplaceCopy ? 1 : 0);
-	app.WriteProfileInt(m_strSubKey, "AutoComponentSelect", m_bAutoComponentSelect ? 1 : 0);
-	app.WriteProfileInt(m_strSubKey, "TestCompiledSetup", m_bTestCompiledSetup ? 1 : 0);
-	app.WriteProfileInt(m_strSubKey, "FilesAsList", m_bFilesList ? 1 : 0);
-	app.WriteProfileInt(m_strSubKey, "IconsAsList", m_bIconsList ? 1 : 0);
-	app.WriteProfileInt(m_strSubKey, "RegistryAsList", m_bRegistryList ? 1 : 0);
-	app.WriteProfileInt(m_strSubKey, "IgnoreDefaults", m_bIgnoreDefaults ? 1 : 0);
-	app.WriteProfileInt(m_strSubKey, "OverwriteMessages", m_bOverwriteMessages ? 1 : 0);
-	app.WriteProfileString(m_strSubKey, "InnoFolder", m_strInnoFolder);
-	app.WriteProfileString(m_strSubKey, "ScriptFolder", m_strScriptFolder);
-	app.WriteProfileInt(m_strSubKey, "ToolBar", m_bToolBar ? 1 : 0);
-	app.WriteProfileInt(m_strSubKey, "StatusBar", m_bStatusBar ? 1 : 0);
-	app.WriteProfileInt(m_strSubKey, "SectionPanel", m_bSectionPanel ? 1 : 0);
-	app.WriteProfileInt(m_strSubKey, "OpenLastProject", m_bOpenLastProject ? 1 : 0);
-	app.WriteProfileInt(m_strSubKey, "ShowNewWizard", m_bShowNewWizard ? 1 : 0);
-	app.WriteProfileInt(m_strSubKey, "StartupSection", m_uStartupSection);
-	app.WriteProfileString(m_strSubKey, "LanguageFile", m_strLanguageFile);
-	app.WriteProfileInt(m_strSubKey, "SplitterPos", m_nSplitterPos);
-	app.WriteProfileInt(m_strSubKey, "PreProcess", m_bPreProcess ? 1 : 0);
-	app.WriteProfileInt(m_strSubKey, "NoOutputExeFilename", m_bNoOutputExeFilename ? 1 : 0);
+	app.WriteProfileInt(m_strSubKey, _T("ReplaceCopy"), m_bReplaceCopy ? 1 : 0);
+	app.WriteProfileInt(m_strSubKey, _T("AutoComponentSelect"), m_bAutoComponentSelect ? 1 : 0);
+	app.WriteProfileInt(m_strSubKey, _T("TestCompiledSetup"), m_bTestCompiledSetup ? 1 : 0);
+	app.WriteProfileInt(m_strSubKey, _T("FilesAsList"), m_bFilesList ? 1 : 0);
+	app.WriteProfileInt(m_strSubKey, _T("IconsAsList"), m_bIconsList ? 1 : 0);
+	app.WriteProfileInt(m_strSubKey, _T("RegistryAsList"), m_bRegistryList ? 1 : 0);
+	app.WriteProfileInt(m_strSubKey, _T("IgnoreDefaults"), m_bIgnoreDefaults ? 1 : 0);
+	app.WriteProfileInt(m_strSubKey, _T("OverwriteMessages"), m_bOverwriteMessages ? 1 : 0);
+	app.WriteProfileString(m_strSubKey, _T("InnoFolder"), m_strInnoFolder);
+	app.WriteProfileString(m_strSubKey, _T("ScriptFolder"), m_strScriptFolder);
+	app.WriteProfileInt(m_strSubKey, _T("ToolBar"), m_bToolBar ? 1 : 0);
+	app.WriteProfileInt(m_strSubKey, _T("StatusBar"), m_bStatusBar ? 1 : 0);
+	app.WriteProfileInt(m_strSubKey, _T("SectionPanel"), m_bSectionPanel ? 1 : 0);
+	app.WriteProfileInt(m_strSubKey, _T("OpenLastProject"), m_bOpenLastProject ? 1 : 0);
+	app.WriteProfileInt(m_strSubKey, _T("ShowNewWizard"), m_bShowNewWizard ? 1 : 0);
+	app.WriteProfileInt(m_strSubKey, _T("StartupSection"), m_uStartupSection);
+	app.WriteProfileString(m_strSubKey, _T("LanguageFile"), m_strLanguageFile);
+	app.WriteProfileInt(m_strSubKey, _T("SplitterPos"), m_nSplitterPos);
+	app.WriteProfileInt(m_strSubKey, _T("PreProcess"), m_bPreProcess ? 1 : 0);
+	app.WriteProfileInt(m_strSubKey, _T("NoOutputExeFilename"), m_bNoOutputExeFilename ? 1 : 0);
 
-	app.WriteProfileInt(m_strSubKey, "LanguageDirCount", m_languageDirs.GetCount());
+	app.WriteProfileInt(m_strSubKey, _T("LanguageDirCount"), m_languageDirs.GetCount());
 	for (UINT i = 0; i < m_languageDirs.GetCount(); i++) {
 		CString tmp;
-		tmp.Format("LanguageDir%02X", i);
+		tmp.Format(_T("LanguageDir%02X"), i);
 		app.WriteProfileString(m_strSubKey, tmp, m_languageDirs[i]);
 	}
 
@@ -170,39 +170,39 @@ bool CMyPrefs::SavePrefs() {
 bool CMyPrefs::LoadPrefs() {
 	CMyApp& app = *AfxGetApp();
 
-	m_strFontName = app.GetProfileString(m_strSubKey, "FontName", "Courier New");
-	m_nFontHeight = app.GetProfileInt(m_strSubKey, "FontHeight", 10);
-	m_nTabStopValue = app.GetProfileInt(m_strSubKey, "TabStopValue", 4);
-	m_bShowVerticalTabLines = app.GetProfileInt(m_strSubKey, "ShowVerticalTabLines", 1) != 0;
-	m_bAutoIndent = app.GetProfileInt(m_strSubKey, "AutoIndent", 1) != 0;
-	m_bShowLineNumbers = app.GetProfileInt(m_strSubKey, "ShowLineNumbers", 1) != 0;
+	m_strFontName = app.GetProfileString(m_strSubKey, _T("FontName"), _T("Courier New"));
+	m_nFontHeight = app.GetProfileInt(m_strSubKey, _T("FontHeight"), 10);
+	m_nTabStopValue = app.GetProfileInt(m_strSubKey, _T("TabStopValue"), 4);
+	m_bShowVerticalTabLines = app.GetProfileInt(m_strSubKey, _T("ShowVerticalTabLines"), 1) != 0;
+	m_bAutoIndent = app.GetProfileInt(m_strSubKey, _T("AutoIndent"), 1) != 0;
+	m_bShowLineNumbers = app.GetProfileInt(m_strSubKey, _T("ShowLineNumbers"), 1) != 0;
 
-	m_bReplaceCopy = app.GetProfileInt(m_strSubKey, "ReplaceCopy", 1) ? true : false;
-	m_bAutoComponentSelect = app.GetProfileInt(m_strSubKey, "AutoComponentSelect", 0) ? true : false;
-	m_bTestCompiledSetup = app.GetProfileInt(m_strSubKey, "TestCompiledSetup", 1) ? true : false;
-	m_bFilesList = app.GetProfileInt(m_strSubKey, "FilesAsList", 1) ? true : false;
-	m_bIconsList = app.GetProfileInt(m_strSubKey, "IconsAsList", 1) ? true : false;
-	m_bRegistryList = app.GetProfileInt(m_strSubKey, "RegistryAsList", 1) ? true : false;
-	m_bIgnoreDefaults = app.GetProfileInt(m_strSubKey, "IgnoreDefaults", 0) ? true : false;
-	m_bOverwriteMessages = app.GetProfileInt(m_strSubKey, "OverwriteMessages", 0) ? true : false;
-	m_strInnoFolder = app.GetProfileString(m_strSubKey, "InnoFolder");
-	m_strScriptFolder = app.GetProfileString(m_strSubKey, "ScriptFolder");
-	m_bToolBar = app.GetProfileInt(m_strSubKey, "ToolBar", 1) ? true : false;
-	m_bStatusBar = app.GetProfileInt(m_strSubKey, "StatusBar", 1) ? true : false;
-	m_bSectionPanel = app.GetProfileInt(m_strSubKey, "SectionPanel", 1) ? true : false;
-	m_bOpenLastProject = app.GetProfileInt(m_strSubKey, "OpenLastProject", 0) ? true : false;
-	m_bShowNewWizard = app.GetProfileInt(m_strSubKey, "ShowNewWizard", 1) ? true : false;
-	m_uStartupSection = app.GetProfileInt(m_strSubKey, "StartupSection", ID_VIEW_SCRIPT);
-	m_strLanguageFile = app.GetProfileString(m_strSubKey, "LanguageFile");
-	m_nSplitterPos = app.GetProfileInt(m_strSubKey, "SplitterPos", 164);
-	m_bPreProcess = app.GetProfileInt(m_strSubKey, "PreProcess", 0) ? true : false;
-	m_bNoOutputExeFilename = app.GetProfileInt(m_strSubKey, "NoOutputExeFilename", 1) ? true : false;
+	m_bReplaceCopy = app.GetProfileInt(m_strSubKey, _T("ReplaceCopy"), 1) ? true : false;
+	m_bAutoComponentSelect = app.GetProfileInt(m_strSubKey, _T("AutoComponentSelect"), 0) ? true : false;
+	m_bTestCompiledSetup = app.GetProfileInt(m_strSubKey, _T("TestCompiledSetup"), 1) ? true : false;
+	m_bFilesList = app.GetProfileInt(m_strSubKey, _T("FilesAsList"), 1) ? true : false;
+	m_bIconsList = app.GetProfileInt(m_strSubKey, _T("IconsAsList"), 1) ? true : false;
+	m_bRegistryList = app.GetProfileInt(m_strSubKey, _T("RegistryAsList"), 1) ? true : false;
+	m_bIgnoreDefaults = app.GetProfileInt(m_strSubKey, _T("IgnoreDefaults"), 0) ? true : false;
+	m_bOverwriteMessages = app.GetProfileInt(m_strSubKey, _T("OverwriteMessages"), 0) ? true : false;
+	m_strInnoFolder = app.GetProfileString(m_strSubKey, _T("InnoFolder"));
+	m_strScriptFolder = app.GetProfileString(m_strSubKey, _T("ScriptFolder"));
+	m_bToolBar = app.GetProfileInt(m_strSubKey, _T("ToolBar"), 1) ? true : false;
+	m_bStatusBar = app.GetProfileInt(m_strSubKey, _T("StatusBar"), 1) ? true : false;
+	m_bSectionPanel = app.GetProfileInt(m_strSubKey, _T("SectionPanel"), 1) ? true : false;
+	m_bOpenLastProject = app.GetProfileInt(m_strSubKey, _T("OpenLastProject"), 0) ? true : false;
+	m_bShowNewWizard = app.GetProfileInt(m_strSubKey, _T("ShowNewWizard"), 1) ? true : false;
+	m_uStartupSection = app.GetProfileInt(m_strSubKey, _T("StartupSection"), ID_VIEW_SCRIPT);
+	m_strLanguageFile = app.GetProfileString(m_strSubKey, _T("LanguageFile"));
+	m_nSplitterPos = app.GetProfileInt(m_strSubKey, _T("SplitterPos"), 164);
+	m_bPreProcess = app.GetProfileInt(m_strSubKey, _T("PreProcess"), 0) ? true : false;
+	m_bNoOutputExeFilename = app.GetProfileInt(m_strSubKey, _T("NoOutputExeFilename"), 1) ? true : false;
 
-	UINT iCount = app.GetProfileInt(m_strSubKey, "LanguageDirCount", 0);
+	UINT iCount = app.GetProfileInt(m_strSubKey, _T("LanguageDirCount"), 0);
 	while (iCount--) {
 		CString tmp;
-		tmp.Format("LanguageDir%02X", iCount);
-		CString str = app.GetProfileString(m_strSubKey, tmp, "");
+		tmp.Format(_T("LanguageDir%02X"), iCount);
+		CString str = app.GetProfileString(m_strSubKey, tmp, _T(""));
 		if (!str.IsEmpty())
 			m_languageDirs.InsertAt(0, str);
 	}
@@ -215,7 +215,7 @@ bool CMyPrefs::LoadPrefs() {
 
 		if (lRet == ERROR_SUCCESS) {
 			ULONG nChars = MAX_PATH;
-			rk.QueryStringValue("Inno Setup: App Path", m_strInnoFolder.GetBuffer(nChars), &nChars);
+			rk.QueryStringValue(_T("Inno Setup: App Path"), m_strInnoFolder.GetBuffer(nChars), &nChars);
 		}
 	}
 
@@ -242,24 +242,24 @@ BOOL CMyApp::InitInstance() {
 
 	// Locate help files
 #ifdef NDEBUG
-	SetHtmlHelpFile("ISTool.chm");
-	m_strCallTipsFile = "calltips.txt";
+	SetHtmlHelpFile(_T("ISTool.chm"));
+	m_strCallTipsFile = _T("calltips.txt");
 	CString strHelp;
 	if (::GetModuleFileName(_Module.GetModuleInstance(), strHelp.GetBuffer(_MAX_PATH), _MAX_PATH)) {
 		int nPos = strHelp.ReverseFind('\\');
 		if (nPos < 0) nPos = strHelp.ReverseFind('/');
 		if (nPos >= 0) {
 			strHelp.ReleaseBuffer(nPos + 1);
-			SetHtmlHelpFile(strHelp + "ISTool.chm");
-			m_strCallTipsFile = strHelp + "calltips.txt";
+			SetHtmlHelpFile(strHelp + _T("ISTool.chm"));
+			m_strCallTipsFile = strHelp + _T("calltips.txt");
 			m_strProgramPath = strHelp;
 			//CTransDialog::SetIndexFile(strHelp + "ISTool.idx");
 		}
 	}
 	CTranslate::AddFile(CMyApp::m_prefs.m_strLanguageFile);
 #else
-	SetHtmlHelpFile("U:\\ISTool\\help\\html\\ISTool.chm");
-	m_strCallTipsFile = "U:\\istool\\calltips.txt";
+	SetHtmlHelpFile(_T("U:\\ISTool\\help\\html\\ISTool.chm"));
+	m_strCallTipsFile = _T("U:\\istool\\calltips.txt");
 	//CTransDialog::SetIndexFile("U:\\ISTool\\distribution\\ISTool.idx");
 	//CTransDialog::SetLanguageFile("F:\\Utvk\\ISTool\\distribution\\German.lng");
 	CTranslate::AddFile(CMyApp::m_prefs.m_strLanguageFile);
@@ -317,13 +317,13 @@ BOOL CMyApp::InitInstance() {
 			CString txt = _L("NeedIS5", "You don't seem to have Inno Setup 6 installed. This is\nrequired to compile the scripts you create with ISTool.\n\nDo you want to go to https://www.innosetup.com/ and download it now?");
 			if (AtlMessageBox(AfxGetMainHWnd(), (LPCTSTR)txt, IDR_MAINFRAME, MB_YESNO | MB_ICONQUESTION) == IDYES) {
 				CWaitCursor wait;
-				ShellExecute(AfxGetMainHWnd(), "open", "https://www.innosetup.com/", NULL, NULL, SW_SHOWDEFAULT);
+				ShellExecute(AfxGetMainHWnd(), _T("open"), _T("https://www.innosetup.com/"), NULL, NULL, SW_SHOWDEFAULT);
 			}
 		}
 	}
 
 	FILE* fp;
-	if (fopen_s(&fp, m_strCallTipsFile, "rb") == 0) {
+	if (fopen_s(&fp, m_strCallTipsFile, _T("rb")) == 0) {
 		CString strLine;
 		long nSection = -1;
 		while (fgets(strLine.GetBuffer(1000), 1000, fp)) {
@@ -331,11 +331,11 @@ BOOL CMyApp::InitInstance() {
 			strLine.Trim();
 			if (strLine.IsEmpty() || strLine[0] == ';') continue;
 
-			if (!strLine.CompareNoCase("[functions]"))
+			if (!strLine.CompareNoCase(_T("[functions]")))
 				nSection = 1;
-			else if (!strLine.CompareNoCase("[constants]"))
+			else if (!strLine.CompareNoCase(_T("[constants]")))
 				nSection = 2;
-			else if (!strLine.CompareNoCase("[calltips]"))
+			else if (!strLine.CompareNoCase(_T("[calltips]")))
 				nSection = 3;
 			else if (nSection > 0) {
 				CString strName, strDescription;
@@ -386,17 +386,17 @@ void CMyApp::OpenHtmlHelp(UINT nCmd, DWORD dwData) {
 		UINT	m_nID;
 		LPCTSTR	m_pszTopic;
 	} m_topics[] = {
-		IDD_CUSTOMIZE,			"/customizevisiblecolumns.html",
-		IDD_PREFS_GENERAL,		"/generalpreferences.html",
-		IDD_PREFS_EDITOR,		"/editorpreferenes.html",
-		IDD_COMMON_LANGUAGES,	"/common_languages.html"
+		IDD_CUSTOMIZE,			_T("/customizevisiblecolumns.html"),
+		IDD_PREFS_GENERAL,		_T("/generalpreferences.html"),
+		IDD_PREFS_EDITOR,		_T("/editorpreferenes.html"),
+		IDD_COMMON_LANGUAGES,	_T("/common_languages.html")
 	};
 
 	if (nCmd == HH_DISPLAY_TOPIC) {
 		for (int n = 0; n < sizeof(m_topics) / sizeof(m_topics[0]); n++) {
 			if (m_topics[n].m_nID == (dwData & 0x7FFF)) {
 				CString strTmp;
-				strTmp.Format("%s::%s", GetHtmlHelpFile(), m_topics[n].m_pszTopic);
+				strTmp.Format(_T("%s::%s"), GetHtmlHelpFile(), m_topics[n].m_pszTopic);
 				::HtmlHelp(AfxGetMainWnd(), strTmp, HH_DISPLAY_TOPIC, NULL);
 				return;
 			}
@@ -531,9 +531,9 @@ DWORD CMyApp::MyExec(LPCTSTR pszFilename, LPCTSTR pszParams, LPCTSTR pszWorkingD
 	DWORD				dwResult = -1;
 
 #if NDEBUG
-	strCmdLine.Format("\"%s\" %s", pszFilename, pszParams ? pszParams : "");
+	strCmdLine.Format(_T("\"%s\" %s"), pszFilename, pszParams ? pszParams : "");
 #else
-	strCmdLine.Format("\"%s\" %s /DEBUGWND=%d", pszFilename, pszParams ? pszParams : "", AfxGetMainHWnd());
+	strCmdLine.Format(_T("\"%s\" %s /DEBUGWND=%d"), pszFilename, pszParams ? pszParams : "", AfxGetMainHWnd());
 #endif
 
 	memset(&si, 0, sizeof si);
@@ -569,15 +569,15 @@ DWORD CMyApp::MyExec(LPCTSTR pszFilename, LPCTSTR pszParams, LPCTSTR pszWorkingD
 
 bool CMyApp::IsBooleanExp(LPCTSTR pszArg) {
 	CString str;
-	str.Format(" %s ", pszArg);
+	str.Format(_T(" %s "), pszArg);
 	str.MakeLower();
-	if (str.FindOneOf("()") >= 0)
+	if (str.FindOneOf(_T("()")) >= 0)
 		return true;
 
-	if (str.Find(" or ") >= 0)
+	if (str.Find(_T(" or ")) >= 0)
 		return true;
 
-	if (str.Find(" and ") >= 0)
+	if (str.Find(_T(" and ")) >= 0)
 		return true;
 
 	return false;

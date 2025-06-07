@@ -155,7 +155,7 @@ typedef struct {
 } TCompilerVersionInfo, *PCompilerVersionInfo;
 
 
-const LPCSTR ISCmplrDLL = "ISCmplr.dll";
+const LPCSTR ISCmplrDLL = _T("ISCmplr.dll");
 
 /* The ISDllCompileScript function begins compilation of a script. See the above
   description of the TCompileScriptParams record. Return value is one of the

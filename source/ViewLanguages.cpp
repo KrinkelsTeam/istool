@@ -21,10 +21,10 @@ CViewLanguages::CViewLanguages() : CMyListView(CInnoScript::SEC_LANGUAGES)
 // CViewLanguages message handlers
 
 const CListInfo CViewLanguages::m_colInfo[] = {
-	"Name",				LVCFMT_LEFT,	100, 0,
-	"MessagesFile",		LVCFMT_LEFT,	120, 0,
-	"LicenseFile",		LVCFMT_LEFT,	120, 0,
-	"InfoBeforeFile",	LVCFMT_LEFT,	120, 0,
-	"InfoAfterFile",	LVCFMT_LEFT,	120, 0,
+	_T("Name"),				LVCFMT_LEFT,	100, 0,
+	_T("MessagesFile"),		LVCFMT_LEFT,	120, 0,
+	_T("LicenseFile"),		LVCFMT_LEFT,	120, 0,
+	_T("InfoBeforeFile"),	LVCFMT_LEFT,	120, 0,
+	_T("InfoAfterFile"),	LVCFMT_LEFT,	120, 0,
 	NULL
 };

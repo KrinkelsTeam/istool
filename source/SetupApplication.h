@@ -121,9 +121,9 @@ public:
 		m_wndMinVersionWindows.SubclassWindow(GetDlgItem(IDC_BTN_MINVERSIONWIN));
 
 		CComboBox wnd(GetDlgItem(IDC_PRIVILEGESREQUIRED));
-		wnd.AddString("none");
-		wnd.AddString("poweruser");
-		wnd.AddString("admin");
+		wnd.AddString(_T("none"));
+		wnd.AddString(_T("poweruser"));
+		wnd.AddString(_T("admin"));
 
 		DoDataExchange(DDX_LOAD);
 		return TRUE;
@@ -136,42 +136,42 @@ public:
 		CString strTmp;
 
 		if (!m_strMinimumVersion9X.IsEmpty() || !m_strMinimumVersionNT.IsEmpty()) {
-			strTmp.Format("%s,%s", m_strMinimumVersion9X, m_strMinimumVersionNT);
-			script.SetPropertyString("MinVersion", strTmp);
+			strTmp.Format(_T("%s,%s"), m_strMinimumVersion9X, m_strMinimumVersionNT);
+			script.SetPropertyString(_T("MinVersion"), strTmp);
 		} else
-			script.SetPropertyString("MinVersion", "");
+			script.SetPropertyString(_T("MinVersion"), _T(""));
 
 		if (!m_strOnlyBelowVersion9X.IsEmpty() || !m_strOnlyBelowVersionNT.IsEmpty()) {
-			strTmp.Format("%s,%s", m_strOnlyBelowVersion9X, m_strOnlyBelowVersionNT);
-			script.SetPropertyString("OnlyBelowVersion", strTmp);
+			strTmp.Format(_T("%s,%s"), m_strOnlyBelowVersion9X, m_strOnlyBelowVersionNT);
+			script.SetPropertyString(_T("OnlyBelowVersion"), strTmp);
 		} else
-			script.SetPropertyString("OnlyBelowVersion", "");
+			script.SetPropertyString(_T("OnlyBelowVersion"), _T(""));
 
-		script.SetPropertyString("AppCopyright", m_strAppCopyright);
-		script.SetPropertyString("AppName", m_strAppName);
-		script.SetPropertyString("AppVerName", m_strAppVerName);
-		script.SetPropertyString("InfoAfterFile", m_strInfoAfterFile);
-		script.SetPropertyString("InfoBeforeFile", m_strInfoBeforeFile);
-		script.SetPropertyString("LicenseFile", m_strLicenseFile);
-		script.SetPropertyBool("ChangesAssociations", m_bChangesAssociations ? true : false);
-		script.SetPropertyString("Password", m_strPassword);
-		script.SetPropertyString("AppMutex", m_strAppMutex);
-		script.SetPropertyNumber("ExtraDiskSpaceRequired", m_nExtraDiskSpaceRequired);
+		script.SetPropertyString(_T("AppCopyright"), m_strAppCopyright);
+		script.SetPropertyString(_T("AppName"), m_strAppName);
+		script.SetPropertyString(_T("AppVerName"), m_strAppVerName);
+		script.SetPropertyString(_T("InfoAfterFile"), m_strInfoAfterFile);
+		script.SetPropertyString(_T("InfoBeforeFile"), m_strInfoBeforeFile);
+		script.SetPropertyString(_T("LicenseFile"), m_strLicenseFile);
+		script.SetPropertyBool(_T("ChangesAssociations"), m_bChangesAssociations ? true : false);
+		script.SetPropertyString(_T("Password"), m_strPassword);
+		script.SetPropertyString(_T("AppMutex"), m_strAppMutex);
+		script.SetPropertyNumber(_T("ExtraDiskSpaceRequired"), m_nExtraDiskSpaceRequired);
 		// Inno Setup 3.0.3
-		script.SetPropertyBool("AlwaysRestart", m_bAlwaysRestart ? true : false);
-		script.SetPropertyBool("RestartIfNeededByRun", m_bRestartIfNeededByRun ? true : false);
+		script.SetPropertyBool(_T("AlwaysRestart"), m_bAlwaysRestart ? true : false);
+		script.SetPropertyBool(_T("RestartIfNeededByRun"), m_bRestartIfNeededByRun ? true : false);
 		// Inno Setup 3.0.4
-		script.SetPropertyString("PrivilegesRequired", script.GetPrivilegesRequired(m_nPrivilegesRequired));
+		script.SetPropertyString(_T("PrivilegesRequired"), script.GetPrivilegesRequired(m_nPrivilegesRequired));
 		// Inno Setup 4.0.9
-		script.SetPropertyBool("AllowCancelDuringInstall", m_bAllowCancelDuringInstall ? true : false);
+		script.SetPropertyBool(_T("AllowCancelDuringInstall"), m_bAllowCancelDuringInstall ? true : false);
 		// Inno Setup 4.0.10
-		script.SetPropertyBool("TimeStampsInUTC", m_bTimeStampsInUTC ? true : false);
+		script.SetPropertyBool(_T("TimeStampsInUTC"), m_bTimeStampsInUTC ? true : false);
 		// Inno Setup 4.1.0
-		script.SetPropertyNumber("TimeStampRounding", m_nTimeStampRounding);
+		script.SetPropertyNumber(_T("TimeStampRounding"), m_nTimeStampRounding);
 		// Inno Setup 4.2.0
-		script.SetPropertyString("TouchDate", m_strTouchDate);
-		script.SetPropertyString("TouchTime", m_strTouchTime);
-		script.SetPropertyBool("ChangesEnvironment", m_bChangesEnvironment ? true : false);
+		script.SetPropertyString(_T("TouchDate"), m_strTouchDate);
+		script.SetPropertyString(_T("TouchTime"), m_strTouchTime);
+		script.SetPropertyBool(_T("ChangesEnvironment"), m_bChangesEnvironment ? true : false);
 		return PSNRET_NOERROR;
 	}
 
@@ -199,20 +199,20 @@ public:
 
 		CString str;
 		m_wndAppCopyright.GetWindowText(str.GetBuffer(256), 256);
-		int nPos = str.Find("(c)");
-		if (nPos < 0) nPos = str.Find("(C)");
+		int nPos = str.Find(_T("(c)"));
+		if (nPos < 0) nPos = str.Find(_T("(C)"));
 		if (nPos < 0) return 0;
 
 		m_wndAppCopyright.SetSel(nPos, nPos + 3, TRUE);
-		m_wndAppCopyright.ReplaceSel("©");
+		m_wndAppCopyright.ReplaceSel(_T("©"));
 		return 0;
 	}
 
 	CSetupApplication(CMyDoc* pDoc, const bool bNew, LPCTSTR pszTitle)
 		: m_pDoc(pDoc), m_bNew(bNew),
-		m_btnLicenseFile(true, "License Files (.txt;.rtf)|*.txt;*.rtf|All Files (*.*)|*.*||"),
-		m_btnInfoBeforeFile(true, "Info Files (.txt;.rtf)|*.txt;*.rtf|All Files (*.*)|*.*||"),
-		m_btnInfoAfterFile(true, "Info Files (.txt;.rtf)|*.txt;*.rtf|All Files (*.*)|*.*||"),
+		m_btnLicenseFile(true, _T("License Files (.txt;.rtf)|*.txt;*.rtf|All Files (*.*)|*.*||")),
+		m_btnInfoBeforeFile(true, _T("Info Files (.txt;.rtf)|*.txt;*.rtf|All Files (*.*)|*.*||")),
+		m_btnInfoAfterFile(true, _T("Info Files (.txt;.rtf)|*.txt;*.rtf|All Files (*.*)|*.*||")),
 		m_wndMinVersionWindows(VER_WIN),
 		m_wndMinVersionNT(VER_NT),
 		m_wndBelowVersionWin(VER_WIN),
@@ -221,48 +221,48 @@ public:
 	{
 		CInnoScriptEx& script = m_pDoc->GetScript();
 
-		m_strAppCopyright = script.GetPropertyString("AppCopyright");
-		m_strAppName = script.GetPropertyString("AppName");
-		m_strAppVerName = script.GetPropertyString("AppVerName");
-		m_strInfoAfterFile = script.GetPropertyString("InfoAfterFile");
-		m_strInfoBeforeFile = script.GetPropertyString("InfoBeforeFile");
-		m_strLicenseFile = script.GetPropertyString("LicenseFile");
-		m_bChangesAssociations = script.GetPropertyBool("ChangesAssociations");
-		m_strPassword = script.GetPropertyString("Password");
-		m_strAppMutex = script.GetPropertyString("AppMutex");
-		m_nPrivilegesRequired = script.GetPrivilegesRequired(script.GetPropertyString("PrivilegesRequired"));
-		m_nExtraDiskSpaceRequired = script.GetPropertyNumber("ExtraDiskSpaceRequired");
+		m_strAppCopyright = script.GetPropertyString(_T("AppCopyright"));
+		m_strAppName = script.GetPropertyString(_T("AppName"));
+		m_strAppVerName = script.GetPropertyString(_T("AppVerName"));
+		m_strInfoAfterFile = script.GetPropertyString(_T("InfoAfterFile"));
+		m_strInfoBeforeFile = script.GetPropertyString(_T("InfoBeforeFile"));
+		m_strLicenseFile = script.GetPropertyString(_T("LicenseFile"));
+		m_bChangesAssociations = script.GetPropertyBool(_T("ChangesAssociations"));
+		m_strPassword = script.GetPropertyString(_T("Password"));
+		m_strAppMutex = script.GetPropertyString(_T("AppMutex"));
+		m_nPrivilegesRequired = script.GetPrivilegesRequired(script.GetPropertyString(_T("PrivilegesRequired")));
+		m_nExtraDiskSpaceRequired = script.GetPropertyNumber(_T("ExtraDiskSpaceRequired"));
 		// Inno Setup 3.0.3
-		m_bAlwaysRestart = script.GetPropertyBool("AlwaysRestart");
-		m_bRestartIfNeededByRun = script.GetPropertyBool("RestartIfNeededByRun");
+		m_bAlwaysRestart = script.GetPropertyBool(_T("AlwaysRestart"));
+		m_bRestartIfNeededByRun = script.GetPropertyBool(_T("RestartIfNeededByRun"));
 		// Inno Setup 4.0.9
-		m_bAllowCancelDuringInstall = script.GetPropertyBool("AllowCancelDuringInstall");
+		m_bAllowCancelDuringInstall = script.GetPropertyBool(_T("AllowCancelDuringInstall"));
 		// Inno Setup 4.0.10
-		m_bTimeStampsInUTC = script.GetPropertyBool("TimeStampsInUTC");
+		m_bTimeStampsInUTC = script.GetPropertyBool(_T("TimeStampsInUTC"));
 		// Inno Setup 4.1.0
-		m_nTimeStampRounding = script.GetPropertyNumber("TimeStampRounding");
+		m_nTimeStampRounding = script.GetPropertyNumber(_T("TimeStampRounding"));
 		// Inno Setup 4.2.0
-		m_strTouchDate = script.GetPropertyString("TouchDate");
-		m_strTouchTime = script.GetPropertyString("TouchTime");
-		m_bChangesEnvironment = script.GetPropertyBool("ChangesEnvironment");
+		m_strTouchDate = script.GetPropertyString(_T("TouchDate"));
+		m_strTouchTime = script.GetPropertyString(_T("TouchTime"));
+		m_bChangesEnvironment = script.GetPropertyBool(_T("ChangesEnvironment"));
 
 		{ // Version stuff
-			CString strMinVersion(script.GetPropertyString("MinVersion"));
+			CString strMinVersion(script.GetPropertyString(_T("MinVersion")));
 			if (strMinVersion.IsEmpty()) {
 				m_strMinimumVersion9X.Empty();
 				m_strMinimumVersionNT.Empty();
 			} else {
-				CStringToken tok(strMinVersion, ",");
+				CStringToken tok(strMinVersion, _T(","));
 				m_strMinimumVersion9X = tok.GetNext();
 				m_strMinimumVersionNT = tok.GetNext();
 			}
 
-			CString strOnlyBelowVersion(script.GetPropertyString("OnlyBelowVersion"));
+			CString strOnlyBelowVersion(script.GetPropertyString(_T("OnlyBelowVersion")));
 			if (strOnlyBelowVersion.IsEmpty()) {
 				m_strOnlyBelowVersion9X.Empty();
 				m_strOnlyBelowVersionNT.Empty();
 			} else {
-				CStringToken tok(strOnlyBelowVersion, ",");
+				CStringToken tok(strOnlyBelowVersion, _T(","));
 				m_strOnlyBelowVersion9X = tok.GetNext();
 				m_strOnlyBelowVersionNT = tok.GetNext();
 			}

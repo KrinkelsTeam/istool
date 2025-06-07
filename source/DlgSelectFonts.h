@@ -47,10 +47,10 @@ public:
 					CData* pData = (CData*)m_wndFontList.GetItemData(nItem);
 
 					CString strLine;
-					strLine.Format("Source: %s; DestDir: {fonts}; "
-						"Flags: onlyifdoesntexist uninsneveruninstall%s; FontInstall: %s",
+					strLine.Format(_T("Source: %s; DestDir: {fonts}; ")
+						_T("Flags: onlyifdoesntexist uninsneveruninstall%s; FontInstall: %s"),
 						pData->m_szFilePath,
-						pData->m_bTrueType ? "" : " fontisnttruetype",
+						pData->m_bTrueType ? _T("") : _T(" fontisnttruetype"),
 						pData->m_szFaceName);
 
 					m_pDoc->GetScript().AddLine(new CInnoScript::CLineParam(CInnoScript::SEC_FILES, strLine));
@@ -69,8 +69,8 @@ public:
 
 		CWaitCursor wait;
 		m_wndFontList.Attach(GetDlgItem(IDC_FONTLIST));
-		m_wndFontList.InsertColumn(0, "Font Name", LVCFMT_LEFT, 10, 0);
-		m_wndFontList.InsertColumn(1, "File Name", LVCFMT_LEFT, 120, 0);
+		m_wndFontList.InsertColumn(0, _T("Font Name"), LVCFMT_LEFT, 10, 0);
+		m_wndFontList.InsertColumn(1, _T("File Name"), LVCFMT_LEFT, 120, 0);
 
 		EnumTTF();
 		//EnumFON();
@@ -300,10 +300,10 @@ public:
 			NULL
 		);
 		if (lpMsgBuf) {
-			strOut.Format("Error no. %d:\n\n%s", dwError, lpMsgBuf);
+			strOut.Format(_T("Error no. %d:\n\n%s"), dwError, lpMsgBuf);
 			LocalFree(lpMsgBuf);
 		} else
-			strOut.Format("Error no. %d", dwError);
+			strOut.Format(_T("Error no. %d"), dwError);
 	}
 
 	BOOL ReadExeDesc(LPCTSTR lpszFile, LPSTR lpszDesc) {
@@ -337,7 +337,7 @@ public:
 			return FALSE;
 
 		/* Read Font Directory */
-		hResource = FindResource(hModule, "fontdir", RT_FONTDIR);
+		hResource = FindResource(hModule, _T("fontdir"), RT_FONTDIR);
 		if (!hResource)
 			return FALSE;
 
@@ -382,7 +382,7 @@ public:
 
 		if (!GetShellFolderPath(CSIDL_FONTS, strFonts)) return;
 		CMyUtils::EndWith(strFonts, '\\');
-		strWild.Format("%s*.ttf", strFonts);
+		strWild.Format(_T("%s*.ttf"), strFonts);
 
 		HANDLE hFind = FindFirstFile(strWild, &wfd);
 		if (hFind != INVALID_HANDLE_VALUE) {
@@ -397,7 +397,7 @@ public:
 				_tcscpy_s(pData->m_szFilePath, sizeof(pData->m_szFilePath) / sizeof(TCHAR), strFilePath);
 				pData->m_bTrueType = true;
 
-				strFaceName += " (TrueType)";
+				strFaceName += _T(" (TrueType)");
 				int nItem = m_wndFontList.InsertItem(0, strFaceName);
 				m_wndFontList.SetItemText(nItem, 1, wfd.cFileName);
 				m_wndFontList.SetItemData(nItem, (DWORD)pData);
@@ -413,7 +413,7 @@ public:
 
 		if (!GetShellFolderPath(CSIDL_FONTS, strFonts)) return;
 		if (strFonts[strFonts.GetLength() - 1] != '\\') strFonts += '\\';
-		strWild.Format("%s*.fon", strFonts);
+		strWild.Format(_T("%s*.fon"), strFonts);
 
 		BOOL bOk = find.FindFile(strWild);
 		while (bOk) {

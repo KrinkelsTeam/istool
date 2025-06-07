@@ -80,14 +80,14 @@ public:
 		EnableControls();
 
 		CComboBox box = GetDlgItem(IDC_LANGUAGEDETECTIONMETHOD);
-		box.AddString("uilanguage");
-		box.AddString("locale");
-		box.AddString("none");
+		box.AddString(_T("uilanguage"));
+		box.AddString(_T("locale"));
+		box.AddString(_T("none"));
 
 		box = GetDlgItem(IDC_SHOWLANGUAGEDIALOG);
-		box.AddString("auto");
-		box.AddString("yes");
-		box.AddString("no");
+		box.AddString(_T("auto"));
+		box.AddString(_T("yes"));
+		box.AddString(_T("no"));
 
 
 		DoDataExchange(DDX_LOAD);
@@ -98,29 +98,29 @@ public:
 		DoDataExchange(DDX_SAVE);
 		CInnoScriptEx& script = m_pDoc->GetScript();
 
-		script.SetPropertyBool("DisableStartupPrompt", m_bDisableStartupPrompt ? true : false);
-		script.SetPropertyBool("DisableFinishedPage", m_bDisableFinishedPage ? true : false);
+		script.SetPropertyBool(_T("DisableStartupPrompt"), m_bDisableStartupPrompt ? true : false);
+		script.SetPropertyBool(_T("DisableFinishedPage"), m_bDisableFinishedPage ? true : false);
 		// Inno Setup 2.0.0
-		script.SetPropertyBool("DisableReadyMemo", m_bDisableReadyMemo ? true : false);
-		script.SetPropertyBool("AlwaysShowComponentsList", m_bAlwaysShowComponentsList ? true : false);
-		script.SetPropertyBool("ShowComponentSizes", m_bShowComponentSizes ? true : false);
-		script.SetPropertyBool("FlatComponentsList", m_bFlatComponentsList ? true : false);
-		script.SetPropertyBool("DisableReadyPage", m_bDisableReadyPage ? true : false);
-		script.SetPropertyBool("UsePreviousSetupType", m_bUsePreviousSetupType ? true : false);
-		script.SetPropertyBool("UsePreviousTasks", m_bUsePreviousTasks ? true : false);
+		script.SetPropertyBool(_T("DisableReadyMemo"), m_bDisableReadyMemo ? true : false);
+		script.SetPropertyBool(_T("AlwaysShowComponentsList"), m_bAlwaysShowComponentsList ? true : false);
+		script.SetPropertyBool(_T("ShowComponentSizes"), m_bShowComponentSizes ? true : false);
+		script.SetPropertyBool(_T("FlatComponentsList"), m_bFlatComponentsList ? true : false);
+		script.SetPropertyBool(_T("DisableReadyPage"), m_bDisableReadyPage ? true : false);
+		script.SetPropertyBool(_T("UsePreviousSetupType"), m_bUsePreviousSetupType ? true : false);
+		script.SetPropertyBool(_T("UsePreviousTasks"), m_bUsePreviousTasks ? true : false);
 		// Inno Setup 2.0.7
-		script.SetPropertyBool("AlwaysShowDirOnReadyPage", m_bAlwaysShowDirOnReadyPage ? true : false);
-		script.SetPropertyBool("AlwaysShowGroupOnReadyPage", m_bAlwaysShowGroupOnReadyPage ? true : false);
+		script.SetPropertyBool(_T("AlwaysShowDirOnReadyPage"), m_bAlwaysShowDirOnReadyPage ? true : false);
+		script.SetPropertyBool(_T("AlwaysShowGroupOnReadyPage"), m_bAlwaysShowGroupOnReadyPage ? true : false);
 		// Inno Setup 4.0.0
-		script.SetPropertyBool("ShowTasksTreeLines", m_bShowTasksTreeLines ? true : false);
-		script.SetPropertyString("ShowLanguageDialog", script.GetShowLanguageDialog(m_nShowLanguageDialog));
+		script.SetPropertyBool(_T("ShowTasksTreeLines"), m_bShowTasksTreeLines ? true : false);
+		script.SetPropertyString(_T("ShowLanguageDialog"), script.GetShowLanguageDialog(m_nShowLanguageDialog));
 		// Inno Setup 4.0.1
-		script.SetPropertyBool("DetectLanguageUsingLocale", m_bDetectLanguageUsingLocale ? true : false);
+		script.SetPropertyBool(_T("DetectLanguageUsingLocale"), m_bDetectLanguageUsingLocale ? true : false);
 		// Inno Setup 4.0.10
-		script.SetPropertyString("LanguageDetectionMethod", script.GetLanguageDetectionMethod(m_nLanguageDetectionMethod));
+		script.SetPropertyString(_T("LanguageDetectionMethod"), script.GetLanguageDetectionMethod(m_nLanguageDetectionMethod));
 		// Inno Setup 5.1.7
-		script.SetPropertyBool("TerminalServicesAware", m_bTerminalServicesAware ? true : false);
-		script.SetPropertyBool("ShowUndisplayableLanguages", m_bShowUndisplayableLanguages ? true : false);
+		script.SetPropertyBool(_T("TerminalServicesAware"), m_bTerminalServicesAware ? true : false);
+		script.SetPropertyBool(_T("ShowUndisplayableLanguages"), m_bShowUndisplayableLanguages ? true : false);
 
 		return PSNRET_NOERROR;
 	}
@@ -164,29 +164,29 @@ public:
 	{
 		CInnoScriptEx& script = m_pDoc->GetScript();
 
-		m_bDisableStartupPrompt = script.GetPropertyBool("DisableStartupPrompt");
-		m_bDisableFinishedPage = script.GetPropertyBool("DisableFinishedPage");
+		m_bDisableStartupPrompt = script.GetPropertyBool(_T("DisableStartupPrompt"));
+		m_bDisableFinishedPage = script.GetPropertyBool(_T("DisableFinishedPage"));
 		// Inno Setup 2.0.0
-		m_bDisableReadyMemo = script.GetPropertyBool("DisableReadyMemo");
-		m_bAlwaysShowComponentsList = script.GetPropertyBool("AlwaysShowComponentsList");
-		m_bShowComponentSizes = script.GetPropertyBool("ShowComponentSizes");
-		m_bFlatComponentsList = script.GetPropertyBool("FlatComponentsList");
-		m_bDisableReadyPage = script.GetPropertyBool("DisableReadyPage");
-		m_bUsePreviousSetupType = script.GetPropertyBool("UsePreviousSetupType");
-		m_bUsePreviousTasks = script.GetPropertyBool("UsePreviousTasks");
+		m_bDisableReadyMemo = script.GetPropertyBool(_T("DisableReadyMemo"));
+		m_bAlwaysShowComponentsList = script.GetPropertyBool(_T("AlwaysShowComponentsList"));
+		m_bShowComponentSizes = script.GetPropertyBool(_T("ShowComponentSizes"));
+		m_bFlatComponentsList = script.GetPropertyBool(_T("FlatComponentsList"));
+		m_bDisableReadyPage = script.GetPropertyBool(_T("DisableReadyPage"));
+		m_bUsePreviousSetupType = script.GetPropertyBool(_T("UsePreviousSetupType"));
+		m_bUsePreviousTasks = script.GetPropertyBool(_T("UsePreviousTasks"));
 		// Inno Setup 2.0.7
-		m_bAlwaysShowDirOnReadyPage = script.GetPropertyBool("AlwaysShowDirOnReadyPage");
-		m_bAlwaysShowGroupOnReadyPage = script.GetPropertyBool("AlwaysShowGroupOnReadyPage");
+		m_bAlwaysShowDirOnReadyPage = script.GetPropertyBool(_T("AlwaysShowDirOnReadyPage"));
+		m_bAlwaysShowGroupOnReadyPage = script.GetPropertyBool(_T("AlwaysShowGroupOnReadyPage"));
 		// Inno Setup 4.0.0
-		m_bShowTasksTreeLines = script.GetPropertyBool("ShowTasksTreeLines");
-		m_nShowLanguageDialog = script.GetShowLanguageDialog(script.GetPropertyString("ShowLanguageDialog"));
+		m_bShowTasksTreeLines = script.GetPropertyBool(_T("ShowTasksTreeLines"));
+		m_nShowLanguageDialog = script.GetShowLanguageDialog(script.GetPropertyString(_T("ShowLanguageDialog")));
 		// Inno Setup 4.0.1
-		m_bDetectLanguageUsingLocale = script.GetPropertyBool("DetectLanguageUsingLocale");
+		m_bDetectLanguageUsingLocale = script.GetPropertyBool(_T("DetectLanguageUsingLocale"));
 		// Inno Setup 4.0.10
-		m_nLanguageDetectionMethod = script.GetLanguageDetectionMethod(script.GetPropertyString("LanguageDetectionMethod"));
+		m_nLanguageDetectionMethod = script.GetLanguageDetectionMethod(script.GetPropertyString(_T("LanguageDetectionMethod")));
 		// Inno Setup 5.1.7
-		m_bTerminalServicesAware = script.GetPropertyBool("TerminalServicesAware");
-		m_bShowUndisplayableLanguages = script.GetPropertyBool("ShowUndisplayableLanguages");
+		m_bTerminalServicesAware = script.GetPropertyBool(_T("TerminalServicesAware"));
+		m_bShowUndisplayableLanguages = script.GetPropertyBool(_T("ShowUndisplayableLanguages"));
 	}
 
 	BEGIN_TOOLTIP_MAP()

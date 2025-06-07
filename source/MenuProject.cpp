@@ -33,11 +33,11 @@ LRESULT CMainFrame::OnProjectUseAbsolutePaths(WORD /*wNotifyCode*/, WORD /*wID*/
 	CUpdate::UpdateAll(CUpdate::HINT_APPLYCHANGES);
 	bool bAbs = true;
 	try {
-		bAbs = !m_document.GetScript().GetPropertyBool("UseAbsolutePaths", CInnoScript::PRJ_ISTOOL);
+		bAbs = !m_document.GetScript().GetPropertyBool(_T("UseAbsolutePaths"), CInnoScript::PRJ_ISTOOL);
 	} catch (...) {
 		bAbs ^= 1;
 	}
-	m_document.GetScript().SetPropertyBool("UseAbsolutePaths", bAbs, CInnoScript::PRJ_ISTOOL);
+	m_document.GetScript().SetPropertyBool(_T("UseAbsolutePaths"), bAbs, CInnoScript::PRJ_ISTOOL);
 	m_document.SetModifiedFlag(true);
 
 	CScriptList files;
@@ -52,12 +52,12 @@ LRESULT CMainFrame::OnProjectUseAbsolutePaths(WORD /*wNotifyCode*/, WORD /*wID*/
 			if (nResult == IDYES) {
 				for (int nPos = 0; nPos < files.GetSize(); nPos++) {
 					CScriptLine* pLine = files[nPos];
-					CString strSource = pLine->GetParameter("Source");
+					CString strSource = pLine->GetParameter(_T("Source"));
 					if (CFunc::GetDriveLength(strSource) == 0 && (strSource.GetLength() == 0 || strSource[0] != '{')) {
 						// This is a relative path
 						CString strNewSource(strSourceDir);
 						if (strSource.GetLength() > 0) {
-							if (strSource.Left(3) == "..\\" || strSource.Left(3) == "../") {
+							if (strSource.Left(3) == _T("..\\") || strSource.Left(3) == _T("../")) {
 								int nPos = strNewSource.ReverseFind('\\');
 								if (nPos < 0)
 									nPos = strNewSource.ReverseFind('/');
@@ -65,7 +65,7 @@ LRESULT CMainFrame::OnProjectUseAbsolutePaths(WORD /*wNotifyCode*/, WORD /*wID*/
 									strNewSource = strNewSource.Left(nPos);
 									strSource = strSource.Mid(3);
 								}
-							} else if (strSource.Left(2) == ".\\" || strSource.Left(2) == "./") {
+							} else if (strSource.Left(2) == _T(".\\") || strSource.Left(2) == _T("./")) {
 								strSource = strSource.Mid(2);
 							}
 
@@ -73,7 +73,7 @@ LRESULT CMainFrame::OnProjectUseAbsolutePaths(WORD /*wNotifyCode*/, WORD /*wID*/
 								CMyUtils::EndWith(strNewSource, '\\');
 
 							strNewSource += strSource;
-							pLine->SetParameter("Source", strNewSource);
+							pLine->SetParameter(_T("Source"), strNewSource);
 						}
 					}
 				}
@@ -83,10 +83,10 @@ LRESULT CMainFrame::OnProjectUseAbsolutePaths(WORD /*wNotifyCode*/, WORD /*wID*/
 			if (nResult == IDYES) {
 				for (int nPos = 0; nPos < files.GetSize(); nPos++) {
 					CScriptLine* pLine = files[nPos];
-					CString strSource = pLine->GetParameter("Source");
+					CString strSource = pLine->GetParameter(_T("Source"));
 					strSource = CFunc::ExtractRelativePath(strSourceDir, strSource);
 					if (!strSource.IsEmpty() && strSource[0] != '{')
-						pLine->SetParameter("Source", strSource);
+						pLine->SetParameter(_T("Source"), strSource);
 				}
 			}
 		}
@@ -164,14 +164,14 @@ LRESULT CMainFrame::OnProjectInsertFiles(WORD /*wNotifyCode*/, WORD /*wID*/, HWN
 			if (m_wndFilesL.GetView()->GetItemState(nCount, LVIS_SELECTED) == LVIS_SELECTED) {
 				CScriptLine* pLine = (CScriptLine*)m_wndFilesL.GetView()->GetItemData(nCount);
 				if (pLine && pLine->GetSection() == CInnoScript::SEC_DIRS) {
-					strFolder = pLine->GetParameter("Name");
+					strFolder = pLine->GetParameter(_T("Name"));
 				}
 				break;
 			}
 		}
 	}
 	if (strFolder.IsEmpty())
-		strFolder = "{app}";
+		strFolder = _T("{app}");
 
 	helper.OnFileAddFiles(strFolder);
 	m_document.UpdateAll();
@@ -182,7 +182,7 @@ LRESULT CMainFrame::OnProjectImportRegistry(WORD /*wNotifyCode*/, WORD /*wID*/, 
 	// Allow all views to apply any changes not applied yet
 	m_document.UpdateAll(m_document.HINT_APPLYCHANGES);
 
-	CFileDialog dlg(TRUE, ".reg", NULL, 0, "Registry Files (*.reg)\0*.reg\0All Files (*.*)\0*.*\0", 0);
+	CFileDialog dlg(TRUE, _T(".reg"), NULL, 0, _T("Registry Files (*.reg)\0*.reg\0All Files (*.*)\0*.*\0"), 0);
 	if (dlg.DoModal() != IDOK) return 0;
 
 	CFilesHelper helper(&m_document);
@@ -197,7 +197,7 @@ LRESULT CMainFrame::OnProjectImportIni(WORD /*wNotifyCode*/, WORD /*wID*/, HWND 
 	// Allow all views to apply any changes not applied yet
 	m_document.UpdateAll(m_document.HINT_APPLYCHANGES);
 
-	CFileDialog dlg(TRUE, ".ini", NULL, 0, "INI Files (*.ini)\0*.ini\0All Files (*.*)\0*.*\0", 0);
+	CFileDialog dlg(TRUE, _T(".ini"), NULL, 0, _T("INI Files (*.ini)\0*.ini\0All Files (*.*)\0*.*\0"), 0);
 	if (dlg.DoModal() != IDOK) return 0;
 	CFilesHelper helper(&m_document);
 	helper.ImportIni(m_hWnd, dlg.m_szFileName);
@@ -219,16 +219,16 @@ LRESULT CMainFrame::OnProjectInstallFonts(WORD /*wNotifyCode*/, WORD /*wID*/, HW
 }
 
 static LPCTSTR GetFullRoot(LPCTSTR pszRoot) {
-	if (!_stricmp(pszRoot, "HKCR"))
-		return "HKEY_CLASSES_ROOT";
-	if (!_stricmp(pszRoot, "HKCU"))
-		return "HKEY_CURRENT_USER";
-	if (!_stricmp(pszRoot, "HKLM"))
-		return "HKEY_LOCAL_MACHINE";
-	if (!_stricmp(pszRoot, "HKU"))
-		return "HKEY_USERS";
-	if (!_stricmp(pszRoot, "HKCC"))
-		return "HKEY_CURRENT_CONFIG";
+	if (!_stricmp(pszRoot, _T("HKCR")))
+		return _T("HKEY_CLASSES_ROOT");
+	if (!_stricmp(pszRoot, _T("HKCU")))
+		return _T("HKEY_CURRENT_USER");
+	if (!_stricmp(pszRoot, _T("HKLM")))
+		return _T("HKEY_LOCAL_MACHINE");
+	if (!_stricmp(pszRoot, _T("HKU")))
+		return _T("HKEY_USERS");
+	if (!_stricmp(pszRoot, _T("HKCC")))
+		return _T("HKEY_CURRENT_CONFIG");
 
 	return pszRoot;
 }
@@ -238,55 +238,55 @@ LRESULT CMainFrame::OnProjectExportRegistry(WORD /*wNotifyCode*/, WORD /*wID*/, 
 	m_document.GetScript().GetList(CInnoScript::SEC_REGISTRY, list);
 	if (list.GetSize() == 0) return 0;
 
-	CFileDialog dlg(FALSE, ".reg", NULL, 0, "Registry Files (*.reg)\0*.reg\0All Files (*.*)\0*.*\0", 0);
+	CFileDialog dlg(FALSE, _T(".reg"), NULL, 0, _T("Registry Files (*.reg)\0*.reg\0All Files (*.*)\0*.*\0"), 0);
 	if (dlg.DoModal() != IDOK) return 0;
 
 	CWaitCursor wait;
 	FILE* fp;
-	if (fopen_s(&fp, dlg.m_szFileName, "w") != 0) {
+	if (fopen_s(&fp, dlg.m_szFileName, _T("w")) != 0) {
 		CString txt = _L("Error|CreateFile", "Failed to create '%1'.");
-		txt.Replace("%1", dlg.m_szFileName);
+		txt.Replace(_T("%1"), dlg.m_szFileName);
 		AtlMessageBox(m_hWnd, (LPCTSTR)txt, IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 		return 0;
 	}
 
 
-	fprintf(fp, "REGEDIT4\n\n");
+	fprintf(fp, _T("REGEDIT4\n\n"));
 	for (int nPos = 0; nPos < list.GetSize(); nPos++) {
 		CScriptLine* pLine = list[nPos];
 
-		fprintf(fp, "[%s\\%s]\n",
-			GetFullRoot(pLine->GetParameter("Root")),
-			pLine->GetParameter("Subkey")
+		fprintf(fp, _T("[%s\\%s]\n"),
+			GetFullRoot(pLine->GetParameter(_T("Root"))),
+			pLine->GetParameter(_T("Subkey"))
 		);
 
-		CString strValueName(pLine->GetParameter("ValueName"));
-		if (strValueName.IsEmpty()) strValueName = "@";
+		CString strValueName(pLine->GetParameter(_T("ValueName")));
+		if (strValueName.IsEmpty()) strValueName = _T("@");
 
-		CString strValueData(pLine->GetParameter("ValueData"));
+		CString strValueData(pLine->GetParameter(_T("ValueData")));
 		if (!strValueData.IsEmpty()) {
 			// Fix for different stuff
-			LPCTSTR pszValueType = pLine->GetParameter("ValueType");
-			if (!_stricmp(pszValueType, "binary")) {
-				strValueData = "hex:" + strValueData;
-				strValueData.Replace(" ", ",");
-			} else if (!_stricmp(pszValueType, "dword")) {
+			LPCTSTR pszValueType = pLine->GetParameter(_T("ValueType"));
+			if (!_stricmp(pszValueType, _T("binary"))) {
+				strValueData = _T("hex:") + strValueData;
+				strValueData.Replace(_T(" "), _T(","));
+			} else if (!_stricmp(pszValueType, _T("dword"))) {
 				if (strValueData[0] == '$') {
-					strValueData = "dword:" + strValueData.Mid(1);
+					strValueData = _T("dword:") + strValueData.Mid(1);
 				} else {
 					DWORD dwValueData = _ttol(strValueData);
-					strValueData.Format("dword:%08X", dwValueData);
+					strValueData.Format(_T("dword:%08X"), dwValueData);
 				}
 			} else {
-				strValueData.Replace("{{", "{");
-				strValueData = "\"" + strValueData;
-				strValueData += "\"";
+				strValueData.Replace(_T("{{"), _T("{"));
+				strValueData = _T("\"") + strValueData;
+				strValueData += _T("\"");
 			}
 		}
 
-		fprintf(fp, "\"%s\"=%s\n", strValueName.GetBuffer(), strValueData.GetBuffer());
+		fprintf(fp, _T("\"%s\"=%s\n"), strValueName.GetBuffer(), strValueData.GetBuffer());
 
-		fprintf(fp, "\n");
+		fprintf(fp, _T("\n"));
 	}
 
 	fclose(fp);
@@ -297,7 +297,7 @@ LRESULT CMainFrame::OnProjectImportMessages(WORD /*wNotifyCode*/, WORD /*wID*/, 
 	// Allow all views to apply any changes not applied yet
 	m_document.UpdateAll(m_document.HINT_APPLYCHANGES);
 
-	CFileDialog dlg(TRUE, NULL, NULL, 0, "Message Files (*.isl;*.iss)\0*.isl;*.iss\0All Files (*.*)\0*.*\0", 0);
+	CFileDialog dlg(TRUE, NULL, NULL, 0, _T("Message Files (*.isl;*.iss)\0*.isl;*.iss\0All Files (*.*)\0*.*\0"), 0);
 
 	if (dlg.DoModal() != IDOK) return 0;
 
@@ -306,9 +306,9 @@ LRESULT CMainFrame::OnProjectImportMessages(WORD /*wNotifyCode*/, WORD /*wID*/, 
 	CString strFilename(dlg.m_szFileName);
 	CString strSection;
 	FILE* file;
-	if (fopen_s(&file, strFilename, "r") != 0) {
+	if (fopen_s(&file, strFilename, _T("r")) != 0) {
 		CString txt = _L("Failed to open '%1'.");
-		txt.Replace("%1", strFilename);
+		txt.Replace(_T("%1"), strFilename);
 		AtlMessageBox(m_hWnd, (LPCTSTR)txt, IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 		return 0;
 	}
@@ -324,7 +324,7 @@ LRESULT CMainFrame::OnProjectImportMessages(WORD /*wNotifyCode*/, WORD /*wID*/, 
 		if (str.IsEmpty() || str[0] == ';') continue;
 
 		if (str[0] == '[') {
-			if (!str.CompareNoCase("[Messages]")) {
+			if (!str.CompareNoCase(_T("[Messages]"))) {
 				bInSection = true;
 			} else {
 				bInSection = false;
@@ -342,7 +342,7 @@ LRESULT CMainFrame::OnProjectImportMessages(WORD /*wNotifyCode*/, WORD /*wID*/, 
 			} catch (LPCTSTR ptr) {
 				if (pLine) delete pLine;
 				CString txt = _L("Error|ParseMessages", "Error parsing messages.\n\n%1");
-				txt.Replace("%1", ptr);
+				txt.Replace(_T("%1"), ptr);
 				AtlMessageBox(m_hWnd, (LPCTSTR)txt, IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 			}
 		}
@@ -354,7 +354,7 @@ LRESULT CMainFrame::OnProjectImportMessages(WORD /*wNotifyCode*/, WORD /*wID*/, 
 	return 0;
 }
 
-#define GetCurrentFolder(a) a = "{app}"
+#define GetCurrentFolder(a) a = _T("{app}")
 
 LRESULT CMainFrame::OnProjectCreateDirectory(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {
 	// Allow all views to apply any changes not applied yet
@@ -362,12 +362,12 @@ LRESULT CMainFrame::OnProjectCreateDirectory(WORD /*wNotifyCode*/, WORD /*wID*/,
 
 	CString strFolder;
 	GetCurrentFolder(strFolder);
-	strFolder += "\\";
+	strFolder += _T("\\");
 
 	CScriptList	list;
 
 	CScriptLine* pLine = new CScriptLine(CInnoScript::SEC_DIRS);
-	pLine->SetParameter("Name", strFolder);
+	pLine->SetParameter(_T("Name"), strFolder);
 	list.Add(pLine);
 
 	if (!CSheets::ShowSheet(m_hWnd, list, true)) {
@@ -387,26 +387,26 @@ LRESULT CMainFrame::OnProjectCreateInternetShortcut(WORD /*wNotifyCode*/, WORD /
 	m_document.UpdateAll(m_document.HINT_APPLYCHANGES);
 
 	CDlgIEShortcut dlg;
-	dlg.m_strFileName = "{app}\\";
-	dlg.m_strFileName += m_document.GetScript().GetPropertyString("AppName");
-	dlg.m_strFileName += ".url";
+	dlg.m_strFileName = _T("{app}\\");
+	dlg.m_strFileName += m_document.GetScript().GetPropertyString(_T("AppName"));
+	dlg.m_strFileName += _T(".url");
 
-	dlg.m_strURL = "http://www.";
-	dlg.m_strURL += m_document.GetScript().GetPropertyString("AppName");
-	dlg.m_strURL += ".com/";
+	dlg.m_strURL = _T("http://www.");
+	dlg.m_strURL += m_document.GetScript().GetPropertyString(_T("AppName"));
+	dlg.m_strURL += _T(".com/");
 	dlg.m_strURL.MakeLower();
 
 	if (dlg.DoModal(AfxGetMainWnd()) == IDOK) {
 		CScriptLine* pLine = new CScriptLine(CInnoScript::SEC_INI);
-		pLine->SetParameter("Filename", dlg.m_strFileName);
-		pLine->SetParameter("Section", "InternetShortcut");
-		pLine->SetParameter("Key", "URL");
-		pLine->SetParameter("String", dlg.m_strURL);
+		pLine->SetParameter(_T("Filename"), dlg.m_strFileName);
+		pLine->SetParameter(_T("Section"), _T("InternetShortcut"));
+		pLine->SetParameter(_T("Key"), _T("URL"));
+		pLine->SetParameter(_T("String"), dlg.m_strURL);
 		m_document.GetScript().AddLine(pLine);
 
 		pLine = new CScriptLine(CInnoScript::SEC_UNINSTALLDELETE);
-		pLine->SetParameter("Type", "files");
-		pLine->SetParameter("Name", dlg.m_strFileName);
+		pLine->SetParameter(_T("Type"), _T("files"));
+		pLine->SetParameter(_T("Name"), dlg.m_strFileName);
 		m_document.GetScript().AddLine(pLine);
 
 		m_document.UpdateAll();
@@ -439,7 +439,7 @@ LRESULT CMainFrame::OnProjectVerifyFiles(WORD /*wNotifyCode*/, WORD /*wID*/, HWN
 	UINT nCount = 0;
 	for (int nPos = 0; nPos < list.GetSize(); nPos++) {
 		CScriptLine* pLine = list[nPos];
-		CString strSource = pLine->GetParameter("Source");
+		CString strSource = pLine->GetParameter(_T("Source"));
 
 		// Don't check empty entries and anything that uses constants
 		if (!strSource.GetLength() || strSource[0] == '{') continue;
@@ -460,10 +460,10 @@ LRESULT CMainFrame::OnProjectVerifyFiles(WORD /*wNotifyCode*/, WORD /*wID*/, HWN
 				}
 			}
 			if (++nCount == 11) {
-				strMessage += "\n\t...";
+				strMessage += _T("\n\t...");
 			} else if (nCount < 11) {
-				if (strMessage.GetLength() > 0) strMessage += "\n";
-				strMessage += "\t" + strSource;
+				if (strMessage.GetLength() > 0) strMessage += _T("\n");
+				strMessage += _T("\t") + strSource;
 			}
 		}
 	}
@@ -492,27 +492,27 @@ LRESULT CMainFrame::OnProjectExportMessages(WORD /*wNotifyCode*/, WORD /*wID*/, 
 	m_document.GetScript().GetList(CInnoScript::SEC_MESSAGES, list);
 	if (list.GetSize() == 0) return 0;
 
-	CFileDialog dlg(FALSE, ".isl", NULL, OFN_OVERWRITEPROMPT, "Message Files (*.isl)\0*.isl\0All Files (*.*)\0*.*\0", 0);
+	CFileDialog dlg(FALSE, _T(".isl"), NULL, OFN_OVERWRITEPROMPT, _T("Message Files (*.isl)\0*.isl\0All Files (*.*)\0*.*\0"), 0);
 
 	if (dlg.DoModal() != IDOK) return 0;
 
 	CWaitCursor wait;
 	FILE* fp;
-	if (fopen_s(&fp, dlg.m_szFileName, "w") != 0) {
+	if (fopen_s(&fp, dlg.m_szFileName, _T("w")) != 0) {
 		CString txt = _L("Error|CreateFile", "Failed to create '%1'.");
-		txt.Replace("%1", dlg.m_szFileName);
+		txt.Replace(_T("%1"), dlg.m_szFileName);
 		AtlMessageBox(m_hWnd, (LPCTSTR)txt, IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 		return 0;
 	}
 
 
-	fprintf(fp, "[Messages]\r\n");
+	fprintf(fp, _T("[Messages]\r\n"));
 	for (int nPos = 0; nPos < list.GetSize(); nPos++) {
 		CScriptLine* pLine = list[nPos];
 		CString strLine;
 
 		pLine->Write(strLine.GetBuffer(8000), 8000);
-		fprintf(fp, "%s\r\n", strLine.GetBuffer());
+		fprintf(fp, _T("%s\r\n"), strLine.GetBuffer());
 	}
 
 	fclose(fp);
@@ -523,16 +523,16 @@ LRESULT CMainFrame::OnProjectCreateUninstallIcon(WORD /*wNotifyCode*/, WORD /*wI
 	// Allow all views to apply any changes not applied yet
 	m_document.UpdateAll(m_document.HINT_APPLYCHANGES);
 
-	// TODO: Sjekk at et slikt icon ikke finnes fra før
-	CString strAppName = m_document.GetScript().GetPropertyString("AppName");
+	// TODO: Sjekk at et slikt icon ikke finnes fra fÑˆr
+	CString strAppName = m_document.GetScript().GetPropertyString(_T("AppName"));
 	if (strAppName.IsEmpty()) {
 		AtlMessageBox(m_hWnd, _L("NeedAppName", "Please enter a value for application name in options first."), IDR_MAINFRAME, MB_OK | MB_ICONWARNING);
 		return 0;
 	}
 
 	CScriptLine* pLine = new CScriptLine(CInnoScript::SEC_ICONS);
-	pLine->SetParameter("Name", "{group}\\{cm:UninstallProgram, " + strAppName + "}");
-	pLine->SetParameter("Filename", "{uninstallexe}");
+	pLine->SetParameter(_T("Name"), _T("{group}\\{cm:UninstallProgram, ") + strAppName + _T("}"));
+	pLine->SetParameter(_T("Filename"), _T("{uninstallexe}"));
 	m_document.GetScript().AddLine(pLine);
 
 	m_document.UpdateAll();
@@ -594,14 +594,14 @@ LRESULT CMainFrame::OnProjectUninstall(WORD /*wNotifyCode*/, WORD /*wID*/, HWND 
 	CWaitCursor wait;
 	CInnoScriptEx& script = m_document.GetScript();
 
-	if (!script.GetPropertyBool("Uninstallable"))
+	if (!script.GetPropertyBool(_T("Uninstallable")))
 		return 0;
 
-	LPCTSTR pszKey = script.GetPropertyString("AppID");
+	LPCTSTR pszKey = script.GetPropertyString(_T("AppID"));
 	if (!pszKey || !*pszKey)
 		return 0;
 
-	const LPCTSTR pszPath = "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\%s_is1";
+	const LPCTSTR pszPath = _T("Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\%s_is1");
 	CString strKey;
 	strKey.Format(pszPath, pszKey);
 
@@ -612,7 +612,7 @@ LRESULT CMainFrame::OnProjectUninstall(WORD /*wNotifyCode*/, WORD /*wID*/, HWND 
 
 	ULONG nChars = MAX_PATH;
 	CString strValue;
-	if (reg.QueryStringValue("UninstallString", strValue.GetBuffer(nChars), &nChars) != ERROR_SUCCESS)
+	if (reg.QueryStringValue(_T("UninstallString"), strValue.GetBuffer(nChars), &nChars) != ERROR_SUCCESS)
 		return 0;
 
 	strValue.ReleaseBuffer(nChars - 1);

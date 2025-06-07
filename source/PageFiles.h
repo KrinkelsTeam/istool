@@ -192,212 +192,212 @@ public:
 		for (int nPos = 0; nPos < m_listFiles.GetSize(); nPos++) {
 			CScriptLine* pFile = m_listFiles[nPos];
 
-			if (m_strSource.CompareNoCase(SAFESTR(pFile->GetParameter("Source"))))
+			if (m_strSource.CompareNoCase(SAFESTR(pFile->GetParameter(_T("Source")))))
 				m_strSource.Empty();
 
-			if (m_strDestDir.CompareNoCase(SAFESTR(pFile->GetParameter("DestDir"))))
+			if (m_strDestDir.CompareNoCase(SAFESTR(pFile->GetParameter(_T("DestDir")))))
 				m_strDestDir.Empty();
 
-			if (m_strDestName.CompareNoCase(SAFESTR(pFile->GetParameter("DestName"))))
+			if (m_strDestName.CompareNoCase(SAFESTR(pFile->GetParameter(_T("DestName")))))
 				m_strDestName.Empty();
 
-			if (m_strFontInstall.CompareNoCase(SAFESTR(pFile->GetParameter("FontInstall"))))
+			if (m_strFontInstall.CompareNoCase(SAFESTR(pFile->GetParameter(_T("FontInstall")))))
 				m_strFontInstall.Empty();
 
-			if (m_strPermissions.CompareNoCase(SAFESTR(pFile->GetParameter("Permissions"))))
+			if (m_strPermissions.CompareNoCase(SAFESTR(pFile->GetParameter(_T("Permissions")))))
 				m_strPermissions.Empty();
 
-			if (m_strExcludes.CompareNoCase(SAFESTR(pFile->GetParameter("Excludes"))))
+			if (m_strExcludes.CompareNoCase(SAFESTR(pFile->GetParameter(_T("Excludes")))))
 				m_strExcludes.Empty();
 
-			if (m_strExternalSize.CompareNoCase(SAFESTR(pFile->GetParameter("ExternalSize"))))
+			if (m_strExternalSize.CompareNoCase(SAFESTR(pFile->GetParameter(_T("ExternalSize")))))
 				m_strExternalSize.Empty();
 
-			if (m_strStrongAssemblyName.CompareNoCase(SAFESTR(pFile->GetParameter("StrongAssemblyName"))))
+			if (m_strStrongAssemblyName.CompareNoCase(SAFESTR(pFile->GetParameter(_T("StrongAssemblyName")))))
 				m_strStrongAssemblyName.Empty();
 
 			// Attributes
-			if (m_bReadOnly != (pFile->GetParameterFlag("Attribs", "readonly") ? TRUE : FALSE)) {
+			if (m_bReadOnly != (pFile->GetParameterFlag(_T("Attribs"), _T("readonly")) ? TRUE : FALSE)) {
 				MyModifyStyle(IDC_READONLY, BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_bReadOnly = 2;
 			}
 
-			if (m_bHidden != (pFile->GetParameterFlag("Attribs", "hidden") ? TRUE : FALSE)) {
+			if (m_bHidden != (pFile->GetParameterFlag(_T("Attribs"), _T("hidden")) ? TRUE : FALSE)) {
 				MyModifyStyle(IDC_HIDDEN, BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_bHidden = 2;
 			}
 
-			if (m_bSystem != (pFile->GetParameterFlag("Attribs", "system") ? TRUE : FALSE)) {
+			if (m_bSystem != (pFile->GetParameterFlag(_T("Attribs"), _T("system")) ? TRUE : FALSE)) {
 				MyModifyStyle(IDC_SYSTEM, BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_bSystem = 2;
 			}
 
 			// Flags
-			if (m_bCompareTimeStamp != (pFile->GetParameterFlag("Flags", "comparetimestamp") ? TRUE : FALSE)) {
+			if (m_bCompareTimeStamp != (pFile->GetParameterFlag(_T("Flags"), _T("comparetimestamp")) ? TRUE : FALSE)) {
 				MyModifyStyle(IDC_COMPARETIMESTAMP, BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_bCompareTimeStamp = 2;
 			}
 
-			if (m_bConfirmOverwrite != (pFile->GetParameterFlag("Flags", "confirmoverwrite") ? TRUE : FALSE)) {
+			if (m_bConfirmOverwrite != (pFile->GetParameterFlag(_T("Flags"), _T("confirmoverwrite")) ? TRUE : FALSE)) {
 				MyModifyStyle(IDC_CONFIRMOVERWRITE, BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_bConfirmOverwrite = 2;
 			}
 
-			if (m_bDeleteAfterInstall != (pFile->GetParameterFlag("Flags", "deleteafterinstall") ? TRUE : FALSE)) {
+			if (m_bDeleteAfterInstall != (pFile->GetParameterFlag(_T("Flags"), _T("deleteafterinstall")) ? TRUE : FALSE)) {
 				MyModifyStyle(IDC_DELETEAFTERINSTALL, BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_bDeleteAfterInstall = 2;
 			}
 
-			if (m_bFontIsntTrueType != (pFile->GetParameterFlag("Flags", "fontisnttruetype") ? TRUE : FALSE)) {
+			if (m_bFontIsntTrueType != (pFile->GetParameterFlag(_T("Flags"), _T("fontisnttruetype")) ? TRUE : FALSE)) {
 				MyModifyStyle(IDC_FONTISNTTRUETYPE, BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_bFontIsntTrueType = 2;
 			}
 
-			if (m_bIsReadMe != (pFile->GetParameterFlag("Flags", "isreadme") ? TRUE : FALSE)) {
+			if (m_bIsReadMe != (pFile->GetParameterFlag(_T("Flags"), _T("isreadme")) ? TRUE : FALSE)) {
 				MyModifyStyle(IDC_ISREADME, BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_bIsReadMe = 2;
 			}
 
-			if (m_bRegServer != (pFile->GetParameterFlag("Flags", "regserver") ? TRUE : FALSE)) {
+			if (m_bRegServer != (pFile->GetParameterFlag(_T("Flags"), _T("regserver")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_REGSERVER).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_bRegServer = 2;
 			}
 
-			if (m_bRestartReplace != (pFile->GetParameterFlag("Flags", "restartreplace") ? TRUE : FALSE)) {
+			if (m_bRestartReplace != (pFile->GetParameterFlag(_T("Flags"), _T("restartreplace")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_RESTARTREPLACE).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_bRestartReplace = 2;
 			}
 
-			if (m_bSharedFile != (pFile->GetParameterFlag("Flags", "sharedfile") ? TRUE : FALSE)) {
+			if (m_bSharedFile != (pFile->GetParameterFlag(_T("Flags"), _T("sharedfile")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_SHAREDFILE).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_bSharedFile = 2;
 			}
 
-			if (m_bUninsNeverUninstall != (pFile->GetParameterFlag("Flags", "uninsneveruninstall") ? TRUE : FALSE)) {
+			if (m_bUninsNeverUninstall != (pFile->GetParameterFlag(_T("Flags"), _T("uninsneveruninstall")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_UNINSNEVERUNINSTALL).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_bUninsNeverUninstall = 2;
 			}
 
-			if (m_bExternal != (pFile->GetParameterFlag("Flags", "external") ? TRUE : FALSE)) {
+			if (m_bExternal != (pFile->GetParameterFlag(_T("Flags"), _T("external")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_EXTERNAL).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_bExternal = 2;
 			}
 
-			if (m_bRegTypeLib != (pFile->GetParameterFlag("Flags", "regtypelib") ? TRUE : FALSE)) {
+			if (m_bRegTypeLib != (pFile->GetParameterFlag(_T("Flags"), _T("regtypelib")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_REGTYPELIB).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_bRegTypeLib = 2;
 			}
 
-			if (m_bSkipIfSourceDoesntExist != (pFile->GetParameterFlag("Flags", "skipifsourcedoesntexist") ? TRUE : FALSE)) {
+			if (m_bSkipIfSourceDoesntExist != (pFile->GetParameterFlag(_T("Flags"), _T("skipifsourcedoesntexist")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_SKIPIFSOURCEDOESNTEXIST).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_bSkipIfSourceDoesntExist = 2;
 			}
 
-			if (m_bOverwriteReadOnly != (pFile->GetParameterFlag("Flags", "overwritereadonly") ? TRUE : FALSE)) {
+			if (m_bOverwriteReadOnly != (pFile->GetParameterFlag(_T("Flags"), _T("overwritereadonly")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_OVERWRITEREADONLY).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_bOverwriteReadOnly = 2;
 			}
 
-			if (m_nOnlyIfDestFileExists != (pFile->GetParameterFlag("Flags", "onlyifdestfileexists") ? TRUE : FALSE)) {
+			if (m_nOnlyIfDestFileExists != (pFile->GetParameterFlag(_T("Flags"), _T("onlyifdestfileexists")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_FILES_ONLYIFDESTFILEEXISTS).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nOnlyIfDestFileExists = 2;
 			}
 
-			if (m_bRecurseSubDirs != (pFile->GetParameterFlag("Flags", "recursesubdirs") ? TRUE : FALSE)) {
+			if (m_bRecurseSubDirs != (pFile->GetParameterFlag(_T("Flags"), _T("recursesubdirs")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_RECURSESUBDIRS).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_bRecurseSubDirs = 2;
 			}
 
-			if (m_bNoRegError != (pFile->GetParameterFlag("Flags", "noregerror") ? TRUE : FALSE)) {
+			if (m_bNoRegError != (pFile->GetParameterFlag(_T("Flags"), _T("noregerror")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_FILES_NOREGERROR).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_bNoRegError = 2;
 			}
 
-			if (m_nUninsRestartDelete != (pFile->GetParameterFlag("Flags", "uninsrestartdelete") ? TRUE : FALSE)) {
+			if (m_nUninsRestartDelete != (pFile->GetParameterFlag(_T("Flags"), _T("uninsrestartdelete")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_UNINSRESTARTDELETE).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nUninsRestartDelete = 2;
 			}
 			// IS 3.0.5
-			if (m_nPromptIfOlder != (pFile->GetParameterFlag("Flags", "promptifolder") ? TRUE : FALSE)) {
+			if (m_nPromptIfOlder != (pFile->GetParameterFlag(_T("Flags"), _T("promptifolder")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_PROMPTIFOLDER).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nPromptIfOlder = 2;
 			}
-			if (m_nOnlyIfDoesntExist != (pFile->GetParameterFlag("Flags", "onlyifdoesntexist") ? TRUE : FALSE)) {
+			if (m_nOnlyIfDoesntExist != (pFile->GetParameterFlag(_T("Flags"), _T("onlyifdoesntexist")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_ONLYIFDOESNTEXIST).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nOnlyIfDoesntExist = 2;
 			}
-			if (m_nIgnoreVersion != (pFile->GetParameterFlag("Flags", "ignoreversion") ? TRUE : FALSE)) {
+			if (m_nIgnoreVersion != (pFile->GetParameterFlag(_T("Flags"), _T("ignoreversion")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_IGNOREVERSION).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nIgnoreVersion = 2;
 			}
-			if (m_nDontCopy != (pFile->GetParameterFlag("Flags", "dontcopy") ? TRUE : FALSE)) {
+			if (m_nDontCopy != (pFile->GetParameterFlag(_T("Flags"), _T("dontcopy")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_DONTCOPY).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nDontCopy = 2;
 			}
 			// IS 4.0.5
-			if (m_nUninsRemoveReadOnly != (pFile->GetParameterFlag("Flags", "uninsremovereadonly") ? TRUE : FALSE)) {
+			if (m_nUninsRemoveReadOnly != (pFile->GetParameterFlag(_T("Flags"), _T("uninsremovereadonly")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_UNINSREMOVEREADONLY).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nUninsRemoveReadOnly = 2;
 			}
 			// IS 4.1.6
-			if (m_nSortFilesByExtension != (pFile->GetParameterFlag("Flags", "sortfilesbyextension") ? TRUE : FALSE)) {
+			if (m_nSortFilesByExtension != (pFile->GetParameterFlag(_T("Flags"), _T("sortfilesbyextension")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_SORTFILESBYEXTENSION).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nSortFilesByExtension = 2;
 			}
 			// IS 4.2.0
-			if (m_nTouch != (pFile->GetParameterFlag("Flags", "touch") ? TRUE : FALSE)) {
+			if (m_nTouch != (pFile->GetParameterFlag(_T("Flags"), _T("touch")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_TOUCH).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nTouch = 2;
 			}
-			if (m_nReplaceSameVersion != (pFile->GetParameterFlag("Flags", "replacesameversion") ? TRUE : FALSE)) {
+			if (m_nReplaceSameVersion != (pFile->GetParameterFlag(_T("Flags"), _T("replacesameversion")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_REPLACESAMEVERSION).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nReplaceSameVersion = 2;
 			}
-			if (m_nNoEncryption != (pFile->GetParameterFlag("Flags", "noencryption") ? TRUE : FALSE)) {
+			if (m_nNoEncryption != (pFile->GetParameterFlag(_T("Flags"), _T("noencryption")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_NOENCRYPTION).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nNoEncryption = 2;
 			}
-			if (m_nNoCompression != (pFile->GetParameterFlag("Flags", "nocompression") ? TRUE : FALSE)) {
+			if (m_nNoCompression != (pFile->GetParameterFlag(_T("Flags"), _T("nocompression")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_NOCOMPRESSION).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nNoCompression = 2;
 			}
-			if (m_nDontVerifyChecksum != (pFile->GetParameterFlag("Flags", "dontverifychecksum") ? TRUE : FALSE)) {
+			if (m_nDontVerifyChecksum != (pFile->GetParameterFlag(_T("Flags"), _T("dontverifychecksum")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_DONTVERIFYCHECKSUM).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nDontVerifyChecksum = 2;
 			}
-			if (m_nUninsNoSharedFilePrompt != (pFile->GetParameterFlag("Flags", "uninsnosharedfileprompt") ? TRUE : FALSE)) {
+			if (m_nUninsNoSharedFilePrompt != (pFile->GetParameterFlag(_T("Flags"), _T("uninsnosharedfileprompt")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_UNINSNOSHAREDFILEPROMPT).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nUninsNoSharedFilePrompt = 2;
 			}
-			if (m_nCreateAllSubdirs != (pFile->GetParameterFlag("Flags", "createallsubdirs") ? TRUE : FALSE)) {
+			if (m_nCreateAllSubdirs != (pFile->GetParameterFlag(_T("Flags"), _T("createallsubdirs")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_CREATEALLSUBDIRS).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nCreateAllSubdirs = 2;
 			}
-			if (m_n32Bit != (pFile->GetParameterFlag("Flags", "32bit") ? TRUE : FALSE)) {
+			if (m_n32Bit != (pFile->GetParameterFlag(_T("Flags"), _T("32bit")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_32BIT).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_n32Bit = 2;
 			}
-			if (m_n64Bit != (pFile->GetParameterFlag("Flags", "64bit") ? TRUE : FALSE)) {
+			if (m_n64Bit != (pFile->GetParameterFlag(_T("Flags"), _T("64bit")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_64BIT).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_n64Bit = 2;
 			}
-			if (m_nSolidBreak != (pFile->GetParameterFlag("Flags", "solidbreak") ? TRUE : FALSE)) {
+			if (m_nSolidBreak != (pFile->GetParameterFlag(_T("Flags"), _T("solidbreak")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_FILES_SOLIDBREAK).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nSolidBreak = 2;
 			}
-			if (m_nSetNTFSCompression != (pFile->GetParameterFlag("Flags", "setntfscompression") ? TRUE : FALSE)) {
+			if (m_nSetNTFSCompression != (pFile->GetParameterFlag(_T("Flags"), _T("setntfscompression")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_SETNTFSCOMPRESSION).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nSetNTFSCompression = 2;
 			}
-			if (m_nUnsetNTFSCompression != (pFile->GetParameterFlag("Flags", "unsetntfscompression") ? TRUE : FALSE)) {
+			if (m_nUnsetNTFSCompression != (pFile->GetParameterFlag(_T("Flags"), _T("unsetntfscompression")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_UNSETNTFSCOMPRESSION).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nUnsetNTFSCompression = 2;
 			}
-			if (m_nSortFilesByName != (pFile->GetParameterFlag("Flags", "sortfilesbyname") ? TRUE : FALSE)) {
+			if (m_nSortFilesByName != (pFile->GetParameterFlag(_T("Flags"), _T("sortfilesbyname")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_SORTFILESBYNAME).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nSortFilesByName = 2;
 			}
-			if (m_nGacInstall != (pFile->GetParameterFlag("Flags", "gacinstall") ? TRUE : FALSE)) {
+			if (m_nGacInstall != (pFile->GetParameterFlag(_T("Flags"), _T("gacinstall")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_GACINSTALL).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nGacInstall = 2;
 			}
@@ -437,7 +437,7 @@ public:
 #ifdef TODO
 		if ((bForce || !m_strSource.IsEmpty()) && m_bExternal != 1) {
 			if (!CMyUtils::IsFile(m_strSource))
-				if (AfxMessageBox(m_strSource + " doesn't exist. Continue?", MB_YESNO | MB_ICONQUESTION) != IDYES)
+				if (AfxMessageBox(m_strSource + _T(" doesn't exist. Continue?"), MB_YESNO | MB_ICONQUESTION) != IDYES)
 					return PSNRET_INVALID;
 		}
 #endif
@@ -448,63 +448,63 @@ public:
 			CString strOld, strNew;
 			CInnoScriptEx::GetDestName(pFile, strOld);
 
-			CInnoScriptEx::SetString(pFile, bForce, "Source", m_strSource);
-			CInnoScriptEx::SetString(pFile, bForce, "DestDir", m_strDestDir);
-			CInnoScriptEx::SetString(pFile, bForce, "DestName", m_strDestName);
+			CInnoScriptEx::SetString(pFile, bForce, _T("Source"), m_strSource);
+			CInnoScriptEx::SetString(pFile, bForce, _T("DestDir"), m_strDestDir);
+			CInnoScriptEx::SetString(pFile, bForce, _T("DestName"), m_strDestName);
 
 			CInnoScriptEx::GetDestName(pFile, strNew);
 			// If destination file has changed, check if references should be changed also
 			if (strNew.CompareNoCase(strOld)) m_pDoc->RenameFile(m_hWnd, strOld, strNew);
 
-			CInnoScriptEx::SetString(pFile, bForce, "FontInstall", m_strFontInstall);
-			CInnoScriptEx::SetString(pFile, bForce, "Permissions", m_strPermissions);
-			CInnoScriptEx::SetString(pFile, bForce, "Excludes", m_strExcludes);
-			CInnoScriptEx::SetString(pFile, bForce, "ExternalSize", m_strExternalSize);
-			CInnoScriptEx::SetString(pFile, bForce, "StrongAssemblyName", m_strStrongAssemblyName);
+			CInnoScriptEx::SetString(pFile, bForce, _T("FontInstall"), m_strFontInstall);
+			CInnoScriptEx::SetString(pFile, bForce, _T("Permissions"), m_strPermissions);
+			CInnoScriptEx::SetString(pFile, bForce, _T("Excludes"), m_strExcludes);
+			CInnoScriptEx::SetString(pFile, bForce, _T("ExternalSize"), m_strExternalSize);
+			CInnoScriptEx::SetString(pFile, bForce, _T("StrongAssemblyName"), m_strStrongAssemblyName);
 
 			// Attribs
-			CInnoScriptEx::SetFlag(pFile, "Attribs", "readonly", m_bReadOnly);
-			CInnoScriptEx::SetFlag(pFile, "Attribs", "hidden", m_bHidden);
-			CInnoScriptEx::SetFlag(pFile, "Attribs", "system", m_bSystem);
+			CInnoScriptEx::SetFlag(pFile, _T("Attribs"), _T("readonly"), m_bReadOnly);
+			CInnoScriptEx::SetFlag(pFile, _T("Attribs"), _T("hidden"), m_bHidden);
+			CInnoScriptEx::SetFlag(pFile, _T("Attribs"), _T("system"), m_bSystem);
 
 			// Flags
-			CInnoScriptEx::SetFlag(pFile, "Flags", "comparetimestamp", m_bCompareTimeStamp);
-			CInnoScriptEx::SetFlag(pFile, "Flags", "confirmoverwrite", m_bConfirmOverwrite);
-			CInnoScriptEx::SetFlag(pFile, "Flags", "deleteafterinstall", m_bDeleteAfterInstall);
-			CInnoScriptEx::SetFlag(pFile, "Flags", "fontisnttruetype", m_bFontIsntTrueType);
-			CInnoScriptEx::SetFlag(pFile, "Flags", "isreadme", m_bIsReadMe);
-			CInnoScriptEx::SetFlag(pFile, "Flags", "regserver", m_bRegServer);
-			CInnoScriptEx::SetFlag(pFile, "Flags", "restartreplace", m_bRestartReplace);
-			CInnoScriptEx::SetFlag(pFile, "Flags", "sharedfile", m_bSharedFile);
-			CInnoScriptEx::SetFlag(pFile, "Flags", "uninsneveruninstall", m_bUninsNeverUninstall);
-			CInnoScriptEx::SetFlag(pFile, "Flags", "external", m_bExternal);
-			CInnoScriptEx::SetFlag(pFile, "Flags", "regtypelib", m_bRegTypeLib);
-			CInnoScriptEx::SetFlag(pFile, "Flags", "skipifsourcedoesntexist", m_bSkipIfSourceDoesntExist);
-			CInnoScriptEx::SetFlag(pFile, "Flags", "overwritereadonly", m_bOverwriteReadOnly);
-			CInnoScriptEx::SetFlag(pFile, "Flags", "onlyifdestfileexists", m_nOnlyIfDestFileExists);
-			CInnoScriptEx::SetFlag(pFile, "Flags", "recursesubdirs", m_bRecurseSubDirs);
-			CInnoScriptEx::SetFlag(pFile, "Flags", "noregerror", m_bNoRegError);
-			CInnoScriptEx::SetFlag(pFile, "Flags", "uninsrestartdelete", m_nUninsRestartDelete);
-			CInnoScriptEx::SetFlag(pFile, "Flags", "promptifolder", m_nPromptIfOlder);
-			CInnoScriptEx::SetFlag(pFile, "Flags", "onlyifdoesntexist", m_nOnlyIfDoesntExist);
-			CInnoScriptEx::SetFlag(pFile, "Flags", "ignoreversion", m_nIgnoreVersion);
-			CInnoScriptEx::SetFlag(pFile, "Flags", "dontcopy", m_nDontCopy);
-			CInnoScriptEx::SetFlag(pFile, "Flags", "uninsremovereadonly", m_nUninsRemoveReadOnly);
-			CInnoScriptEx::SetFlag(pFile, "Flags", "sortfilesbyextension", m_nSortFilesByExtension);
-			CInnoScriptEx::SetFlag(pFile, "Flags", "touch", m_nTouch);
-			CInnoScriptEx::SetFlag(pFile, "Flags", "replacesameversion", m_nReplaceSameVersion);
-			CInnoScriptEx::SetFlag(pFile, "Flags", "noencryption", m_nNoEncryption);
-			CInnoScriptEx::SetFlag(pFile, "Flags", "nocompression", m_nNoCompression);
-			CInnoScriptEx::SetFlag(pFile, "Flags", "dontverifychecksum", m_nDontVerifyChecksum);
-			CInnoScriptEx::SetFlag(pFile, "Flags", "uninsnosharedfileprompt", m_nUninsNoSharedFilePrompt);
-			CInnoScriptEx::SetFlag(pFile, "Flags", "createallsubdirs", m_nCreateAllSubdirs);
-			CInnoScriptEx::SetFlag(pFile, "Flags", "32bit", m_n32Bit);
-			CInnoScriptEx::SetFlag(pFile, "Flags", "64bit", m_n64Bit);
-			CInnoScriptEx::SetFlag(pFile, "Flags", "solidbreak", m_nSolidBreak);
-			CInnoScriptEx::SetFlag(pFile, "Flags", "setntfscompression", m_nSetNTFSCompression);
-			CInnoScriptEx::SetFlag(pFile, "Flags", "unsetntfscompression", m_nUnsetNTFSCompression);
-			CInnoScriptEx::SetFlag(pFile, "Flags", "sortfilesbyname", m_nSortFilesByName);
-			CInnoScriptEx::SetFlag(pFile, "Flags", "gacinstall", m_nGacInstall);
+			CInnoScriptEx::SetFlag(pFile, _T("Flags"), _T("comparetimestamp"), m_bCompareTimeStamp);
+			CInnoScriptEx::SetFlag(pFile, _T("Flags"), _T("confirmoverwrite"), m_bConfirmOverwrite);
+			CInnoScriptEx::SetFlag(pFile, _T("Flags"), _T("deleteafterinstall"), m_bDeleteAfterInstall);
+			CInnoScriptEx::SetFlag(pFile, _T("Flags"), _T("fontisnttruetype"), m_bFontIsntTrueType);
+			CInnoScriptEx::SetFlag(pFile, _T("Flags"), _T("isreadme"), m_bIsReadMe);
+			CInnoScriptEx::SetFlag(pFile, _T("Flags"), _T("regserver"), m_bRegServer);
+			CInnoScriptEx::SetFlag(pFile, _T("Flags"), _T("restartreplace"), m_bRestartReplace);
+			CInnoScriptEx::SetFlag(pFile, _T("Flags"), _T("sharedfile"), m_bSharedFile);
+			CInnoScriptEx::SetFlag(pFile, _T("Flags"), _T("uninsneveruninstall"), m_bUninsNeverUninstall);
+			CInnoScriptEx::SetFlag(pFile, _T("Flags"), _T("external"), m_bExternal);
+			CInnoScriptEx::SetFlag(pFile, _T("Flags"), _T("regtypelib"), m_bRegTypeLib);
+			CInnoScriptEx::SetFlag(pFile, _T("Flags"), _T("skipifsourcedoesntexist"), m_bSkipIfSourceDoesntExist);
+			CInnoScriptEx::SetFlag(pFile, _T("Flags"), _T("overwritereadonly"), m_bOverwriteReadOnly);
+			CInnoScriptEx::SetFlag(pFile, _T("Flags"), _T("onlyifdestfileexists"), m_nOnlyIfDestFileExists);
+			CInnoScriptEx::SetFlag(pFile, _T("Flags"), _T("recursesubdirs"), m_bRecurseSubDirs);
+			CInnoScriptEx::SetFlag(pFile, _T("Flags"), _T("noregerror"), m_bNoRegError);
+			CInnoScriptEx::SetFlag(pFile, _T("Flags"), _T("uninsrestartdelete"), m_nUninsRestartDelete);
+			CInnoScriptEx::SetFlag(pFile, _T("Flags"), _T("promptifolder"), m_nPromptIfOlder);
+			CInnoScriptEx::SetFlag(pFile, _T("Flags"), _T("onlyifdoesntexist"), m_nOnlyIfDoesntExist);
+			CInnoScriptEx::SetFlag(pFile, _T("Flags"), _T("ignoreversion"), m_nIgnoreVersion);
+			CInnoScriptEx::SetFlag(pFile, _T("Flags"), _T("dontcopy"), m_nDontCopy);
+			CInnoScriptEx::SetFlag(pFile, _T("Flags"), _T("uninsremovereadonly"), m_nUninsRemoveReadOnly);
+			CInnoScriptEx::SetFlag(pFile, _T("Flags"), _T("sortfilesbyextension"), m_nSortFilesByExtension);
+			CInnoScriptEx::SetFlag(pFile, _T("Flags"), _T("touch"), m_nTouch);
+			CInnoScriptEx::SetFlag(pFile, _T("Flags"), _T("replacesameversion"), m_nReplaceSameVersion);
+			CInnoScriptEx::SetFlag(pFile, _T("Flags"), _T("noencryption"), m_nNoEncryption);
+			CInnoScriptEx::SetFlag(pFile, _T("Flags"), _T("nocompression"), m_nNoCompression);
+			CInnoScriptEx::SetFlag(pFile, _T("Flags"), _T("dontverifychecksum"), m_nDontVerifyChecksum);
+			CInnoScriptEx::SetFlag(pFile, _T("Flags"), _T("uninsnosharedfileprompt"), m_nUninsNoSharedFilePrompt);
+			CInnoScriptEx::SetFlag(pFile, _T("Flags"), _T("createallsubdirs"), m_nCreateAllSubdirs);
+			CInnoScriptEx::SetFlag(pFile, _T("Flags"), _T("32bit"), m_n32Bit);
+			CInnoScriptEx::SetFlag(pFile, _T("Flags"), _T("64bit"), m_n64Bit);
+			CInnoScriptEx::SetFlag(pFile, _T("Flags"), _T("solidbreak"), m_nSolidBreak);
+			CInnoScriptEx::SetFlag(pFile, _T("Flags"), _T("setntfscompression"), m_nSetNTFSCompression);
+			CInnoScriptEx::SetFlag(pFile, _T("Flags"), _T("unsetntfscompression"), m_nUnsetNTFSCompression);
+			CInnoScriptEx::SetFlag(pFile, _T("Flags"), _T("sortfilesbyname"), m_nSortFilesByName);
+			CInnoScriptEx::SetFlag(pFile, _T("Flags"), _T("gacinstall"), m_nGacInstall);
 		}
 
 		if (m_bNew)
@@ -582,56 +582,56 @@ public:
 
 		for (int nPos = 0; nPos < m_listFiles.GetSize(); nPos++) {
 			CScriptLine* pFile = m_listFiles[nPos];
-			m_strSource = pFile->GetParameter("Source");
-			m_strDestDir = pFile->GetParameter("DestDir");
-			m_strDestName = pFile->GetParameter("DestName");
-			m_strFontInstall = pFile->GetParameter("FontInstall");
-			m_strPermissions = pFile->GetParameter("Permissions");
-			m_strExcludes = pFile->GetParameter("Excludes");
-			m_strExternalSize = pFile->GetParameter("ExternalSize");
-			m_strStrongAssemblyName = pFile->GetParameter("StrongAssemblyName");
+			m_strSource = pFile->GetParameter(_T("Source"));
+			m_strDestDir = pFile->GetParameter(_T("DestDir"));
+			m_strDestName = pFile->GetParameter(_T("DestName"));
+			m_strFontInstall = pFile->GetParameter(_T("FontInstall"));
+			m_strPermissions = pFile->GetParameter(_T("Permissions"));
+			m_strExcludes = pFile->GetParameter(_T("Excludes"));
+			m_strExternalSize = pFile->GetParameter(_T("ExternalSize"));
+			m_strStrongAssemblyName = pFile->GetParameter(_T("StrongAssemblyName"));
 
-			if (pFile->GetParameterFlag("Attribs", "readonly")) m_bReadOnly = TRUE;
-			if (pFile->GetParameterFlag("Attribs", "hidden")) m_bHidden = TRUE;
-			if (pFile->GetParameterFlag("Attribs", "system")) m_bSystem = TRUE;
+			if (pFile->GetParameterFlag(_T("Attribs"), _T("readonly"))) m_bReadOnly = TRUE;
+			if (pFile->GetParameterFlag(_T("Attribs"), _T("hidden"))) m_bHidden = TRUE;
+			if (pFile->GetParameterFlag(_T("Attribs"), _T("system"))) m_bSystem = TRUE;
 
-			if (pFile->GetParameterFlag("Flags", "comparetimestamp")) m_bCompareTimeStamp = TRUE;
-			if (pFile->GetParameterFlag("Flags", "confirmoverwrite")) m_bConfirmOverwrite = TRUE;
-			if (pFile->GetParameterFlag("Flags", "deleteafterinstall")) m_bDeleteAfterInstall = TRUE;
-			if (pFile->GetParameterFlag("Flags", "fontisnttruetype")) m_bFontIsntTrueType = TRUE;
-			if (pFile->GetParameterFlag("Flags", "isreadme")) m_bIsReadMe = TRUE;
-			if (pFile->GetParameterFlag("Flags", "regserver")) m_bRegServer = TRUE;
-			if (pFile->GetParameterFlag("Flags", "restartreplace")) m_bRestartReplace = TRUE;
-			if (pFile->GetParameterFlag("Flags", "sharedfile")) m_bSharedFile = TRUE;
-			if (pFile->GetParameterFlag("Flags", "uninsneveruninstall")) m_bUninsNeverUninstall = TRUE;
-			if (pFile->GetParameterFlag("Flags", "external")) m_bExternal = TRUE;
-			if (pFile->GetParameterFlag("Flags", "regtypelib")) m_bRegTypeLib = TRUE;
-			if (pFile->GetParameterFlag("Flags", "skipifsourcedoesntexist")) m_bSkipIfSourceDoesntExist = TRUE;
-			if (pFile->GetParameterFlag("Flags", "overwritereadonly")) m_bOverwriteReadOnly = TRUE;
-			if (pFile->GetParameterFlag("Flags", "onlyifdestfileexists")) m_nOnlyIfDestFileExists = 1;
-			if (pFile->GetParameterFlag("Flags", "recursesubdirs")) m_bRecurseSubDirs = 1;
-			if (pFile->GetParameterFlag("Flags", "noregerror")) m_bNoRegError = TRUE;
-			if (pFile->GetParameterFlag("Flags", "uninsrestartdelete")) m_nUninsRestartDelete = 1;
-			if (pFile->GetParameterFlag("Flags", "promptifolder")) m_nPromptIfOlder = 1;
-			if (pFile->GetParameterFlag("Flags", "onlyifdoesntexist")) m_nOnlyIfDoesntExist = 1;
-			if (pFile->GetParameterFlag("Flags", "ignoreversion")) m_nIgnoreVersion = 1;
-			if (pFile->GetParameterFlag("Flags", "dontcopy")) m_nDontCopy = 1;
-			if (pFile->GetParameterFlag("Flags", "uninsremovereadonly")) m_nUninsRemoveReadOnly = 1;
-			if (pFile->GetParameterFlag("Flags", "sortfilesbyextension")) m_nSortFilesByExtension = 1;
-			if (pFile->GetParameterFlag("Flags", "touch")) m_nTouch = 1;
-			if (pFile->GetParameterFlag("Flags", "replacesameversion")) m_nReplaceSameVersion = 1;
-			if (pFile->GetParameterFlag("Flags", "noencryption")) m_nNoEncryption = 1;
-			if (pFile->GetParameterFlag("Flags", "nocompression")) m_nNoCompression = 1;
-			if (pFile->GetParameterFlag("Flags", "dontverifychecksum")) m_nDontVerifyChecksum = 1;
-			if (pFile->GetParameterFlag("Flags", "uninsnosharedfileprompt")) m_nUninsNoSharedFilePrompt = 1;
-			if (pFile->GetParameterFlag("Flags", "createallsubdirs")) m_nCreateAllSubdirs = 1;
-			if (pFile->GetParameterFlag("Flags", "32bit")) m_n32Bit = 1;
-			if (pFile->GetParameterFlag("Flags", "64bit")) m_n64Bit = 1;
-			if (pFile->GetParameterFlag("Flags", "solidbreak")) m_nSolidBreak = 1;
-			if (pFile->GetParameterFlag("Flags", "setntfscompression")) m_nSetNTFSCompression = 1;
-			if (pFile->GetParameterFlag("Flags", "unsetntfscompression")) m_nUnsetNTFSCompression = 1;
-			if (pFile->GetParameterFlag("Flags", "sortfilesbyname")) m_nSortFilesByName = 1;
-			if (pFile->GetParameterFlag("Flags", "gacinstall")) m_nGacInstall = 1;
+			if (pFile->GetParameterFlag(_T("Flags"), _T("comparetimestamp"))) m_bCompareTimeStamp = TRUE;
+			if (pFile->GetParameterFlag(_T("Flags"), _T("confirmoverwrite"))) m_bConfirmOverwrite = TRUE;
+			if (pFile->GetParameterFlag(_T("Flags"), _T("deleteafterinstall"))) m_bDeleteAfterInstall = TRUE;
+			if (pFile->GetParameterFlag(_T("Flags"), _T("fontisnttruetype"))) m_bFontIsntTrueType = TRUE;
+			if (pFile->GetParameterFlag(_T("Flags"), _T("isreadme"))) m_bIsReadMe = TRUE;
+			if (pFile->GetParameterFlag(_T("Flags"), _T("regserver"))) m_bRegServer = TRUE;
+			if (pFile->GetParameterFlag(_T("Flags"), _T("restartreplace"))) m_bRestartReplace = TRUE;
+			if (pFile->GetParameterFlag(_T("Flags"), _T("sharedfile"))) m_bSharedFile = TRUE;
+			if (pFile->GetParameterFlag(_T("Flags"), _T("uninsneveruninstall"))) m_bUninsNeverUninstall = TRUE;
+			if (pFile->GetParameterFlag(_T("Flags"), _T("external"))) m_bExternal = TRUE;
+			if (pFile->GetParameterFlag(_T("Flags"), _T("regtypelib"))) m_bRegTypeLib = TRUE;
+			if (pFile->GetParameterFlag(_T("Flags"), _T("skipifsourcedoesntexist"))) m_bSkipIfSourceDoesntExist = TRUE;
+			if (pFile->GetParameterFlag(_T("Flags"), _T("overwritereadonly"))) m_bOverwriteReadOnly = TRUE;
+			if (pFile->GetParameterFlag(_T("Flags"), _T("onlyifdestfileexists"))) m_nOnlyIfDestFileExists = 1;
+			if (pFile->GetParameterFlag(_T("Flags"), _T("recursesubdirs"))) m_bRecurseSubDirs = 1;
+			if (pFile->GetParameterFlag(_T("Flags"), _T("noregerror"))) m_bNoRegError = TRUE;
+			if (pFile->GetParameterFlag(_T("Flags"), _T("uninsrestartdelete"))) m_nUninsRestartDelete = 1;
+			if (pFile->GetParameterFlag(_T("Flags"), _T("promptifolder"))) m_nPromptIfOlder = 1;
+			if (pFile->GetParameterFlag(_T("Flags"), _T("onlyifdoesntexist"))) m_nOnlyIfDoesntExist = 1;
+			if (pFile->GetParameterFlag(_T("Flags"), _T("ignoreversion"))) m_nIgnoreVersion = 1;
+			if (pFile->GetParameterFlag(_T("Flags"), _T("dontcopy"))) m_nDontCopy = 1;
+			if (pFile->GetParameterFlag(_T("Flags"), _T("uninsremovereadonly"))) m_nUninsRemoveReadOnly = 1;
+			if (pFile->GetParameterFlag(_T("Flags"), _T("sortfilesbyextension"))) m_nSortFilesByExtension = 1;
+			if (pFile->GetParameterFlag(_T("Flags"), _T("touch"))) m_nTouch = 1;
+			if (pFile->GetParameterFlag(_T("Flags"), _T("replacesameversion"))) m_nReplaceSameVersion = 1;
+			if (pFile->GetParameterFlag(_T("Flags"), _T("noencryption"))) m_nNoEncryption = 1;
+			if (pFile->GetParameterFlag(_T("Flags"), _T("nocompression"))) m_nNoCompression = 1;
+			if (pFile->GetParameterFlag(_T("Flags"), _T("dontverifychecksum"))) m_nDontVerifyChecksum = 1;
+			if (pFile->GetParameterFlag(_T("Flags"), _T("uninsnosharedfileprompt"))) m_nUninsNoSharedFilePrompt = 1;
+			if (pFile->GetParameterFlag(_T("Flags"), _T("createallsubdirs"))) m_nCreateAllSubdirs = 1;
+			if (pFile->GetParameterFlag(_T("Flags"), _T("32bit"))) m_n32Bit = 1;
+			if (pFile->GetParameterFlag(_T("Flags"), _T("64bit"))) m_n64Bit = 1;
+			if (pFile->GetParameterFlag(_T("Flags"), _T("solidbreak"))) m_nSolidBreak = 1;
+			if (pFile->GetParameterFlag(_T("Flags"), _T("setntfscompression"))) m_nSetNTFSCompression = 1;
+			if (pFile->GetParameterFlag(_T("Flags"), _T("unsetntfscompression"))) m_nUnsetNTFSCompression = 1;
+			if (pFile->GetParameterFlag(_T("Flags"), _T("sortfilesbyname"))) m_nSortFilesByName = 1;
+			if (pFile->GetParameterFlag(_T("Flags"), _T("gacinstall"))) m_nGacInstall = 1;
 			break;
 		}
 	}

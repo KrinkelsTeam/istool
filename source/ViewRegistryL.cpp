@@ -21,17 +21,17 @@ CViewRegistryL::CViewRegistryL() : CMyListView(CInnoScript::SEC_REGISTRY) {
 // CViewRegistryL message handlers
 
 const CListInfo CViewRegistryL::m_colInfo[] = {
-	"Root",				LVCFMT_LEFT,	140, 0,
-	"Subkey",			LVCFMT_LEFT,	200, 0,
-	"ValueType",		LVCFMT_LEFT,	 60, 0,
-	"ValueName",		LVCFMT_LEFT,	100, 0,
-	"ValueData",		LVCFMT_LEFT,	120, 0,
-	"Flags",			LVCFMT_LEFT,	150, 0,
-	"MinVersion",		LVCFMT_LEFT,	 80, CLI_HIDE,
-	"OnlyBelowVersion",	LVCFMT_LEFT,	 80, CLI_HIDE,
-	"Components",		LVCFMT_LEFT,	100, CLI_HIDE,
-	"Tasks",			LVCFMT_LEFT,	100, CLI_HIDE,
-	"Languages",		LVCFMT_LEFT,	 80, CLI_HIDE,
+	_T("Root"),				LVCFMT_LEFT,	140, 0,
+	_T("Subkey"),			LVCFMT_LEFT,	200, 0,
+	_T("ValueType"),		LVCFMT_LEFT,	 60, 0,
+	_T("ValueName"),		LVCFMT_LEFT,	100, 0,
+	_T("ValueData"),		LVCFMT_LEFT,	120, 0,
+	_T("Flags"),			LVCFMT_LEFT,	150, 0,
+	_T("MinVersion"),		LVCFMT_LEFT,	 80, CLI_HIDE,
+	_T("OnlyBelowVersion"),	LVCFMT_LEFT,	 80, CLI_HIDE,
+	_T("Components"),		LVCFMT_LEFT,	100, CLI_HIDE,
+	_T("Tasks"),			LVCFMT_LEFT,	100, CLI_HIDE,
+	_T("Languages"),		LVCFMT_LEFT,	 80, CLI_HIDE,
 	NULL
 };
 

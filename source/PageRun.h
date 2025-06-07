@@ -128,91 +128,91 @@ public:
 				GetDlgItem(IDC_STATIC6).EnableWindow(TRUE);
 			}
 
-			if (m_strFilename.CompareNoCase(SAFESTR(pLine->GetParameter("Filename")))) m_strFilename.Empty();
-			if (m_strParameters.CompareNoCase(SAFESTR(pLine->GetParameter("Parameters")))) m_strParameters.Empty();
-			if (m_strWorkingDir.CompareNoCase(SAFESTR(pLine->GetParameter("WorkingDir")))) m_strWorkingDir.Empty();
-			if (m_strRunOnceId.CompareNoCase(SAFESTR(pLine->GetParameter("RunOnceId")))) m_strRunOnceId.Empty();
-			if (m_strDescription.CompareNoCase(SAFESTR(pLine->GetParameter("Description")))) m_strDescription.Empty();
-			if (m_strStatusMsg.CompareNoCase(SAFESTR(pLine->GetParameter("StatusMsg")))) m_strStatusMsg.Empty();
-			if (m_strVerb.CompareNoCase(SAFESTR(pLine->GetParameter("Verb")))) m_strVerb.Empty();
+			if (m_strFilename.CompareNoCase(SAFESTR(pLine->GetParameter(_T("Filename"))))) m_strFilename.Empty();
+			if (m_strParameters.CompareNoCase(SAFESTR(pLine->GetParameter(_T("Parameters"))))) m_strParameters.Empty();
+			if (m_strWorkingDir.CompareNoCase(SAFESTR(pLine->GetParameter(_T("WorkingDir"))))) m_strWorkingDir.Empty();
+			if (m_strRunOnceId.CompareNoCase(SAFESTR(pLine->GetParameter(_T("RunOnceId"))))) m_strRunOnceId.Empty();
+			if (m_strDescription.CompareNoCase(SAFESTR(pLine->GetParameter(_T("Description"))))) m_strDescription.Empty();
+			if (m_strStatusMsg.CompareNoCase(SAFESTR(pLine->GetParameter(_T("StatusMsg"))))) m_strStatusMsg.Empty();
+			if (m_strVerb.CompareNoCase(SAFESTR(pLine->GetParameter(_T("Verb"))))) m_strVerb.Empty();
 
 			//Flags
-			if (m_nNoWait != (pLine->GetParameterFlag("Flags", "nowait") ? TRUE : FALSE)) {
+			if (m_nNoWait != (pLine->GetParameterFlag(_T("Flags"), _T("nowait")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_NOWAIT).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nNoWait = 2;
 			}
 
-			if (m_nShellExec != (pLine->GetParameterFlag("Flags", "shellexec") ? TRUE : FALSE)) {
+			if (m_nShellExec != (pLine->GetParameterFlag(_T("Flags"), _T("shellexec")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_SHELLEXEC).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nShellExec = 2;
 			}
 
-			if (m_nWaitUntilIdle != (pLine->GetParameterFlag("Flags", "waituntilidle") ? TRUE : FALSE)) {
+			if (m_nWaitUntilIdle != (pLine->GetParameterFlag(_T("Flags"), _T("waituntilidle")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_WAITUNTILIDLE).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nWaitUntilIdle = 2;
 			}
 
-			if (m_nRunMinimized != (pLine->GetParameterFlag("Flags", "runminimized") ? TRUE : FALSE)) {
+			if (m_nRunMinimized != (pLine->GetParameterFlag(_T("Flags"), _T("runminimized")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_RUN_RUNMINIMIZED).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nRunMinimized = 2;
 			}
 
-			if (m_nSkipIfDoesntExist != (pLine->GetParameterFlag("Flags", "skipifdoesntexist") ? TRUE : FALSE)) {
+			if (m_nSkipIfDoesntExist != (pLine->GetParameterFlag(_T("Flags"), _T("skipifdoesntexist")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_RUN_SKIPIFDOESNTEXIST).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nSkipIfDoesntExist = 2;
 			}
 
-			if (m_nPostInstall != (pLine->GetParameterFlag("Flags", "postinstall") ? TRUE : FALSE)) {
+			if (m_nPostInstall != (pLine->GetParameterFlag(_T("Flags"), _T("postinstall")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_RUN_POSTINSTALL).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nPostInstall = 2;
 			}
 
-			if (m_nUnchecked != (pLine->GetParameterFlag("Flags", "unchecked") ? TRUE : FALSE)) {
+			if (m_nUnchecked != (pLine->GetParameterFlag(_T("Flags"), _T("unchecked")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_RUN_UNCHECKED).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nUnchecked = 2;
 			}
 
-			if (m_nSkipIfSilent != (pLine->GetParameterFlag("Flags", "skipifsilent") ? TRUE : FALSE)) {
+			if (m_nSkipIfSilent != (pLine->GetParameterFlag(_T("Flags"), _T("skipifsilent")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_RUN_SKIPIFSILENT).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nSkipIfSilent = 2;
 			}
 
-			if (m_nSkipIfNotSilent != (pLine->GetParameterFlag("Flags", "skipifnotsilent") ? TRUE : FALSE)) {
+			if (m_nSkipIfNotSilent != (pLine->GetParameterFlag(_T("Flags"), _T("skipifnotsilent")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_RUN_SKIPIFNOTSILENT).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nSkipIfNotSilent = 2;
 			}
 
-			if (m_nRunMaximized != (pLine->GetParameterFlag("Flags", "runmaximized") ? TRUE : FALSE)) {
+			if (m_nRunMaximized != (pLine->GetParameterFlag(_T("Flags"), _T("runmaximized")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_RUN_RUNMAXIMIZED).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nRunMaximized = 2;
 			}
 
-			if (m_nHideWizard != (pLine->GetParameterFlag("Flags", "hidewizard") ? TRUE : FALSE)) {
+			if (m_nHideWizard != (pLine->GetParameterFlag(_T("Flags"), _T("hidewizard")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_RUN_HIDEWIZARD).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nHideWizard = 2;
 			}
 
-			if (m_nRunHidden != (pLine->GetParameterFlag("Flags", "runhidden") ? TRUE : FALSE)) {
+			if (m_nRunHidden != (pLine->GetParameterFlag(_T("Flags"), _T("runhidden")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_RUNHIDDEN).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nRunHidden = 2;
 			}
 
-			if (m_n32Bit != (pLine->GetParameterFlag("Flags", "32bit") ? TRUE : FALSE)) {
+			if (m_n32Bit != (pLine->GetParameterFlag(_T("Flags"), _T("32bit")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_RUN_32BIT).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_n32Bit = 2;
 			}
 
-			if (m_n64Bit != (pLine->GetParameterFlag("Flags", "64bit") ? TRUE : FALSE)) {
+			if (m_n64Bit != (pLine->GetParameterFlag(_T("Flags"), _T("64bit")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_RUN_64BIT).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_n64Bit = 2;
 			}
 
-			if (m_nRunAsCurrentUser != (pLine->GetParameterFlag("Flags", "runascurrentuser") ? TRUE : FALSE)) {
+			if (m_nRunAsCurrentUser != (pLine->GetParameterFlag(_T("Flags"), _T("runascurrentuser")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_RUNASCURRENTUSER).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nRunAsCurrentUser = 2;
 			}
 
-			if (m_nRunAsOriginalUser != (pLine->GetParameterFlag("Flags", "runasoriginaluser") ? TRUE : FALSE)) {
+			if (m_nRunAsOriginalUser != (pLine->GetParameterFlag(_T("Flags"), _T("runasoriginaluser")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_RUNASORIGINALUSER).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nRunAsOriginalUser = 2;
 			}
@@ -239,33 +239,33 @@ public:
 		for (int nPos = 0; nPos < m_list.GetSize(); nPos++) {
 			CScriptLine* pLine = m_list[nPos];
 
-			CInnoScriptEx::SetString(pLine, bForce, "Filename", m_strFilename);
-			CInnoScriptEx::SetString(pLine, bForce, "Parameters", m_strParameters);
-			CInnoScriptEx::SetString(pLine, bForce, "WorkingDir", m_strWorkingDir);
-			CInnoScriptEx::SetString(pLine, bForce, "Verb", m_strVerb);
+			CInnoScriptEx::SetString(pLine, bForce, _T("Filename"), m_strFilename);
+			CInnoScriptEx::SetString(pLine, bForce, _T("Parameters"), m_strParameters);
+			CInnoScriptEx::SetString(pLine, bForce, _T("WorkingDir"), m_strWorkingDir);
+			CInnoScriptEx::SetString(pLine, bForce, _T("Verb"), m_strVerb);
 			if (m_bIsUninst)
-				CInnoScriptEx::SetString(pLine, bForce, "RunOnceId", m_strRunOnceId);
-			CInnoScriptEx::SetString(pLine, bForce, "Description", m_strDescription);
+				CInnoScriptEx::SetString(pLine, bForce, _T("RunOnceId"), m_strRunOnceId);
+			CInnoScriptEx::SetString(pLine, bForce, _T("Description"), m_strDescription);
 			if (!m_bIsUninst)
-				CInnoScriptEx::SetString(pLine, bForce, "StatusMsg", m_strStatusMsg);
+				CInnoScriptEx::SetString(pLine, bForce, _T("StatusMsg"), m_strStatusMsg);
 
 			// Flags
-			CInnoScriptEx::SetFlag(pLine, "Flags", "nowait", m_nNoWait);
-			CInnoScriptEx::SetFlag(pLine, "Flags", "shellexec", m_nShellExec);
-			CInnoScriptEx::SetFlag(pLine, "Flags", "waituntilidle", m_nWaitUntilIdle);
-			CInnoScriptEx::SetFlag(pLine, "Flags", "runminimized", m_nRunMinimized);
-			CInnoScriptEx::SetFlag(pLine, "Flags", "skipifdoesntexist", m_nSkipIfDoesntExist);
-			CInnoScriptEx::SetFlag(pLine, "Flags", "postinstall", m_nPostInstall);
-			CInnoScriptEx::SetFlag(pLine, "Flags", "unchecked", m_nUnchecked);
-			CInnoScriptEx::SetFlag(pLine, "Flags", "skipifsilent", m_nSkipIfSilent);
-			CInnoScriptEx::SetFlag(pLine, "Flags", "skipifnotsilent", m_nSkipIfNotSilent);
-			CInnoScriptEx::SetFlag(pLine, "Flags", "runmaximized", m_nRunMaximized);
-			CInnoScriptEx::SetFlag(pLine, "Flags", "hidewizard", m_nHideWizard);
-			CInnoScriptEx::SetFlag(pLine, "Flags", "runhidden", m_nRunHidden);
-			CInnoScriptEx::SetFlag(pLine, "Flags", "32bit", m_n32Bit);
-			CInnoScriptEx::SetFlag(pLine, "Flags", "64bit", m_n64Bit);
-			CInnoScriptEx::SetFlag(pLine, "Flags", "runascurrentuser", m_nRunAsCurrentUser);
-			CInnoScriptEx::SetFlag(pLine, "Flags", "runasoriginaluser", m_nRunAsOriginalUser);
+			CInnoScriptEx::SetFlag(pLine, _T("Flags"), _T("nowait"), m_nNoWait);
+			CInnoScriptEx::SetFlag(pLine, _T("Flags"), _T("shellexec"), m_nShellExec);
+			CInnoScriptEx::SetFlag(pLine, _T("Flags"), _T("waituntilidle"), m_nWaitUntilIdle);
+			CInnoScriptEx::SetFlag(pLine, _T("Flags"), _T("runminimized"), m_nRunMinimized);
+			CInnoScriptEx::SetFlag(pLine, _T("Flags"), _T("skipifdoesntexist"), m_nSkipIfDoesntExist);
+			CInnoScriptEx::SetFlag(pLine, _T("Flags"), _T("postinstall"), m_nPostInstall);
+			CInnoScriptEx::SetFlag(pLine, _T("Flags"), _T("unchecked"), m_nUnchecked);
+			CInnoScriptEx::SetFlag(pLine, _T("Flags"), _T("skipifsilent"), m_nSkipIfSilent);
+			CInnoScriptEx::SetFlag(pLine, _T("Flags"), _T("skipifnotsilent"), m_nSkipIfNotSilent);
+			CInnoScriptEx::SetFlag(pLine, _T("Flags"), _T("runmaximized"), m_nRunMaximized);
+			CInnoScriptEx::SetFlag(pLine, _T("Flags"), _T("hidewizard"), m_nHideWizard);
+			CInnoScriptEx::SetFlag(pLine, _T("Flags"), _T("runhidden"), m_nRunHidden);
+			CInnoScriptEx::SetFlag(pLine, _T("Flags"), _T("32bit"), m_n32Bit);
+			CInnoScriptEx::SetFlag(pLine, _T("Flags"), _T("64bit"), m_n64Bit);
+			CInnoScriptEx::SetFlag(pLine, _T("Flags"), _T("runascurrentuser"), m_nRunAsCurrentUser);
+			CInnoScriptEx::SetFlag(pLine, _T("Flags"), _T("runasoriginaluser"), m_nRunAsOriginalUser);
 		}
 		return PSNRET_NOERROR;
 	}
@@ -347,31 +347,31 @@ public:
 		for (int nPos = 0; nPos < m_list.GetSize(); nPos++) {
 			CScriptLine* pLine = m_list[nPos];
 
-			m_strFilename = pLine->GetParameter("Filename");
-			m_strParameters = pLine->GetParameter("Parameters");
-			m_strWorkingDir = pLine->GetParameter("WorkingDir");
-			m_strRunOnceId = pLine->GetParameter("RunOnceId");
-			m_strDescription = pLine->GetParameter("Description");
-			m_strStatusMsg = pLine->GetParameter("StatusMsg");
-			m_strVerb = pLine->GetParameter("Verb");
+			m_strFilename = pLine->GetParameter(_T("Filename"));
+			m_strParameters = pLine->GetParameter(_T("Parameters"));
+			m_strWorkingDir = pLine->GetParameter(_T("WorkingDir"));
+			m_strRunOnceId = pLine->GetParameter(_T("RunOnceId"));
+			m_strDescription = pLine->GetParameter(_T("Description"));
+			m_strStatusMsg = pLine->GetParameter(_T("StatusMsg"));
+			m_strVerb = pLine->GetParameter(_T("Verb"));
 
 			//Flags
-			if (pLine->GetParameterFlag("Flags", "nowait")) m_nNoWait = 1;
-			if (pLine->GetParameterFlag("Flags", "shellexec")) m_nShellExec = 1;
-			if (pLine->GetParameterFlag("Flags", "waituntilidle")) m_nWaitUntilIdle = 1;
-			if (pLine->GetParameterFlag("Flags", "runminimized")) m_nRunMinimized = 1;
-			if (pLine->GetParameterFlag("Flags", "skipifdoesntexist")) m_nSkipIfDoesntExist = 1;
-			if (pLine->GetParameterFlag("Flags", "postinstall")) m_nPostInstall = 1;
-			if (pLine->GetParameterFlag("Flags", "unchecked")) m_nUnchecked = 1;
-			if (pLine->GetParameterFlag("Flags", "skipifsilent")) m_nSkipIfSilent = 1;
-			if (pLine->GetParameterFlag("Flags", "skipifnotsilent")) m_nSkipIfNotSilent = 1;
-			if (pLine->GetParameterFlag("Flags", "runmaximized")) m_nRunMaximized = 1;
-			if (pLine->GetParameterFlag("Flags", "hidewizard")) m_nHideWizard = 1;
-			if (pLine->GetParameterFlag("Flags", "runhidden")) m_nRunHidden = 1;
-			if (pLine->GetParameterFlag("Flags", "32bit")) m_n32Bit = 1;
-			if (pLine->GetParameterFlag("Flags", "64bit")) m_n64Bit = 1;
-			if (pLine->GetParameterFlag("Flags", "runascurrentuser")) m_nRunAsCurrentUser = 1;
-			if (pLine->GetParameterFlag("Flags", "runasoriginaluser")) m_nRunAsOriginalUser = 1;
+			if (pLine->GetParameterFlag(_T("Flags"), _T("nowait"))) m_nNoWait = 1;
+			if (pLine->GetParameterFlag(_T("Flags"), _T("shellexec"))) m_nShellExec = 1;
+			if (pLine->GetParameterFlag(_T("Flags"), _T("waituntilidle"))) m_nWaitUntilIdle = 1;
+			if (pLine->GetParameterFlag(_T("Flags"), _T("runminimized"))) m_nRunMinimized = 1;
+			if (pLine->GetParameterFlag(_T("Flags"), _T("skipifdoesntexist"))) m_nSkipIfDoesntExist = 1;
+			if (pLine->GetParameterFlag(_T("Flags"), _T("postinstall"))) m_nPostInstall = 1;
+			if (pLine->GetParameterFlag(_T("Flags"), _T("unchecked"))) m_nUnchecked = 1;
+			if (pLine->GetParameterFlag(_T("Flags"), _T("skipifsilent"))) m_nSkipIfSilent = 1;
+			if (pLine->GetParameterFlag(_T("Flags"), _T("skipifnotsilent"))) m_nSkipIfNotSilent = 1;
+			if (pLine->GetParameterFlag(_T("Flags"), _T("runmaximized"))) m_nRunMaximized = 1;
+			if (pLine->GetParameterFlag(_T("Flags"), _T("hidewizard"))) m_nHideWizard = 1;
+			if (pLine->GetParameterFlag(_T("Flags"), _T("runhidden"))) m_nRunHidden = 1;
+			if (pLine->GetParameterFlag(_T("Flags"), _T("32bit"))) m_n32Bit = 1;
+			if (pLine->GetParameterFlag(_T("Flags"), _T("64bit"))) m_n64Bit = 1;
+			if (pLine->GetParameterFlag(_T("Flags"), _T("runascurrentuser"))) m_nRunAsCurrentUser = 1;
+			if (pLine->GetParameterFlag(_T("Flags"), _T("runasoriginaluser"))) m_nRunAsOriginalUser = 1;
 			break;
 		}
 	}

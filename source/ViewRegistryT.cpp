@@ -39,14 +39,14 @@ void CViewRegistryT::Populate() {
 HTREEITEM CViewRegistryT::InsertItem(CScriptLine* pLine) {
 	if (pLine->GetComment()) return NULL;
 
-	CString tmp(pLine->GetParameter("ValueName"));
-	if (tmp.IsEmpty()) tmp = "(Default)";
+	CString tmp(pLine->GetParameter(_T("ValueName")));
+	if (tmp.IsEmpty()) tmp = _T("(Default)");
 
 	CString strFolder;
-	LPCTSTR psz = pLine->GetParameter("Root");
+	LPCTSTR psz = pLine->GetParameter(_T("Root"));
 	if (psz) strFolder += psz;
-	strFolder += "\\";
-	psz = pLine->GetParameter("Subkey");
+	strFolder += _T("\\");
+	psz = pLine->GetParameter(_T("Subkey"));
 	if (psz) strFolder += psz;
 
 	HTREEITEM hParent = CMyApp::FindParentItem(GetTreeCtrl(), strFolder);
@@ -58,8 +58,8 @@ HTREEITEM CViewRegistryT::InsertItem(CScriptLine* pLine) {
 }
 
 void CViewRegistryT::SetItemData(HTREEITEM hItem, CScriptLine* pLine) {
-	CString strName(pLine->GetParameter("ValueName"));
-	if (strName.IsEmpty()) strName = "(Default)";
+	CString strName(pLine->GetParameter(_T("ValueName")));
+	if (strName.IsEmpty()) strName = _T("(Default)");
 	GetTreeCtrl().SetItemText(hItem, strName);
 	GetTreeCtrl().SetItemData(hItem, reinterpret_cast<DWORD>(pLine));
 }
@@ -74,7 +74,7 @@ void CViewRegistryT::GetItemDirectory(HTREEITEM hItem, CString& ref) {
 	while (hItem = GetTreeCtrl().GetParentItem(hItem)) {
 		CString strTmp;
 		GetItemText(hItem, strTmp.GetBuffer(256), 256);
-		ref = strTmp + "\\" + ref;
+		ref = strTmp + _T("\\") + ref;
 	}
 }
 

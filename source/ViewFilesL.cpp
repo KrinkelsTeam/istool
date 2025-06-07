@@ -44,19 +44,19 @@ void CViewFilesL::Populate() {
 }
 
 const CListInfo CViewFilesL::m_colInfo[] = {
-	"Name",				LVCFMT_LEFT,	180, 0,
-	"Source",			LVCFMT_LEFT,	180, CLI_HIDE,
-	"DestDir",			LVCFMT_LEFT,	180, 0,
-	"FontInstall",		LVCFMT_LEFT,	150, CLI_HIDE,
-	"Flags",			LVCFMT_LEFT,	150, 0,
-	"Attribs",			LVCFMT_LEFT,	150, CLI_HIDE,
-	"MinVersion",		LVCFMT_LEFT,	 80, CLI_HIDE,
-	"OnlyBelowVersion",	LVCFMT_LEFT,	 80, CLI_HIDE,
-	"Components",		LVCFMT_LEFT,	100, CLI_HIDE,
-	"Tasks",			LVCFMT_LEFT,	100, CLI_HIDE,
-	"Languages",		LVCFMT_LEFT,	 80, CLI_HIDE,
-	"Permissions",		LVCFMT_LEFT,	100, CLI_HIDE,
-	"Excludes",			LVCFMT_LEFT,	100, CLI_HIDE,
+	_T("Name"),				LVCFMT_LEFT,	180, 0,
+	_T("Source"),			LVCFMT_LEFT,	180, CLI_HIDE,
+	_T("DestDir"),			LVCFMT_LEFT,	180, 0,
+	_T("FontInstall"),		LVCFMT_LEFT,	150, CLI_HIDE,
+	_T("Flags"),			LVCFMT_LEFT,	150, 0,
+	_T("Attribs"),			LVCFMT_LEFT,	150, CLI_HIDE,
+	_T("MinVersion"),		LVCFMT_LEFT,	 80, CLI_HIDE,
+	_T("OnlyBelowVersion"),	LVCFMT_LEFT,	 80, CLI_HIDE,
+	_T("Components"),		LVCFMT_LEFT,	100, CLI_HIDE,
+	_T("Tasks"),			LVCFMT_LEFT,	100, CLI_HIDE,
+	_T("Languages"),		LVCFMT_LEFT,	 80, CLI_HIDE,
+	_T("Permissions"),		LVCFMT_LEFT,	100, CLI_HIDE,
+	_T("Excludes"),			LVCFMT_LEFT,	100, CLI_HIDE,
 	NULL
 };
 
@@ -121,7 +121,7 @@ LRESULT CViewFilesL::OnDropFiles(UINT /*uMsg*/, WPARAM wParam, LPARAM /*lParam*/
 	SetActiveWindow();      // activate us first !
 	CString strFolder;
 	CFilesHelper helper(AfxGetDocument());
-	helper.OnDropFiles(m_hWnd, hDropInfo, "{app}");
+	helper.OnDropFiles(m_hWnd, hDropInfo, _T("{app}"));
 	Populate();
 	return 0;
 }

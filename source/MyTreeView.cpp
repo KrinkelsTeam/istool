@@ -174,7 +174,7 @@ LRESULT CMyTreeView::OnCut(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, 
 		pBase->Write(str.GetBuffer(5000), 5000);
 		str.ReleaseBuffer();
 		strClip += str;
-		strClip += "\r\n";
+		strClip += _T("\r\n");
 	}
 
 	if (OpenClipboard()) {
@@ -210,7 +210,7 @@ LRESULT CMyTreeView::OnCopy(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/,
 		pBase->Write(str.GetBuffer(5000), 5000);
 		str.ReleaseBuffer();
 		strClip += str;
-		strClip += "\r\n";
+		strClip += _T("\r\n");
 	}
 
 	if (OpenClipboard()) {
@@ -240,7 +240,7 @@ LRESULT CMyTreeView::OnPaste(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/
 	GlobalUnlock(lp);
 	CloseClipboard();
 
-	CStringToken token(str, "\n");
+	CStringToken token(str, _T("\n"));
 	bool bModified = false;
 	do {
 		LPCTSTR lpsz = token.GetNext();

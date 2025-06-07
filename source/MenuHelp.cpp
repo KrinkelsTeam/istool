@@ -15,7 +15,7 @@ LRESULT CMainFrame::OnHelpInnoSetupHelp(WORD /*wNotifyCode*/, WORD /*wID*/, HWND
 	CWaitCursor wait;
 	CString strHelp(CMyApp::m_prefs.m_strInnoFolder);
 	CMyUtils::EndWith(strHelp, '\\');
-	strHelp += "ISetup.chm";
+	strHelp += _T("ISetup.chm");
 
 	//::WinHelp(AfxGetMainWnd(),strHelp,HELP_FINDER,0);
 	::ShellExecute(AfxGetMainWnd(), _T("open"), strHelp, NULL, NULL, SW_SHOWDEFAULT);
@@ -26,7 +26,7 @@ LRESULT CMainFrame::OnHelpISPP(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCt
 	CWaitCursor wait;
 	CString strHelp(CMyApp::m_prefs.m_strInnoFolder);
 	CMyUtils::EndWith(strHelp, '\\');
-	strHelp += "ISetup.chm";
+	strHelp += _T("ISetup.chm");
 
 	CString strTopic;
 	strTopic.Format(_T("%s::/topic_isppoverview.htm"), strHelp.GetString());
@@ -52,12 +52,12 @@ LRESULT CMainFrame::OnHelp(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOO
 
 LRESULT CMainFrame::OnHelpUpdates(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {
 	CWaitCursor wait;
-	CWebUpdate	update(m_hWnd, "https://istool.krinkels.org/getversion");
+	CWebUpdate	update(m_hWnd, _T("https://istool.krinkels.org/getversion"));
 	CString		strInfo;
 
 	if (update.Check(strInfo)) {
-		CStringToken	token(strInfo, "\n");
-		CStringToken	ver(token.GetNext(), ".");
+		CStringToken	token(strInfo, _T("\n"));
+		CStringToken	ver(token.GetNext(), _T("."));
 		CString			strAddress = token.GetNext();
 
 		LPCTSTR psz;
@@ -83,7 +83,7 @@ LRESULT CMainFrame::OnHelpUpdates(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWn
 					return 0;
 
 				PostMessage(WM_QUIT);
-				ShellExecute(NULL, "open", dlg.m_strFileUpdate, NULL, NULL, SW_SHOWDEFAULT);
+				ShellExecute(NULL, _T("open"), dlg.m_strFileUpdate, NULL, NULL, SW_SHOWDEFAULT);
 			}
 			return 0;
 		}

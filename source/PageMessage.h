@@ -72,8 +72,8 @@ public:
 			if (bForce || !strID.IsEmpty()) pLine->SetKey(strID);
 			if (bForce || !m_strText.IsEmpty()) {
 				CString str(m_strText);
-				str.Replace("\r\n", "%n");
-				str.Replace("\n", "%n");
+				str.Replace(_T("\r\n"), _T("%n"));
+				str.Replace(_T("\n"), _T("%n"));
 				pLine->SetValue(str);
 			}
 		}
@@ -89,7 +89,7 @@ public:
 	void UpdateDefaultMessage() {
 		DoDataExchange(DDX_SAVE, IDC_MESSAGE_KEY);
 		if (m_nKeyIndex < 0) {
-			GetDlgItem(IDC_MESSAGE_DEFAULT).SetWindowText("");
+			GetDlgItem(IDC_MESSAGE_DEFAULT).SetWindowText(_T(""));
 		} else {
 			CString strID, strValue;
 			m_wndKey.GetLBText(m_nKeyIndex, strID);
@@ -108,7 +108,7 @@ public:
 					}
 				}
 			}
-			strValue.Replace("%n", "\r\n");
+			strValue.Replace(_T("%n"), _T("\r\n"));
 			GetDlgItem(IDC_MESSAGE_DEFAULT).SetWindowText(strValue);
 		}
 	}
@@ -125,7 +125,7 @@ public:
 			CScriptLine* pMessage = m_listMessages[nPos];
 			//		m_strKey = pMessage->GetName();
 			m_strText = pMessage->GetValue();
-			m_strText.Replace("%n", "\r\n");
+			m_strText.Replace(_T("%n"), _T("\r\n"));
 			break;
 		}
 	}

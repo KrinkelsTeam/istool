@@ -109,25 +109,25 @@ public:
 		m_wndCompression.Attach(GetDlgItem(IDC_COMPRESSION));
 		m_wndSpinCompressLevel.Attach(GetDlgItem(IDC_SPINCOMPRESSLEVEL));
 
-		m_wndCompression.AddString("zip");
-		m_wndCompression.AddString("bzip");
-		m_wndCompression.AddString("lzma");
-		m_wndCompression.AddString("none");
+		m_wndCompression.AddString(_T("zip"));
+		m_wndCompression.AddString(_T("bzip"));
+		m_wndCompression.AddString(_T("lzma"));
+		m_wndCompression.AddString(_T("none"));
 
-		m_wndCompressLevelCombo.AddString("fast");
-		m_wndCompressLevelCombo.AddString("normal");
-		m_wndCompressLevelCombo.AddString("max");
-		m_wndCompressLevelCombo.AddString("ultra");
-		m_wndCompressLevelCombo.AddString("ultra64");
+		m_wndCompressLevelCombo.AddString(_T("fast"));
+		m_wndCompressLevelCombo.AddString(_T("normal"));
+		m_wndCompressLevelCombo.AddString(_T("max"));
+		m_wndCompressLevelCombo.AddString(_T("ultra"));
+		m_wndCompressLevelCombo.AddString(_T("ultra64"));
 
 		m_wndSpinCompressLevel.SetRange(1, 9);
 
-		m_wndInternalCompressLevel.AddString("none");
-		m_wndInternalCompressLevel.AddString("fast");
-		m_wndInternalCompressLevel.AddString("normal");
-		m_wndInternalCompressLevel.AddString("max");
-		m_wndInternalCompressLevel.AddString("ultra");
-		m_wndInternalCompressLevel.AddString("ultra64");
+		m_wndInternalCompressLevel.AddString(_T("none"));
+		m_wndInternalCompressLevel.AddString(_T("fast"));
+		m_wndInternalCompressLevel.AddString(_T("normal"));
+		m_wndInternalCompressLevel.AddString(_T("max"));
+		m_wndInternalCompressLevel.AddString(_T("ultra"));
+		m_wndInternalCompressLevel.AddString(_T("ultra64"));
 
 		m_wndCompressLevel.EnableWindow(m_nCompression < 2);
 		m_wndSpinCompressLevel.EnableWindow(m_nCompression < 2);
@@ -146,57 +146,57 @@ public:
 		DoDataExchange(DDX_SAVE);
 		CInnoScriptEx& script = m_pDoc->GetScript();
 
-		script.SetPropertyBool("UseSetupLdr", m_bUseSetupLdr ? true : false);
-		script.SetPropertyString("InternalCompressLevel", CInnoScriptEx::GetInternalCompressLevel(m_nInternalCompressLevel));
-		script.SetPropertyString("OutputDir", m_strOutputDir);
-		script.SetPropertyString("SourceDir", m_strSourceDir);
-		script.SetPropertyString("OutputBaseFilename", m_strOutputBaseFilename);
-		script.SetPropertyBool("MergeDuplicateFiles", m_bMergeDuplicateFiles ? true : false);
-		script.SetPropertyString("MessagesFile", m_strMessagesFile);
-		script.SetPropertyBool("SolidCompression", m_bSolidCompression ? true : false);
-		script.SetPropertyString("VersionInfoVersion", m_strVersionInfoVersion);
-		script.SetPropertyString("VersionInfoCompany", m_strVersionInfoCompany);
-		script.SetPropertyString("VersionInfoDescription", m_strVersionInfoDescription);
-		script.SetPropertyString("VersionInfoTextVersion", m_strVersionInfoTextVersion);
-		script.SetPropertyBool("Encryption", m_bEncryption ? true : false);
-		script.SetPropertyString("OutputManifestFile", m_strOutputManifestFile);
-		script.SetPropertyString("ArchitecturesInstallIn64BitMode", m_strArchitecturesInstallIn64BitMode);
-		script.SetPropertyString("ArchitecturesAllowed", m_strArchitecturesAllowed);
-		script.SetPropertyString("VersionInfoCopyright", m_strVersionInfoCopyright);
-		script.SetPropertyBool("SetupLogging", m_bSetupLogging ? true : false);
-		script.SetPropertyString("CompressionThreads", m_strCompressionThreads);
+		script.SetPropertyBool(_T("UseSetupLdr"), m_bUseSetupLdr ? true : false);
+		script.SetPropertyString(_T("InternalCompressLevel"), CInnoScriptEx::GetInternalCompressLevel(m_nInternalCompressLevel));
+		script.SetPropertyString(_T("OutputDir"), m_strOutputDir);
+		script.SetPropertyString(_T("SourceDir"), m_strSourceDir);
+		script.SetPropertyString(_T("OutputBaseFilename"), m_strOutputBaseFilename);
+		script.SetPropertyBool(_T("MergeDuplicateFiles"), m_bMergeDuplicateFiles ? true : false);
+		script.SetPropertyString(_T("MessagesFile"), m_strMessagesFile);
+		script.SetPropertyBool(_T("SolidCompression"), m_bSolidCompression ? true : false);
+		script.SetPropertyString(_T("VersionInfoVersion"), m_strVersionInfoVersion);
+		script.SetPropertyString(_T("VersionInfoCompany"), m_strVersionInfoCompany);
+		script.SetPropertyString(_T("VersionInfoDescription"), m_strVersionInfoDescription);
+		script.SetPropertyString(_T("VersionInfoTextVersion"), m_strVersionInfoTextVersion);
+		script.SetPropertyBool(_T("Encryption"), m_bEncryption ? true : false);
+		script.SetPropertyString(_T("OutputManifestFile"), m_strOutputManifestFile);
+		script.SetPropertyString(_T("ArchitecturesInstallIn64BitMode"), m_strArchitecturesInstallIn64BitMode);
+		script.SetPropertyString(_T("ArchitecturesAllowed"), m_strArchitecturesAllowed);
+		script.SetPropertyString(_T("VersionInfoCopyright"), m_strVersionInfoCopyright);
+		script.SetPropertyBool(_T("SetupLogging"), m_bSetupLogging ? true : false);
+		script.SetPropertyString(_T("CompressionThreads"), m_strCompressionThreads);
 
 		CString str;
 		if (m_nCompression == 0 && m_nCompressLevel == 7)
-			str = "zip";
+			str = _T("zip");
 		else if (m_nCompression == 0)
-			str.Format("zip/%d", m_nCompressLevel);
+			str.Format(_T("zip/%d"), m_nCompressLevel);
 		else if (m_nCompression == 1 && m_nCompressLevel == 9)
-			str = "bzip";
+			str = _T("bzip");
 		else if (m_nCompression == 1)
-			str.Format("bzip/%d", m_nCompressLevel);
+			str.Format(_T("bzip/%d"), m_nCompressLevel);
 		else if (m_nCompression == 2) {
-			str = "lzma";
+			str = _T("lzma");
 			switch (m_nCompressLevel) {
 			case 0:
-				str += "/fast";
+				str += _T("/fast");
 				break;
 			case 1:
-				str += "/normal";
+				str += _T("/normal");
 				break;
 			case 3:
-				str += "/ultra";
+				str += _T("/ultra");
 				break;
 			case 4:
-				str += "/ultra64";
+				str += _T("/ultra64");
 				break;
 			}
 		} else
-			str = "none";
-		script.SetPropertyString("Compression", str);
-		script.SetPropertyString("VersionInfoProductName", m_strVersionInfoProductName);
-		script.SetPropertyString("VersionInfoProductVersion", m_strVersionInfoProductVersion);
-		script.SetPropertyString("SignTool", m_strSignTool);
+			str = _T("none");
+		script.SetPropertyString(_T("Compression"), str);
+		script.SetPropertyString(_T("VersionInfoProductName"), m_strVersionInfoProductName);
+		script.SetPropertyString(_T("VersionInfoProductVersion"), m_strVersionInfoProductVersion);
+		script.SetPropertyString(_T("SignTool"), m_strSignTool);
 
 		return PSNRET_NOERROR;
 	}
@@ -214,64 +214,64 @@ public:
 
 		CInnoScriptEx& script = m_pDoc->GetScript();
 
-		m_bUseSetupLdr = script.GetPropertyBool("UseSetupLdr");
-		m_nInternalCompressLevel = CInnoScriptEx::GetInternalCompressLevel(script.GetPropertyString("InternalCompressLevel"));
-		m_strOutputDir = script.GetPropertyString("OutputDir");
-		m_strSourceDir = script.GetPropertyString("SourceDir");
-		m_strOutputBaseFilename = script.GetPropertyString("OutputBaseFilename");
-		m_bMergeDuplicateFiles = script.GetPropertyBool("MergeDuplicateFiles");
-		m_strMessagesFile = script.GetPropertyString("MessagesFile");
-		m_bSolidCompression = script.GetPropertyBool("SolidCompression");
-		m_strVersionInfoVersion = script.GetPropertyString("VersionInfoVersion");
-		m_strVersionInfoCompany = script.GetPropertyString("VersionInfoCompany");
-		m_strVersionInfoDescription = script.GetPropertyString("VersionInfoDescription");
-		m_strVersionInfoTextVersion = script.GetPropertyString("VersionInfoTextVersion");
-		m_bEncryption = script.GetPropertyBool("Encryption");
-		m_strOutputManifestFile = script.GetPropertyString("OutputManifestFile");
-		m_strArchitecturesInstallIn64BitMode = script.GetPropertyString("ArchitecturesInstallIn64BitMode");
-		m_strArchitecturesAllowed = script.GetPropertyString("ArchitecturesAllowed");
-		m_strVersionInfoCopyright = script.GetPropertyString("VersionInfoCopyright");
-		m_bSetupLogging = script.GetPropertyBool("SetupLogging");
-		m_strCompressionThreads = script.GetPropertyString("CompressionThreads");
+		m_bUseSetupLdr = script.GetPropertyBool(_T("UseSetupLdr"));
+		m_nInternalCompressLevel = CInnoScriptEx::GetInternalCompressLevel(script.GetPropertyString(_T("InternalCompressLevel")));
+		m_strOutputDir = script.GetPropertyString(_T("OutputDir"));
+		m_strSourceDir = script.GetPropertyString(_T("SourceDir"));
+		m_strOutputBaseFilename = script.GetPropertyString(_T("OutputBaseFilename"));
+		m_bMergeDuplicateFiles = script.GetPropertyBool(_T("MergeDuplicateFiles"));
+		m_strMessagesFile = script.GetPropertyString(_T("MessagesFile"));
+		m_bSolidCompression = script.GetPropertyBool(_T("SolidCompression"));
+		m_strVersionInfoVersion = script.GetPropertyString(_T("VersionInfoVersion"));
+		m_strVersionInfoCompany = script.GetPropertyString(_T("VersionInfoCompany"));
+		m_strVersionInfoDescription = script.GetPropertyString(_T("VersionInfoDescription"));
+		m_strVersionInfoTextVersion = script.GetPropertyString(_T("VersionInfoTextVersion"));
+		m_bEncryption = script.GetPropertyBool(_T("Encryption"));
+		m_strOutputManifestFile = script.GetPropertyString(_T("OutputManifestFile"));
+		m_strArchitecturesInstallIn64BitMode = script.GetPropertyString(_T("ArchitecturesInstallIn64BitMode"));
+		m_strArchitecturesAllowed = script.GetPropertyString(_T("ArchitecturesAllowed"));
+		m_strVersionInfoCopyright = script.GetPropertyString(_T("VersionInfoCopyright"));
+		m_bSetupLogging = script.GetPropertyBool(_T("SetupLogging"));
+		m_strCompressionThreads = script.GetPropertyString(_T("CompressionThreads"));
 
 		CString str;
-		str = script.GetPropertyString("Compression");
+		str = script.GetPropertyString(_T("Compression"));
 		long nPos = str.Find('/');
-		if (!_tcsnicmp(str, "lzma", 4)) {
+		if (!_tcsnicmp(str, _T("lzma"), 4)) {
 			m_nCompressLevel = 2;
 			if (nPos > 0) {
 				CString tmp = str.Mid(nPos + 1);
-				if (!_stricmp(tmp, "fast"))
+				if (!_stricmp(tmp, _T("fast")))
 					m_nCompressLevel = 0;
-				else if (!_stricmp(tmp, "normal"))
+				else if (!_stricmp(tmp, _T("normal")))
 					m_nCompressLevel = 1;
-				else if (!_stricmp(tmp, "ultra"))
+				else if (!_stricmp(tmp, _T("ultra")))
 					m_nCompressLevel = 3;
-				else if (!_stricmp(tmp, "ultra64"))
+				else if (!_stricmp(tmp, _T("ultra64")))
 					m_nCompressLevel = 4;
 				str = str.Left(nPos);
 			}
 		} else if (nPos != -1) {
 			m_nCompressLevel = _ttol(str.Mid(nPos + 1));
 			str = str.Left(nPos);
-		} else if (!_stricmp(str, "zip")) {
+		} else if (!_stricmp(str, _T("zip"))) {
 			m_nCompressLevel = 7;
 		} else {
 			m_nCompressLevel = 9;
 		}
 
-		if (!_stricmp(str, "zip"))
+		if (!_stricmp(str, _T("zip")))
 			m_nCompression = 0;
-		else if (!_stricmp(str, "bzip"))
+		else if (!_stricmp(str, _T("bzip")))
 			m_nCompression = 1;
-		else if (!_stricmp(str, "lzma"))
+		else if (!_stricmp(str, _T("lzma")))
 			m_nCompression = 2;
 		else
 			m_nCompression = 3;
 
-		m_strVersionInfoProductName = script.GetPropertyString("VersionInfoProductName");
-		m_strVersionInfoProductVersion = script.GetPropertyString("VersionInfoProductVersion");
-		m_strSignTool = script.GetPropertyString("SignTool");
+		m_strVersionInfoProductName = script.GetPropertyString(_T("VersionInfoProductName"));
+		m_strVersionInfoProductVersion = script.GetPropertyString(_T("VersionInfoProductVersion"));
+		m_strSignTool = script.GetPropertyString(_T("SignTool"));
 	}
 
 	LRESULT OnModified(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {

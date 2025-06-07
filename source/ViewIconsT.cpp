@@ -30,7 +30,7 @@ void CViewIconsT::Populate() {
 HTREEITEM CViewIconsT::InsertItem(CScriptLine* pLine) {
 	if (pLine->GetComment()) return NULL;
 
-	CString strName(pLine->GetParameter("Name"));
+	CString strName(pLine->GetParameter(_T("Name")));
 	CString strFolder;
 	int pos = strName.ReverseFind('\\');
 	if (pos <= 0) pos = strName.ReverseFind(':');
@@ -50,8 +50,8 @@ HTREEITEM CViewIconsT::InsertItem(CScriptLine* pLine) {
 void CViewIconsT::OnPreNewItem(CScriptLine* pLine) {
 	CString strName;
 	GetCurrentFolder(strName);
-	strName += "\\";
-	pLine->SetParameter("Name", strName);
+	strName += _T("\\");
+	pLine->SetParameter(_T("Name"), strName);
 }
 
 void CViewIconsT::GetCurrentFolder(CString& strFolder) {
@@ -63,7 +63,7 @@ void CViewIconsT::GetCurrentFolder(CString& strFolder) {
 		if (!pBase) {
 			// Folder not specifically created by user
 			while (hItem) {
-				if (!strFolder.IsEmpty()) strFolder = "\\" + strFolder;
+				if (!strFolder.IsEmpty()) strFolder = _T("\\") + strFolder;
 				CString strTmp;
 				ctrl.GetItemText(hItem, strTmp);
 				strFolder = (LPCTSTR)strTmp + strFolder;
@@ -72,5 +72,5 @@ void CViewIconsT::GetCurrentFolder(CString& strFolder) {
 		}
 		hItem = ctrl.GetParentItem(hItem);
 	}
-	if (strFolder.IsEmpty()) strFolder = "{group}";
+	if (strFolder.IsEmpty()) strFolder = _T("{group}");
 }

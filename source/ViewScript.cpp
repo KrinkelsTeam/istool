@@ -48,27 +48,27 @@ void CViewScript::UpdateView() {
 		if (pLine->GetSection() != sec) {
 #if 0
 			if (sec != CInnoScript::SEC_NONE) {
-				sprintf(szLine, "[/%s]", CInnoScript::GetSectionName(sec));
+				sprintf(szLine, _T("[/%s]"), CInnoScript::GetSectionName(sec));
 				str += szLine;
-				str += "\r\n";
+				str += _T("\r\n");
 			}
 #endif
 			sec = pLine->GetSection();
 			if (sec != CInnoScript::SEC_NONE) {
-				sprintf_s(szLine, sizeof(szLine), "[%s]", CInnoScript::GetSectionName(sec));
+				sprintf_s(szLine, sizeof(szLine), _T("[%s]"), CInnoScript::GetSectionName(sec));
 				str += szLine;
-				str += "\r\n";
+				str += _T("\r\n");
 			}
 		}
 
 		// Write line
 		pLine->Write(szLine, 5000);
 		str += szLine;
-		if (i + 1 < GetDocument()->GetScript().GetCount()) str += "\r\n";
+		if (i + 1 < GetDocument()->GetScript().GetCount()) str += _T("\r\n");
 	}
 #if 0
 	if (sec != CInnoScript::SEC_NONE) {
-		sprintf(szLine, "\r\n[/%s]", CInnoScript::GetSectionName(sec));
+		sprintf(szLine, _T("\r\n[/%s]"), CInnoScript::GetSectionName(sec));
 		str += szLine;
 	}
 #endif
@@ -360,7 +360,7 @@ LRESULT CViewScript::OnCharAdded(int /*idCtrl*/, LPNMHDR pnmh, BOOL& /*bHandled*
 	if (scn->ch == '{') {
 		if (strConstantsComplete.IsEmpty()) {
 			for (long i = 0; i < CMyApp::m_constants.GetSize(); i++)
-				strConstantsComplete += CMyApp::m_constants[i]->m_strName + " ";
+				strConstantsComplete += CMyApp::m_constants[i]->m_strName + _T(" ");
 			strConstantsComplete.Trim();
 		}
 
@@ -432,7 +432,7 @@ LRESULT CViewScript::OnCharAdded(int /*idCtrl*/, LPNMHDR pnmh, BOOL& /*bHandled*
 				int len = GetTextRange(&tr);
 				strWord.ReleaseBufferSetLength(len);
 				strWord.MakeLower();
-				long pos = strWord.Find("createoleobject");
+				long pos = strWord.Find(_T("createoleobject"));
 				if (pos >= 0 && strWord.Find(strVarName) >= 0) {
 					long iStart = strWord.Find('(', pos);
 					long iEnd = strWord.Find(')', iStart);
@@ -480,7 +480,7 @@ LRESULT CViewScript::OnCharAdded(int /*idCtrl*/, LPNMHDR pnmh, BOOL& /*bHandled*
 													strWord.Empty();
 													for (std::vector<std::string>::iterator it = myArray.begin(); it != myArray.end(); it++) {
 														strWord.Append(it->c_str());
-														strWord.Append(" ");
+														strWord.Append(_T(" "));
 													}
 												}
 												pTypeInfo->Release();
@@ -514,7 +514,7 @@ LRESULT CViewScript::OnCallTip(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bH
 
 	if (str.IsEmpty()) {
 		for (long i = 0; i < CMyApp::m_functions.GetSize(); i++)
-			str += CMyApp::m_functions[i]->m_strName + " ";
+			str += CMyApp::m_functions[i]->m_strName + _T(" ");
 		str.Trim();
 	}
 

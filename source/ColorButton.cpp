@@ -259,7 +259,7 @@ BOOL CColorButton::SubclassWindow (HWND hWnd)
 	CWindowImpl <CColorButton>::SubclassWindow (hWnd);
 	ModifyStyle (0, BS_OWNERDRAW);
 #if !defined (COLORBUTTON_NOTHEMES)
-	OpenThemeData (L"Button");
+	OpenThemeData(L"Button");
 #endif
 	return TRUE;
 }
@@ -1067,7 +1067,7 @@ void CColorButton::SetPickerWindowSize ()
 		::GetSystemMetrics (SM_CXSCREEN),
 		::GetSystemMetrics (SM_CYSCREEN)));
 
-	HMODULE hUser32 = ::GetModuleHandleA ("USER32.DLL");
+	HMODULE hUser32 = ::GetModuleHandle(_T("USER32.DLL"));
 	if (hUser32 != NULL)
 	{
 		typedef HMONITOR (WINAPI *FN_MonitorFromWindow) (HWND hWnd, DWORD dwFlags);

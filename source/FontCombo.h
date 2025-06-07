@@ -38,7 +38,7 @@ class CFontCombo : public CWindowImpl<CFontCombo, CComboBox> {
 public:
 	void Initialize() {
 		// Set default font name
-		CString strDefault = "";
+		CString strDefault = _T("");
 
 		CFontObj* pFontObj;
 		CString strKey, strComp;
@@ -89,7 +89,7 @@ protected:
 
 		::ReleaseDC(NULL, hDC);
 
-		AddFont("MS Shell Dlg", 0);
+		AddFont(_T("MS Shell Dlg"), 0);
 
 		return TRUE; // All's ok
 	}

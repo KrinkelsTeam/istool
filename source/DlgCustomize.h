@@ -40,7 +40,7 @@ public:
 		CenterWindow(GetParent());
 
 		m_wndColumnList.Attach(GetDlgItem(IDC_COLUMNLIST));
-		m_wndColumnList.InsertColumn(0, "", LVCFMT_LEFT, 10, 0);
+		m_wndColumnList.InsertColumn(0, _T(""), LVCFMT_LEFT, 10, 0);
 		m_wndColumnList.SetExtendedListViewStyle(LVS_EX_CHECKBOXES | LVS_EX_FULLROWSELECT);
 		for (int nPos = 0; nPos < m_listView.m_columnList.GetSize(); nPos++) {
 			CMyListView::CColumnInfo* pInfo = m_listView.m_columnList[nPos];

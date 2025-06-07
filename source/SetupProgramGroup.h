@@ -59,12 +59,12 @@ public:
 		DoDataExchange(DDX_SAVE);
 		CInnoScriptEx& script = m_pDoc->GetScript();
 
-		script.SetPropertyBool("AllowNoIcons", m_bAllowNoIcons ? true : false);
-		script.SetPropertyBool("DisableProgramGroupPage", m_bDisableProgramGroupPage ? true : false);
-		script.SetPropertyString("DefaultGroupName", m_strDefaultGroupName);
-		script.SetPropertyBool("AlwaysUsePersonalGroup", m_bAlwaysUsePersonalGroup ? true : false);
-		script.SetPropertyBool("UsePreviousGroup", m_bUsePreviousGroup ? true : false);
-		script.SetPropertyBool("AppendDefaultGroupName", m_bAppendDefaultGroupName ? true : false);
+		script.SetPropertyBool(_T("AllowNoIcons"), m_bAllowNoIcons ? true : false);
+		script.SetPropertyBool(_T("DisableProgramGroupPage"), m_bDisableProgramGroupPage ? true : false);
+		script.SetPropertyString(_T("DefaultGroupName"), m_strDefaultGroupName);
+		script.SetPropertyBool(_T("AlwaysUsePersonalGroup"), m_bAlwaysUsePersonalGroup ? true : false);
+		script.SetPropertyBool(_T("UsePreviousGroup"), m_bUsePreviousGroup ? true : false);
+		script.SetPropertyBool(_T("AppendDefaultGroupName"), m_bAppendDefaultGroupName ? true : false);
 
 		return PSNRET_NOERROR;
 	}
@@ -108,12 +108,12 @@ public:
 	{
 		CInnoScriptEx& script      = m_pDoc->GetScript();
 
-		m_bAllowNoIcons            = script.GetPropertyBool("AllowNoIcons");
-		m_bDisableProgramGroupPage = script.GetPropertyBool("DisableProgramGroupPage");
-		m_strDefaultGroupName      = script.GetPropertyString("DefaultGroupName");
-		m_bAlwaysUsePersonalGroup  = script.GetPropertyBool("AlwaysUsePersonalGroup");
-		m_bUsePreviousGroup        = script.GetPropertyBool("UsePreviousGroup");
-		m_bAppendDefaultGroupName  = script.GetPropertyBool("AppendDefaultGroupName");
+		m_bAllowNoIcons            = script.GetPropertyBool(_T("AllowNoIcons"));
+		m_bDisableProgramGroupPage = script.GetPropertyBool(_T("DisableProgramGroupPage"));
+		m_strDefaultGroupName      = script.GetPropertyString(_T("DefaultGroupName"));
+		m_bAlwaysUsePersonalGroup  = script.GetPropertyBool(_T("AlwaysUsePersonalGroup"));
+		m_bUsePreviousGroup        = script.GetPropertyBool(_T("UsePreviousGroup"));
+		m_bAppendDefaultGroupName  = script.GetPropertyBool(_T("AppendDefaultGroupName"));
 	}
 
 	BEGIN_TOOLTIP_MAP()

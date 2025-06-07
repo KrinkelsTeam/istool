@@ -79,32 +79,32 @@ public:
 		for (int nPos = 0; nPos < m_listIni.GetSize(); nPos++) {
 			CScriptLine* pLine = m_listIni[nPos];
 
-			if (m_strFilename.CompareNoCase(SAFESTR(pLine->GetParameter("Filename"))))
+			if (m_strFilename.CompareNoCase(SAFESTR(pLine->GetParameter(_T("Filename")))))
 				m_strFilename.Empty();
-			if (m_strSection.CompareNoCase(SAFESTR(pLine->GetParameter("Section"))))
+			if (m_strSection.CompareNoCase(SAFESTR(pLine->GetParameter(_T("Section")))))
 				m_strSection.Empty();
-			if (m_strKey.CompareNoCase(SAFESTR(pLine->GetParameter("Key"))))
+			if (m_strKey.CompareNoCase(SAFESTR(pLine->GetParameter(_T("Key")))))
 				m_strKey.Empty();
-			if (m_strString.CompareNoCase(SAFESTR(pLine->GetParameter("String"))))
+			if (m_strString.CompareNoCase(SAFESTR(pLine->GetParameter(_T("String")))))
 				m_strString.Empty();
 
 			//Flags
-			if (m_nCreateKeyIfDoesntExist != (pLine->GetParameterFlag("Flags", "createkeyifdoesntexist") ? TRUE : FALSE)) {
+			if (m_nCreateKeyIfDoesntExist != (pLine->GetParameterFlag(_T("Flags"), _T("createkeyifdoesntexist")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_CREATEKEYIFDOESNTEXIST).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nCreateKeyIfDoesntExist = 2;
 			}
 
-			if (m_nUninsDeleteEntry != (pLine->GetParameterFlag("Flags", "uninsdeleteentry") ? TRUE : FALSE)) {
+			if (m_nUninsDeleteEntry != (pLine->GetParameterFlag(_T("Flags"), _T("uninsdeleteentry")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_UNINSDELETEENTRY).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nUninsDeleteEntry = 2;
 			}
 
-			if (m_nUninsDeleteSection != (pLine->GetParameterFlag("Flags", "uninsdeletesection") ? TRUE : FALSE)) {
+			if (m_nUninsDeleteSection != (pLine->GetParameterFlag(_T("Flags"), _T("uninsdeletesection")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_UNINSDELETESECTION).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nUninsDeleteSection = 2;
 			}
 
-			if (m_nUninsDeleteSectionIfEmpty != (pLine->GetParameterFlag("Flags", "uninsdeletesectionifempty") ? TRUE : FALSE)) {
+			if (m_nUninsDeleteSectionIfEmpty != (pLine->GetParameterFlag(_T("Flags"), _T("uninsdeletesectionifempty")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_UNINSDELETESECTIONIFEMPTY).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nUninsDeleteSectionIfEmpty = 2;
 			}
@@ -134,17 +134,17 @@ public:
 		for (int nPos = 0; nPos < m_listIni.GetSize(); nPos++) {
 			CScriptLine* pLine = m_listIni[nPos];
 
-			CInnoScriptEx::SetString(pLine, bForce, "Filename", m_strFilename);
+			CInnoScriptEx::SetString(pLine, bForce, _T("Filename"), m_strFilename);
 
-			CInnoScriptEx::SetString(pLine, bForce, "Section", m_strSection);
-			CInnoScriptEx::SetString(pLine, bForce, "Key", m_strKey);
-			CInnoScriptEx::SetString(pLine, bForce, "String", m_strString);
+			CInnoScriptEx::SetString(pLine, bForce, _T("Section"), m_strSection);
+			CInnoScriptEx::SetString(pLine, bForce, _T("Key"), m_strKey);
+			CInnoScriptEx::SetString(pLine, bForce, _T("String"), m_strString);
 
 			// Flags
-			CInnoScriptEx::SetFlag(pLine, "Flags", "createkeyifdoesntexist", m_nCreateKeyIfDoesntExist);
-			CInnoScriptEx::SetFlag(pLine, "Flags", "uninsdeleteentry", m_nUninsDeleteEntry);
-			CInnoScriptEx::SetFlag(pLine, "Flags", "uninsdeletesection", m_nUninsDeleteSection);
-			CInnoScriptEx::SetFlag(pLine, "Flags", "uninsdeletesectionifempty", m_nUninsDeleteSectionIfEmpty);
+			CInnoScriptEx::SetFlag(pLine, _T("Flags"), _T("createkeyifdoesntexist"), m_nCreateKeyIfDoesntExist);
+			CInnoScriptEx::SetFlag(pLine, _T("Flags"), _T("uninsdeleteentry"), m_nUninsDeleteEntry);
+			CInnoScriptEx::SetFlag(pLine, _T("Flags"), _T("uninsdeletesection"), m_nUninsDeleteSection);
+			CInnoScriptEx::SetFlag(pLine, _T("Flags"), _T("uninsdeletesectionifempty"), m_nUninsDeleteSectionIfEmpty);
 		}
 		return PSNRET_NOERROR;
 	}
@@ -169,15 +169,15 @@ public:
 		for (int nPos = 0; nPos < m_listIni.GetSize(); nPos++) {
 			CScriptLine* pLine = m_listIni[nPos];
 
-			m_strFilename = pLine->GetParameter("Filename");
-			m_strSection = pLine->GetParameter("Section");
-			m_strKey = pLine->GetParameter("Key");
-			m_strString = pLine->GetParameter("String");
+			m_strFilename = pLine->GetParameter(_T("Filename"));
+			m_strSection = pLine->GetParameter(_T("Section"));
+			m_strKey = pLine->GetParameter(_T("Key"));
+			m_strString = pLine->GetParameter(_T("String"));
 			//Flags
-			if (pLine->GetParameterFlag("Flags", "createkeyifdoesntexist")) m_nCreateKeyIfDoesntExist = 1;
-			if (pLine->GetParameterFlag("Flags", "uninsdeleteentry")) m_nUninsDeleteEntry = 1;
-			if (pLine->GetParameterFlag("Flags", "uninsdeletesection")) m_nUninsDeleteSection = 1;
-			if (pLine->GetParameterFlag("Flags", "uninsdeletesectionifempty")) m_nUninsDeleteSectionIfEmpty = 1;
+			if (pLine->GetParameterFlag(_T("Flags"), _T("createkeyifdoesntexist"))) m_nCreateKeyIfDoesntExist = 1;
+			if (pLine->GetParameterFlag(_T("Flags"), _T("uninsdeleteentry"))) m_nUninsDeleteEntry = 1;
+			if (pLine->GetParameterFlag(_T("Flags"), _T("uninsdeletesection"))) m_nUninsDeleteSection = 1;
+			if (pLine->GetParameterFlag(_T("Flags"), _T("uninsdeletesectionifempty"))) m_nUninsDeleteSectionIfEmpty = 1;
 			break;
 		}
 	}

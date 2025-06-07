@@ -144,7 +144,7 @@ public:
 			for (int i = 0; i < nRet; i++) {
 				if (szBuff[i] == L'\n') {
 					CString strKey, strTrans(&szBuff[i + 1]);
-					strKey.Format("ToolTip|%s", strTrans);
+					strKey.Format(_T("ToolTip|%s"), strTrans);
 					strTrans = _L(strKey, strTrans);
 					lstrcpynW(pDispInfo->szText, CT2W(strTrans), sizeof(pDispInfo->szText) / sizeof(pDispInfo->szText[0]));
 					break;

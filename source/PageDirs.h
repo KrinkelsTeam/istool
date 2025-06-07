@@ -87,49 +87,49 @@ public:
 		for (int nPos = 0; nPos < m_listDirs.GetSize(); nPos++) {
 			CInnoScript::CLine* pDir = m_listDirs[nPos];
 
-			if (m_strName.CompareNoCase(SAFESTR(pDir->GetParameter("Name"))))
+			if (m_strName.CompareNoCase(SAFESTR(pDir->GetParameter(_T("Name")))))
 				m_strName.Empty();
 
-			if (m_strPermissions.CompareNoCase(SAFESTR(pDir->GetParameter("Permissions"))))
+			if (m_strPermissions.CompareNoCase(SAFESTR(pDir->GetParameter(_T("Permissions")))))
 				m_strPermissions.Empty();
 
-			if (m_bDeleteAfterInstall != (pDir->GetParameterFlag("Flags", "deleteafterinstall") ? TRUE : FALSE)) {
+			if (m_bDeleteAfterInstall != (pDir->GetParameterFlag(_T("Flags"), _T("deleteafterinstall")) ? TRUE : FALSE)) {
 				MyModifyStyle(IDC_DIRS_DELETEAFTERINSTALL, BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_bDeleteAfterInstall = 2;
 			}
 
-			if (m_bUninsAlwaysUninstall != (pDir->GetParameterFlag("Flags", "uninsalwaysuninstall") ? TRUE : FALSE)) {
+			if (m_bUninsAlwaysUninstall != (pDir->GetParameterFlag(_T("Flags"), _T("uninsalwaysuninstall")) ? TRUE : FALSE)) {
 				MyModifyStyle(IDC_UNINSALWAYSUNINSTALL, BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_bUninsAlwaysUninstall = 2;
 			}
 
-			if (m_bUninsNeverUninstall != (pDir->GetParameterFlag("Flags", "uninsneveruninstall") ? TRUE : FALSE)) {
+			if (m_bUninsNeverUninstall != (pDir->GetParameterFlag(_T("Flags"), _T("uninsneveruninstall")) ? TRUE : FALSE)) {
 				MyModifyStyle(IDC_DIRS_UNINSNEVERUNINSTALL, BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_bUninsNeverUninstall = 2;
 			}
 
-			if (m_nSetNTFSCompression != (pDir->GetParameterFlag("Flags", "setntfscompression") ? TRUE : FALSE)) {
+			if (m_nSetNTFSCompression != (pDir->GetParameterFlag(_T("Flags"), _T("setntfscompression")) ? TRUE : FALSE)) {
 				MyModifyStyle(IDC_SETNTFSCOMPRESSION, BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nSetNTFSCompression = 2;
 			}
 
-			if (m_nUnsetNTFSCompression != (pDir->GetParameterFlag("Flags", "unsetntfscompression") ? TRUE : FALSE)) {
+			if (m_nUnsetNTFSCompression != (pDir->GetParameterFlag(_T("Flags"), _T("unsetntfscompression")) ? TRUE : FALSE)) {
 				MyModifyStyle(IDC_UNSETNTFSCOMPRESSION, BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nUnsetNTFSCompression = 2;
 			}
 
 			// Attribs
-			if (m_bReadOnly != (pDir->GetParameterFlag("attribs", "readonly") ? TRUE : FALSE)) {
+			if (m_bReadOnly != (pDir->GetParameterFlag(_T("attribs"), _T("readonly")) ? TRUE : FALSE)) {
 				MyModifyStyle(IDC_READONLY, BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_bReadOnly = 2;
 			}
 
-			if (m_bHidden != (pDir->GetParameterFlag("attribs", "hidden") ? TRUE : FALSE)) {
+			if (m_bHidden != (pDir->GetParameterFlag(_T("attribs"), _T("hidden")) ? TRUE : FALSE)) {
 				MyModifyStyle(IDC_HIDDEN, BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_bHidden = 2;
 			}
 
-			if (m_bSystem != (pDir->GetParameterFlag("attribs", "system") ? TRUE : FALSE)) {
+			if (m_bSystem != (pDir->GetParameterFlag(_T("attribs"), _T("system")) ? TRUE : FALSE)) {
 				MyModifyStyle(IDC_SYSTEM, BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_bSystem = 2;
 			}
@@ -151,38 +151,38 @@ public:
 			CInnoScript::CLine* pDir = m_listDirs[nPos];
 
 			CString strOld, strNew;
-			strOld = pDir->GetParameter("Name");
+			strOld = pDir->GetParameter(_T("Name"));
 			if (bForce || !m_strName.IsEmpty())
-				pDir->SetParameter("Name", m_strName);
+				pDir->SetParameter(_T("Name"), m_strName);
 
-			strNew = pDir->GetParameter("Name");
+			strNew = pDir->GetParameter(_T("Name"));
 			// If name has changed, check if references should be changed also
 			if (strNew.CompareNoCase(strOld) && !m_bNew) m_pDoc->RenameDir(strOld, strNew);
 
-			CInnoScriptEx::SetString(pDir, bForce, "Permissions", m_strPermissions);
+			CInnoScriptEx::SetString(pDir, bForce, _T("Permissions"), m_strPermissions);
 
 			// Flags
-			if (m_bDeleteAfterInstall == FALSE) pDir->SetParameterFlag("Flags", "deleteafterinstall", false);
-			else if (m_bDeleteAfterInstall == TRUE) pDir->SetParameterFlag("Flags", "deleteafterinstall", true);
+			if (m_bDeleteAfterInstall == FALSE) pDir->SetParameterFlag(_T("Flags"), _T("deleteafterinstall"), false);
+			else if (m_bDeleteAfterInstall == TRUE) pDir->SetParameterFlag(_T("Flags"), _T("deleteafterinstall"), true);
 
-			if (m_bUninsAlwaysUninstall == FALSE) pDir->SetParameterFlag("Flags", "uninsalwaysuninstall", false);
-			else if (m_bUninsAlwaysUninstall == TRUE) pDir->SetParameterFlag("Flags", "uninsalwaysuninstall", true);
+			if (m_bUninsAlwaysUninstall == FALSE) pDir->SetParameterFlag(_T("Flags"), _T("uninsalwaysuninstall"), false);
+			else if (m_bUninsAlwaysUninstall == TRUE) pDir->SetParameterFlag(_T("Flags"), _T("uninsalwaysuninstall"), true);
 
-			if (m_bUninsNeverUninstall == FALSE) pDir->SetParameterFlag("Flags", "uninsneveruninstall", false);
-			else if (m_bUninsNeverUninstall == TRUE) pDir->SetParameterFlag("Flags", "uninsneveruninstall", true);
+			if (m_bUninsNeverUninstall == FALSE) pDir->SetParameterFlag(_T("Flags"), _T("uninsneveruninstall"), false);
+			else if (m_bUninsNeverUninstall == TRUE) pDir->SetParameterFlag(_T("Flags"), _T("uninsneveruninstall"), true);
 
-			CInnoScriptEx::SetFlag(pDir, "Flags", "setntfscompression", m_nSetNTFSCompression);
-			CInnoScriptEx::SetFlag(pDir, "Flags", "unsetntfscompression", m_nUnsetNTFSCompression);
+			CInnoScriptEx::SetFlag(pDir, _T("Flags"), _T("setntfscompression"), m_nSetNTFSCompression);
+			CInnoScriptEx::SetFlag(pDir, _T("Flags"), _T("unsetntfscompression"), m_nUnsetNTFSCompression);
 
 			// Attribs
-			if (m_bReadOnly == FALSE) pDir->SetParameterFlag("attribs", "readonly", false);
-			else if (m_bReadOnly == TRUE) pDir->SetParameterFlag("attribs", "readonly", true);
+			if (m_bReadOnly == FALSE) pDir->SetParameterFlag(_T("attribs"), _T("readonly"), false);
+			else if (m_bReadOnly == TRUE) pDir->SetParameterFlag(_T("attribs"), _T("readonly"), true);
 
-			if (m_bHidden == FALSE) pDir->SetParameterFlag("attribs", "hidden", false);
-			else if (m_bHidden == TRUE) pDir->SetParameterFlag("attribs", "hidden", true);
+			if (m_bHidden == FALSE) pDir->SetParameterFlag(_T("attribs"), _T("hidden"), false);
+			else if (m_bHidden == TRUE) pDir->SetParameterFlag(_T("attribs"), _T("hidden"), true);
 
-			if (m_bSystem == FALSE) pDir->SetParameterFlag("attribs", "system", false);
-			else if (m_bSystem == TRUE) pDir->SetParameterFlag("attribs", "system", true);
+			if (m_bSystem == FALSE) pDir->SetParameterFlag(_T("attribs"), _T("system"), false);
+			else if (m_bSystem == TRUE) pDir->SetParameterFlag(_T("attribs"), _T("system"), true);
 		}
 		return PSNRET_NOERROR;
 	}
@@ -225,18 +225,18 @@ public:
 
 		for (int nPos = 0; nPos < m_listDirs.GetSize(); nPos++) {
 			CScriptLine* pDir = m_listDirs[nPos];
-			m_strName = pDir->GetParameter("Name");
-			m_strPermissions = pDir->GetParameter("Permissions");
+			m_strName = pDir->GetParameter(_T("Name"));
+			m_strPermissions = pDir->GetParameter(_T("Permissions"));
 
-			if (pDir->GetParameterFlag("Flags", "deleteafterinstall")) m_bDeleteAfterInstall = TRUE;
-			if (pDir->GetParameterFlag("Flags", "uninsalwaysuninstall")) m_bUninsAlwaysUninstall = TRUE;
-			if (pDir->GetParameterFlag("Flags", "uninsneveruninstall")) m_bUninsNeverUninstall = TRUE;
-			if (pDir->GetParameterFlag("Flags", "setntfscompression")) m_nSetNTFSCompression = 1;
-			if (pDir->GetParameterFlag("Flags", "unsetntfscompression")) m_nUnsetNTFSCompression = 1;
+			if (pDir->GetParameterFlag(_T("Flags"), _T("deleteafterinstall"))) m_bDeleteAfterInstall = TRUE;
+			if (pDir->GetParameterFlag(_T("Flags"), _T("uninsalwaysuninstall"))) m_bUninsAlwaysUninstall = TRUE;
+			if (pDir->GetParameterFlag(_T("Flags"), _T("uninsneveruninstall"))) m_bUninsNeverUninstall = TRUE;
+			if (pDir->GetParameterFlag(_T("Flags"), _T("setntfscompression"))) m_nSetNTFSCompression = 1;
+			if (pDir->GetParameterFlag(_T("Flags"), _T("unsetntfscompression"))) m_nUnsetNTFSCompression = 1;
 
-			if (pDir->GetParameterFlag("attribs", "readonly")) m_bReadOnly = TRUE;
-			if (pDir->GetParameterFlag("attribs", "hidden")) m_bHidden = TRUE;
-			if (pDir->GetParameterFlag("attribs", "system")) m_bSystem = TRUE;
+			if (pDir->GetParameterFlag(_T("attribs"), _T("readonly"))) m_bReadOnly = TRUE;
+			if (pDir->GetParameterFlag(_T("attribs"), _T("hidden"))) m_bHidden = TRUE;
+			if (pDir->GetParameterFlag(_T("attribs"), _T("system"))) m_bSystem = TRUE;
 			break;
 		}
 	}

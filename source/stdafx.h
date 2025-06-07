@@ -7,7 +7,6 @@
 #define _WIN32_IE		_WIN32_IE_WIN7
 
 // --------------------------------------------------------- WTL
-#define _WTL_NEW_PAGE_NOTIFY_HANDLERS
 
 #include <atlstr.h>
 #define _WTL_NO_WTYPES
@@ -48,7 +47,7 @@ extern CAppModule _Module;
 typedef CInnoScript::CLine					CScriptLine;
 typedef CSimpleArray<CInnoScript::CLine*>	CScriptList;
 
-#define SAFESTR(a)	((a)==NULL ? _T("") : (a))
+#define SAFESTR(a)	((a) == NULL ? _T("") : (a))
 
 #define VER_MAJOR		6
 #define VER_MINOR		0
@@ -64,9 +63,9 @@ typedef CSimpleArray<CInnoScript::CLine*>	CScriptList;
 #include "MyUtils.h"
 #include "WebUpdate.h"
 
-#pragma comment(lib,"htmlhelp.lib")
-#pragma comment(lib,"wininet.lib")
-#pragma comment(lib,"rpcrt4.lib")	// for UuidCreate
+#pragma comment(lib, "htmlhelp.lib")
+#pragma comment(lib, "wininet.lib")
+#pragma comment(lib, "rpcrt4.lib")	// for UuidCreate
 
 #include "Scintilla/AtlScintilla.h"
 #include <AtlTheme.h>

@@ -54,7 +54,7 @@ HTREEITEM CViewFilesT::InsertItem(CScriptLine* pLine) {
 	if (pLine->GetComment()) return NULL;
 
 	if (pLine->GetSection() == CInnoScript::SEC_DIRS) {
-		CString strFolder(pLine->GetParameter("Name"));
+		CString strFolder(pLine->GetParameter(_T("Name")));
 		//int pos = strFolder.ReverseFind('\\');
 		//if(pos<0) pos = strFolder.ReverseFind(':');
 		int pos = myReverseFind(strFolder, '\\');
@@ -69,14 +69,14 @@ HTREEITEM CViewFilesT::InsertItem(CScriptLine* pLine) {
 		CMyApp::MyExpand(GetTreeCtrl(), hParent);
 		return hItem;
 	} else {
-		CString tmp(pLine->GetParameter("DestName"));
+		CString tmp(pLine->GetParameter(_T("DestName")));
 		if (tmp.IsEmpty()) {
-			tmp = pLine->GetParameter("Source");
+			tmp = pLine->GetParameter(_T("Source"));
 			int pos = tmp.ReverseFind('\\');
 			if (pos < 0) pos = tmp.ReverseFind(':');
 			if (pos > 0) tmp = tmp.Mid(pos + 1);
 		}
-		HTREEITEM hParent = CMyApp::FindParentItem(GetTreeCtrl(), pLine->GetParameter("DestDir"));
+		HTREEITEM hParent = CMyApp::FindParentItem(GetTreeCtrl(), pLine->GetParameter(_T("DestDir")));
 		HTREEITEM hItem = GetTreeCtrl().InsertItem(tmp, 0, 0, hParent, TVI_SORT);
 		SetItemData(hItem, pLine);
 		SortChildren(hParent);
@@ -87,16 +87,16 @@ HTREEITEM CViewFilesT::InsertItem(CScriptLine* pLine) {
 
 void CViewFilesT::SetItemData(HTREEITEM hItem, CInnoScript::CLine* pLine) {
 	if (pLine->GetSection() == CInnoScript::SEC_FILES) {
-		CString strName(pLine->GetParameter("DestName"));
+		CString strName(pLine->GetParameter(_T("DestName")));
 		if (strName.IsEmpty()) {
-			strName = pLine->GetParameter("Source");
+			strName = pLine->GetParameter(_T("Source"));
 			int pos = strName.ReverseFind('\\');
 			if (pos < 0) pos = strName.ReverseFind(':');
 			if (pos >= 0) strName = strName.Mid(pos + 1);
 		}
 		GetTreeCtrl().SetItemText(hItem, strName);
 	} else if (pLine->GetSection() == CInnoScript::SEC_DIRS) {
-		CString strName = pLine->GetParameter("Name");
+		CString strName = pLine->GetParameter(_T("Name"));
 		int pos = myReverseFind(strName, '\\');
 		if (pos < 0) pos = myReverseFind(strName, ':');
 		if (pos >= 0) strName = strName.Mid(pos + 1);
@@ -125,8 +125,8 @@ int CViewFilesT::CompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort) 
 
 	if (bDir1 && bDir2) {
 		//return 0;	// Both are dirs
-		CString strName1(pBase1->GetParameter("Name"));
-		CString strName2(pBase2->GetParameter("Name"));
+		CString strName1(pBase1->GetParameter(_T("Name")));
+		CString strName2(pBase2->GetParameter(_T("Name")));
 		return _stricmp(strName1, strName2);
 	}
 	if (bDir1) return -1;
@@ -144,11 +144,11 @@ void CViewFilesT::GetCurrentFolder(CString& strFolder, HTREEITEM hItem/*=NULL*/)
 		CScriptLine* pBase = reinterpret_cast<CScriptLine*>(ctrl.GetItemData(hItem));
 		if (!pBase || pBase->GetSection() == CInnoScript::SEC_DIRS) {
 			if (pBase) {
-				strFolder = pBase->GetParameter("Name");
+				strFolder = pBase->GetParameter(_T("Name"));
 			} else {
 				// Folder not specifically created by user
 				while (hItem) {
-					if (!strFolder.IsEmpty()) strFolder = "\\" + strFolder;
+					if (!strFolder.IsEmpty()) strFolder = _T("\\") + strFolder;
 					CString strTmp;
 					ctrl.GetItemText(hItem, strTmp);
 					strFolder = (LPCTSTR)strTmp + strFolder;
@@ -159,9 +159,9 @@ void CViewFilesT::GetCurrentFolder(CString& strFolder, HTREEITEM hItem/*=NULL*/)
 		}
 		hItem = ctrl.GetParentItem(hItem);
 	}
-	if (strFolder.IsEmpty()) strFolder = "{app}";
+	if (strFolder.IsEmpty()) strFolder = _T("{app}");
 #else
-	strFolder = "{app}";
+	strFolder = _T("{app}");
 #endif
 }
 
@@ -170,8 +170,8 @@ void CViewFilesT::InsertFileName(LPCTSTR lpszFileName) {
 	GetCurrentFolder(strCurrentFolder);
 
 	CInnoScript::CLine* pLine = new CInnoScript::CLine(CInnoScript::SEC_FILES);
-	pLine->AddParameter("Source", lpszFileName);
-	pLine->AddParameter("DestDir", strCurrentFolder);
+	pLine->AddParameter(_T("Source"), lpszFileName);
+	pLine->AddParameter(_T("DestDir"), strCurrentFolder);
 
 	InsertItem(pLine);
 	GetDocument()->GetScript().AddLine(pLine);
@@ -180,7 +180,7 @@ void CViewFilesT::InsertFileName(LPCTSTR lpszFileName) {
 void CViewFilesT::OnPreNewItem(CScriptLine* pLine) {
 	CString strDestDir;
 	GetCurrentFolder(strDestDir);
-	pLine->SetParameter("DestDir", strDestDir);
+	pLine->SetParameter(_T("DestDir"), strDestDir);
 }
 
 // Find full path to an automatic item
@@ -192,7 +192,7 @@ void CViewFilesT::GetItemDirectory(HTREEITEM hItem, CString& ref) {
 	while (hItem = GetTreeCtrl().GetParentItem(hItem)) {
 		CString strTmp;
 		GetItemText(hItem, strTmp);
-		ref = strTmp + "\\" + ref;
+		ref = strTmp + _T("\\") + ref;
 	}
 }
 

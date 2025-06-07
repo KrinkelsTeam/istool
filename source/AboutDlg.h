@@ -54,28 +54,28 @@ public:
 	CAboutDlg() {
 #ifdef _DEBUG
 #ifdef VER_BUILD
-		m_strVersion.Format("%d.%d.%d.%d DEBUG", VER_MAJOR, VER_MINOR, VER_REVISION, VER_BUILD);
+		m_strVersion.Format(_T("%d.%d.%d.%d DEBUG"), VER_MAJOR, VER_MINOR, VER_REVISION, VER_BUILD);
 #else
-		m_strVersion.Format("%d.%d.%d DEBUG", VER_MAJOR, VER_MINOR, VER_REVISION);
+		m_strVersion.Format(_T("%d.%d.%d DEBUG"), VER_MAJOR, VER_MINOR, VER_REVISION);
 #endif
 #else
 #ifdef VER_BUILD
-		m_strVersion.Format("%d.%d.%d.%d", VER_MAJOR, VER_MINOR, VER_REVISION, VER_BUILD);
+		m_strVersion.Format(_T("%d.%d.%d.%d"), VER_MAJOR, VER_MINOR, VER_REVISION, VER_BUILD);
 #else
-		m_strVersion.Format("%d.%d.%d", VER_MAJOR, VER_MINOR, VER_REVISION);
+		m_strVersion.Format(_T("%d.%d.%d"), VER_MAJOR, VER_MINOR, VER_REVISION);
 #endif
 #endif
-		m_strISVersion.Format("%s", ISVERSION);
+		m_strISVersion.Format(_T("%s"), ISVERSION);
 
 		m_strTransVer = _L("TransVersion", m_strVersion);
 
-		GetCompilerVersion(CMyApp::m_prefs.m_strInnoFolder + "\\ISCmplr.dll", m_strInstalledIS);
+		GetCompilerVersion(CMyApp::m_prefs.m_strInnoFolder + _T("\\ISCmplr.dll"), m_strInstalledIS);
 	}
 
 	bool GetCompilerVersion(LPCTSTR pszFileName, CString& strVersion) {
 		HINSTANCE hCompiler = LoadLibrary(pszFileName);
 		if (!hCompiler) {
-			strVersion = "Not available";
+			strVersion = _T("Not available");
 			return false;
 		}
 
@@ -94,14 +94,14 @@ public:
 		}
 
 		if (pInfo->BinVersion & 0xFF)
-			strVersion.Format("%d.%d.%d.%d",
+			strVersion.Format(_T("%d.%d.%d.%d"),
 				(pInfo->BinVersion & 0xFF000000) >> 24,
 				(pInfo->BinVersion & 0x00FF0000) >> 16,
 				(pInfo->BinVersion & 0x0000FF00) >> 8,
 				pInfo->BinVersion & 0x000000FF
 			);
 		else
-			strVersion.Format("%d.%d.%d",
+			strVersion.Format(_T("%d.%d.%d"),
 				(pInfo->BinVersion & 0xFF000000) >> 24,
 				(pInfo->BinVersion & 0x00FF0000) >> 16,
 				(pInfo->BinVersion & 0x0000FF00) >> 8

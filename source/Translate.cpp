@@ -11,11 +11,11 @@ void CTranslate::Warning(const CString& strKey, const CString& strDefault) {
 #ifdef _DEBUG
 	if (!m_strOrgFile.IsEmpty()) {
 		CString tmp(strDefault);
-		tmp.Replace("\r\n", "\\r\\n");
-		tmp.Replace("\r", "\\r");
-		tmp.Replace("\n", "\\n");
-		tmp.Replace("\t", "\\t");
-		::WritePrivateProfileString("Original Translation", strKey, tmp, m_strOrgFile);
+		tmp.Replace(_T("\r\n"), _T("\\r\\n"));
+		tmp.Replace(_T("\r"), _T("\\r"));
+		tmp.Replace(_T("\n"), _T("\\n"));
+		tmp.Replace(_T("\t"), _T("\\t"));
+		::WritePrivateProfileString(_T("Original Translation"), strKey, tmp, m_strOrgFile);
 	} else {
 		AtlMessageBox(::GetActiveWindow(), (LPCTSTR)strKey, IDR_MAINFRAME, MB_OK | MB_ICONWARNING);
 	}
@@ -48,7 +48,7 @@ HMENU CTranslate::Translate(HMENU hMenu, CString strParent/*=CString()*/) {
 
 		if (!strAcc.IsEmpty()) {
 			CString strAccKey;
-			strAccKey.Format("ShortCut|%s", strAcc);
+			strAccKey.Format(_T("ShortCut|%s"), strAcc);
 
 			Warning(strAccKey, strAcc);
 
@@ -85,7 +85,7 @@ void CTranslate::AddFile(const CString& strFileName) {
 		return;
 
 	FILE* fp;
-	if (fopen_s(&fp, strFileName, "rb") != 0 || !fp) return;
+	if (fopen_s(&fp, strFileName, _T("rb")) != 0 || !fp) return;
 
 	TCHAR szLine[10000];
 	while (fgets(szLine, sizeof szLine / sizeof szLine[0], fp)) {
@@ -97,9 +97,9 @@ void CTranslate::AddFile(const CString& strFileName) {
 		CString strTrans = strLine.Mid(pos + 1).Trim();
 		if (strTrans.IsEmpty()) continue;
 #if 1
-		strTrans.Replace("\\r", "\r");
-		strTrans.Replace("\\n", "\n");
-		strTrans.Replace("\\t", "\t");
+		strTrans.Replace(_T("\\r"), _T("\r"));
+		strTrans.Replace(_T("\\n"), _T("\n"));
+		strTrans.Replace(_T("\\t"), _T("\t"));
 #endif
 		m_map[strLine.Left(pos).Trim()] = strTrans;
 	}
@@ -161,7 +161,7 @@ void CTranslate::Translate(HWND hWnd, const CString& strTitle) {
 	EnumChildProc(hWnd, (LPARAM)(LPCTSTR)strTitle);
 #else
 	CString strTrans;
-	_GetProfileString(m_strTransFile, m_strSection, "0", strTrans);
+	_GetProfileString(m_strTransFile, m_strSection, _T("0"), strTrans);
 	if (!strTrans.IsEmpty())
 		m_wnd.SetWindowText(strTrans);
 #endif
@@ -180,7 +180,7 @@ BOOL CALLBACK CTranslate::EnumChildProc(HWND hWnd, LPARAM lParam) {
 		return TRUE;
 
 	CString strKey, strTrans;
-	strKey.Format("%s|%s", pszTitle, str);
+	strKey.Format(_T("%s|%s"), pszTitle, str);
 
 	FixTextTitle(strKey);
 
@@ -188,27 +188,27 @@ BOOL CALLBACK CTranslate::EnumChildProc(HWND hWnd, LPARAM lParam) {
 	if (!m_map.Lookup(strKey, strTrans))
 		return TRUE;
 
-	strTrans.Replace("\\n", "\n");
-	strTrans.Replace("\\r", "\r");
-	strTrans.Replace("\\t", "\t");
+	strTrans.Replace(_T("\\n"), _T("\n"));
+	strTrans.Replace(_T("\\r"), _T("\r"));
+	strTrans.Replace(_T("\\t"), _T("\t"));
 	wnd.SetWindowText(strTrans);
 	return TRUE;
 }
 
 bool CTranslate::IgnoreWord(LPCTSTR pszWord) {
 	static LPCTSTR pszIgnoreList[] = {
-		"...",
-		"0",
-		"List1",
-		"Spin1",
-		"X.X.X",
-		"https://istool.krinkels.org/",
-		"ISTool",
-		"Bjørnar Henden",
-		"Copyright © 1999 - 2009 Bjørnar Henden.",
-		"https://www.innosetup.com/",
-		"Inno Setup",
-		"KrinkelsTeam",
+		_T("..."),
+		_T("0"),
+		_T("List1"),
+		_T("Spin1"),
+		_T("X.X.X"),
+		_T("https://istool.krinkels.org/"),
+		_T("ISTool"),
+		_T("BjÑˆrnar Henden"),
+		_T("Copyright Â© 1999 - 2009 BjÑˆrnar Henden."),
+		_T("https://www.innosetup.com/"),
+		_T("Inno Setup"),
+		_T("KrinkelsTeam"),
 		NULL
 	};
 	LPCTSTR* pszWordList = pszIgnoreList;

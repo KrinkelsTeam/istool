@@ -56,7 +56,7 @@ public:
 		m_wndList.SubclassWindow(GetDlgItem(IDC_LANGUAGES_LIST));
 
 		_L(m_hWnd, "CommonLanguages");
-		m_wndList.InsertColumn(0, "Description", LVCFMT_LEFT, 10, 0);
+		m_wndList.InsertColumn(0, _T("Description"), LVCFMT_LEFT, 10, 0);
 
 		CInnoScriptEx& script = m_pDoc->GetScript();
 		CScriptList	list;
@@ -66,16 +66,16 @@ public:
 			for (int i = 0; i < list.GetSize(); i++) {
 				CInnoScript::CLine* pLine = list[i];
 				if (pLine->GetComment()) continue;
-				LPCTSTR pszTask = pLine->GetParameter("Name");
-				int iItem = m_wndList.InsertItem(m_wndList.GetItemCount(), pLine->GetParameter("Name"));
+				LPCTSTR pszTask = pLine->GetParameter(_T("Name"));
+				int iItem = m_wndList.InsertItem(m_wndList.GetItemCount(), pLine->GetParameter(_T("Name")));
 				m_wndList.SetItemData(iItem, (DWORD)pszTask);
 
 				// Set correct state
 				bool bCheckState = false;
 				for (int nPos = 0; nPos < m_listBase.GetSize(); nPos++) {
 					CScriptLine* pBase = m_listBase[nPos];
-					m_bIsBooleanExp = m_bIsBooleanExp || CMyApp::IsBooleanExp(pBase->GetParameter("Languages"));
-					if (pBase->GetParameterFlag("Languages", pszTask))
+					m_bIsBooleanExp = m_bIsBooleanExp || CMyApp::IsBooleanExp(pBase->GetParameter(_T("Languages")));
+					if (pBase->GetParameterFlag(_T("Languages"), pszTask))
 						bCheckState = true;
 				}
 				m_wndList.SetCheckState(iItem, bCheckState);
@@ -91,7 +91,7 @@ public:
 		for (int nPos = 0; nPos < m_listBase.GetSize(); nPos++) {
 			CInnoScript::CLine* pItem = m_listBase[nPos];
 
-			if (m_strEdit.CompareNoCase(SAFESTR(pItem->GetParameter("Languages"))))
+			if (m_strEdit.CompareNoCase(SAFESTR(pItem->GetParameter(_T("Languages")))))
 				m_strEdit.Empty();
 		}
 
@@ -108,15 +108,15 @@ public:
 			CScriptLine* pBase = m_listBase[nPos];
 
 			if (m_bIsBooleanExp) {
-				if (bForce || !m_strEdit.IsEmpty()) pBase->SetParameter("Languages", m_strEdit);
+				if (bForce || !m_strEdit.IsEmpty()) pBase->SetParameter(_T("Languages"), m_strEdit);
 			} else {
 				UINT nCount = m_wndComponentList.GetItemCount();
 				while (nCount--) {
 					LPCTSTR pszTask = (LPCTSTR)m_wndComponentList.GetItemData(nCount);
 					if (m_wndList.GetCheckState(nCount))
-						pBase->SetParameterFlag("Languages", pszTask, true);
+						pBase->SetParameterFlag(_T("Languages"), pszTask, true);
 					else
-						pBase->SetParameterFlag("Languages", pszTask, false);
+						pBase->SetParameterFlag(_T("Languages"), pszTask, false);
 				}
 			}
 		}
@@ -200,7 +200,7 @@ public:
 		for (int nPos = 0; nPos < m_listBase.GetSize(); nPos++) {
 			CInnoScript::CLine* pItem = m_listBase[nPos];
 
-			m_strEdit = pItem->GetParameter("Languages");
+			m_strEdit = pItem->GetParameter(_T("Languages"));
 			break;
 		}
 	}

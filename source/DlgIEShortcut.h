@@ -38,16 +38,16 @@ public:
 		_L(m_hWnd, "IEShortCut");
 		CenterWindow(GetParent());
 
-		m_strFileName = "{app}\\ISTool.url";
-		m_strURL = "https://istool.krinkels.org/";
+		m_strFileName = _T("{app}\\ISTool.url");
+		m_strURL = _T("https://istool.krinkels.org/");
 		DoDataExchange(DDX_LOAD);
 		return TRUE;
 	}
 
 	LRESULT OnKillFocus(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {
 		DoDataExchange(DDX_SAVE, IDC_IESHORTCUT_FILENAME);
-		if (m_strFileName.GetLength() < 4 || m_strFileName.Right(4).CompareNoCase(".url")) {
-			m_strFileName += ".url";
+		if (m_strFileName.GetLength() < 4 || m_strFileName.Right(4).CompareNoCase(_T(".url"))) {
+			m_strFileName += _T(".url");
 			DoDataExchange(DDX_LOAD, IDC_IESHORTCUT_FILENAME);
 		}
 		return 0;

@@ -64,12 +64,12 @@ public:
 		CInnoScriptEx& script = m_pDoc->GetScript();
 
 		// Inno Setup 3.0.0
-		script.SetPropertyBool("UsePreviousUserInfo", m_bUsePreviousUserInfo ? true : false);
-		script.SetPropertyBool("UserInfoPage", m_bUserInfoPage ? true : false);
-		script.SetPropertyString("DefaultUserInfoName", m_strDefaultUserInfoName);
-		script.SetPropertyString("DefaultUserInfoOrg", m_strDefaultUserInfoOrg);
+		script.SetPropertyBool(_T("UsePreviousUserInfo"), m_bUsePreviousUserInfo ? true : false);
+		script.SetPropertyBool(_T("UserInfoPage"), m_bUserInfoPage ? true : false);
+		script.SetPropertyString(_T("DefaultUserInfoName"), m_strDefaultUserInfoName);
+		script.SetPropertyString(_T("DefaultUserInfoOrg"), m_strDefaultUserInfoOrg);
 		// My Inno Setup Extensions 3.0.6.1
-		script.SetPropertyString("DefaultUserInfoSerial", m_strDefaultUserInfoSerial);
+		script.SetPropertyString(_T("DefaultUserInfoSerial"), m_strDefaultUserInfoSerial);
 
 		return PSNRET_NOERROR;
 	}
@@ -120,12 +120,12 @@ public:
 		CInnoScriptEx& script = m_pDoc->GetScript();
 
 		// Inno Setup 3.0.0
-		m_bUsePreviousUserInfo = script.GetPropertyBool("UsePreviousUserInfo");
-		m_bUserInfoPage = script.GetPropertyBool("UserInfoPage");
-		m_strDefaultUserInfoName = script.GetPropertyString("DefaultUserInfoName");
-		m_strDefaultUserInfoOrg = script.GetPropertyString("DefaultUserInfoOrg");
+		m_bUsePreviousUserInfo = script.GetPropertyBool(_T("UsePreviousUserInfo"));
+		m_bUserInfoPage = script.GetPropertyBool(_T("UserInfoPage"));
+		m_strDefaultUserInfoName = script.GetPropertyString(_T("DefaultUserInfoName"));
+		m_strDefaultUserInfoOrg = script.GetPropertyString(_T("DefaultUserInfoOrg"));
 		// My Inno Setup Extensions 3.0.6.1
-		m_strDefaultUserInfoSerial = script.GetPropertyString("DefaultUserInfoSerial");
+		m_strDefaultUserInfoSerial = script.GetPropertyString(_T("DefaultUserInfoSerial"));
 	}
 
 	BEGIN_TOOLTIP_MAP()

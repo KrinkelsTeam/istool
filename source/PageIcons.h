@@ -109,60 +109,60 @@ public:
 			CScriptLine* pLine = m_listIcons[nPos];
 			CString strTmp;
 
-			if (m_strName.CompareNoCase(SAFESTR(pLine->GetParameter("Name"))))
+			if (m_strName.CompareNoCase(SAFESTR(pLine->GetParameter(_T("Name")))))
 				m_strName.Empty();
-			if (m_strFilename.CompareNoCase(SAFESTR(pLine->GetParameter("Filename"))))
+			if (m_strFilename.CompareNoCase(SAFESTR(pLine->GetParameter(_T("Filename")))))
 				m_strFilename.Empty();
-			if (m_strParameters.CompareNoCase(SAFESTR(pLine->GetParameter("Parameters"))))
+			if (m_strParameters.CompareNoCase(SAFESTR(pLine->GetParameter(_T("Parameters")))))
 				m_strParameters.Empty();
-			if (m_strWorkingDir.CompareNoCase(SAFESTR(pLine->GetParameter("WorkingDir"))))
+			if (m_strWorkingDir.CompareNoCase(SAFESTR(pLine->GetParameter(_T("WorkingDir")))))
 				m_strWorkingDir.Empty();
-			if (m_strIconFilename.CompareNoCase(SAFESTR(pLine->GetParameter("IconFilename"))))
+			if (m_strIconFilename.CompareNoCase(SAFESTR(pLine->GetParameter(_T("IconFilename")))))
 				m_strIconFilename.Empty();
-			if (m_strComment.CompareNoCase(SAFESTR(pLine->GetParameter("Comment"))))
+			if (m_strComment.CompareNoCase(SAFESTR(pLine->GetParameter(_T("Comment")))))
 				m_strComment.Empty();
-			if (m_strHotKey.CompareNoCase(SAFESTR(pLine->GetParameter("HotKey"))))
+			if (m_strHotKey.CompareNoCase(SAFESTR(pLine->GetParameter(_T("HotKey")))))
 				m_strHotKey.Empty();
 
-			if (m_nIconIndex != _ttol(SAFESTR(pLine->GetParameter("IconIndex"))))
+			if (m_nIconIndex != _ttol(SAFESTR(pLine->GetParameter(_T("IconIndex")))))
 				m_nIconIndex = -1;
 
-			if (m_bCreateOnlyIfFileExists != (pLine->GetParameterFlag("Flags", "createonlyiffileexists") ? TRUE : FALSE)) {
+			if (m_bCreateOnlyIfFileExists != (pLine->GetParameterFlag(_T("Flags"), _T("createonlyiffileexists")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_CREATEONLYIFFILEEXISTS).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_bCreateOnlyIfFileExists = 2;
 			}
 
-			if (m_bRunMinimized != (pLine->GetParameterFlag("Flags", "runminimized") ? TRUE : FALSE)) {
+			if (m_bRunMinimized != (pLine->GetParameterFlag(_T("Flags"), _T("runminimized")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_RUNMINIMIZED).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_bRunMinimized = 2;
 			}
 
-			if (m_bUninsNeverUninstall != (pLine->GetParameterFlag("Flags", "uninsneveruninstall") ? TRUE : FALSE)) {
+			if (m_bUninsNeverUninstall != (pLine->GetParameterFlag(_T("Flags"), _T("uninsneveruninstall")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_ICONS_UNINSNEVERUNINSTALL).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_bUninsNeverUninstall = 2;
 			}
 
-			if (m_nUseAppPaths != (pLine->GetParameterFlag("Flags", "useapppaths") ? TRUE : FALSE)) {
+			if (m_nUseAppPaths != (pLine->GetParameterFlag(_T("Flags"), _T("useapppaths")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_USEAPPPATHS).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nUseAppPaths = 2;
 			}
 
-			if (m_bCloseOnExit != (pLine->GetParameterFlag("Flags", "closeonexit") ? TRUE : FALSE)) {
+			if (m_bCloseOnExit != (pLine->GetParameterFlag(_T("Flags"), _T("closeonexit")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_ICONS_CLOSEONEXIT).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_bCloseOnExit = 2;
 			}
 
-			if (m_bDontCloseOnExit != (pLine->GetParameterFlag("Flags", "dontcloseonexit") ? TRUE : FALSE)) {
+			if (m_bDontCloseOnExit != (pLine->GetParameterFlag(_T("Flags"), _T("dontcloseonexit")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_ICONS_DONTCLOSEONEXIT).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_bDontCloseOnExit = 2;
 			}
 
-			if (m_nRunMaximized != (pLine->GetParameterFlag("Flags", "runmaximized") ? TRUE : FALSE)) {
+			if (m_nRunMaximized != (pLine->GetParameterFlag(_T("Flags"), _T("runmaximized")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_ICONS_RUNMAXIMIZED).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nRunMaximized = 2;
 			}
 
-			if (m_nFolderShortcut != (pLine->GetParameterFlag("Flags", "foldershortcut") ? TRUE : FALSE)) {
+			if (m_nFolderShortcut != (pLine->GetParameterFlag(_T("Flags"), _T("foldershortcut")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_FOLDERSHORTCUT).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nFolderShortcut = 2;
 			}
@@ -192,37 +192,37 @@ public:
 		for (int nPos = 0; nPos < m_listIcons.GetSize(); nPos++) {
 			CScriptLine* pLine = m_listIcons[nPos];
 
-			script.SetString(pLine, bForce, "Name", m_strName);
-			script.SetString(pLine, bForce, "Filename", m_strFilename);
-			script.SetString(pLine, bForce, "Parameters", m_strParameters);
-			script.SetString(pLine, bForce, "WorkingDir", m_strWorkingDir);
-			script.SetString(pLine, bForce, "IconFilename", m_strIconFilename);
-			script.SetString(pLine, bForce, "Comment", m_strComment);
-			script.SetLong(pLine, bForce, "IconIndex", -1, m_nIconIndex);
-			script.SetString(pLine, bForce, "HotKey", m_strHotKey);
+			script.SetString(pLine, bForce, _T("Name"), m_strName);
+			script.SetString(pLine, bForce, _T("Filename"), m_strFilename);
+			script.SetString(pLine, bForce, _T("Parameters"), m_strParameters);
+			script.SetString(pLine, bForce, _T("WorkingDir"), m_strWorkingDir);
+			script.SetString(pLine, bForce, _T("IconFilename"), m_strIconFilename);
+			script.SetString(pLine, bForce, _T("Comment"), m_strComment);
+			script.SetLong(pLine, bForce, _T("IconIndex"), -1, m_nIconIndex);
+			script.SetString(pLine, bForce, _T("HotKey"), m_strHotKey);
 
 			// Flags
 			if (m_bCreateOnlyIfFileExists == FALSE)
-				pLine->SetParameterFlag("Flags", "createonlyiffileexists", false);
+				pLine->SetParameterFlag(_T("Flags"), _T("createonlyiffileexists"), false);
 			else if (m_bCreateOnlyIfFileExists == TRUE)
-				pLine->SetParameterFlag("Flags", "createonlyiffileexists", true);
+				pLine->SetParameterFlag(_T("Flags"), _T("createonlyiffileexists"), true);
 			if (m_bRunMinimized == FALSE)
-				pLine->SetParameterFlag("Flags", "runminimized", false);
+				pLine->SetParameterFlag(_T("Flags"), _T("runminimized"), false);
 			else if (m_bRunMinimized == TRUE)
-				pLine->SetParameterFlag("Flags", "runminimized", true);
+				pLine->SetParameterFlag(_T("Flags"), _T("runminimized"), true);
 			if (m_bUninsNeverUninstall == FALSE)
-				pLine->SetParameterFlag("Flags", "uninsneveruninstall", false);
+				pLine->SetParameterFlag(_T("Flags"), _T("uninsneveruninstall"), false);
 			else if (m_bUninsNeverUninstall == TRUE)
-				pLine->SetParameterFlag("Flags", "uninsneveruninstall", true);
+				pLine->SetParameterFlag(_T("Flags"), _T("uninsneveruninstall"), true);
 			if (m_nUseAppPaths == FALSE)
-				pLine->SetParameterFlag("Flags", "useapppaths", false);
+				pLine->SetParameterFlag(_T("Flags"), _T("useapppaths"), false);
 			else if (m_nUseAppPaths == TRUE)
-				pLine->SetParameterFlag("Flags", "useapppaths", true);
+				pLine->SetParameterFlag(_T("Flags"), _T("useapppaths"), true);
 
-			CInnoScriptEx::SetFlag(pLine, "Flags", "closeonexit", m_bCloseOnExit);
-			CInnoScriptEx::SetFlag(pLine, "Flags", "dontcloseonexit", m_bDontCloseOnExit);
-			CInnoScriptEx::SetFlag(pLine, "Flags", "runmaximized", m_nRunMaximized);
-			CInnoScriptEx::SetFlag(pLine, "Flags", "foldershortcut", m_nFolderShortcut);
+			CInnoScriptEx::SetFlag(pLine, _T("Flags"), _T("closeonexit"), m_bCloseOnExit);
+			CInnoScriptEx::SetFlag(pLine, _T("Flags"), _T("dontcloseonexit"), m_bDontCloseOnExit);
+			CInnoScriptEx::SetFlag(pLine, _T("Flags"), _T("runmaximized"), m_nRunMaximized);
+			CInnoScriptEx::SetFlag(pLine, _T("Flags"), _T("foldershortcut"), m_nFolderShortcut);
 		}
 		return PSNRET_NOERROR;
 	}
@@ -288,11 +288,11 @@ public:
 
 		for (int nPos = 0; nPos < files.GetSize(); nPos++) {
 			CScriptLine* pFile = files[nPos];
-			CString strName;//(pFile->GetParameter("Source"));
+			CString strName;//(pFile->GetParameter(_T("Source")));
 			CInnoScriptEx::GetDestName(pFile, strName);
 
 			if (!strName.CompareNoCase(strFilename)) {
-				UpdateIconList(pFile->GetParameter("Source"));
+				UpdateIconList(pFile->GetParameter(_T("Source")));
 				//			m_wndIconIndex.EnableWindow(TRUE);
 				return;
 			}
@@ -336,26 +336,26 @@ public:
 		for (int nPos = 0; nPos < m_listIcons.GetSize(); nPos++) {
 			CScriptLine* pLine = m_listIcons[nPos];
 
-			m_strName = pLine->GetParameter("Name");
-			m_strFilename = pLine->GetParameter("Filename");
-			m_strParameters = pLine->GetParameter("Parameters");
-			m_strWorkingDir = pLine->GetParameter("WorkingDir");
-			m_strIconFilename = pLine->GetParameter("IconFilename");
-			m_nIconIndex = _ttol(SAFESTR(pLine->GetParameter("IconIndex")));
-			m_strComment = pLine->GetParameter("Comment");
-			m_strHotKey = pLine->GetParameter("HotKey");
+			m_strName = pLine->GetParameter(_T("Name"));
+			m_strFilename = pLine->GetParameter(_T("Filename"));
+			m_strParameters = pLine->GetParameter(_T("Parameters"));
+			m_strWorkingDir = pLine->GetParameter(_T("WorkingDir"));
+			m_strIconFilename = pLine->GetParameter(_T("IconFilename"));
+			m_nIconIndex = _ttol(SAFESTR(pLine->GetParameter(_T("IconIndex"))));
+			m_strComment = pLine->GetParameter(_T("Comment"));
+			m_strHotKey = pLine->GetParameter(_T("HotKey"));
 
-			if (pLine->GetParameterFlag("Flags", "createonlyiffileexists")) m_bCreateOnlyIfFileExists = TRUE;
-			if (pLine->GetParameterFlag("Flags", "runminimized")) m_bRunMinimized = TRUE;
-			if (pLine->GetParameterFlag("Flags", "uninsneveruninstall")) m_bUninsNeverUninstall = TRUE;
-			if (pLine->GetParameterFlag("Flags", "useapppaths")) m_nUseAppPaths = 1;
-			if (pLine->GetParameterFlag("Flags", "closeonexit")) m_bCloseOnExit = 1;
-			if (pLine->GetParameterFlag("Flags", "dontcloseonexit")) m_bDontCloseOnExit = 1;
-			if (pLine->GetParameterFlag("Flags", "runmaximized")) m_nRunMaximized = 1;
-			if (pLine->GetParameterFlag("Flags", "foldershortcut")) m_nFolderShortcut = 1;
+			if (pLine->GetParameterFlag(_T("Flags"), _T("createonlyiffileexists"))) m_bCreateOnlyIfFileExists = TRUE;
+			if (pLine->GetParameterFlag(_T("Flags"), _T("runminimized"))) m_bRunMinimized = TRUE;
+			if (pLine->GetParameterFlag(_T("Flags"), _T("uninsneveruninstall"))) m_bUninsNeverUninstall = TRUE;
+			if (pLine->GetParameterFlag(_T("Flags"), _T("useapppaths"))) m_nUseAppPaths = 1;
+			if (pLine->GetParameterFlag(_T("Flags"), _T("closeonexit"))) m_bCloseOnExit = 1;
+			if (pLine->GetParameterFlag(_T("Flags"), _T("dontcloseonexit"))) m_bDontCloseOnExit = 1;
+			if (pLine->GetParameterFlag(_T("Flags"), _T("runmaximized"))) m_nRunMaximized = 1;
+			if (pLine->GetParameterFlag(_T("Flags"), _T("foldershortcut"))) m_nFolderShortcut = 1;
 			break;
 		}
-		if (m_bNew && m_strName.IsEmpty()) m_strName = "{group}\\";
+		if (m_bNew && m_strName.IsEmpty()) m_strName = _T("{group}\\");
 	}
 
 	CScriptList& m_listIcons;

@@ -21,7 +21,7 @@ public:
 				strLibrary.ReleaseBuffer(nPos + 1);
 			}
 		}
-		strLibrary += "isxdl.dll";
+		strLibrary += _T("isxdl.dll");
 
 		m_hLib = LoadLibrary(strLibrary);
 		if (m_hLib) {
@@ -71,7 +71,7 @@ public:
 
 	LRESULT OnUpdatesWebPage(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {
 		CWaitCursor wait;
-		ShellExecute(AfxGetMainWnd(), "open", m_strAddress, NULL, NULL, SW_SHOWDEFAULT);
+		ShellExecute(AfxGetMainWnd(), _T("open"), m_strAddress, NULL, NULL, SW_SHOWDEFAULT);
 		return 0;
 	}
 
@@ -82,18 +82,18 @@ public:
 
 		CString str;
 		str.LoadString(WTL_IDS_APP_TITLE);
-		isxdl_SetOption("title", str);
-		isxdl_SetOption("label", str);
+		isxdl_SetOption(_T("title"), str);
+		isxdl_SetOption(_T("label"), str);
 		str.LoadString(IDS_DOWNLOADING_UPDATE);
-		isxdl_SetOption("description", str);
+		isxdl_SetOption(_T("description"), str);
 
 		GetTempPath(MAX_PATH, m_strFileUpdate.GetBuffer(MAX_PATH));
 		m_strFileUpdate.ReleaseBuffer();
 		CMyUtils::EndWith(m_strFileUpdate, '\\');
-		m_strFileUpdate += "istoolupdate.exe";
+		m_strFileUpdate += _T("istoolupdate.exe");
 
 		isxdl_ClearFiles();
-		if (isxdl_Download(m_hWnd, "https://istool.krinkels.org/download/istool", m_strFileUpdate)) {
+		if (isxdl_Download(m_hWnd, _T("https://istool.krinkels.org/download/istool"), m_strFileUpdate)) {
 			EndDialog(IDOK);
 		} else {
 			m_strFileUpdate.Empty();

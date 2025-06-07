@@ -47,17 +47,17 @@ public:
 		for (int nPos = 0; nPos < m_list.GetSize(); nPos++) {
 			CInnoScript::CLine* pItem = m_list[nPos];
 
-			if (m_strName.CompareNoCase(SAFESTR(pItem->GetParameter("Name"))))
+			if (m_strName.CompareNoCase(SAFESTR(pItem->GetParameter(_T("Name")))))
 				m_strName.Empty();
-			if (m_strParameters.CompareNoCase(SAFESTR(pItem->GetParameter("Parameters"))))
+			if (m_strParameters.CompareNoCase(SAFESTR(pItem->GetParameter(_T("Parameters")))))
 				m_strParameters.Empty();
 
 			//Flags
-			if (m_bAbortOnError != (pItem->GetParameterFlag("Flags", "abortonerror") ? TRUE : FALSE)) {
+			if (m_bAbortOnError != (pItem->GetParameterFlag(_T("Flags"), _T("abortonerror")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_CSE_ABORT_ON_ERROR).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_bAbortOnError = 2;
 			}
-			if (m_bRunMinimized != (pItem->GetParameterFlag("Flags", "runminimized") ? TRUE : FALSE)) {
+			if (m_bRunMinimized != (pItem->GetParameterFlag(_T("Flags"), _T("runminimized")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_CSE_RUN_MINIMIZED).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_bRunMinimized = 2;
 			}
@@ -79,12 +79,12 @@ public:
 
 		for (int nPos = 0; nPos < m_list.GetSize(); nPos++) {
 			CInnoScript::CLine* pItem = m_list[nPos];
-			if (bForce || !m_strName.IsEmpty()) pItem->SetParameter("Name", m_strName);
-			if (bForce || !m_strParameters.IsEmpty()) pItem->SetParameter("Parameters", m_strParameters);
+			if (bForce || !m_strName.IsEmpty()) pItem->SetParameter(_T("Name"), m_strName);
+			if (bForce || !m_strParameters.IsEmpty()) pItem->SetParameter(_T("Parameters"), m_strParameters);
 
 			// Flags
-			CInnoScriptEx::SetFlag(pItem, "Flags", "abortonerror", m_bAbortOnError);
-			CInnoScriptEx::SetFlag(pItem, "Flags", "runminimized", m_bRunMinimized);
+			CInnoScriptEx::SetFlag(pItem, _T("Flags"), _T("abortonerror"), m_bAbortOnError);
+			CInnoScriptEx::SetFlag(pItem, _T("Flags"), _T("runminimized"), m_bRunMinimized);
 		}
 		return PSNRET_NOERROR;
 	}
@@ -97,7 +97,7 @@ public:
 	CString m_strTitle;
 	CPageCompileStep(CScriptList& list, CMyDoc* pDoc, const bool bNew) :
 		m_list(list), m_pDoc(pDoc), m_bNew(bNew),
-		m_wndNameBtn(true, "Executable Files (*.exe;*.bat;*.cmd)|*.exe;*.bat;*.cmd|All Files (*.*)|*.*||")
+		m_wndNameBtn(true, _T("Executable Files (*.exe;*.bat;*.cmd)|*.exe;*.bat;*.cmd|All Files (*.*)|*.*||"))
 	{
 		m_strTitle = _L("DialogTitles|CompileStep", "Compile Step");
 		SetTitle((LPCTSTR)m_strTitle);
@@ -106,10 +106,10 @@ public:
 		m_bRunMinimized = FALSE;
 		for (int nPos = 0; nPos < m_list.GetSize(); nPos++) {
 			CInnoScript::CLine* pItem = m_list[nPos];
-			m_strName = pItem->GetParameter("Name");
-			m_strParameters = pItem->GetParameter("Parameters");
-			m_bAbortOnError = pItem->GetParameterFlag("Flags", "abortonerror");
-			m_bRunMinimized = pItem->GetParameterFlag("Flags", "runminimized");
+			m_strName = pItem->GetParameter(_T("Name"));
+			m_strParameters = pItem->GetParameter(_T("Parameters"));
+			m_bAbortOnError = pItem->GetParameterFlag(_T("Flags"), _T("abortonerror"));
+			m_bRunMinimized = pItem->GetParameterFlag(_T("Flags"), _T("runminimized"));
 			break;
 		}
 	}

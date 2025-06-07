@@ -29,8 +29,8 @@ CViewMessages::CViewMessages(CInnoScript::SECTION sec) : CMyListView(sec) {
 
 LRESULT CViewMessages::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled) {
 	CMyListView::OnCreate(uMsg, wParam, lParam, bHandled);
-	AddColumn("Name", LVCFMT_LEFT, 120, true);
-	AddColumn("Message", LVCFMT_LEFT, 260, true);
+	AddColumn(_T("Name"), LVCFMT_LEFT, 120, true);
+	AddColumn(_T("Message"), LVCFMT_LEFT, 260, true);
 	DoDisplay();
 
 	ModifyStyle(0, LVS_SINGLESEL);
@@ -41,8 +41,8 @@ LRESULT CViewMessages::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& b
 
 #if 0
 const CListInfo CViewMessages::m_colInfo[] = {
-	"Name",				DF_NAME,			false,
-	"Message",			DF_MESSAGE,			false,
+	_T("Name"),				DF_NAME,			false,
+	_T("Message"),			DF_MESSAGE,			false,
 	NULL
 };
 #endif

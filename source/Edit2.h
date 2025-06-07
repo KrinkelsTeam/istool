@@ -60,7 +60,7 @@ public:
 					pSubMenu.AppendMenu(MF_STRING | MF_SEPARATOR, 0);
 				} else {
 					CString str;
-					str.Format("%s\t%s",
+					str.Format(_T("%s\t%s"),
 						CInnoScriptEx::m_constants[nPos].m_pszConstant,
 						CInnoScriptEx::m_constants[nPos].m_pszName
 					);
@@ -81,7 +81,7 @@ public:
 					pSubMenu.AppendMenu(MF_STRING | MF_SEPARATOR, 0);
 				} else {
 					CString str;
-					str.Format("%s\t%s",
+					str.Format(_T("%s\t%s"),
 						CInnoScriptEx::m_constants[nPos].m_pszConstant,
 						CInnoScriptEx::m_constants[nPos].m_pszName
 					);
@@ -102,10 +102,10 @@ public:
 
 		for (int nPos2 = 0; nPos2 < dirs.GetSize(); nPos2++) {
 			CScriptLine* pLine = dirs[nPos2];
-			pSubMenu.AppendMenu(MF_STRING | MF_ENABLED, 0xF00 + nPos++, SAFESTR(pLine->GetParameter("Name")));
+			pSubMenu.AppendMenu(MF_STRING | MF_ENABLED, 0xF00 + nPos++, SAFESTR(pLine->GetParameter(_T("Name"))));
 		}
 		if (!nPos)
-			pSubMenu.AppendMenu(MF_STRING | MF_GRAYED, (UINT_PTR)0, "Empty");
+			pSubMenu.AppendMenu(MF_STRING | MF_GRAYED, (UINT_PTR)0, _T("Empty"));
 
 		pPopup.TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, point.x, point.y, *this);
 
@@ -147,7 +147,7 @@ public:
 			str = str.Mid(nPos + 1);
 			if (str.GetLength() > 0 && str[0] == '\\') str = str.Mid(1);
 		}
-		str = CString(lpszConstant) + "\\" + str;
+		str = CString(lpszConstant) + _T("\\") + str;
 		SetWindowText(str);
 		return 0;
 	}
@@ -167,14 +167,14 @@ public:
 
 		pLine = dirs[nDir];
 
-		CString str, str2(pLine->GetParameter("Name"));
+		CString str, str2(pLine->GetParameter(_T("Name")));
 		GetWindowText(str.GetBuffer(256), 256);
 		int nPos = str.ReverseFind('\\');
 		if (nPos >= 0) {
 			str = str.Mid(nPos + 1);
 			if (str.GetLength() > 0 && str[0] == '\\') str = str.Mid(1);
 		}
-		if (str2[str2.GetLength() - 1] != '\\') str2 += "\\";
+		if (str2[str2.GetLength() - 1] != '\\') str2 += _T("\\");
 		str = str2 + str;
 		SetWindowText(str);
 		return 0;

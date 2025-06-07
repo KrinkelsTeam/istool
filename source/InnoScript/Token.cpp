@@ -35,7 +35,7 @@ LPSTR CInnoScript::CToken::GetNext() {
 	while(*m_pszCurrPos) {
 		if(*m_pszCurrPos=='"' && !bInQuote) {
 			bInQuote = true;
-		} else if(*m_pszCurrPos=='"' && m_pszCurrPos[1]=='"') {
+		} else if(*m_pszCurrPos=='_T("' && m_pszCurrPos[1]=='")') {
 			m_pszCurrPos++;	// Skip the extra quote
 		} else if(*m_pszCurrPos=='"') {
 			bInQuote = false;

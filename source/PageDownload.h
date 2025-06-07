@@ -45,11 +45,11 @@ public:
 		for (int nPos = 0; nPos < m_list.GetSize(); nPos++) {
 			CInnoScript::CLine* pItem = m_list[nPos];
 
-			if (m_strSource.CompareNoCase(SAFESTR(pItem->GetParameter("Source"))))
+			if (m_strSource.CompareNoCase(SAFESTR(pItem->GetParameter(_T("Source")))))
 				m_strSource.Empty();
-			if (m_strDestDir.CompareNoCase(SAFESTR(pItem->GetParameter("DestDir"))))
+			if (m_strDestDir.CompareNoCase(SAFESTR(pItem->GetParameter(_T("DestDir")))))
 				m_strDestDir.Empty();
-			if (m_strDestName.CompareNoCase(SAFESTR(pItem->GetParameter("DestName"))))
+			if (m_strDestName.CompareNoCase(SAFESTR(pItem->GetParameter(_T("DestName")))))
 				m_strDestName.Empty();
 		}
 		DoDataExchange(DDX_LOAD);
@@ -73,16 +73,16 @@ public:
 				AtlMessageBox(m_hWnd, _L("Download|NeedDestName", "You must enter the destination name."), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 				return PSNRET_INVALID;
 			}
-			if (!m_strDestDir.Left(5).CompareNoCase("{app}")) {
+			if (!m_strDestDir.Left(5).CompareNoCase(_T("{app}"))) {
 				AtlMessageBox(m_hWnd, _L("Download|WarnAppDir", "Using the application directory as destination is not recommended.\n\nThe directory might not have been created yet."), IDR_MAINFRAME, MB_OK | MB_ICONWARNING);
 			}
 		}
 
 		for (int nPos = 0; nPos < m_list.GetSize(); nPos++) {
 			CInnoScript::CLine* pItem = m_list[nPos];
-			if (bForce || !m_strSource.IsEmpty()) pItem->SetParameter("Source", m_strSource);
-			if (bForce || !m_strDestDir.IsEmpty()) pItem->SetParameter("DestDir", m_strDestDir);
-			if (bForce || !m_strDestName.IsEmpty()) pItem->SetParameter("DestName", m_strDestName);
+			if (bForce || !m_strSource.IsEmpty()) pItem->SetParameter(_T("Source"), m_strSource);
+			if (bForce || !m_strDestDir.IsEmpty()) pItem->SetParameter(_T("DestDir"), m_strDestDir);
+			if (bForce || !m_strDestName.IsEmpty()) pItem->SetParameter(_T("DestName"), m_strDestName);
 
 			// Flags
 			//CInnoScriptEx::SetFlag(pItem,"Flags","abortonerror",m_bAbortOnError);
@@ -105,9 +105,9 @@ public:
 
 		for (int nPos = 0; nPos < m_list.GetSize(); nPos++) {
 			CInnoScript::CLine* pItem = m_list[nPos];
-			m_strSource = pItem->GetParameter("Source");
-			m_strDestDir = pItem->GetParameter("DestDir");
-			m_strDestName = pItem->GetParameter("DestName");
+			m_strSource = pItem->GetParameter(_T("Source"));
+			m_strDestDir = pItem->GetParameter(_T("DestDir"));
+			m_strDestName = pItem->GetParameter(_T("DestName"));
 			break;
 		}
 	}

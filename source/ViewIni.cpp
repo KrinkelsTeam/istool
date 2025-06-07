@@ -22,16 +22,16 @@ CViewIni::CViewIni() : CMyListView(CInnoScript::SEC_INI) {
 // CViewIni message handlers
 
 const CListInfo CViewIni::m_colInfo[] = {
-	"Filename",			LVCFMT_LEFT,	180, 0,
-	"Section",			LVCFMT_LEFT,	120, 0,
-	"Key",				LVCFMT_LEFT,	130, 0,
-	"String",			LVCFMT_LEFT,	160, 0,
-	"Flags",			LVCFMT_LEFT,	150, 0,
-	"MinVersion",		LVCFMT_LEFT,	 80, CLI_HIDE,
-	"OnlyBelowVersion",	LVCFMT_LEFT,	 80, CLI_HIDE,
-	"Components",		LVCFMT_LEFT,	100, CLI_HIDE,
-	"Tasks",			LVCFMT_LEFT,	100, CLI_HIDE,
-	"Languages",		LVCFMT_LEFT,	 80, CLI_HIDE,
+	_T("Filename"),			LVCFMT_LEFT,	180, 0,
+	_T("Section"),			LVCFMT_LEFT,	120, 0,
+	_T("Key"),				LVCFMT_LEFT,	130, 0,
+	_T("String"),			LVCFMT_LEFT,	160, 0,
+	_T("Flags"),			LVCFMT_LEFT,	150, 0,
+	_T("MinVersion"),		LVCFMT_LEFT,	 80, CLI_HIDE,
+	_T("OnlyBelowVersion"),	LVCFMT_LEFT,	 80, CLI_HIDE,
+	_T("Components"),		LVCFMT_LEFT,	100, CLI_HIDE,
+	_T("Tasks"),			LVCFMT_LEFT,	100, CLI_HIDE,
+	_T("Languages"),		LVCFMT_LEFT,	 80, CLI_HIDE,
 	NULL
 };
 

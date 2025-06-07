@@ -26,11 +26,11 @@ public:
 
 	CDlgSelectLanguageFiles(const CString& strFiles) {
 		int iStart = 0;
-		int pos = strFiles.Find(",", iStart);
+		int pos = strFiles.Find(_T(","), iStart);
 		while (pos >= 0) {
 			m_files.Add(strFiles.Mid(iStart, pos - iStart).Trim());
 			iStart = pos + 1;
-			pos = strFiles.Find(",", iStart);
+			pos = strFiles.Find(_T(","), iStart);
 		}
 		m_files.Add(strFiles.Mid(iStart).Trim());
 	}
@@ -64,7 +64,7 @@ public:
 			int iCount = m_wndList.GetItemCount();
 			for (int i = 0; i < iCount; i++) {
 				if (m_wndList.GetCheckState(i)) {
-					if (!m_strResult.IsEmpty()) m_strResult += ", ";
+					if (!m_strResult.IsEmpty()) m_strResult += _T(", ");
 					UINT iItem = m_wndList.GetItemData(i);
 					m_strResult += m_items[iItem].m_strFileName;
 				}
@@ -85,7 +85,7 @@ public:
 
 		bi.hwndOwner = m_hWnd;
 		bi.pszDisplayName = DirName;
-		bi.lpszTitle = "Select a folder containing Inno Setup Language files.";
+		bi.lpszTitle = _T("Select a folder containing Inno Setup Language files.");
 		bi.ulFlags = /*BIF_NEWDIALOGSTYLE|*/BIF_RETURNONLYFSDIRS | BIF_STATUSTEXT/*|BIF_EDITBOX*/;
 		bi.lpfn = BrowseCallbackProc;
 		bi.lParam = (LPARAM)strText.GetBuffer(MAX_PATH);
@@ -124,10 +124,10 @@ public:
 
 		DlgResize_Init(true, false, 0);
 		m_wndList.SubclassWindow(GetDlgItem(IDC_LIST));
-		m_wndList.InsertColumn(0, "File Name", LVCFMT_LEFT, 160, 0);
-		m_wndList.InsertColumn(1, "Language", LVCFMT_LEFT, 160, 0);
-		m_wndList.InsertColumn(2, "LanguageID", LVCFMT_LEFT, 97, 0);
-		m_wndList.InsertColumn(3, "Path", LVCFMT_LEFT, 160, 0);
+		m_wndList.InsertColumn(0, _T("File Name"), LVCFMT_LEFT, 160, 0);
+		m_wndList.InsertColumn(1, _T("Language"), LVCFMT_LEFT, 160, 0);
+		m_wndList.InsertColumn(2, _T("LanguageID"), LVCFMT_LEFT, 97, 0);
+		m_wndList.InsertColumn(3, _T("Path"), LVCFMT_LEFT, 160, 0);
 		FindLanguageFiles();
 
 		_L(m_hWnd, "SelectLangFiles");
@@ -144,13 +144,13 @@ public:
 		for (UINT i = 0; i < CMyApp::m_prefs.m_languageDirs.GetCount(); i++) {
 			CString strPath = CMyApp::m_prefs.m_languageDirs[i];
 			CMyUtils::EndWith(strPath, '\\');
-			HANDLE hFind = FindFirstFile(strPath + "*.isl", &wfd);
+			HANDLE hFind = FindFirstFile(strPath + _T("*.isl"), &wfd);
 			if (hFind) {
 				do {
 					TCHAR szName[MAX_PATH];
 					TCHAR szID[MAX_PATH];
-					GetPrivateProfileString("LangOptions", "LanguageName", "", szName, sizeof szName, strPath + wfd.cFileName);
-					GetPrivateProfileString("LangOptions", "LanguageID", "", szID, sizeof szName, strPath + wfd.cFileName);
+					GetPrivateProfileString(_T("LangOptions"), _T("LanguageName"), _T(""), szName, sizeof szName, strPath + wfd.cFileName);
+					GetPrivateProfileString(_T("LangOptions"), _T("LanguageID"), _T(""), szID, sizeof szName, strPath + wfd.cFileName);
 
 					Item item;
 					item.m_strTitle = wfd.cFileName;
@@ -160,7 +160,7 @@ public:
 
 					if (item.m_strFileName.Find(strInnoFolder) == 0 /*&& item.m_strFileName.ReverseFind('\\')<strInnoFolder.GetLength()*/) {
 						item.m_strFileName.Delete(0, strInnoFolder.GetLength());
-						item.m_strFileName.Insert(0, "compiler:");
+						item.m_strFileName.Insert(0, _T("compiler:"));
 					}
 
 					m_items.Add(item);

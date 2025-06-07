@@ -43,7 +43,7 @@ LRESULT CMainFrame::OnDebuggerHello(UINT /*uMsg*/, WPARAM wParam, LPARAM lParam,
 		hProcess = OpenProcess(PROCESS_TERMINATE, FALSE, dwPID);
 
 	if (bWantCodeText)
-		SendCopyDataMessageStr(hDebugClientWnd, m_hWnd, CD_DebugClient_CompiledCodeText, "FCompiledCodeText");
-	SendCopyDataMessageStr(hDebugClientWnd, m_hWnd, CD_DebugClient_CompiledCodeDebugInfo, "FCompiledCodeDebugInfo");
+		SendCopyDataMessageStr(hDebugClientWnd, m_hWnd, CD_DebugClient_CompiledCodeText, _T("FCompiledCodeText"));
+	SendCopyDataMessageStr(hDebugClientWnd, m_hWnd, CD_DebugClient_CompiledCodeDebugInfo, _T("FCompiledCodeDebugInfo"));
 	return 0;
 }

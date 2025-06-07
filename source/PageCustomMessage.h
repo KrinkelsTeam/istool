@@ -60,8 +60,8 @@ public:
 			if (bForce || !m_strKey.IsEmpty()) pLine->SetKey(m_strKey);
 			if (bForce || !m_strText.IsEmpty()) {
 				CString str(m_strText);
-				str.Replace("\r\n", "%n");
-				str.Replace("\n", "%n");
+				str.Replace(_T("\r\n"), _T("%n"));
+				str.Replace(_T("\n"), _T("%n"));
 				pLine->SetValue(str);
 			}
 		}
@@ -84,7 +84,7 @@ public:
 			CScriptLine* pMessage = m_listMessages[nPos];
 			m_strKey = pMessage->GetKey();
 			m_strText = pMessage->GetValue();
-			m_strText.Replace("%n", "\r\n");
+			m_strText.Replace(_T("%n"), _T("\r\n"));
 			break;
 		}
 	}

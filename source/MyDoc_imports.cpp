@@ -5,7 +5,7 @@
 #include "mywtl.h"
 
 // copy mode constants (see: convert options)
-#define CM_SKIPSAMEOROLDER	0x01	// sets copy mode to "AlwaysSkipIfSameOrOlder" instead of "Normal"
+#define CM_SKIPSAMEOROLDER	0x01	// sets copy mode to _T("AlwaysSkipIfSameOrOlder") instead of _T("Normal")
 
 bool CMyDoc::VBIsVBFile(LPCTSTR pszPathName) {
 	return !CString(pszPathName).Right(4).CompareNoCase(_T(".lst"));
@@ -43,7 +43,7 @@ void CMyDoc::VBImportIconSection(CIniFile& file, UINT nGroup) {
 
 	if (!nGroup) {
 		GetScript().SetPropertyString(_T("DefaultGroupName"), strSection);
-		strParent = "{group}\\";
+		strParent = _T("{group}\\");
 	} else {
 		VBReplaceFileConstant(strParent, _tstol(strPrivateGroup) != 0);
 		strParent += _T("\\") + strSection + _T("\\");
@@ -124,7 +124,7 @@ void CMyDoc::VBImportFileSection(CIniFile& file, LPCTSTR pszSection) {
 #else
 		CString strPath;
 		CProject::GetFilePath(strFileName.Mid(1), strPath);
-		pLine->SetParameter("Source", strPath + strFileName.Mid(1));
+		pLine->SetParameter(_T("Source"), strPath + strFileName.Mid(1));
 #endif
 
 		const bool bSysFile = VBReplaceFileConstant(strDest, false);

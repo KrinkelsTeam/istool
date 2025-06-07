@@ -53,7 +53,7 @@ public:
 		_L(m_hWnd, "CommonComponents");
 		m_wndComponentList.SubclassWindow(GetDlgItem(IDC_COMMON_COMPONENTLIST));
 
-		m_wndComponentList.InsertColumn(0, "Description", LVCFMT_LEFT, 10, 0);
+		m_wndComponentList.InsertColumn(0, _T("Description"), LVCFMT_LEFT, 10, 0);
 		m_wndComponentList.SetExtendedListViewStyle(LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);
 
 		CInnoScriptEx& script = m_pDoc->GetScript();
@@ -65,16 +65,16 @@ public:
 			for (int nPos = 0; nPos < components.GetSize(); nPos++) {
 				CScriptLine* pScriptComponent = components[nPos];
 				if (pScriptComponent->GetComment()) continue;
-				LPCTSTR pszComponent = pScriptComponent->GetParameter("Name");
-				m_wndComponentList.InsertItem(nItem, pScriptComponent->GetParameter("Description"));
+				LPCTSTR pszComponent = pScriptComponent->GetParameter(_T("Name"));
+				m_wndComponentList.InsertItem(nItem, pScriptComponent->GetParameter(_T("Description")));
 				m_wndComponentList.SetItemData(nItem, (DWORD)pszComponent);
 
 				// Set correct state
 				int nState = -1;
 				for (int nPos2 = 0; nPos2 < m_listBase.GetSize(); nPos2++) {
 					CInnoScript::CLine* pBase = m_listBase[nPos2];
-					m_bIsBooleanExp = m_bIsBooleanExp || CMyApp::IsBooleanExp(pBase->GetParameter("Components"));
-					if (pBase->GetParameterFlag("Components", pszComponent)) {
+					m_bIsBooleanExp = m_bIsBooleanExp || CMyApp::IsBooleanExp(pBase->GetParameter(_T("Components")));
+					if (pBase->GetParameterFlag(_T("Components"), pszComponent)) {
 						if (nState < 0) {
 							nState = 1;
 						} else if (nState != 1) {
@@ -108,7 +108,7 @@ public:
 		for (int nPos = 0; nPos < m_listBase.GetSize(); nPos++) {
 			CInnoScript::CLine* pItem = m_listBase[nPos];
 
-			if (m_strEdit.CompareNoCase(SAFESTR(pItem->GetParameter("Components"))))
+			if (m_strEdit.CompareNoCase(SAFESTR(pItem->GetParameter(_T("Components")))))
 				m_strEdit.Empty();
 		}
 
@@ -125,16 +125,16 @@ public:
 			CScriptLine* pBase = m_listBase[nPos];
 
 			if (m_bIsBooleanExp) {
-				if (bForce || !m_strEdit.IsEmpty()) pBase->SetParameter("Components", m_strEdit);
+				if (bForce || !m_strEdit.IsEmpty()) pBase->SetParameter(_T("Components"), m_strEdit);
 			} else {
 				UINT nCount = m_wndComponentList.GetItemCount();
 				while (nCount--) {
 					LPCTSTR pszComponent = (LPCTSTR)m_wndComponentList.GetItemData(nCount);
 					int nCheckState = m_wndComponentList.GetCheckState(nCount);
 					if (nCheckState > 0)
-						pBase->SetParameterFlag("Components", pszComponent, true);
+						pBase->SetParameterFlag(_T("Components"), pszComponent, true);
 					else if (nCheckState == 0)
-						pBase->SetParameterFlag("Components", pszComponent, false);
+						pBase->SetParameterFlag(_T("Components"), pszComponent, false);
 				}
 			}
 		}
@@ -207,7 +207,7 @@ public:
 		for (int nPos = 0; nPos < m_listBase.GetSize(); nPos++) {
 			CInnoScript::CLine* pItem = m_listBase[nPos];
 
-			m_strEdit = pItem->GetParameter("Components");
+			m_strEdit = pItem->GetParameter(_T("Components"));
 			break;
 		}
 	}

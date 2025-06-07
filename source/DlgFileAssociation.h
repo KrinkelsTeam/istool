@@ -121,7 +121,7 @@ public:
 	LRESULT OnKillFocusFaFileExtension(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {
 		DoDataExchange(DDX_SAVE);
 		if (!m_strFileExtension.IsEmpty() && m_strFileExtension[0] != '.') {
-			m_strFileExtension = "." + m_strFileExtension;
+			m_strFileExtension = _T(".") + m_strFileExtension;
 			DoDataExchange(DDX_LOAD);
 		}
 		return 0;
@@ -157,7 +157,7 @@ public:
 			if (!m_strIconFilename.CompareNoCase(strName)) {
 				m_wndIconIndex.ResetContent();
 
-				LPCTSTR pszFilename = pFile->GetParameter("Source");
+				LPCTSTR pszFilename = pFile->GetParameter(_T("Source"));
 				if (CMyUtils::IsFile(pszFilename)) {
 					int nNum = (int)ExtractIcon(_Module.GetResourceInstance(), pszFilename, (UINT)-1);
 					for (int i = 0; i < nNum; i++) {

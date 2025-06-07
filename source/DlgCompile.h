@@ -14,7 +14,7 @@ public:
 
 		do {
 			DWORD dw = GetTickCount();
-			m_strDir.Format("%sist7z%04x.tmp", tmp, dw & 0xFFFF);
+			m_strDir.Format(_T("%sist7z%04x.tmp"), tmp, dw & 0xFFFF);
 		} while (!CreateDirectory(m_strDir, NULL));
 	}
 	~CTempDir() {
@@ -23,7 +23,7 @@ public:
 	}
 
 	void GetFile(LPCTSTR pszName, CString& ref) {
-		ref.Format("%s\\%s", m_strDir, pszName);
+		ref.Format(_T("%s\\%s"), m_strDir, pszName);
 	}
 
 	const CString GetSlashDir() {
@@ -36,14 +36,14 @@ public:
 protected:
 	void DeleteDir(LPCTSTR pszDir) {
 		CString mask;
-		mask.Format("%s\\*.*", pszDir);
+		mask.Format(_T("%s\\*.*"), pszDir);
 		WIN32_FIND_DATA wfd;
 		HANDLE hFind = FindFirstFile(mask, &wfd);
 		if (hFind != INVALID_HANDLE_VALUE) {
 			do {
 				if (!((wfd.cFileName[0] == '.' && wfd.cFileName[1] == 0) || (wfd.cFileName[0] == '.' && wfd.cFileName[1] == '.' && wfd.cFileName[2] == 0))) {
 					CString tmp;
-					tmp.Format("%s\\%s", pszDir, wfd.cFileName);
+					tmp.Format(_T("%s\\%s"), pszDir, wfd.cFileName);
 					//AtlMessageBox(NULL,(LPCTSTR)tmp);
 
 					if (wfd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)

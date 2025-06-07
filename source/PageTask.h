@@ -61,32 +61,32 @@ public:
 		for (int nPos = 0; nPos < m_list.GetSize(); nPos++) {
 			CScriptLine* pItem = m_list[nPos];
 
-			if (m_strName.CompareNoCase(SAFESTR(pItem->GetParameter("Name")))) m_strName.Empty();
-			if (m_strDescription.CompareNoCase(SAFESTR(pItem->GetParameter("Description")))) m_strDescription.Empty();
-			if (m_strGroupDescription.CompareNoCase(SAFESTR(pItem->GetParameter("GroupDescription")))) m_strGroupDescription.Empty();
+			if (m_strName.CompareNoCase(SAFESTR(pItem->GetParameter(_T("Name"))))) m_strName.Empty();
+			if (m_strDescription.CompareNoCase(SAFESTR(pItem->GetParameter(_T("Description"))))) m_strDescription.Empty();
+			if (m_strGroupDescription.CompareNoCase(SAFESTR(pItem->GetParameter(_T("GroupDescription"))))) m_strGroupDescription.Empty();
 
 			//Flags
-			if (m_bExclusive != (pItem->GetParameterFlag("Flags", "exclusive") ? TRUE : FALSE)) {
+			if (m_bExclusive != (pItem->GetParameterFlag(_T("Flags"), _T("exclusive")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_TASK_EXCLUSIVE).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_bExclusive = 2;
 			}
-			if (m_bUnchecked != (pItem->GetParameterFlag("Flags", "unchecked") ? TRUE : FALSE)) {
+			if (m_bUnchecked != (pItem->GetParameterFlag(_T("Flags"), _T("unchecked")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_TASK_UNCHECKED).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_bUnchecked = 2;
 			}
-			if (m_bRestart != (pItem->GetParameterFlag("Flags", "restart") ? TRUE : FALSE)) {
+			if (m_bRestart != (pItem->GetParameterFlag(_T("Flags"), _T("restart")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_TASK_RESTART).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_bRestart = 2;
 			}
-			if (m_bCheckedOnce != (pItem->GetParameterFlag("Flags", "checkedonce") ? TRUE : FALSE)) {
+			if (m_bCheckedOnce != (pItem->GetParameterFlag(_T("Flags"), _T("checkedonce")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_TASK_CHECKED_ONCE).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_bCheckedOnce = 2;
 			}
-			if (m_nDontInheritCheck != (pItem->GetParameterFlag("Flags", "dontinheritcheck") ? TRUE : FALSE)) {
+			if (m_nDontInheritCheck != (pItem->GetParameterFlag(_T("Flags"), _T("dontinheritcheck")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_DONTINHERITCHECK).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nDontInheritCheck = 2;
 			}
-			if (m_nCheckableAlone != (pItem->GetParameterFlag("Flags", "checkablealone") ? TRUE : FALSE)) {
+			if (m_nCheckableAlone != (pItem->GetParameterFlag(_T("Flags"), _T("checkablealone")) ? TRUE : FALSE)) {
 				GetDlgItem(IDC_CHECKABLEALONE).ModifyStyle(BS_CHECKBOX | BS_3STATE | BS_AUTO3STATE, BS_AUTO3STATE);
 				m_nCheckableAlone = 2;
 			}
@@ -115,24 +115,24 @@ public:
 			m_strName.Replace(' ', '_');
 
 			if (bForce) {
-				CString strOldName(pItem->GetParameter("Name"));
+				CString strOldName(pItem->GetParameter(_T("Name")));
 				if (strOldName.CompareNoCase(m_strName)) {
 					CFilesHelper(m_pDoc).RenameTask(strOldName, m_strName);
 				}
 			}
 
 
-			CInnoScriptEx::SetString(pItem, bForce, "Name", m_strName);
-			CInnoScriptEx::SetString(pItem, bForce, "Description", m_strDescription);
-			CInnoScriptEx::SetString(pItem, bForce, "GroupDescription", m_strGroupDescription);
+			CInnoScriptEx::SetString(pItem, bForce, _T("Name"), m_strName);
+			CInnoScriptEx::SetString(pItem, bForce, _T("Description"), m_strDescription);
+			CInnoScriptEx::SetString(pItem, bForce, _T("GroupDescription"), m_strGroupDescription);
 
 			// Flags
-			CInnoScriptEx::SetFlag(pItem, "Flags", "exclusive", m_bExclusive);
-			CInnoScriptEx::SetFlag(pItem, "Flags", "unchecked", m_bUnchecked);
-			CInnoScriptEx::SetFlag(pItem, "Flags", "restart", m_bRestart);
-			CInnoScriptEx::SetFlag(pItem, "Flags", "checkedonce", m_bCheckedOnce);
-			CInnoScriptEx::SetFlag(pItem, "Flags", "dontinheritcheck", m_nDontInheritCheck);
-			CInnoScriptEx::SetFlag(pItem, "Flags", "checkablealone", m_nCheckableAlone);
+			CInnoScriptEx::SetFlag(pItem, _T("Flags"), _T("exclusive"), m_bExclusive);
+			CInnoScriptEx::SetFlag(pItem, _T("Flags"), _T("unchecked"), m_bUnchecked);
+			CInnoScriptEx::SetFlag(pItem, _T("Flags"), _T("restart"), m_bRestart);
+			CInnoScriptEx::SetFlag(pItem, _T("Flags"), _T("checkedonce"), m_bCheckedOnce);
+			CInnoScriptEx::SetFlag(pItem, _T("Flags"), _T("dontinheritcheck"), m_nDontInheritCheck);
+			CInnoScriptEx::SetFlag(pItem, _T("Flags"), _T("checkablealone"), m_nCheckableAlone);
 		}
 		return PSNRET_NOERROR;
 	}
@@ -174,16 +174,16 @@ public:
 		for (int nPos = 0; nPos < m_list.GetSize(); nPos++) {
 			CInnoScript::CLine* pItem = m_list[nPos];
 
-			m_strName = pItem->GetParameter("Name");
-			m_strDescription = pItem->GetParameter("Description");
-			m_strGroupDescription = pItem->GetParameter("GroupDescription");
+			m_strName = pItem->GetParameter(_T("Name"));
+			m_strDescription = pItem->GetParameter(_T("Description"));
+			m_strGroupDescription = pItem->GetParameter(_T("GroupDescription"));
 			//Flags
-			m_bExclusive = pItem->GetParameterFlag("Flags", "exclusive");
-			m_bUnchecked = pItem->GetParameterFlag("Flags", "unchecked");
-			m_bRestart = pItem->GetParameterFlag("Flags", "restart");
-			m_bCheckedOnce = pItem->GetParameterFlag("Flags", "checkedonce");
-			m_nDontInheritCheck = pItem->GetParameterFlag("Flags", "dontinheritcheck");
-			m_nCheckableAlone = pItem->GetParameterFlag("Flags", "checkablealone");
+			m_bExclusive = pItem->GetParameterFlag(_T("Flags"), _T("exclusive"));
+			m_bUnchecked = pItem->GetParameterFlag(_T("Flags"), _T("unchecked"));
+			m_bRestart = pItem->GetParameterFlag(_T("Flags"), _T("restart"));
+			m_bCheckedOnce = pItem->GetParameterFlag(_T("Flags"), _T("checkedonce"));
+			m_nDontInheritCheck = pItem->GetParameterFlag(_T("Flags"), _T("dontinheritcheck"));
+			m_nCheckableAlone = pItem->GetParameterFlag(_T("Flags"), _T("checkablealone"));
 			break;
 		}
 	}
