@@ -126,7 +126,7 @@ bool CSheets::ShowSheet(HWND hWnd, CScriptList& list, bool bNewItem) {
 }
 
 bool CSheets::ShowSheet(HWND hWnd, CScriptList& list, DWORD dwSheets, bool bNewItem) {
-	CString					strTitle(bNewItem ? _L("New Item") : _L("Properties"));
+	CString					strTitle(bNewItem ? _L(_T("New Item")) : _L(_T("Properties")));
 	CMyPropertySheet		sheet((LPCTSTR)strTitle);
 
 	CPageFiles				dlgFiles(list, AfxGetDocument(), bNewItem);

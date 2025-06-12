@@ -38,13 +38,13 @@ public:
 	int			m_nType;
 
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) {
-		_L(m_hWnd, "Delete");
+		_L(m_hWnd, _T("Delete"));
 		m_wndName.SubclassWindow(GetDlgItem(IDC_DELETE_NAME));
 
 		CComboBox box(GetDlgItem(IDC_TYPE));
-		box.AddString(_L("Delete|Type|Files", "Files"));
-		box.AddString(_L("Delete|Type|FilesDirs", "Files and/or directories"));
-		box.AddString(_L("Delete|Type|DirIfEmpty", "Directory if empty"));
+		box.AddString(_L(_T("Delete|Type|Files"), _T("Files")));
+		box.AddString(_L(_T("Delete|Type|FilesDirs"), _T("Files and/or directories")));
+		box.AddString(_L(_T("Delete|Type|DirIfEmpty"), _T("Directory if empty")));
 
 		for (int nPos = 0; nPos < m_list.GetSize(); nPos++) {
 			CInnoScript::CLine* pItem = m_list[nPos];
@@ -73,12 +73,12 @@ public:
 
 		if (bForce) {
 			if (m_strName.IsEmpty()) {
-				AtlMessageBox(m_hWnd, _L("You must enter a name."), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
+				AtlMessageBox(m_hWnd, _L(_T("You must enter a name.")), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 				return PSNRET_INVALID;
 			}
 
 			if (m_nType == -1) {
-				AtlMessageBox(m_hWnd, _L("You must select a type."), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
+				AtlMessageBox(m_hWnd, _L(_T("You must select a type.")), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 				return PSNRET_INVALID;
 			}
 		}
@@ -100,7 +100,7 @@ public:
 	CPageDelete(CScriptList& list, CMyDoc* pDoc, const bool bNew) :
 		m_list(list), m_pDoc(pDoc), m_bNew(bNew), m_wndName(pDoc)
 	{
-		m_strTitle = _L("DialogTitles|Delete", "Delete");
+		m_strTitle = _L(_T("DialogTitles|Delete"), _T("Delete"));
 		SetTitle((LPCTSTR)m_strTitle);
 
 		m_nType = -1;
@@ -118,7 +118,7 @@ public:
 	const bool   m_bNew;
 
 	BEGIN_TOOLTIP_MAP()
-		TOOLTIP_HANDLER(IDC_DELETE_NAME, _L("Help|Delete|Name", "Name of the file or directory to delete."))
-		TOOLTIP_HANDLER(IDC_TYPE, _L("Help|Delete|Type", "Specifies what is to be deleted by the uninstaller."))
+		TOOLTIP_HANDLER(IDC_DELETE_NAME, _L(_T("Help|Delete|Name"), _T("Name of the file or directory to delete.")))
+		TOOLTIP_HANDLER(IDC_TYPE, _L(_T("Help|Delete|Type"), _T("Specifies what is to be deleted by the uninstaller.")))
 	END_TOOLTIP_MAP()
 };

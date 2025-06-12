@@ -50,13 +50,13 @@ public:
 			m_bCentered = true;
 
 			CWindow wnd = GetDlgItem(IDOK);
-			if (wnd) wnd.SetWindowText(_L("System|OK", "OK"));
+			if (wnd) wnd.SetWindowText(_L(_T("System|OK"), _T("OK")));
 			wnd = GetDlgItem(IDCANCEL);
-			if (wnd) wnd.SetWindowText(_L("System|Cancel", "Cancel"));
+			if (wnd) wnd.SetWindowText(_L(_T("System|Cancel"), _T("Cancel")));
 			wnd = GetDlgItem(0x3021);
-			if (wnd) wnd.SetWindowText(_L("System|Apply", "&Apply"));
+			if (wnd) wnd.SetWindowText(_L(_T("System|Apply"), _T("&Apply")));
 			wnd = GetDlgItem(IDHELP);
-			if (wnd) wnd.SetWindowText(_L("System|Help", "Help"));
+			if (wnd) wnd.SetWindowText(_L(_T("System|Help"), _T("Help")));
 		}
 		bHandled = FALSE;
 		return 0;

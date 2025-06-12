@@ -55,7 +55,7 @@ public:
 		DlgResize_Init(false, false, 0);
 		m_wndList.SubclassWindow(GetDlgItem(IDC_LANGUAGES_LIST));
 
-		_L(m_hWnd, "CommonLanguages");
+		_L(m_hWnd, _T("CommonLanguages"));
 		m_wndList.InsertColumn(0, _T("Description"), LVCFMT_LEFT, 10, 0);
 
 		CInnoScriptEx& script = m_pDoc->GetScript();
@@ -194,7 +194,7 @@ public:
 	CPageCommonLanguages::CPageCommonLanguages(CScriptList& listBase, CMyDoc* pDoc, const bool bNew) :
 		m_listBase(listBase), m_pDoc(pDoc), m_bNew(bNew), m_bInitialized(false)
 	{
-		m_strTitle = _L("DialogTitles|Language", "Language");
+		m_strTitle = _L(_T("DialogTitles|Language"), _T("Language"));
 		SetTitle((LPCTSTR)m_strTitle);
 
 		for (int nPos = 0; nPos < m_listBase.GetSize(); nPos++) {
@@ -211,6 +211,6 @@ public:
 	bool		 m_bInitialized;
 
 	BEGIN_TOOLTIP_MAP()
-		TOOLTIP_HANDLER(IDC_LANGUAGES_LIST, _L("Help|CommonLanguages|List", "List of languages that can be chosen for this item(s)."))
+		TOOLTIP_HANDLER(IDC_LANGUAGES_LIST, _L(_T("Help|CommonLanguages|List"), _T("List of languages that can be chosen for this item(s).")))
 	END_TOOLTIP_MAP()
 };

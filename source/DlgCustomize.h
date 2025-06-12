@@ -36,7 +36,7 @@ public:
 	}
 
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) {
-		_L(m_hWnd, "Customize");
+		_L(m_hWnd, _T("Customize"));
 		CenterWindow(GetParent());
 
 		m_wndColumnList.Attach(GetDlgItem(IDC_COLUMNLIST));

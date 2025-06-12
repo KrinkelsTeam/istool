@@ -70,7 +70,7 @@ public:
 
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) {
 		DlgResize_Init(false, false, 0);
-		_L(m_hWnd, "INI");
+		_L(m_hWnd, _T("INI"));
 		m_wndString.SubclassWindow(GetDlgItem(IDC_STRING));
 		m_wndKey.SubclassWindow(GetDlgItem(IDC_KEY));
 		m_wndSection.SubclassWindow(GetDlgItem(IDC_SECTION));
@@ -122,11 +122,11 @@ public:
 
 		if (bForce) {
 			if (m_strFilename.IsEmpty()) {
-				AtlMessageBox(m_hWnd, _L("Filename is required."), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
+				AtlMessageBox(m_hWnd, _L(_T("Filename is required.")), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 				return PSNRET_INVALID;
 			}
 			if (m_strSection.IsEmpty()) {
-				AtlMessageBox(m_hWnd, _L("Error|INI|NeedSection", "Missing required parameter section."), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
+				AtlMessageBox(m_hWnd, _L(_T("Error|INI|NeedSection"), _T("Missing required parameter section.")), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 				return PSNRET_INVALID;
 			}
 		}
@@ -159,7 +159,7 @@ public:
 		m_listIni(listIni), m_pDoc(pDoc), m_bNew(bNew),
 		m_wndFilename(pDoc), m_wndSection(pDoc), m_wndKey(pDoc), m_wndString(pDoc)
 	{
-		m_strTitle = _L("DialogTitles|INI", "INI");
+		m_strTitle = _L(_T("DialogTitles|INI"), _T("INI"));
 		SetTitle((LPCTSTR)m_strTitle);
 
 		m_nCreateKeyIfDoesntExist = FALSE;
@@ -187,13 +187,13 @@ public:
 	const bool	 m_bNew;
 
 	BEGIN_TOOLTIP_MAP()
-		TOOLTIP_HANDLER(IDC_INI_FILENAME, _L("Help|INI|FileName", "The name of the .INI file you want Setup to modify, which can include constants. If this parameter is blank, it writes to WIN.INI in the system's Windows directory."))
-		TOOLTIP_HANDLER(IDC_SECTION, _L("Help|INI|Section", "The name of the section to create the entry in, which can include constants."))
-		TOOLTIP_HANDLER(IDC_KEY, _L("Help|INI|Key", "The name of the key to set, which can include constants. If this parameter is not specified or is blank, no key is created."))
-		TOOLTIP_HANDLER(IDC_STRING, _L("Help|INI|String", "The value to assign to the key, which can use constants. If this parameter is not specified, no key is created."))
-		TOOLTIP_HANDLER(IDC_CREATEKEYIFDOESNTEXIST, _L("Help|INI|CreateKeyIfDoesntExist", "Assign to the key only if the key name doesn't already exist."))
-		TOOLTIP_HANDLER(IDC_UNINSDELETEENTRY, _L("Help|INI|UninsDeleteEntry", "Delete the entry when the program is uninstalled. This can be combined with the uninsdeletesectionifempty flag."))
-		TOOLTIP_HANDLER(IDC_UNINSDELETESECTION, _L("Help|INI|UninsDeleteSection", "When the program is uninstalled, delete the entire section in which the entry is located. It obviously wouldn't be a good idea to use this on a section that is used by Windows itself (like some of the sections in WIN.INI). You should only use this on sections private to your application."))
-		TOOLTIP_HANDLER(IDC_UNINSDELETESECTIONIFEMPTY, _L("Help|INI|UninsDeleteSectionIfEmpty", "Same as uninsdeletesection, but deletes the section only if there are no keys left in it. This can be combined with the uninsdeleteentry flag."))
+		TOOLTIP_HANDLER(IDC_INI_FILENAME, _L(_T("Help|INI|FileName"), _T("The name of the .INI file you want Setup to modify, which can include constants. If this parameter is blank, it writes to WIN.INI in the system's Windows directory.")))
+		TOOLTIP_HANDLER(IDC_SECTION, _L(_T("Help|INI|Section"), _T("The name of the section to create the entry in, which can include constants.")))
+		TOOLTIP_HANDLER(IDC_KEY, _L(_T("Help|INI|Key"), _T("The name of the key to set, which can include constants. If this parameter is not specified or is blank, no key is created.")))
+		TOOLTIP_HANDLER(IDC_STRING, _L(_T("Help|INI|String"), _T("The value to assign to the key, which can use constants. If this parameter is not specified, no key is created.")))
+		TOOLTIP_HANDLER(IDC_CREATEKEYIFDOESNTEXIST, _L(_T("Help|INI|CreateKeyIfDoesntExist"), _T("Assign to the key only if the key name doesn't already exist.")))
+		TOOLTIP_HANDLER(IDC_UNINSDELETEENTRY, _L(_T("Help|INI|UninsDeleteEntry"), _T("Delete the entry when the program is uninstalled. This can be combined with the uninsdeletesectionifempty flag.")))
+		TOOLTIP_HANDLER(IDC_UNINSDELETESECTION, _L(_T("Help|INI|UninsDeleteSection"), _T("When the program is uninstalled, delete the entire section in which the entry is located. It obviously wouldn't be a good idea to use this on a section that is used by Windows itself (like some of the sections in WIN.INI). You should only use this on sections private to your application.")))
+		TOOLTIP_HANDLER(IDC_UNINSDELETESECTIONIFEMPTY, _L(_T("Help|INI|UninsDeleteSectionIfEmpty"), _T("Same as uninsdeletesection, but deletes the section only if there are no keys left in it. This can be combined with the uninsdeleteentry flag.")))
 	END_TOOLTIP_MAP()
 };

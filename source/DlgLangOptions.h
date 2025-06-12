@@ -250,7 +250,7 @@ public:
 	}
 
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) {
-		_L(m_hWnd, "LangOptions");
+		_L(m_hWnd, _T("LangOptions"));
 		CenterWindow(GetParent());
 
 		m_wndSpin1.Attach(GetDlgItem(IDC_SPIN1));

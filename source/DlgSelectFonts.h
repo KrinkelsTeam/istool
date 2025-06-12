@@ -64,7 +64,7 @@ public:
 	}
 
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) {
-		_L(m_hWnd, "SelectFonts");
+		_L(m_hWnd, _T("SelectFonts"));
 		CenterWindow(GetParent());
 
 		CWaitCursor wait;

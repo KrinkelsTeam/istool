@@ -35,7 +35,7 @@ public:
 	}
 
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) {
-		_L(m_hWnd, "IEShortCut");
+		_L(m_hWnd, _T("IEShortCut"));
 		CenterWindow(GetParent());
 
 		m_strFileName = _T("{app}\\ISTool.url");

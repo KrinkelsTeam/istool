@@ -29,7 +29,7 @@ CDlgCompile::~CDlgCompile() {
 }
 
 LRESULT CDlgCompile::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) {
-	_L(m_hWnd, "Compile");
+	_L(m_hWnd, _T("Compile"));
 	CenterWindow(GetParent());
 
 	m_wndList.Attach(GetDlgItem(IDC_COMPILE_LIST));
@@ -79,7 +79,7 @@ bool CDlgCompile::LoadCompiler() {
 
 	m_hCompiler = LoadLibrary(strLibrary);
 	if (!m_hCompiler) {
-		CString txt = _L("Failed to open library '%1'.");
+		CString txt = _L(_T("Failed to open library '%1'."));
 		txt.Replace(_T("%1"), strLibrary);
 		AtlMessageBox(m_hWnd, (LPCTSTR)txt, IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 		return false;
@@ -277,7 +277,7 @@ UINT CDlgCompile::DoCompile() {
 	AddListString(tmp);
 
 	if (!m_pDoc->m_bCompileAndExit) {
-		if (m_bForceRun || (CMyApp::m_prefs.m_bTestCompiledSetup && AtlMessageBox(m_hWnd, _L("TestSetupNow", "Setup compiled successfully. Test setup now?"), IDR_MAINFRAME, MB_YESNO | MB_ICONQUESTION) == IDYES)) {
+		if (m_bForceRun || (CMyApp::m_prefs.m_bTestCompiledSetup && AtlMessageBox(m_hWnd, _L(_T("TestSetupNow"), _T("Setup compiled successfully. Test setup now?")), IDR_MAINFRAME, MB_YESNO | MB_ICONQUESTION) == IDYES)) {
 			CMyApp::MyExec(m_strOutputExeFilename, NULL);
 		}
 		CString strOld = m_pDoc->GetScript().GetPropertyString(_T("OutputExeFilename"), CInnoScript::PRJ_ISTOOL);

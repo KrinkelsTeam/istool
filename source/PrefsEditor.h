@@ -66,7 +66,7 @@ public:
 
 		m_wndStyles.Attach(GetDlgItem(IDC_STYLES));
 
-		_L(m_hWnd, "PrefsEditor");
+		_L(m_hWnd, _T("PrefsEditor"));
 
 		DoDataExchange(DDX_LOAD);
 		EnableControls();

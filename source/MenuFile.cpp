@@ -14,9 +14,9 @@
 #include "PrefsEditor.h"
 
 LRESULT CMainFrame::OnFilePreferences(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {
-	CString			strTitle = _L("DialogTitles|Preferences", "Preferences");
-	CString			strPage1 = _L("DialogTitles|General", "General");
-	CString			strPage3 = _L("DialogTitles|Editor", "Editor");
+	CString			strTitle = _L(_T("DialogTitles|Preferences"), _T("Preferences"));
+	CString			strPage1 = _L(_T("DialogTitles|General"), _T("General"));
+	CString			strPage3 = _L(_T("DialogTitles|Editor"), _T("Editor"));
 
 	CMyPropertySheet	sheet((LPCTSTR)strTitle);
 

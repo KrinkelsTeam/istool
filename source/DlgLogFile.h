@@ -47,7 +47,7 @@ public:
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) {
 		m_wndLogFile.SubclassWindow(GetDlgItem(IDC_LOGFILEBROWSE));
 
-		_L(m_hWnd, "LogFile");
+		_L(m_hWnd, _T("LogFile"));
 		CenterWindow(GetParent());
 		DoDataExchange(DDX_LOAD);
 		return TRUE;

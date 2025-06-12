@@ -41,7 +41,7 @@ public:
 	BOOL				m_bRunMinimized;
 
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) {
-		_L(m_hWnd, "CompileStep");
+		_L(m_hWnd, _T("CompileStep"));
 		m_wndNameBtn.SubclassWindow(GetDlgItem(IDC_BTN_CSE_NAME));
 
 		for (int nPos = 0; nPos < m_list.GetSize(); nPos++) {
@@ -72,7 +72,7 @@ public:
 
 		if (bForce) {
 			if (m_strName.IsEmpty()) {
-				AtlMessageBox(m_hWnd, _L("You must enter a name."), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
+				AtlMessageBox(m_hWnd, _L(_T("You must enter a name.")), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 				return PSNRET_INVALID;
 			}
 		}
@@ -99,7 +99,7 @@ public:
 		m_list(list), m_pDoc(pDoc), m_bNew(bNew),
 		m_wndNameBtn(true, _T("Executable Files (*.exe;*.bat;*.cmd)|*.exe;*.bat;*.cmd|All Files (*.*)|*.*||"))
 	{
-		m_strTitle = _L("DialogTitles|CompileStep", "Compile Step");
+		m_strTitle = _L(_T("DialogTitles|CompileStep"), _T("Compile Step"));
 		SetTitle((LPCTSTR)m_strTitle);
 
 		m_bAbortOnError = FALSE;
@@ -119,10 +119,10 @@ public:
 	const bool   m_bNew;
 
 	BEGIN_TOOLTIP_MAP()
-		TOOLTIP_HANDLER(IDC_CSE_ABORT_ON_ERROR, _L("Help|CompileStep|AbortOnError", "If this is checked, compilation will be aborted if an error occurs."))
-		TOOLTIP_HANDLER(IDC_CSE_NAME, _L("Help|CompileStep|Name", "Name and path of the program to run."))
-		TOOLTIP_HANDLER(IDC_CSE_PARAMETERS, _L("Help|CompileStep|Parameters", "Parameters to the program."))
-		TOOLTIP_HANDLER(IDC_CSE_RUN_MINIMIZED, _L("Help|CompileStep|RunMinimized", "Runs minimized if this checkbox is checked."))
-		TOOLTIP_HANDLER(IDC_BTN_CSE_NAME, _L("Help|CompileStep|NameButton", "Click this button to select the program you want to run."))
+		TOOLTIP_HANDLER(IDC_CSE_ABORT_ON_ERROR, _L(_T("Help|CompileStep|AbortOnError"), _T("If this is checked, compilation will be aborted if an error occurs.")))
+		TOOLTIP_HANDLER(IDC_CSE_NAME, _L(_T("Help|CompileStep|Name"), _T("Name and path of the program to run.")))
+		TOOLTIP_HANDLER(IDC_CSE_PARAMETERS, _L(_T("Help|CompileStep|Parameters"), _T("Parameters to the program.")))
+		TOOLTIP_HANDLER(IDC_CSE_RUN_MINIMIZED, _L(_T("Help|CompileStep|RunMinimized"), _T("Runs minimized if this checkbox is checked.")))
+		TOOLTIP_HANDLER(IDC_BTN_CSE_NAME, _L(_T("Help|CompileStep|NameButton"), _T("Click this button to select the program you want to run.")))
 	END_TOOLTIP_MAP()
 };

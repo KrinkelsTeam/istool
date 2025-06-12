@@ -48,7 +48,7 @@ LRESULT CMainFrame::OnProjectUseAbsolutePaths(WORD /*wNotifyCode*/, WORD /*wID*/
 
 	if (files.GetSize() > 0) {
 		if (bAbs) {
-			int nResult = AtlMessageBox(m_hWnd, _L("ConvertAbsPaths", "Do you want to convert existing paths to absolute paths?"), IDR_MAINFRAME, MB_YESNO | MB_ICONQUESTION);
+			int nResult = AtlMessageBox(m_hWnd, _L(_T("ConvertAbsPaths"), _T("Do you want to convert existing paths to absolute paths?")), IDR_MAINFRAME, MB_YESNO | MB_ICONQUESTION);
 			if (nResult == IDYES) {
 				for (int nPos = 0; nPos < files.GetSize(); nPos++) {
 					CScriptLine* pLine = files[nPos];
@@ -79,7 +79,7 @@ LRESULT CMainFrame::OnProjectUseAbsolutePaths(WORD /*wNotifyCode*/, WORD /*wID*/
 				}
 			}
 		} else {
-			int nResult = AtlMessageBox(m_hWnd, _L("ConvertRelPaths", "Do you want to convert existing paths to relative paths?"), IDR_MAINFRAME, MB_YESNO | MB_ICONQUESTION);
+			int nResult = AtlMessageBox(m_hWnd, _L(_T("ConvertRelPaths"), _T("Do you want to convert existing paths to relative paths?")), IDR_MAINFRAME, MB_YESNO | MB_ICONQUESTION);
 			if (nResult == IDYES) {
 				for (int nPos = 0; nPos < files.GetSize(); nPos++) {
 					CScriptLine* pLine = files[nPos];
@@ -244,7 +244,7 @@ LRESULT CMainFrame::OnProjectExportRegistry(WORD /*wNotifyCode*/, WORD /*wID*/, 
 	CWaitCursor wait;
 	FILE* fp;
 	if (fopen_s(&fp, dlg.m_szFileName, _T("w")) != 0) {
-		CString txt = _L("Error|CreateFile", "Failed to create '%1'.");
+		CString txt = _L(_T("Error|CreateFile"), _T("Failed to create '%1'."));
 		txt.Replace(_T("%1"), dlg.m_szFileName);
 		AtlMessageBox(m_hWnd, (LPCTSTR)txt, IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 		return 0;
@@ -307,7 +307,7 @@ LRESULT CMainFrame::OnProjectImportMessages(WORD /*wNotifyCode*/, WORD /*wID*/, 
 	CString strSection;
 	FILE* file;
 	if (fopen_s(&file, strFilename, _T("r")) != 0) {
-		CString txt = _L("Failed to open '%1'.");
+		CString txt = _L(_T("Failed to open '%1'."));
 		txt.Replace(_T("%1"), strFilename);
 		AtlMessageBox(m_hWnd, (LPCTSTR)txt, IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 		return 0;
@@ -341,7 +341,7 @@ LRESULT CMainFrame::OnProjectImportMessages(WORD /*wNotifyCode*/, WORD /*wID*/, 
 				m_document.SetModifiedFlag();
 			} catch (LPCTSTR ptr) {
 				if (pLine) delete pLine;
-				CString txt = _L("Error|ParseMessages", "Error parsing messages.\n\n%1");
+				CString txt = _L(_T("Error|ParseMessages"), _T("Error parsing messages.\n\n%1"));
 				txt.Replace(_T("%1"), ptr);
 				AtlMessageBox(m_hWnd, (LPCTSTR)txt, IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 			}
@@ -468,11 +468,11 @@ LRESULT CMainFrame::OnProjectVerifyFiles(WORD /*wNotifyCode*/, WORD /*wID*/, HWN
 		}
 	}
 	if (strMessage.GetLength() > 0) {
-		strMessage = _L("FilesNotFound", "The following files could not be found:\n") + strMessage;
-		if (bFilesList) strMessage += _L("FilesSelected", "\n\nThese files have been selected.");
+		strMessage = _L(_T("FilesNotFound"), _T("The following files could not be found:\n")) + strMessage;
+		if (bFilesList) strMessage += _L(_T("FilesSelected"), _T("\n\nThese files have been selected."));
 		AtlMessageBox(m_hWnd, (LPCTSTR)strMessage, IDR_MAINFRAME, MB_OK | MB_ICONWARNING);
 	} else {
-		AtlMessageBox(m_hWnd, _L("VerifiedOk", "All checked files seem to exist."), IDR_MAINFRAME);
+		AtlMessageBox(m_hWnd, _L(_T("VerifiedOk"), _T("All checked files seem to exist.")), IDR_MAINFRAME);
 	}
 	return 0;
 }
@@ -499,7 +499,7 @@ LRESULT CMainFrame::OnProjectExportMessages(WORD /*wNotifyCode*/, WORD /*wID*/, 
 	CWaitCursor wait;
 	FILE* fp;
 	if (fopen_s(&fp, dlg.m_szFileName, _T("w")) != 0) {
-		CString txt = _L("Error|CreateFile", "Failed to create '%1'.");
+		CString txt = _L(_T("Error|CreateFile"), _T("Failed to create '%1'."));
 		txt.Replace(_T("%1"), dlg.m_szFileName);
 		AtlMessageBox(m_hWnd, (LPCTSTR)txt, IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 		return 0;
@@ -526,7 +526,7 @@ LRESULT CMainFrame::OnProjectCreateUninstallIcon(WORD /*wNotifyCode*/, WORD /*wI
 	// TODO: Sjekk at et slikt icon ikke finnes fra fшr
 	CString strAppName = m_document.GetScript().GetPropertyString(_T("AppName"));
 	if (strAppName.IsEmpty()) {
-		AtlMessageBox(m_hWnd, _L("NeedAppName", "Please enter a value for application name in options first."), IDR_MAINFRAME, MB_OK | MB_ICONWARNING);
+		AtlMessageBox(m_hWnd, _L(_T("NeedAppName"), _T("Please enter a value for application name in options first.")), IDR_MAINFRAME, MB_OK | MB_ICONWARNING);
 		return 0;
 	}
 
@@ -537,7 +537,7 @@ LRESULT CMainFrame::OnProjectCreateUninstallIcon(WORD /*wNotifyCode*/, WORD /*wI
 
 	m_document.UpdateAll();
 	m_document.SetModifiedFlag();
-	AtlMessageBox(m_hWnd, _L("Icon added."), IDR_MAINFRAME);
+	AtlMessageBox(m_hWnd, _L(_T("Icon added.")), IDR_MAINFRAME);
 	return 0;
 }
 
@@ -550,17 +550,17 @@ LRESULT CMainFrame::OnProjectOptions(WORD /*wNotifyCode*/, WORD wID, HWND /*hWnd
 	if (wID != ID_PROJECT_OPTIONS) nPage = wID - ID_PROJECT_OPTIONS_COMPILER;
 
 	{
-		CMyPropertySheet	sheet(_L("DialogTitles|SetupOptions", "Setup Options"), nPage);
+		CMyPropertySheet	sheet(_L(_T("DialogTitles|SetupOptions"), _T("Setup Options")), nPage);
 
-		CSetupCompiler		pageCompiler(&m_document, false, _L("DialogTitles|Compiler", "Compiler"));
-		CSetupSpanning		pageSpanning(&m_document, false, _L("DialogTitles|DiskSpanning", "Disk Spanning"));
-		CSetupApplication	pageApplication(&m_document, false, _L("DialogTitles|Application", "Application"));
-		CSetupUserInfo		pageUserInfo(&m_document, false, _L("DialogTitles|UserInfo", "User Info"));
-		CSetupAppDir		pageAppDir(&m_document, false, _L("DialogTitles|AppDirectory", "App Directory"));
-		CSetupProgramGroup	pageGroup(&m_document, false, _L("DialogTitles|ProgramGroup", "Program Group"));
-		CSetupPages			pagePages(&m_document, false, _L("DialogTitles|Pages", "Pages"));
-		CSetupAppearance	pageAppearance(&m_document, false, _L("DialogTitles|Appearance", "Appearance"));
-		CSetupUninstall		pageUninstall(&m_document, false, _L("DialogTitles|Uninstall", "Uninstall"));
+		CSetupCompiler		pageCompiler(&m_document, false, _L(_T("DialogTitles|Compiler"), _T("Compiler")));
+		CSetupSpanning		pageSpanning(&m_document, false, _L(_T("DialogTitles|DiskSpanning"), _T("Disk Spanning")));
+		CSetupApplication	pageApplication(&m_document, false, _L(_T("DialogTitles|Application"), _T("Application")));
+		CSetupUserInfo		pageUserInfo(&m_document, false, _L(_T("DialogTitles|UserInfo"), _T("User Info")));
+		CSetupAppDir		pageAppDir(&m_document, false, _L(_T("DialogTitles|AppDirectory"), _T("App Directory")));
+		CSetupProgramGroup	pageGroup(&m_document, false, _L(_T("DialogTitles|ProgramGroup"), _T("Program Group")));
+		CSetupPages			pagePages(&m_document, false, _L(_T("DialogTitles|Pages"), _T("Pages")));
+		CSetupAppearance	pageAppearance(&m_document, false, _L(_T("DialogTitles|Appearance"), _T("Appearance")));
+		CSetupUninstall		pageUninstall(&m_document, false, _L(_T("DialogTitles|Uninstall"), _T("Uninstall")));
 
 		sheet.AddPage(pageCompiler);
 		sheet.AddPage(pageSpanning);

@@ -44,7 +44,7 @@ LPSTR CInnoScript::CLine::UnQuote(LPSTR pszLine) {
 	if (!pszLine) return pszLine;
 
 	UINT nLength = _tcslen(pszLine);
-	if (pszLine[0] != '_T("' || pszLine[nLength - 1] != '")') {
+	if (pszLine[0] != '"' || pszLine[nLength - 1] != '"') {
 		CString str(pszLine);
 		str.TrimLeft();
 		str.TrimRight();
@@ -60,7 +60,7 @@ LPSTR CInnoScript::CLine::UnQuote(LPSTR pszLine) {
 	pszLine[nLength] = 0;
 
 	while (*pszLine) {
-		if (pszLine[0] == '_T("' && pszLine[1] == '")') {
+		if (pszLine[0] == '"' && pszLine[1] == '"') {
 			pszLine += 2;
 			*pszDest++ = '"';
 		} else

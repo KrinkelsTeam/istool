@@ -45,7 +45,7 @@ public:
 	CString	m_strDefaultUserInfoSerial;
 
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) {
-		_L(m_hWnd, "UserInfo");
+		_L(m_hWnd, _T("UserInfo"));
 
 		GetDlgItem(IDC_STATIC1).EnableWindow(m_bUserInfoPage);
 		GetDlgItem(IDC_STATIC2).EnableWindow(m_bUserInfoPage);
@@ -129,11 +129,11 @@ public:
 	}
 
 	BEGIN_TOOLTIP_MAP()
-		TOOLTIP_HANDLER(IDC_USEPREVIOUSUSERINFO, _L("Help|UserInfo|UsePreviousUserInfo", "When this directive is yes, the default, at startup Setup will look in the registry to see if the same application is already installed, and if so, it will use the name, organization and serial number entered previously as the default settings presented to the user on the User Information wizard page."))
-		TOOLTIP_HANDLER(IDC_USERINFOPAGE, _L("Help|UserInfo|UserInfoPage", "If this is set to yes, Setup will show a User Information wizard page which asks for the user's name, organization and possibly a serial number."))
-		TOOLTIP_HANDLER(IDC_DEFAULTUSERINFONAME, _L("Help|UserInfo|DefaultUserInfoName", "Specifies the default name shown on the User Information wizard page. This can include constants."))
-		TOOLTIP_HANDLER(IDC_DEFAULTUSERINFOORG, _L("Help|UserInfo|DefaultUserInfoOrg", "Specifies the default organization shown on the User Information wizard page. This can include constants."))
-		TOOLTIP_HANDLER(IDC_DEFAULTUSERINFOSERIAL, _L("Help|UserInfo|DefaultUserInfoSerial", "Specifies the default serial number shown on the User Information wizard page. This can include constants."))
+		TOOLTIP_HANDLER(IDC_USEPREVIOUSUSERINFO, _L(_T("Help|UserInfo|UsePreviousUserInfo"), _T("When this directive is yes, the default, at startup Setup will look in the registry to see if the same application is already installed, and if so, it will use the name, organization and serial number entered previously as the default settings presented to the user on the User Information wizard page.")))
+		TOOLTIP_HANDLER(IDC_USERINFOPAGE, _L(_T("Help|UserInfo|UserInfoPage"), _T("If this is set to yes, Setup will show a User Information wizard page which asks for the user's name, organization and possibly a serial number.")))
+		TOOLTIP_HANDLER(IDC_DEFAULTUSERINFONAME, _L(_T("Help|UserInfo|DefaultUserInfoName"), _T("Specifies the default name shown on the User Information wizard page. This can include constants.")))
+		TOOLTIP_HANDLER(IDC_DEFAULTUSERINFOORG, _L(_T("Help|UserInfo|DefaultUserInfoOrg"), _T("Specifies the default organization shown on the User Information wizard page. This can include constants.")))
+		TOOLTIP_HANDLER(IDC_DEFAULTUSERINFOSERIAL, _L(_T("Help|UserInfo|DefaultUserInfoSerial"), _T("Specifies the default serial number shown on the User Information wizard page. This can include constants.")))
 	END_TOOLTIP_MAP()
 
 protected:

@@ -78,7 +78,7 @@ LRESULT CMainFrame::OnHelpUpdates(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWn
 			dlg.m_strInfo += token.GetRest();
 			dlg.m_strAddress = strAddress;
 			if (dlg.DoModal(m_hWnd) == IDOK && !dlg.m_strFileUpdate.IsEmpty()) {
-				AtlMessageBox(m_hWnd, _L("UpdateClose", "ISTool will close to start the update."), IDR_MAINFRAME);
+				AtlMessageBox(m_hWnd, _L(_T("UpdateClose"), _T("ISTool will close to start the update.")), IDR_MAINFRAME);
 				if (!m_document.SaveModified(m_hWnd))
 					return 0;
 
@@ -88,7 +88,7 @@ LRESULT CMainFrame::OnHelpUpdates(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWn
 			return 0;
 		}
 
-		AtlMessageBox(m_hWnd, _L("NoNewVersions", "There are no new versions available."), IDR_MAINFRAME);
+		AtlMessageBox(m_hWnd, _L(_T("NoNewVersions"), _T("There are no new versions available.")), IDR_MAINFRAME);
 	}
 	return 0;
 }

@@ -26,7 +26,7 @@ public:
 
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/)
 	{
-		_L(m_hWnd, "About");
+		_L(m_hWnd, _T("About"));
 		CenterWindow(GetParent());
 
 		m_wndEmail.SubclassWindow(GetDlgItem(IDC_EMAIL));
@@ -81,14 +81,14 @@ public:
 
 		ISDllGetVersionProc GetISVersion = (ISDllGetVersionProc)GetProcAddress(hCompiler, "ISDllGetVersion");
 		if (!GetISVersion) {
-			strVersion = _L("Failed to query version");
+			strVersion = _L(_T("Failed to query version"));
 			FreeLibrary(hCompiler);
 			return true;
 		}
 
 		TCompilerVersionInfo* pInfo = GetISVersion();
 		if (!pInfo) {
-			strVersion = _L("Error|GetISVersion", "Failed to get version information");
+			strVersion = _L(_T("Error|GetISVersion"), _T("Failed to get version information"));
 			FreeLibrary(hCompiler);
 			return true;
 		}
@@ -112,10 +112,10 @@ public:
 	}
 
 	BEGIN_TOOLTIP_MAP()
-		TOOLTIP_HANDLER(IDC_HOMEPAGE, _L("Help|About|HomePage", "Click to open the ISTool home page"))
-		TOOLTIP_HANDLER(IDC_EMAIL, _L("Help|About|Author", "Click here to email the author of ISTool"))
-		TOOLTIP_HANDLER(IDC_ISHOMEPAGE, _L("Help|About|ISHomePage", "The Inno Setup home page"))
-		TOOLTIP_HANDLER(IDOK, _L("Help|About|OK", "Closes the window"))
+		TOOLTIP_HANDLER(IDC_HOMEPAGE, _L(_T("Help|About|HomePage"), _T("Click to open the ISTool home page")))
+		TOOLTIP_HANDLER(IDC_EMAIL, _L(_T("Help|About|Author"), _T("Click here to email the author of ISTool")))
+		TOOLTIP_HANDLER(IDC_ISHOMEPAGE, _L(_T("Help|About|ISHomePage"), _T("The Inno Setup home page")))
+		TOOLTIP_HANDLER(IDOK, _L(_T("Help|About|OK"), _T("Closes the window")))
 	END_TOOLTIP_MAP()
 };
 

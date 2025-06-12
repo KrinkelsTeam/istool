@@ -105,7 +105,7 @@ public:
 	Henden::CButtonFolder	m_btnSignedUninstallerDir;
 
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) {
-		_L(m_hWnd, "Uninstall");
+		_L(m_hWnd, _T("Uninstall"));
 		m_wndUninstallDisplayIconIndex.SubclassWindow(GetDlgItem(IDC_UNINSTALLDISPLAYICONINDEX));
 		m_wndUninstallDisplayIcon.Attach(GetDlgItem(IDC_UNINSTALLDISPLAYICON));
 		m_wndUninstallFilesDir.SubclassWindow(GetDlgItem(IDC_UNINSTALLFILESDIR));
@@ -113,9 +113,9 @@ public:
 		m_wndCreateUninstallRegKey.Attach(GetDlgItem(IDC_CREATEUNINSTALLREGKEY));
 		m_wndUninstallLogMode.Attach(GetDlgItem(IDC_UNINSTALLLOGMODE));
 
-		m_wndUninstallLogMode.AddString(_L("Uninstall|LogMode|Append", "append"));
-		m_wndUninstallLogMode.AddString(_L("Uninstall|LogMode|New", "new"));
-		m_wndUninstallLogMode.AddString(_L("Uninstall|LogMode|Overwrite", "overwrite"));
+		m_wndUninstallLogMode.AddString(_L(_T("Uninstall|LogMode|Append"), _T("append")));
+		m_wndUninstallLogMode.AddString(_L(_T("Uninstall|LogMode|New"), _T("new")));
+		m_wndUninstallLogMode.AddString(_L(_T("Uninstall|LogMode|Overwrite"), _T("overwrite")));
 
 		EnableControls();
 
@@ -177,7 +177,7 @@ public:
 	LRESULT OnGuidGen(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {
 		DoDataExchange(DDX_SAVE, IDC_APPID);
 		if (!m_strAppID.IsEmpty()) {
-			if (AtlMessageBox(m_hWnd, _L("Uninstall|AppIDExists", "An application id already exists.\n\nDo you want to overwrite it?"), IDR_MAINFRAME, MB_YESNO | MB_ICONWARNING) != IDYES)
+			if (AtlMessageBox(m_hWnd, _L(_T("Uninstall|AppIDExists"), _T("An application id already exists.\n\nDo you want to overwrite it?")), IDR_MAINFRAME, MB_YESNO | MB_ICONWARNING) != IDYES)
 				return 0;
 		}
 
@@ -355,31 +355,31 @@ public:
 	BOOL		m_bUninstallRestartComputer;
 
 	BEGIN_TOOLTIP_MAP()
-		TOOLTIP_HANDLER(IDC_UNINSTALLABLE, _L("Help|Uninstall|Uninstallable", "This determines if Inno Setup's automatic uninstaller is to be included in the installation. If this is yes the uninstaller is included. If this is no, no uninstallation support is included, requiring the end-user to manually remove the files pertaining to your application."))
-		TOOLTIP_HANDLER(IDC_CREATEUNINSTALLREGKEY, _L("Help|Uninstall|CreateUninstallRegKey", "If this is set to no, Setup won't create an entry in the Add/Remove Programs Control Panel applet."))
-		TOOLTIP_HANDLER(IDC_UNINSTALLLOGMODE, _L("Help|Uninstall|UninstallLogMode", "append, the default setting, instructs Setup to append to an existing uninstall log when possible.\r\n\r\nnew, which corresponds to the behavior in pre-1.3 versions of Inno Setup, instructs Setup to always create a new uninstall log.\r\n\r\noverwrite instructs Setup to overwrite any existing uninstall logs from the same application instead of appending to them (this is not recommended). The same rules for appending to existing logs apply to overwriting existing logs."))
-		TOOLTIP_HANDLER(IDC_APPPUBLISHER, _L("Help|Uninstall|AppPublisher", "Used for display purposes on the \"Support\" dialog of the Add/Remove Programs Control Panel applet in Windows 2000/XP."))
-		TOOLTIP_HANDLER(IDC_APPPUBLISHERURL, _L("Help|Uninstall|AppPublisherURL", "Used for display purposes on the \"Support\" dialog of the Add/Remove Programs Control Panel applet in Windows 2000/XP."))
-		TOOLTIP_HANDLER(IDC_APPSUPPORTURL, _L("Help|Uninstall|AppSupportURL", "Used for display purposes on the \"Support\" dialog of the Add/Remove Programs Control Panel applet in Windows 2000/XP."))
-		TOOLTIP_HANDLER(IDC_APPUPDATESURL, _L("Help|Uninstall|AppUpdatesURL", "Used for display purposes on the \"Support\" dialog of the Add/Remove Programs Control Panel applet in Windows 2000/XP."))
-		TOOLTIP_HANDLER(IDC_APPVERSION, _L("Help|Uninstall|AppVersion", "Used for display purposes on the \"Support\" dialog of the Add/Remove Programs Control Panel applet in Windows 2000/XP."))
-		TOOLTIP_HANDLER(IDC_APPID, _L("Help|Uninstall|AppID", "The value of AppId is stored inside uninstall log files (unins???.dat), and is checked by subsequent installations to determine whether it may append to a particular existing uninstall log.\r\n\r\nAppId also determines the actual name of the Uninstall registry key, to which Inno Setup tacks on \"_is1\" at the end."))
-		TOOLTIP_HANDLER(IDC_UNINSTALLFILESDIR, _L("Help|Uninstall|UninstallFilesDir", "Specifies the directory where the \"unins*.*\" files for the uninstaller are stored."))
-		TOOLTIP_HANDLER(IDC_UNINSTALLDISPLAYICON, _L("Help|Uninstall|UninstallDisplayIcon", "This lets you specify a particular icon file (either an executable or an .ico file) to display for the Uninstall entry in the Add/Remove Programs Control Panel applet on Windows 2000/XP."))
-		TOOLTIP_HANDLER(IDC_UNINSTALLDISPLAYICONINDEX, _L("Help|Uninstall|UninstallDisplayIconIndex", "The index of the icon."))
-		TOOLTIP_HANDLER(IDC_UNINSTALLDISPLAYNAME, _L("Help|Uninstall|UninstallDisplayName", "This lets you specify a custom name for the program's entry in the Add/Remove Programs Control Panel applet. The value may include constants."))
-		TOOLTIP_HANDLER(IDC_UPDATEUNINSTALLLOGAPPNAME, _L("Help|Uninstall|UpdateUninstallLogAppName", "If yes, when appending to an existing uninstall log, Setup will replace the AppName field in the log with the current installation's AppName."))
-		TOOLTIP_HANDLER(IDC_CHECK_UNINSTALLRESTARTCOMPUTER, _L("Help|Uninstall|UninstallRestartComputer", "When set to yes, the uninstaller will always prompt the user to restart the system at the end of a successful uninstallation, regardless of whether it is necessary."))
-		TOOLTIP_HANDLER(IDC_GUIDGEN, _L("Help|Uninstall|GuidGen", "Click this to generate a unique identifier as app id."))
-		TOOLTIP_HANDLER(IDC_APPMODIFYPATH, _L("Help|Uninstall|AppModifyPath", "When this directive is set, a separate \"Modify\" button in the Add/Remove Programs Control Panel applet in Windows 2000/XP will be displayed. Setting it is optional, and will have no effect on earlier Windows versions. The value may include constants."))
-		TOOLTIP_HANDLER(IDC_APPCOMMENTS, _L("Help|Uninstall|AppComments", "Used for display purposes on the \"Support\" dialog of the Add/Remove Programs Control Panel applet in Windows 2000/XP."))
-		TOOLTIP_HANDLER(IDC_APPCONTACT, _L("Help|Uninstall|AppContact", "Used for display purposes on the \"Support\" dialog of the Add/Remove Programs Control Panel applet in Windows 2000/XP."))
-		TOOLTIP_HANDLER(IDC_APPREADMEFILE, _L("Help|Uninstall|AppReadmeFile", "Used for display purposes on the \"Support\" dialog of the Add/Remove Programs Control Panel applet in Windows 2000/XP."))
-		TOOLTIP_HANDLER(IDC_APPSUPPORTPHONE, _L("Help|Uninstall|AppSupportPhone", "Used for display purposes on the \"Support\" dialog of the Add/Remove Programs Control Panel applet in Windows 2000/XP."))
-		TOOLTIP_HANDLER(IDC_SIGNEDUNINSTALLER, _L("Help|Uninstall|SignedUninstaller", "Specifies whether the uninstaller program (unins???.exe) should be deployed with a digital signature attached. When the uninstaller has a valid digital signature, Windows Vista users will not see an \"unidentified program\" warning when launching it from outside of Control Panel."))
-		TOOLTIP_HANDLER(IDC_SIGNEDUNINSTALLERDIR, _L("Help|Uninstall|SignedUninstallerDir", "Specifies the directory in which signed uninstaller files should be stored. By default, such files are stored in the output directory."))
-		TOOLTIP_HANDLER(IDC_SIGNEDUNINSTALLERDIR2, _L("Help|Uninstall|SignedUninstallerDir", "Specifies the directory in which signed uninstaller files should be stored. By default, such files are stored in the output directory."))
-		TOOLTIP_HANDLER(IDC_VERSIONINFOPRODUCTNAME, _L("Help|Uninstall|ProductName", "Specifies the product name value for the Setup version info."))
-		TOOLTIP_HANDLER(IDC_VERSIONINFOPRODUCTVERSION, _L("Help|Uninstall|ProductVersion", "Specifies the product version value for the Setup version info."))
+		TOOLTIP_HANDLER(IDC_UNINSTALLABLE, _L(_T("Help|Uninstall|Uninstallable"), _T("This determines if Inno Setup's automatic uninstaller is to be included in the installation. If this is yes the uninstaller is included. If this is no, no uninstallation support is included, requiring the end-user to manually remove the files pertaining to your application.")))
+		TOOLTIP_HANDLER(IDC_CREATEUNINSTALLREGKEY, _L(_T("Help|Uninstall|CreateUninstallRegKey"), _T("If this is set to no, Setup won't create an entry in the Add/Remove Programs Control Panel applet.")))
+		TOOLTIP_HANDLER(IDC_UNINSTALLLOGMODE, _L(_T("Help|Uninstall|UninstallLogMode"), _T("append, the default setting, instructs Setup to append to an existing uninstall log when possible.\r\n\r\nnew, which corresponds to the behavior in pre-1.3 versions of Inno Setup, instructs Setup to always create a new uninstall log.\r\n\r\noverwrite instructs Setup to overwrite any existing uninstall logs from the same application instead of appending to them (this is not recommended). The same rules for appending to existing logs apply to overwriting existing logs.")))
+		TOOLTIP_HANDLER(IDC_APPPUBLISHER, _L(_T("Help|Uninstall|AppPublisher"), _T("Used for display purposes on the \"Support\" dialog of the Add/Remove Programs Control Panel applet in Windows 2000/XP.")))
+		TOOLTIP_HANDLER(IDC_APPPUBLISHERURL, _L(_T("Help|Uninstall|AppPublisherURL"), _T("Used for display purposes on the \"Support\" dialog of the Add/Remove Programs Control Panel applet in Windows 2000/XP.")))
+		TOOLTIP_HANDLER(IDC_APPSUPPORTURL, _L(_T("Help|Uninstall|AppSupportURL"), _T("Used for display purposes on the \"Support\" dialog of the Add/Remove Programs Control Panel applet in Windows 2000/XP.")))
+		TOOLTIP_HANDLER(IDC_APPUPDATESURL, _L(_T("Help|Uninstall|AppUpdatesURL"), _T("Used for display purposes on the \"Support\" dialog of the Add/Remove Programs Control Panel applet in Windows 2000/XP.")))
+		TOOLTIP_HANDLER(IDC_APPVERSION, _L(_T("Help|Uninstall|AppVersion"), _T("Used for display purposes on the \"Support\" dialog of the Add/Remove Programs Control Panel applet in Windows 2000/XP.")))
+		TOOLTIP_HANDLER(IDC_APPID, _L(_T("Help|Uninstall|AppID"), _T("The value of AppId is stored inside uninstall log files (unins???.dat), and is checked by subsequent installations to determine whether it may append to a particular existing uninstall log.\r\n\r\nAppId also determines the actual name of the Uninstall registry key, to which Inno Setup tacks on \"_is1\" at the end.")))
+		TOOLTIP_HANDLER(IDC_UNINSTALLFILESDIR, _L(_T("Help|Uninstall|UninstallFilesDir"), _T("Specifies the directory where the \"unins*.*\" files for the uninstaller are stored.")))
+		TOOLTIP_HANDLER(IDC_UNINSTALLDISPLAYICON, _L(_T("Help|Uninstall|UninstallDisplayIcon"), _T("This lets you specify a particular icon file (either an executable or an .ico file) to display for the Uninstall entry in the Add/Remove Programs Control Panel applet on Windows 2000/XP.")))
+		TOOLTIP_HANDLER(IDC_UNINSTALLDISPLAYICONINDEX, _L(_T("Help|Uninstall|UninstallDisplayIconIndex"), _T("The index of the icon.")))
+		TOOLTIP_HANDLER(IDC_UNINSTALLDISPLAYNAME, _L(_T("Help|Uninstall|UninstallDisplayName"), _T("This lets you specify a custom name for the program's entry in the Add/Remove Programs Control Panel applet. The value may include constants.")))
+		TOOLTIP_HANDLER(IDC_UPDATEUNINSTALLLOGAPPNAME, _L(_T("Help|Uninstall|UpdateUninstallLogAppName"), _T("If yes, when appending to an existing uninstall log, Setup will replace the AppName field in the log with the current installation's AppName.")))
+		TOOLTIP_HANDLER(IDC_CHECK_UNINSTALLRESTARTCOMPUTER, _L(_T("Help|Uninstall|UninstallRestartComputer"), _T("When set to yes, the uninstaller will always prompt the user to restart the system at the end of a successful uninstallation, regardless of whether it is necessary.")))
+		TOOLTIP_HANDLER(IDC_GUIDGEN, _L(_T("Help|Uninstall|GuidGen"), _T("Click this to generate a unique identifier as app id.")))
+		TOOLTIP_HANDLER(IDC_APPMODIFYPATH, _L(_T("Help|Uninstall|AppModifyPath"), _T("When this directive is set, a separate \"Modify\" button in the Add/Remove Programs Control Panel applet in Windows 2000/XP will be displayed. Setting it is optional, and will have no effect on earlier Windows versions. The value may include constants.")))
+		TOOLTIP_HANDLER(IDC_APPCOMMENTS, _L(_T("Help|Uninstall|AppComments"), _T("Used for display purposes on the \"Support\" dialog of the Add/Remove Programs Control Panel applet in Windows 2000/XP.")))
+		TOOLTIP_HANDLER(IDC_APPCONTACT, _L(_T("Help|Uninstall|AppContact"), _T("Used for display purposes on the \"Support\" dialog of the Add/Remove Programs Control Panel applet in Windows 2000/XP.")))
+		TOOLTIP_HANDLER(IDC_APPREADMEFILE, _L(_T("Help|Uninstall|AppReadmeFile"), _T("Used for display purposes on the \"Support\" dialog of the Add/Remove Programs Control Panel applet in Windows 2000/XP.")))
+		TOOLTIP_HANDLER(IDC_APPSUPPORTPHONE, _L(_T("Help|Uninstall|AppSupportPhone"), _T("Used for display purposes on the \"Support\" dialog of the Add/Remove Programs Control Panel applet in Windows 2000/XP.")))
+		TOOLTIP_HANDLER(IDC_SIGNEDUNINSTALLER, _L(_T("Help|Uninstall|SignedUninstaller"), _T("Specifies whether the uninstaller program (unins???.exe) should be deployed with a digital signature attached. When the uninstaller has a valid digital signature, Windows Vista users will not see an \"unidentified program\" warning when launching it from outside of Control Panel.")))
+		TOOLTIP_HANDLER(IDC_SIGNEDUNINSTALLERDIR, _L(_T("Help|Uninstall|SignedUninstallerDir"), _T("Specifies the directory in which signed uninstaller files should be stored. By default, such files are stored in the output directory.")))
+		TOOLTIP_HANDLER(IDC_SIGNEDUNINSTALLERDIR2, _L(_T("Help|Uninstall|SignedUninstallerDir"), _T("Specifies the directory in which signed uninstaller files should be stored. By default, such files are stored in the output directory.")))
+		TOOLTIP_HANDLER(IDC_VERSIONINFOPRODUCTNAME, _L(_T("Help|Uninstall|ProductName"), _T("Specifies the product name value for the Setup version info.")))
+		TOOLTIP_HANDLER(IDC_VERSIONINFOPRODUCTVERSION, _L(_T("Help|Uninstall|ProductVersion"), _T("Specifies the product version value for the Setup version info.")))
 	END_TOOLTIP_MAP()
 };

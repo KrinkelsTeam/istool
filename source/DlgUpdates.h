@@ -61,7 +61,7 @@ public:
 	}
 
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) {
-		_L(m_hWnd, "Updates");
+		_L(m_hWnd, _T("Updates"));
 		CenterWindow(GetParent());
 		DoDataExchange(DDX_LOAD);
 
@@ -97,7 +97,7 @@ public:
 			EndDialog(IDOK);
 		} else {
 			m_strFileUpdate.Empty();
-			AtlMessageBox(m_hWnd, _L("The update was not downloaded."), IDR_MAINFRAME, MB_OK | MB_ICONWARNING);
+			AtlMessageBox(m_hWnd, _L(_T("The update was not downloaded.")), IDR_MAINFRAME, MB_OK | MB_ICONWARNING);
 		}
 
 		return 0;

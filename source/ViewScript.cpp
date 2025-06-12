@@ -93,7 +93,7 @@ bool CViewScript::ApplyView() {
 			//AfxGetDocument()->GetScript().LoadScript(m_xTextBuffer);
 			AfxGetDocument()->GetScript().LoadScriptBuffer(str.GetBuffer());
 		} catch (...) {
-			AtlMessageBox(m_hWnd, _L("ScriptParseError", "An error occured while parsing the script."), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
+			AtlMessageBox(m_hWnd, _L(_T("ScriptParseError"), _T("An error occured while parsing the script.")), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 			return false;
 		}
 		SetSavePoint();
@@ -308,7 +308,7 @@ LRESULT CViewScript::OnContextMenu(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lPar
 
 	CMenuHandle pPopup = menu.GetSubMenu(5);
 	ATLASSERT(pPopup != NULL);
-	_L(pPopup, "Popup");
+	_L(pPopup, _T("Popup"));
 
 	AfxGetMainWnd().OnIdle();
 	AfxGetMainWnd().TrackPopupMenu(pPopup, TPM_LEFTALIGN | TPM_RIGHTBUTTON, point.x, point.y);

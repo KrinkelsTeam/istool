@@ -54,7 +54,7 @@ public:
 	int		m_nDontInheritCheck, m_nCheckableAlone;
 
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) {
-		_L(m_hWnd, "Task");
+		_L(m_hWnd, _T("Task"));
 		CScriptList	listTypes;
 		m_script.GetList(CInnoScript::SEC_TYPES, listTypes);
 
@@ -101,11 +101,11 @@ public:
 		DoDataExchange(DDX_SAVE);
 		const bool bForce = m_list.GetSize() == 1;
 		if (bForce && m_strName.IsEmpty()) {
-			AtlMessageBox(m_hWnd, _L("You must enter a name."), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
+			AtlMessageBox(m_hWnd, _L(_T("You must enter a name.")), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 			return PSNRET_INVALID;
 		}
 		if (bForce && m_strDescription.IsEmpty()) {
-			AtlMessageBox(m_hWnd, _L("You must enter a description."), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
+			AtlMessageBox(m_hWnd, _L(_T("You must enter a description.")), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 			return PSNRET_INVALID;
 		}
 
@@ -166,7 +166,7 @@ public:
 	CPageTask(CMyDoc* pDoc, CScriptList& list, const bool bNew, CInnoScriptEx& script) :
 		m_pDoc(pDoc), m_list(list), m_bNew(bNew), m_script(script), m_bInitialized(false)
 	{
-		m_strTitle = _L("DialogTitles|Task", "Task");
+		m_strTitle = _L(_T("DialogTitles|Task"), _T("Task"));
 		SetTitle((LPCTSTR)m_strTitle);
 
 		m_bRestart = FALSE;
@@ -195,14 +195,14 @@ public:
 	CMyDoc*        m_pDoc;
 
 	BEGIN_TOOLTIP_MAP()
-		TOOLTIP_HANDLER(IDC_TASK_GROUP_DESCRIPTION, _L("Help|Task|GroupDescription", "The group description of a group of tasks, which can include constants. Consecutive tasks with the same group description will be grouped below a text label. The text label shows the group description."))
-		TOOLTIP_HANDLER(IDC_TASK_DESCRIPTION, _L("Help|Task|Description", "The description of the task, which can include constants. This description is shown to the end user during installation."))
-		TOOLTIP_HANDLER(IDC_TASK_NAME, _L("Help|Task|Name", "The internal name of the task.\r\n\r\nThe total number of \\ or / characters in the name of the task is called the level of the task. Any task with a level of 1 or more is a child task. The task listed before the child task with a level of 1 less than the child task, is the parent task. Other tasks with the same parent task as the child task are sibling tasks.\r\n\r\nA child task can't be selected if its parent task isn't selected. A parent task can't be selected if none of it child tasks are selected and it doesn't install anything itself.\r\n\r\nIf sibling tasks have the exclusive flag, only one of them can be selected."))
-		TOOLTIP_HANDLER(IDC_TASK_UNCHECKED, _L("Help|Task|UnChecked", "Instructs Setup that this task should be unchecked initially. This flag cannot be combined with the checkedonce flag."))
-		TOOLTIP_HANDLER(IDC_TASK_EXCLUSIVE, _L("Help|Task|Exclusive", "Instructs Setup that this task is mutually exclusive with sibling tasks that also have the exclusive flag."))
-		TOOLTIP_HANDLER(IDC_TASK_RESTART, _L("Help|Task|Restart", "Instructs Setup to ask the user to restart the system at the end of installation if this task is selected, regardless of whether it is necessary (for example because of [Files] section entries with the restartreplace flag). Like AlwaysRestart but per task."))
-		TOOLTIP_HANDLER(IDC_TASK_CHECKED_ONCE, _L("Help|Task|CheckedOnce", "Instructs Setup that this task should be unchecked initially when Setup finds a previous version of the same application is already installed. This flag cannot be combined with the unchecked flag."))
-		TOOLTIP_HANDLER(IDC_DONTINHERITCHECK, _L("Help|Task|DontInheritCheck", "Specifies that the task should not automatically become checked when its parent is checked. Has no effect on top-level tasks, and cannot be combined with the exclusive flag."))
-		TOOLTIP_HANDLER(IDC_CHECKABLEALONE, _L("Help|Task|CheckableAlone", "This flag specifies that the task can be checked when none of its children are. By default, if no Tasks parameter directly references the task, unchecking all of the task's children will cause the task to become unchecked."))
+		TOOLTIP_HANDLER(IDC_TASK_GROUP_DESCRIPTION, _L(_T("Help|Task|GroupDescription"), _T("The group description of a group of tasks, which can include constants. Consecutive tasks with the same group description will be grouped below a text label. The text label shows the group description.")))
+		TOOLTIP_HANDLER(IDC_TASK_DESCRIPTION, _L(_T("Help|Task|Description"), _T("The description of the task, which can include constants. This description is shown to the end user during installation.")))
+		TOOLTIP_HANDLER(IDC_TASK_NAME, _L(_T("Help|Task|Name"), _T("The internal name of the task.\r\n\r\nThe total number of \\ or / characters in the name of the task is called the level of the task. Any task with a level of 1 or more is a child task. The task listed before the child task with a level of 1 less than the child task, is the parent task. Other tasks with the same parent task as the child task are sibling tasks.\r\n\r\nA child task can't be selected if its parent task isn't selected. A parent task can't be selected if none of it child tasks are selected and it doesn't install anything itself.\r\n\r\nIf sibling tasks have the exclusive flag, only one of them can be selected.")))
+		TOOLTIP_HANDLER(IDC_TASK_UNCHECKED, _L(_T("Help|Task|UnChecked"), _T("Instructs Setup that this task should be unchecked initially. This flag cannot be combined with the checkedonce flag.")))
+		TOOLTIP_HANDLER(IDC_TASK_EXCLUSIVE, _L(_T("Help|Task|Exclusive"), _T("Instructs Setup that this task is mutually exclusive with sibling tasks that also have the exclusive flag.")))
+		TOOLTIP_HANDLER(IDC_TASK_RESTART, _L(_T("Help|Task|Restart"), _T("Instructs Setup to ask the user to restart the system at the end of installation if this task is selected, regardless of whether it is necessary (for example because of [Files] section entries with the restartreplace flag). Like AlwaysRestart but per task.")))
+		TOOLTIP_HANDLER(IDC_TASK_CHECKED_ONCE, _L(_T("Help|Task|CheckedOnce"), _T("Instructs Setup that this task should be unchecked initially when Setup finds a previous version of the same application is already installed. This flag cannot be combined with the unchecked flag.")))
+		TOOLTIP_HANDLER(IDC_DONTINHERITCHECK, _L(_T("Help|Task|DontInheritCheck"), _T("Specifies that the task should not automatically become checked when its parent is checked. Has no effect on top-level tasks, and cannot be combined with the exclusive flag.")))
+		TOOLTIP_HANDLER(IDC_CHECKABLEALONE, _L(_T("Help|Task|CheckableAlone"), _T("This flag specifies that the task can be checked when none of its children are. By default, if no Tasks parameter directly references the task, unchecking all of the task's children will cause the task to become unchecked.")))
 	END_TOOLTIP_MAP()
 };

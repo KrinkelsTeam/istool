@@ -46,7 +46,7 @@ LRESULT CMyTreeView::OnContextMenu(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lPar
 
 	CMenuHandle pPopup = menu.GetSubMenu(m_nSubMenu);
 	ATLASSERT(pPopup != NULL);
-	_L(pPopup, "Popup");
+	_L(pPopup, _T("Popup"));
 
 	AfxGetMainWnd().OnIdle();
 	AfxGetMainWnd().TrackPopupMenu(pPopup, TPM_LEFTALIGN | TPM_RIGHTBUTTON, point.x, point.y);
@@ -188,7 +188,7 @@ LRESULT CMyTreeView::OnCut(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, 
 
 		SendMessage(UWM_DELETE);
 	} else {
-		AtlMessageBox(m_hWnd, _L("Failed to open clipboard."), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
+		AtlMessageBox(m_hWnd, _L(_T("Failed to open clipboard.")), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 	}
 
 	return 0;
@@ -222,7 +222,7 @@ LRESULT CMyTreeView::OnCopy(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/,
 		SetClipboardData(CF_TEXT, hGlobal);
 		CloseClipboard();
 	} else {
-		AtlMessageBox(m_hWnd, _L("Failed to open clipboard."), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
+		AtlMessageBox(m_hWnd, _L(_T("Failed to open clipboard.")), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 	}
 
 	return 0;
@@ -230,7 +230,7 @@ LRESULT CMyTreeView::OnCopy(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/,
 
 LRESULT CMyTreeView::OnPaste(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) {
 	if (!OpenClipboard()) {
-		AtlMessageBox(m_hWnd, _L("Failed to open clipboard."), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
+		AtlMessageBox(m_hWnd, _L(_T("Failed to open clipboard.")), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 		return 0;
 	}
 
@@ -270,7 +270,7 @@ LRESULT CMyTreeView::OnPaste(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/
 		Populate();
 		GetDocument()->SetModifiedFlag();
 	} else {
-		AtlMessageBox(m_hWnd, _L("Incorrect clipboard format."), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
+		AtlMessageBox(m_hWnd, _L(_T("Incorrect clipboard format.")), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 	}
 
 	return 0;

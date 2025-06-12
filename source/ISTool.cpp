@@ -72,7 +72,7 @@ void Run(LPTSTR /*lpstrCmdLine*/ = NULL, int nCmdShow = SW_SHOWDEFAULT) {
 
 	if (wndMain.CreateEx(NULL, rc) == NULL)
 	{
-		ATLTRACE(_L("Main window creation failed!\n"));
+		ATLTRACE(_L(_T("Main window creation failed!\n")));
 		return;
 	}
 
@@ -314,7 +314,7 @@ BOOL CMyApp::InitInstance() {
 		*/
 		CRegKey key;
 		if (key.Open(HKEY_LOCAL_MACHINE, m_pszKeyIS, KEY_READ | KEY_WOW64_32KEY) != ERROR_SUCCESS) {
-			CString txt = _L("NeedIS5", "You don't seem to have Inno Setup 6 installed. This is\nrequired to compile the scripts you create with ISTool.\n\nDo you want to go to https://www.innosetup.com/ and download it now?");
+			CString txt = _L(_T("NeedIS5"), _T("You don't seem to have Inno Setup 6 installed. This is\nrequired to compile the scripts you create with ISTool.\n\nDo you want to go to https://www.innosetup.com/ and download it now?"));
 			if (AtlMessageBox(AfxGetMainHWnd(), (LPCTSTR)txt, IDR_MAINFRAME, MB_YESNO | MB_ICONQUESTION) == IDYES) {
 				CWaitCursor wait;
 				ShellExecute(AfxGetMainHWnd(), _T("open"), _T("https://www.innosetup.com/"), NULL, NULL, SW_SHOWDEFAULT);

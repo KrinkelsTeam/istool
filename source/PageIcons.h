@@ -92,7 +92,7 @@ public:
 	int				m_nIconIndex, m_nFolderShortcut;
 
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) {
-		_L(m_hWnd, "Icons");
+		_L(m_hWnd, _T("Icons"));
 		m_wndParameters.SubclassWindow(GetDlgItem(IDC_PARAMETERS));
 		m_wndName.SubclassWindow(GetDlgItem(IDC_ICONS_NAME));
 		m_wndIconFilename.SubclassWindow(GetDlgItem(IDC_ICONFILENAME));
@@ -179,11 +179,11 @@ public:
 
 		if (bForce) {
 			if (m_strName.IsEmpty()) {
-				AtlMessageBox(m_hWnd, _L("You must enter a name."), IDR_MAINFRAME, MB_OK | MB_ICONSTOP);
+				AtlMessageBox(m_hWnd, _L(_T("You must enter a name.")), IDR_MAINFRAME, MB_OK | MB_ICONSTOP);
 				return PSNRET_INVALID;
 			}
 			if (m_strFilename.IsEmpty()) {
-				AtlMessageBox(m_hWnd, _L("You must enter a file name."), IDR_MAINFRAME, MB_OK | MB_ICONSTOP);
+				AtlMessageBox(m_hWnd, _L(_T("You must enter a file name.")), IDR_MAINFRAME, MB_OK | MB_ICONSTOP);
 				return PSNRET_INVALID;
 			}
 		}
@@ -321,7 +321,7 @@ public:
 		m_listIcons(listIcons), m_pDoc(pDoc), m_bNew(bNew), m_wndWorkingDir(pDoc),
 		m_wndName(pDoc), m_wndIconFilename(pDoc), m_wndFileName(pDoc), m_wndParameters(pDoc)
 	{
-		m_strTitle = _L("DialogTitles|Icon", "Icon");
+		m_strTitle = _L(_T("DialogTitles|Icon"), _T("Icon"));
 		SetTitle((LPCTSTR)m_strTitle);
 
 		m_bCreateOnlyIfFileExists = FALSE;
@@ -363,21 +363,21 @@ public:
 	const bool	 m_bNew;
 
 	BEGIN_TOOLTIP_MAP()
-		TOOLTIP_HANDLER(IDC_ICONS_NAME, _L("Help|Icons|Name", "The name and location of the shortcut to create. Any of the shell folder constants or directory constants may be used in this parameter."))
-		TOOLTIP_HANDLER(IDC_PARAMETERS, _L("Help|Icons|Parameters", "Optional command line parameters for the shortcut, which can include constants."))
-		TOOLTIP_HANDLER(IDC_ICONFILENAME, _L("Help|Icons|IconFileName", "The filename of a custom icon (located on the user's system) to be displayed. This can be an executable image (.exe, .dll) containing icons or a .ico file. If this parameter is not specified or is blank, Windows will use the file's default icon. This parameter can include constants."))
-		TOOLTIP_HANDLER(IDC_CREATEONLYIFFILEEXISTS, _L("Help|Icons|CreateOnlyIfFileExists", "When this flag is set, the installer will only try to create the icon if the file specified by the Filename parameter exists."))
-		TOOLTIP_HANDLER(IDC_RUNMINIMIZED, _L("Help|Icons|RunMinimized", "When this flag is set, Setup sets the \"Run\" setting of the icon to \"Minimized\" so that the program will be initially minimized when it is started."))
-		TOOLTIP_HANDLER(IDC_ICONS_UNINSNEVERUNINSTALL, _L("Help|Icons|UninsNeverUninstall", "Instructs the uninstaller not to delete the icon."))
-		TOOLTIP_HANDLER(IDC_WORKINGDIR, _L("Help|Icons|WorkingDir", "The working (or Start In) directory for the shortcut, which is the directory in which the program is started from. If this parameter is not specified or is blank, Windows will use a default path, which varies between the different Windows versions. This parameter can include constants."))
-		TOOLTIP_HANDLER(IDC_USEAPPPATHS, _L("Help|Icons|UseAppPaths", "When this flag is set, specify just a filename (no path) in the Filename parameter, and Setup will retrieve the pathname from the \"HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\" registry key and prepend it to the filename automatically."))
-		TOOLTIP_HANDLER(IDC_COMMENT, _L("Help|Icons|Comment", "Specifies the Comment (or \"description\") field of the shortcut, which determines the popup hint for it in Windows 2000, Me, and later. Earlier Windows versions ignore the comment."))
-		TOOLTIP_HANDLER(IDC_FILENAME, _L("Help|Icons|FileName", "The command line filename for the shortcut, which normally begins with a directory constant."))
-		TOOLTIP_HANDLER(IDC_ICONS_CLOSEONEXIT, _L("Help|Icons|CloseOnExit", "When this flag is set, Setup will set the \"Close on Exit\" property of the shortcut. This flag only has an effect if the shortcut points to an MS-DOS application (if it has a .pif extension, to be specific). If neither this flag nor the dontcloseonexit flags are specified, Setup will not attempt to change the \"Close on Exit\" property."))
-		TOOLTIP_HANDLER(IDC_ICONS_DONTCLOSEONEXIT, _L("Help|Icons|DontCloseOnExit", "Same as closeonexit, except it causes Setup to uncheck the \"Close on Exit\" property."))
-		TOOLTIP_HANDLER(IDC_ICONS_RUNMAXIMIZED, _L("Help|Icons|RunMaximized", "When this flag is set, Setup sets the \"Run\" setting of the icon to \"Maximized\" so that the program will be initially maximized when it is started."))
-		TOOLTIP_HANDLER(IDC_ICONS_HOTKEY, _L("Help|Icons|HotKey", "The hot key (or \"shortcut key\") setting for the shortcut, which is a combination of keys with which the program can be started."))
-		TOOLTIP_HANDLER(IDC_ICONINDEX, _L("Help|Icons|IconIndex", "Zero-based index of the icon to use in the file specified by IconFilename."))
-		TOOLTIP_HANDLER(IDC_FOLDERSHORTCUT, _L("Help|Icons|FolderShortcut", "Creates a special type of shortcut known as a \"Folder Shortcut\". Normally, when a shortcut to a folder is present on the Start Menu, clicking the item causes a separate Explorer window to open showing the target folder's contents. In contrast, a \"folder shortcut\" will show the contents of the target folder as a submenu instead of opening a separate window."))
+		TOOLTIP_HANDLER(IDC_ICONS_NAME, _L(_T("Help|Icons|Name"), _T("The name and location of the shortcut to create. Any of the shell folder constants or directory constants may be used in this parameter.")))
+		TOOLTIP_HANDLER(IDC_PARAMETERS, _L(_T("Help|Icons|Parameters"), _T("Optional command line parameters for the shortcut, which can include constants.")))
+		TOOLTIP_HANDLER(IDC_ICONFILENAME, _L(_T("Help|Icons|IconFileName"), _T("The filename of a custom icon (located on the user's system) to be displayed. This can be an executable image (.exe, .dll) containing icons or a .ico file. If this parameter is not specified or is blank, Windows will use the file's default icon. This parameter can include constants.")))
+		TOOLTIP_HANDLER(IDC_CREATEONLYIFFILEEXISTS, _L(_T("Help|Icons|CreateOnlyIfFileExists"), _T("When this flag is set, the installer will only try to create the icon if the file specified by the Filename parameter exists.")))
+		TOOLTIP_HANDLER(IDC_RUNMINIMIZED, _L(_T("Help|Icons|RunMinimized"), _T("When this flag is set, Setup sets the \"Run\" setting of the icon to \"Minimized\" so that the program will be initially minimized when it is started.")))
+		TOOLTIP_HANDLER(IDC_ICONS_UNINSNEVERUNINSTALL, _L(_T("Help|Icons|UninsNeverUninstall"), _T("Instructs the uninstaller not to delete the icon.")))
+		TOOLTIP_HANDLER(IDC_WORKINGDIR, _L(_T("Help|Icons|WorkingDir"), _T("The working (or Start In) directory for the shortcut, which is the directory in which the program is started from. If this parameter is not specified or is blank, Windows will use a default path, which varies between the different Windows versions. This parameter can include constants.")))
+		TOOLTIP_HANDLER(IDC_USEAPPPATHS, _L(_T("Help|Icons|UseAppPaths"), _T("When this flag is set, specify just a filename (no path) in the Filename parameter, and Setup will retrieve the pathname from the \"HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\" registry key and prepend it to the filename automatically.")))
+		TOOLTIP_HANDLER(IDC_COMMENT, _L(_T("Help|Icons|Comment"), _T("Specifies the Comment (or \"description\") field of the shortcut, which determines the popup hint for it in Windows 2000, Me, and later. Earlier Windows versions ignore the comment.")))
+		TOOLTIP_HANDLER(IDC_FILENAME, _L(_T("Help|Icons|FileName"), _T("The command line filename for the shortcut, which normally begins with a directory constant.")))
+		TOOLTIP_HANDLER(IDC_ICONS_CLOSEONEXIT, _L(_T("Help|Icons|CloseOnExit"), _T("When this flag is set, Setup will set the \"Close on Exit\" property of the shortcut. This flag only has an effect if the shortcut points to an MS-DOS application (if it has a .pif extension, to be specific). If neither this flag nor the dontcloseonexit flags are specified, Setup will not attempt to change the \"Close on Exit\" property.")))
+		TOOLTIP_HANDLER(IDC_ICONS_DONTCLOSEONEXIT, _L(_T("Help|Icons|DontCloseOnExit"), _T("Same as closeonexit, except it causes Setup to uncheck the \"Close on Exit\" property.")))
+		TOOLTIP_HANDLER(IDC_ICONS_RUNMAXIMIZED, _L(_T("Help|Icons|RunMaximized"), _T("When this flag is set, Setup sets the \"Run\" setting of the icon to \"Maximized\" so that the program will be initially maximized when it is started.")))
+		TOOLTIP_HANDLER(IDC_ICONS_HOTKEY, _L(_T("Help|Icons|HotKey"), _T("The hot key (or \"shortcut key\") setting for the shortcut, which is a combination of keys with which the program can be started.")))
+		TOOLTIP_HANDLER(IDC_ICONINDEX, _L(_T("Help|Icons|IconIndex"), _T("Zero-based index of the icon to use in the file specified by IconFilename.")))
+		TOOLTIP_HANDLER(IDC_FOLDERSHORTCUT, _L(_T("Help|Icons|FolderShortcut"), _T("Creates a special type of shortcut known as a \"Folder Shortcut\". Normally, when a shortcut to a folder is present on the Start Menu, clicking the item causes a separate Explorer window to open showing the target folder's contents. In contrast, a \"folder shortcut\" will show the contents of the target folder as a submenu instead of opening a separate window.")))
 	END_TOOLTIP_MAP()
 };

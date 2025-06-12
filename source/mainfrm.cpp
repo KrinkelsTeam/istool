@@ -209,27 +209,27 @@ void CMainFrame::CreateClient() {
 	m_wndSectionView.Create(m_wndSectionPane);
 	m_wndSectionPane.SetClient(m_wndSectionView);
 
-	m_wndSectionView.InsertHeader(_L("SectionStrings|Sections", "Sections"));
-	m_wndSectionView.InsertItem(_L("SectionStrings|Script", "Script"), ID_VIEW_SCRIPT, 0);
-	m_wndSectionView.InsertItem(_L("SectionStrings|FilesDirs", "Files and Dirs"), ID_VIEW_FILES, 1);
-	m_wndSectionView.InsertItem(_L("SectionStrings|Icons", "Icons"), ID_VIEW_ICONS, 2);
-	m_wndSectionView.InsertItem(_L("SectionStrings|INI", "INI"), ID_VIEW_INI, 3);
-	m_wndSectionView.InsertItem(_L("SectionStrings|Registry", "Registry"), ID_VIEW_REGISTRY, 4);
-	m_wndSectionView.InsertItem(_L("SectionStrings|InstallDelete", "Install Delete"), ID_VIEW_INSTALLDELETE, 5);
-	m_wndSectionView.InsertItem(_L("SectionStrings|InstallRun", "Install Run"), ID_VIEW_RUN, 6);
-	m_wndSectionView.InsertItem(_L("SectionStrings|UninstallDelete", "Uninstall Delete"), ID_VIEW_UNINSTALLDELETE, 7);
-	m_wndSectionView.InsertItem(_L("SectionStrings|UninstallRun", "Uninstall Run"), ID_VIEW_UNINSTALLRUN, 8);
-	m_wndSectionView.InsertItem(_L("SectionStrings|Messages", "Messages"), ID_VIEW_MESSAGES, 9);
-	m_wndSectionView.InsertItem(_L("SectionStrings|CustomMessages", "Custom Messages"), ID_VIEW_CUSTOMMESSAGES, 10);
-	m_wndSectionView.InsertItem(_L("SectionStrings|Types", "Types"), ID_VIEW_TYPES, 11);
-	m_wndSectionView.InsertItem(_L("SectionStrings|Components", "Components"), ID_VIEW_COMPONENTS, 12);
-	m_wndSectionView.InsertItem(_L("SectionStrings|Tasks", "Tasks"), ID_VIEW_TASKS, 13);
-	m_wndSectionView.InsertItem(_L("SectionStrings|Languages", "Languages"), ID_VIEW_LANGUAGES, 14);
+	m_wndSectionView.InsertHeader(_L(_T("SectionStrings|Sections"), _T("Sections")));
+	m_wndSectionView.InsertItem(_L(_T("SectionStrings|Script"), _T("Script")), ID_VIEW_SCRIPT, 0);
+	m_wndSectionView.InsertItem(_L(_T("SectionStrings|FilesDirs"), _T("Files and Dirs")), ID_VIEW_FILES, 1);
+	m_wndSectionView.InsertItem(_L(_T("SectionStrings|Icons"), _T("Icons")), ID_VIEW_ICONS, 2);
+	m_wndSectionView.InsertItem(_L(_T("SectionStrings|INI"), _T("INI")), ID_VIEW_INI, 3);
+	m_wndSectionView.InsertItem(_L(_T("SectionStrings|Registry"), _T("Registry")), ID_VIEW_REGISTRY, 4);
+	m_wndSectionView.InsertItem(_L(_T("SectionStrings|InstallDelete"), _T("Install Delete")), ID_VIEW_INSTALLDELETE, 5);
+	m_wndSectionView.InsertItem(_L(_T("SectionStrings|InstallRun"), _T("Install Run")), ID_VIEW_RUN, 6);
+	m_wndSectionView.InsertItem(_L(_T("SectionStrings|UninstallDelete"), _T("Uninstall Delete")), ID_VIEW_UNINSTALLDELETE, 7);
+	m_wndSectionView.InsertItem(_L(_T("SectionStrings|UninstallRun"), _T("Uninstall Run")), ID_VIEW_UNINSTALLRUN, 8);
+	m_wndSectionView.InsertItem(_L(_T("SectionStrings|Messages"), _T("Messages")), ID_VIEW_MESSAGES, 9);
+	m_wndSectionView.InsertItem(_L(_T("SectionStrings|CustomMessages"), _T("Custom Messages")), ID_VIEW_CUSTOMMESSAGES, 10);
+	m_wndSectionView.InsertItem(_L(_T("SectionStrings|Types"), _T("Types")), ID_VIEW_TYPES, 11);
+	m_wndSectionView.InsertItem(_L(_T("SectionStrings|Components"), _T("Components")), ID_VIEW_COMPONENTS, 12);
+	m_wndSectionView.InsertItem(_L(_T("SectionStrings|Tasks"), _T("Tasks")), ID_VIEW_TASKS, 13);
+	m_wndSectionView.InsertItem(_L(_T("SectionStrings|Languages"), _T("Languages")), ID_VIEW_LANGUAGES, 14);
 
-	m_wndSectionView.InsertHeader(_L("SectionStrings|ISTool", "ISTool Sections"));
-	m_wndSectionView.InsertItem(_L("SectionStrings|Pre", "Pre Compilation Steps"), ID_VIEW_PRECOMPILATIONSTEPS, 15);
-	m_wndSectionView.InsertItem(_L("SectionStrings|Post", "Post Compilation Steps"), ID_VIEW_POSTCOMPILATIONSTEPS, 16);
-	m_wndSectionView.InsertItem(_L("SectionStrings|Download", "Download"), ID_VIEW_DOWNLOAD, 17);
+	m_wndSectionView.InsertHeader(_L(_T("SectionStrings|ISTool"), _T("ISTool Sections")));
+	m_wndSectionView.InsertItem(_L(_T("SectionStrings|Pre"), _T("Pre Compilation Steps")), ID_VIEW_PRECOMPILATIONSTEPS, 15);
+	m_wndSectionView.InsertItem(_L(_T("SectionStrings|Post"), _T("Post Compilation Steps")), ID_VIEW_POSTCOMPILATIONSTEPS, 16);
+	m_wndSectionView.InsertItem(_L(_T("SectionStrings|Download"), _T("Download")), ID_VIEW_DOWNLOAD, 17);
 }
 
 LRESULT CMainFrame::OnPaneClose(WORD /*wNotifyCode*/, WORD /*wID*/, HWND hWndCtl, BOOL& /*bHandled*/) {
@@ -434,7 +434,7 @@ LRESULT CMainFrame::OnToolBarDropdown(int idCtrl, LPNMHDR pnmh, BOOL& /*bHandled
 	{
 		menu.LoadMenu(IDR_POPUP);
 		pPopup = menu.GetSubMenu(6);
-		_L(pPopup, "Popup");
+		_L(pPopup, _T("Popup"));
 	}
 	break;
 	case ID_PROJECT_OPTIONS:
@@ -442,7 +442,7 @@ LRESULT CMainFrame::OnToolBarDropdown(int idCtrl, LPNMHDR pnmh, BOOL& /*bHandled
 		menu.LoadMenu(IDR_MAINFRAME);
 		pPopup = menu.GetSubMenu(3);
 		pPopup = pPopup.GetSubMenu(0);
-		_L(pPopup, "Popup");
+		_L(pPopup, _T("Popup"));
 	}
 	break;
 	default:

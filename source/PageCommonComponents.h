@@ -50,7 +50,7 @@ public:
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) {
 		DlgResize_Init(false, false, 0);
 
-		_L(m_hWnd, "CommonComponents");
+		_L(m_hWnd, _T("CommonComponents"));
 		m_wndComponentList.SubclassWindow(GetDlgItem(IDC_COMMON_COMPONENTLIST));
 
 		m_wndComponentList.InsertColumn(0, _T("Description"), LVCFMT_LEFT, 10, 0);
@@ -201,7 +201,7 @@ public:
 	CPageCommonComponents::CPageCommonComponents(CScriptList& listBase, CMyDoc* pDoc, const bool bNew) :
 		m_listBase(listBase), m_pDoc(pDoc), m_bNew(bNew), m_bInitialized(false)
 	{
-		m_strTitle = _L("DialogTitles|Component", "Component");
+		m_strTitle = _L(_T("DialogTitles|Component"), _T("Component"));
 		SetTitle((LPCTSTR)m_strTitle);
 
 		for (int nPos = 0; nPos < m_listBase.GetSize(); nPos++) {
@@ -218,7 +218,7 @@ public:
 	bool		 m_bInitialized;
 
 	BEGIN_TOOLTIP_MAP()
-		TOOLTIP_HANDLER(IDC_COMMON_COMPONENTLIST, _L("Help|CommonComponents|ComponentList", "List of components that can be chosen for this item(s)."))
-		TOOLTIP_HANDLER(IDC_EDIT, _L("Help|CommonComponents|Edit", "A space separated list of component names, telling Setup to which components the entry belongs. If the end user selects a component from this list, the entry is processed (for example: the file is installed)."))
+		TOOLTIP_HANDLER(IDC_COMMON_COMPONENTLIST, _L(_T("Help|CommonComponents|ComponentList"), _T("List of components that can be chosen for this item(s).")))
+		TOOLTIP_HANDLER(IDC_EDIT, _L(_T("Help|CommonComponents|Edit"), _T("A space separated list of component names, telling Setup to which components the entry belongs. If the end user selects a component from this list, the entry is processed (for example: the file is installed).")))
 	END_TOOLTIP_MAP()
 };

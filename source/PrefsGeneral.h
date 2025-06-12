@@ -41,7 +41,7 @@ public:
 	END_MSG_MAP()
 
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) {
-		_L(m_hWnd, "PrefsGeneral");
+		_L(m_hWnd, _T("PrefsGeneral"));
 
 		struct {
 			LPCTSTR		pszName;
@@ -227,7 +227,7 @@ public:
 		if (!bError)
 			SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, nullptr, nullptr); // Notify Explorer
 		else
-			AtlMessageBox(m_hWnd, _L("AssocFailed", "Failed to associate ISTool with .iss files"), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
+			AtlMessageBox(m_hWnd, _L(_T("AssocFailed"), _T("Failed to associate ISTool with .iss files")), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 
 		GetDlgItem(IDC_ASSOCIATE_ISTOOL).EnableWindow(!IsAssociated());
 
@@ -235,21 +235,21 @@ public:
 	}
 
 	BEGIN_TOOLTIP_MAP()
-		TOOLTIP_HANDLER(IDC_PREFS1_COMPILERDIR, _L("Help|General|CompilerDir", "The directory where Inno Setup is installed."))
-		TOOLTIP_HANDLER(IDC_GENERAL_IGNOREDEFAULTS, _L("Help|General|IgnoreDefaults", "Setup directives that equals the default value aren't written to the script."))
-		TOOLTIP_HANDLER(IDC_GENERAL_OPENLAST, _L("Help|General|OpenLast", "Opens last opened script when ISTool starts."))
-		TOOLTIP_HANDLER(IDC_GENERAL_USENEWSCRIPTWIZARD, _L("Help|General|ScriptWiz", "Should ISTool use the Inno Setup wizard when creating new scripts."))
-		TOOLTIP_HANDLER(IDC_GENERAL_REPLACECOPY, _L("Help|General|ReplaceCopy", "When you type \"(c)\" it will be replaced with ©"))
-		TOOLTIP_HANDLER(IDC_GENERAL_AUTOCOMPONENTSELECT, _L("Help|General|AutoCompSelect", "Automatically sets component for a file based on directory or something!?!"))
-		TOOLTIP_HANDLER(IDC_GENERAL_TEST_COMPILED_SETUP, _L("Help|General|TestCompiledSetup", "After compilation ISTool asks if you want to run the setup."))
-		TOOLTIP_HANDLER(IDC_GENERAL_OVERWRITE_MESSAGES, _L("Help|General|OverwriteMessages", "Deletes existing messages when importing a message file."))
-		TOOLTIP_HANDLER(IDC_PREFS1_LANGUAGEDLL, _L("Help|General|LanguageFile", "The file used to translate ISTool."))
-		TOOLTIP_HANDLER(IDC_PREFS1_COMPILERDIR_B, _L("Help|General|CompilerDirButton", "Click this button to select the directory where Inno Setup is installed."))
-		TOOLTIP_HANDLER(IDC_PREFS1_LANGUAGEDLL_BTN, _L("Help|General|LanguageFileButton", "Click this button to select a language file."))
-		TOOLTIP_HANDLER(IDC_STARTUPSECTION, _L("Help|General|StartupSection", "Tells what section is active when ISTool opens."))
-		TOOLTIP_HANDLER(IDC_PREPROCESS, _L("Help|General|PreProcess", "If this is checked ISTool will pre-process the script before sending it to Inno Setup for compilation."))
-		TOOLTIP_HANDLER(IDC_NOOUTPUTEXEFILENAME, _L("Help|General|NoOutputExeFileName", "If this is checked, the name of the compiled setup will not be written to the script."))
-		TOOLTIP_HANDLER(IDC_ASSOCIATE_ISTOOL, _L("Help|General|Associate", "Click this button to associate ISTool with Inno Setup scripts."))
+		TOOLTIP_HANDLER(IDC_PREFS1_COMPILERDIR, _L(_T("Help|General|CompilerDir"), _T("The directory where Inno Setup is installed.")))
+		TOOLTIP_HANDLER(IDC_GENERAL_IGNOREDEFAULTS, _L(_T("Help|General|IgnoreDefaults"), _T("Setup directives that equals the default value aren't written to the script.")))
+		TOOLTIP_HANDLER(IDC_GENERAL_OPENLAST, _L(_T("Help|General|OpenLast"), _T("Opens last opened script when ISTool starts.")))
+		TOOLTIP_HANDLER(IDC_GENERAL_USENEWSCRIPTWIZARD, _L(_T("Help|General|ScriptWiz"), _T("Should ISTool use the Inno Setup wizard when creating new scripts.")))
+		TOOLTIP_HANDLER(IDC_GENERAL_REPLACECOPY, _L(_T("Help|General|ReplaceCopy"), _T("When you type \"(c)\" it will be replaced with ©")))
+		TOOLTIP_HANDLER(IDC_GENERAL_AUTOCOMPONENTSELECT, _L(_T("Help|General|AutoCompSelect"), _T("Automatically sets component for a file based on directory or something!?!")))
+		TOOLTIP_HANDLER(IDC_GENERAL_TEST_COMPILED_SETUP, _L(_T("Help|General|TestCompiledSetup"), _T("After compilation ISTool asks if you want to run the setup.")))
+		TOOLTIP_HANDLER(IDC_GENERAL_OVERWRITE_MESSAGES, _L(_T("Help|General|OverwriteMessages"), _T("Deletes existing messages when importing a message file.")))
+		TOOLTIP_HANDLER(IDC_PREFS1_LANGUAGEDLL, _L(_T("Help|General|LanguageFile"), _T("The file used to translate ISTool.")))
+		TOOLTIP_HANDLER(IDC_PREFS1_COMPILERDIR_B, _L(_T("Help|General|CompilerDirButton"), _T("Click this button to select the directory where Inno Setup is installed.")))
+		TOOLTIP_HANDLER(IDC_PREFS1_LANGUAGEDLL_BTN, _L(_T("Help|General|LanguageFileButton"), _T("Click this button to select a language file.")))
+		TOOLTIP_HANDLER(IDC_STARTUPSECTION, _L(_T("Help|General|StartupSection"), _T("Tells what section is active when ISTool opens.")))
+		TOOLTIP_HANDLER(IDC_PREPROCESS, _L(_T("Help|General|PreProcess"), _T("If this is checked ISTool will pre-process the script before sending it to Inno Setup for compilation.")))
+		TOOLTIP_HANDLER(IDC_NOOUTPUTEXEFILENAME, _L(_T("Help|General|NoOutputExeFileName"), _T("If this is checked, the name of the compiled setup will not be written to the script.")))
+		TOOLTIP_HANDLER(IDC_ASSOCIATE_ISTOOL, _L(_T("Help|General|Associate"), _T("Click this button to associate ISTool with Inno Setup scripts.")))
 	END_TOOLTIP_MAP()
 
 protected:

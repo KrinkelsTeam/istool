@@ -49,25 +49,25 @@ public:
 		if (wID == IDOK) {
 			DoDataExchange(DDX_SAVE);
 			if (m_strFileExtension.IsEmpty()) {
-				AtlMessageBox(m_hWnd, _L("Missing file extension."), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
+				AtlMessageBox(m_hWnd, _L(_T("Missing file extension.")), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 				GetDlgItem(IDC_FA_FILE_EXTENSION).SetFocus();
 				return 0;
 			}
 
 			if (m_strTypeName.IsEmpty()) {
-				AtlMessageBox(m_hWnd, _L("Missing type name."), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
+				AtlMessageBox(m_hWnd, _L(_T("Missing type name.")), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 				GetDlgItem(IDC_FA_TYPE_NAME).SetFocus();
 				return 0;
 			}
 
 			if (m_strDocumentDescription.IsEmpty()) {
-				AtlMessageBox(m_hWnd, _L("Missing document description."), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
+				AtlMessageBox(m_hWnd, _L(_T("Missing document description.")), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 				GetDlgItem(IDC_FA_DOCUMENT_DESCRIPTION).SetFocus();
 				return 0;
 			}
 
 			if (m_strAssociateWith.IsEmpty()) {
-				AtlMessageBox(m_hWnd, _L("Missing file to associate with."), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
+				AtlMessageBox(m_hWnd, _L(_T("Missing file to associate with.")), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 				GetDlgItem(IDC_FA_ASSOCIATE_WITH).SetFocus();
 				return 0;
 			}
@@ -103,7 +103,7 @@ public:
 	}
 
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) {
-		_L(m_hWnd, "FileAssoc");
+		_L(m_hWnd, _T("FileAssoc"));
 		CenterWindow(GetParent());
 
 		m_wndIconFilename.Attach(GetDlgItem(IDC_FA_ICON_FILENAME));

@@ -48,7 +48,7 @@ public:
 	BOOL	m_bAppendDefaultGroupName;
 
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) {
-		_L(m_hWnd, "ProgramGroup");
+		_L(m_hWnd, _T("ProgramGroup"));
 
 		EnableControls();
 		DoDataExchange(DDX_LOAD);
@@ -117,12 +117,12 @@ public:
 	}
 
 	BEGIN_TOOLTIP_MAP()
-		TOOLTIP_HANDLER(IDC_ALLOWNOICONS, _L("Help|ProgramGroup|AllowNoIcons", "This is used to determine whether Setup should display a Don't create any icons check box, which allows the user to skip creation of program icons. If it is no the check box will not be displayed; if it is yes it will be displayed."))
-		TOOLTIP_HANDLER(IDC_DISABLEPROGRAMGROUPPAGE, _L("Help|ProgramGroup|DisableProgramGroupPage", "If this is set to yes, Setup will not show the Select Start Menu Folder wizard page. In this case, it uses the folder name specified by the DefaultGroupName [Setup] section directive, or \"(Default)\" if none is specified."))
-		TOOLTIP_HANDLER(IDC_DEFAULTGROUPNAME, _L("Help|ProgramGroup|DefaultGroupName", "The value of this directive is used for the default Start Menu folder name on the Select Start Menu Folder page of the wizard. If this directive is blank or isn't specified, it will use \"(Default)\" for the name."))
-		TOOLTIP_HANDLER(IDC_ALWAYSUSEPERSONALGROUP, _L("Help|ProgramGroup|AlwaysUsePersonalGroup", "Normally on Windows NT platforms, Inno Setup's {group} constant points to the All Users start menu if the user has administrative privileges. If this directive is set to yes, it always uses current user's profile."))
-		TOOLTIP_HANDLER(IDC_USEPREVIOUSGROUP, _L("Help|ProgramGroup|UsePreviousGroup", "When this directive is yes, the default, at startup Setup will look in the registry to see if the same application is already installed, and if so, it will use the Start Menu folder name of the previous installation as the default Start Menu folder name presented to the user in the wizard."))
-		TOOLTIP_HANDLER(IDC_APPENDDEFAULTGROUPNAME, _L("Help|ProgramGroup|AppendDefaultGroupName", "By default, when a folder in the dialog displayed by the Browse... button on the Select Start Menu Folder wizard page is clicked, Setup automatically appends the last component of DefaultGroupName onto the new path. For example, if DefaultGroupName is My Program and \"Accessories\" is clicked, the new path will become \"Accessories\\My Program\".\r\n\r\nSetting this directive to no disables the aforementioned behavior. In addition, it causes a Make New Folder button to appear on the dialog."))
+		TOOLTIP_HANDLER(IDC_ALLOWNOICONS, _L(_T("Help|ProgramGroup|AllowNoIcons"), _T("This is used to determine whether Setup should display a Don't create any icons check box, which allows the user to skip creation of program icons. If it is no the check box will not be displayed; if it is yes it will be displayed.")))
+		TOOLTIP_HANDLER(IDC_DISABLEPROGRAMGROUPPAGE, _L(_T("Help|ProgramGroup|DisableProgramGroupPage"), _T("If this is set to yes, Setup will not show the Select Start Menu Folder wizard page. In this case, it uses the folder name specified by the DefaultGroupName [Setup] section directive, or \"(Default)\" if none is specified.")))
+		TOOLTIP_HANDLER(IDC_DEFAULTGROUPNAME, _L(_T("Help|ProgramGroup|DefaultGroupName"), _T("The value of this directive is used for the default Start Menu folder name on the Select Start Menu Folder page of the wizard. If this directive is blank or isn't specified, it will use \"(Default)\" for the name.")))
+		TOOLTIP_HANDLER(IDC_ALWAYSUSEPERSONALGROUP, _L(_T("Help|ProgramGroup|AlwaysUsePersonalGroup"), _T("Normally on Windows NT platforms, Inno Setup's {group} constant points to the All Users start menu if the user has administrative privileges. If this directive is set to yes, it always uses current user's profile.")))
+		TOOLTIP_HANDLER(IDC_USEPREVIOUSGROUP, _L(_T("Help|ProgramGroup|UsePreviousGroup"), _T("When this directive is yes, the default, at startup Setup will look in the registry to see if the same application is already installed, and if so, it will use the Start Menu folder name of the previous installation as the default Start Menu folder name presented to the user in the wizard.")))
+		TOOLTIP_HANDLER(IDC_APPENDDEFAULTGROUPNAME, _L(_T("Help|ProgramGroup|AppendDefaultGroupName"), _T("By default, when a folder in the dialog displayed by the Browse... button on the Select Start Menu Folder wizard page is clicked, Setup automatically appends the last component of DefaultGroupName onto the new path. For example, if DefaultGroupName is My Program and \"Accessories\" is clicked, the new path will become \"Accessories\\My Program\".\r\n\r\nSetting this directive to no disables the aforementioned behavior. In addition, it causes a Make New Folder button to appear on the dialog.")))
 	END_TOOLTIP_MAP()
 
 protected:

@@ -130,7 +130,7 @@ public:
 		m_wndList.InsertColumn(3, _T("Path"), LVCFMT_LEFT, 160, 0);
 		FindLanguageFiles();
 
-		_L(m_hWnd, "SelectLangFiles");
+		_L(m_hWnd, _T("SelectLangFiles"));
 		CenterWindow(GetParent());
 		DoDataExchange(DDX_LOAD);
 		return TRUE;

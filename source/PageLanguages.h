@@ -49,7 +49,7 @@ public:
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) {
 		m_btnMessagesFile.Attach(GetDlgItem(IDC_LANGUAGES_MESSAGESFILE2));
 
-		_L(m_hWnd, "Languages");
+		_L(m_hWnd, _T("Languages"));
 		for (int nPos = 0; nPos < m_list.GetSize(); nPos++) {
 			CScriptLine* pLine = m_list[nPos];
 
@@ -67,11 +67,11 @@ public:
 		DoDataExchange(DDX_SAVE);
 		const bool bForce = m_list.GetSize() == 1;
 		if (bForce && m_strName.IsEmpty()) {
-			AtlMessageBox(m_hWnd, _L("You must enter a name."), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
+			AtlMessageBox(m_hWnd, _L(_T("You must enter a name.")), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 			return PSNRET_INVALID;
 		}
 		if (bForce && m_strMessagesFile.IsEmpty()) {
-			AtlMessageBox(m_hWnd, _L("You must enter a messages file."), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
+			AtlMessageBox(m_hWnd, _L(_T("You must enter a messages file.")), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 			return PSNRET_INVALID;
 		}
 
@@ -113,7 +113,7 @@ public:
 		m_btnInfoBeforeFile(true, _T("Info Files (.txt;.rtf)|*.txt;*.rtf|All Files (*.*)|*.*||")),
 		m_btnInfoAfterFile(true, _T("Info Files (.txt;.rtf)|*.txt;*.rtf|All Files (*.*)|*.*||"))
 	{
-		m_strTitle = _L("DialogTitles|Language", "Language");
+		m_strTitle = _L(_T("DialogTitles|Language"), _T("Language"));
 		SetTitle((LPCTSTR)m_strTitle);
 
 		for (int nPos = 0; nPos < m_list.GetSize(); nPos++) {

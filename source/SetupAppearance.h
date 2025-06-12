@@ -75,7 +75,7 @@ public:
 	BOOL			m_bWizardImageStretch;
 
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) {
-		_L(m_hWnd, "Appearance");
+		_L(m_hWnd, _T("Appearance"));
 		m_wndBackColor2.SubclassWindow(GetDlgItem(IDC_BACKCOLOR2));
 		m_wndWizardImageBackColor.SubclassWindow(GetDlgItem(IDC_WIZARDIMAGEBACKCOLOR));
 		m_wndBackColor.SubclassWindow(GetDlgItem(IDC_BACKCOLOR));
@@ -87,8 +87,8 @@ public:
 		m_wndWizardImageBackColor.SetInnoColor(script.GetPropertyString(_T("WizardImageBackColor")));
 
 		CComboBox box(GetDlgItem(IDC_BACKCOLORDIRECTION));
-		box.AddString(_L("Appearance|BackColorDirection|TopBottom", "Top to bottom"));
-		box.AddString(_L("Appearance|BackColorDirection|LeftRight", "Left to right"));
+		box.AddString(_L(_T("Appearance|BackColorDirection|TopBottom"), _T("Top to bottom")));
+		box.AddString(_L(_T("Appearance|BackColorDirection|LeftRight"), _T("Left to right")));
 
 		EnableControls();
 
@@ -179,22 +179,22 @@ public:
 	}
 
 	BEGIN_TOOLTIP_MAP()
-		TOOLTIP_HANDLER(IDC_BTN_WIZARD_IMAGE_FILE, _L("Help|Appearance|WizardImageButton", "Click this button to select wizard image file."))
-		TOOLTIP_HANDLER(IDC_EXT_WIZARDSMALLIMAGEFILE2, _L("Help|Appearance|WizardSmallImageButton", "Click this button to select the small wizard image file."))
-		TOOLTIP_HANDLER(IDC_BACKSOLID, _L("Help|Appearance|BackSolid", "This specifies whether to use a solid or gradient background on the setup window. If this is yes, the background is a solid color (the color specified by BackColor; BackColor2 is ignored)."))
-		TOOLTIP_HANDLER(IDC_WINDOWRESIZABLE, _L("Help|Appearance|WindowResizable", "If set to no, the user won't be able to resize the Setup program's background window when it's not maximized."))
-		TOOLTIP_HANDLER(IDC_WINDOWSHOWCAPTION, _L("Help|Appearance|WindowShowCaption", "If set to no, Setup will be truly \"full screen\" -- it won't have a caption bar or border, and it will be on top of the taskbar."))
-		TOOLTIP_HANDLER(IDC_WINDOWSTARTMAXIMIZED, _L("Help|Appearance|WindowStartMaximized", "If set to yes, the Setup program's background window will initially be displayed in a maximized state, where it won't cover over the taskbar."))
-		TOOLTIP_HANDLER(IDC_WINDOWVISIBLE, _L("Help|Appearance|WindowVisible", "If set to yes, there will be a gradient background window displayed behind the wizard."))
-		TOOLTIP_HANDLER(IDC_WIZARDIMAGEFILE, _L("Help|Appearance|WizardImageFile", "Specifies the name of the bitmap file to display on the left side of the wizard in the Setup program."))
-		TOOLTIP_HANDLER(IDC_BACKCOLORDIRECTION, _L("Help|Appearance|BackColorDirection", "This determines the direction of the gradient background on the setup window."))
-		TOOLTIP_HANDLER(IDC_EXT_WIZARDSMALLIMAGEFILE, _L("Help|Appearance|WizardSmallImageFile", "Specifies the name of the bitmap file to display in the upper right corner of the wizard window."))
-		TOOLTIP_HANDLER(IDC_SETUPICONFILE, _L("Help|Appearance|SetupIconFile", "Specifies a new icon for the Setup program."))
-		TOOLTIP_HANDLER(IDC_WIZARDIMAGESTRETCH, _L("Help|Appearance|WizardImageStretch", "If set to yes, the default, the wizard images will be stretched or shrunk if the wizard is larger or smaller than normal, e.g. if the user is running in Large Fonts.\r\n\r\nIf set to no, the wizard images will be centered in their respective areas if the wizard is larger than normal, and clipped if the wizard is smaller than normal."))
-		TOOLTIP_HANDLER(IDC_BACKCOLOR, _L("Help|Appearance|BackColor", "The BackColor directive specifies the color to use at the top of the setup window's gradient background."))
-		TOOLTIP_HANDLER(IDC_BACKCOLOR2, _L("Help|Appearance|BackColor2", "BackColor2 specifies the color to use at the bottom."))
-		TOOLTIP_HANDLER(IDC_WIZARDIMAGEBACKCOLOR, _L("Help|Appearance|WizardImageBackColor", "This directive specifies the background color used to fill any unused space around the wizard bitmap."))
-		TOOLTIP_HANDLER(IDC_SETUPICONFILE_B, _L("Help|Appearance|SetupIconFileButton", "Click to select an icon for the setup application."))
+		TOOLTIP_HANDLER(IDC_BTN_WIZARD_IMAGE_FILE, _L(_T("Help|Appearance|WizardImageButton"), _T("Click this button to select wizard image file.")))
+		TOOLTIP_HANDLER(IDC_EXT_WIZARDSMALLIMAGEFILE2, _L(_T("Help|Appearance|WizardSmallImageButton"), _T("Click this button to select the small wizard image file.")))
+		TOOLTIP_HANDLER(IDC_BACKSOLID, _L(_T("Help|Appearance|BackSolid"), _T("This specifies whether to use a solid or gradient background on the setup window. If this is yes, the background is a solid color (the color specified by BackColor; BackColor2 is ignored).")))
+		TOOLTIP_HANDLER(IDC_WINDOWRESIZABLE, _L(_T("Help|Appearance|WindowResizable"), _T("If set to no, the user won't be able to resize the Setup program's background window when it's not maximized.")))
+		TOOLTIP_HANDLER(IDC_WINDOWSHOWCAPTION, _L(_T("Help|Appearance|WindowShowCaption"), _T("If set to no, Setup will be truly \"full screen\" -- it won't have a caption bar or border, and it will be on top of the taskbar.")))
+		TOOLTIP_HANDLER(IDC_WINDOWSTARTMAXIMIZED, _L(_T("Help|Appearance|WindowStartMaximized"), _T("If set to yes, the Setup program's background window will initially be displayed in a maximized state, where it won't cover over the taskbar.")))
+		TOOLTIP_HANDLER(IDC_WINDOWVISIBLE, _L(_T("Help|Appearance|WindowVisible"), _T("If set to yes, there will be a gradient background window displayed behind the wizard.")))
+		TOOLTIP_HANDLER(IDC_WIZARDIMAGEFILE, _L(_T("Help|Appearance|WizardImageFile"), _T("Specifies the name of the bitmap file to display on the left side of the wizard in the Setup program.")))
+		TOOLTIP_HANDLER(IDC_BACKCOLORDIRECTION, _L(_T("Help|Appearance|BackColorDirection"), _T("This determines the direction of the gradient background on the setup window.")))
+		TOOLTIP_HANDLER(IDC_EXT_WIZARDSMALLIMAGEFILE, _L(_T("Help|Appearance|WizardSmallImageFile"), _T("Specifies the name of the bitmap file to display in the upper right corner of the wizard window.")))
+		TOOLTIP_HANDLER(IDC_SETUPICONFILE, _L(_T("Help|Appearance|SetupIconFile"), _T("Specifies a new icon for the Setup program.")))
+		TOOLTIP_HANDLER(IDC_WIZARDIMAGESTRETCH, _L(_T("Help|Appearance|WizardImageStretch"), _T("If set to yes, the default, the wizard images will be stretched or shrunk if the wizard is larger or smaller than normal, e.g. if the user is running in Large Fonts.\r\n\r\nIf set to no, the wizard images will be centered in their respective areas if the wizard is larger than normal, and clipped if the wizard is smaller than normal.")))
+		TOOLTIP_HANDLER(IDC_BACKCOLOR, _L(_T("Help|Appearance|BackColor"), _T("The BackColor directive specifies the color to use at the top of the setup window's gradient background.")))
+		TOOLTIP_HANDLER(IDC_BACKCOLOR2, _L(_T("Help|Appearance|BackColor2"), _T("BackColor2 specifies the color to use at the bottom.")))
+		TOOLTIP_HANDLER(IDC_WIZARDIMAGEBACKCOLOR, _L(_T("Help|Appearance|WizardImageBackColor"), _T("This directive specifies the background color used to fill any unused space around the wizard bitmap.")))
+		TOOLTIP_HANDLER(IDC_SETUPICONFILE_B, _L(_T("Help|Appearance|SetupIconFileButton"), _T("Click to select an icon for the setup application.")))
 	END_TOOLTIP_MAP()
 
 protected:

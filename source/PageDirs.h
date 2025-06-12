@@ -79,7 +79,7 @@ public:
 
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) {
 		DlgResize_Init(false, false, 0);
-		_L(m_hWnd, "Dirs");
+		_L(m_hWnd, _T("Dirs"));
 		m_wndName.SubclassWindow(GetDlgItem(IDC_NAME));
 		m_wndUninsNeverUninstall.Attach(GetDlgItem(IDC_DIRS_UNINSNEVERUNINSTALL));
 		m_wndUninsAlwaysUninstall.Attach(GetDlgItem(IDC_UNINSALWAYSUNINSTALL));
@@ -143,7 +143,7 @@ public:
 		const bool bForce = m_listDirs.GetSize() == 1;
 
 		if (bForce && m_strName.IsEmpty()) {
-			AtlMessageBox(m_hWnd, _L("You must enter a name."), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
+			AtlMessageBox(m_hWnd, _L(_T("You must enter a name.")), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 			return FALSE;
 		}
 
@@ -210,7 +210,7 @@ public:
 	CPageDirs(CScriptList& listDirs, CMyDoc* pDoc, const bool bNew) :
 		m_listDirs(listDirs), m_pDoc(pDoc), m_bNew(bNew), m_wndName(pDoc)
 	{
-		m_strTitle = _L("DialogTitles|Dir", "Dir");
+		m_strTitle = _L(_T("DialogTitles|Dir"), _T("Dir"));
 		SetTitle((LPCTSTR)m_strTitle);
 
 		m_bDeleteAfterInstall = FALSE;
@@ -242,17 +242,17 @@ public:
 	}
 
 	BEGIN_TOOLTIP_MAP()
-		TOOLTIP_HANDLER(IDC_NAME, _L("Help|Dirs|Name", "The name of the directory to create, which normally will start with one of the directory constants."))
-		TOOLTIP_HANDLER(IDC_PERMISSIONS, _L("Help|Dirs|Permissions", "Specifies additional permissions to grant in the directory's ACL (access control list). It is not recommended that you use this parameter if you aren't familiar with ACLs or why you would need to change them, because misusing it could negatively impact system security."))
-		TOOLTIP_HANDLER(IDC_ATTRIBUTES, _L("Help|Dirs|Attributes", ""))
-		TOOLTIP_HANDLER(IDC_DIRS_DELETEAFTERINSTALL, _L("Help|Dirs|DeleteAfterInstall", "Instructs Setup to create the directory as usual, but then delete it once the installation is completed (or aborted) if it's empty. This can be useful when extracting temporary data needed by a program executed in the script's [Run] section.\r\n\r\nThis flag will not cause directories that already existed before installation to be deleted."))
-		TOOLTIP_HANDLER(IDC_UNINSALWAYSUNINSTALL, _L("Help|Dirs|UninsALwaysUninstall", "Instructs the uninstaller to always attempt to delete the directory if it's empty. Normally the uninstaller will only try to delete the directory if it didn't already exist prior to installation."))
-		TOOLTIP_HANDLER(IDC_DIRS_UNINSNEVERUNINSTALL, _L("Help|Dirs|UninsNeverUninstall", "Instructs the uninstaller to not attempt to delete the directory. By default, the uninstaller deletes any directory specified in the [Dirs] section if it is empty."))
-		TOOLTIP_HANDLER(IDC_READONLY, _L("Help|Dirs|ReadOnly", "Specifies additional attributes for the directory."))
-		TOOLTIP_HANDLER(IDC_HIDDEN, _L("Help|Dirs|Hidden", "Specifies additional attributes for the directory."))
-		TOOLTIP_HANDLER(IDC_SYSTEM, _L("Help|Dirs|System", "Specifies additional attributes for the directory."))
-		TOOLTIP_HANDLER(IDC_SETNTFSCOMPRESSION, _L("Help|Dirs|SetNTFSCompression", "Instructs Setup to enable NTFS compression on the directory. If it fails to set the compression state for any reason (for example, if compression is not supported by the file system), no error message will be displayed.\n\nIf the directory already exists, the compression state of any files present in the directory will not be changed."))
-		TOOLTIP_HANDLER(IDC_UNSETNTFSCOMPRESSION, _L("Help|Dirs|UnsetNTFSCompression", "Instructs Setup to disable NTFS compression on the directory. If it fails to set the compression state for any reason (for example, if compression is not supported by the file system), no error message will be displayed.\n\nIf the directory already exists, the compression state of any files present in the directory will not be changed."))
+		TOOLTIP_HANDLER(IDC_NAME, _L(_T("Help|Dirs|Name"), _T("The name of the directory to create, which normally will start with one of the directory constants.")))
+		TOOLTIP_HANDLER(IDC_PERMISSIONS, _L(_T("Help|Dirs|Permissions"), _T("Specifies additional permissions to grant in the directory's ACL (access control list). It is not recommended that you use this parameter if you aren't familiar with ACLs or why you would need to change them, because misusing it could negatively impact system security.")))
+		TOOLTIP_HANDLER(IDC_ATTRIBUTES, _L(_T("Help|Dirs|Attributes"), _T("")))
+		TOOLTIP_HANDLER(IDC_DIRS_DELETEAFTERINSTALL, _L(_T("Help|Dirs|DeleteAfterInstall"), _T("Instructs Setup to create the directory as usual, but then delete it once the installation is completed (or aborted) if it's empty. This can be useful when extracting temporary data needed by a program executed in the script's [Run] section.\r\n\r\nThis flag will not cause directories that already existed before installation to be deleted.")))
+		TOOLTIP_HANDLER(IDC_UNINSALWAYSUNINSTALL, _L(_T("Help|Dirs|UninsALwaysUninstall"), _T("Instructs the uninstaller to always attempt to delete the directory if it's empty. Normally the uninstaller will only try to delete the directory if it didn't already exist prior to installation.")))
+		TOOLTIP_HANDLER(IDC_DIRS_UNINSNEVERUNINSTALL, _L(_T("Help|Dirs|UninsNeverUninstall"), _T("Instructs the uninstaller to not attempt to delete the directory. By default, the uninstaller deletes any directory specified in the [Dirs] section if it is empty.")))
+		TOOLTIP_HANDLER(IDC_READONLY, _L(_T("Help|Dirs|ReadOnly"), _T("Specifies additional attributes for the directory.")))
+		TOOLTIP_HANDLER(IDC_HIDDEN, _L(_T("Help|Dirs|Hidden"), _T("Specifies additional attributes for the directory.")))
+		TOOLTIP_HANDLER(IDC_SYSTEM, _L(_T("Help|Dirs|System"), _T("Specifies additional attributes for the directory.")))
+		TOOLTIP_HANDLER(IDC_SETNTFSCOMPRESSION, _L(_T("Help|Dirs|SetNTFSCompression"), _T("Instructs Setup to enable NTFS compression on the directory. If it fails to set the compression state for any reason (for example, if compression is not supported by the file system), no error message will be displayed.\n\nIf the directory already exists, the compression state of any files present in the directory will not be changed.")))
+		TOOLTIP_HANDLER(IDC_UNSETNTFSCOMPRESSION, _L(_T("Help|Dirs|UnsetNTFSCompression"), _T("Instructs Setup to disable NTFS compression on the directory. If it fails to set the compression state for any reason (for example, if compression is not supported by the file system), no error message will be displayed.\n\nIf the directory already exists, the compression state of any files present in the directory will not be changed.")))
 	END_TOOLTIP_MAP()
 
 	CScriptList& m_listDirs;

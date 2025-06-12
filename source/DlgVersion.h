@@ -72,7 +72,7 @@ public:
 	}
 
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) {
-		_L(m_hWnd, "Version");
+		_L(m_hWnd, _T("Version"));
 		CenterWindow(GetParent());
 
 		//m_wndCombo.SubclassWindow(GetDlgItem(IDC_VER_COMBO));

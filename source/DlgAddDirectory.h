@@ -60,7 +60,7 @@ public:
 
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/)
 	{
-		_L(m_hWnd, "AddDirectory");
+		_L(m_hWnd, _T("AddDirectory"));
 		CenterWindow(GetParent());
 
 		//		m_wndWildCard.SubclassWindow(GetDlgItem(IDC_ADD_DIRECTORY_WILDCARD));

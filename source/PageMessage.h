@@ -34,7 +34,7 @@ public:
 	int				m_nKeyIndex;
 
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) {
-		_L(m_hWnd, "Message");
+		_L(m_hWnd, _T("Message"));
 		m_wndKey.Attach(GetDlgItem(IDC_MESSAGE_KEY));
 
 		m_pDoc->AddValidMessages(m_hWnd, m_wndKey);
@@ -59,7 +59,7 @@ public:
 
 		if (bForce) {
 			if (m_nKeyIndex < 0) {
-				AtlMessageBox(m_hWnd, _L("You must enter an ID."), IDR_MAINFRAME, MB_OK | MB_ICONSTOP);
+				AtlMessageBox(m_hWnd, _L(_T("You must enter an ID.")), IDR_MAINFRAME, MB_OK | MB_ICONSTOP);
 				GetDlgItem(IDC_MESSAGE_KEY).SetFocus();
 				return PSNRET_INVALID;
 			}
@@ -117,7 +117,7 @@ public:
 	CPageMessage(CScriptList& listMessages, CMyDoc* pDoc, const bool bNew) :
 		m_listMessages(listMessages), m_pDoc(pDoc), m_bNew(bNew)
 	{
-		m_strTitle = _L("DialogTitles|Message", "Message");
+		m_strTitle = _L(_T("DialogTitles|Message"), _T("Message"));
 		SetTitle((LPCTSTR)m_strTitle);
 
 		m_nKeyIndex = -1;
@@ -135,8 +135,8 @@ public:
 	const bool   m_bNew;
 
 	BEGIN_TOOLTIP_MAP()
-		TOOLTIP_HANDLER(IDC_MESSAGE_TEXT, _L("Help|Message|Text", "The message text."))
-		TOOLTIP_HANDLER(IDC_MESSAGE_KEY, _L("Help|Message|Key", "The message name."))
-		TOOLTIP_HANDLER(IDC_MESSAGE_DEFAULT, _L("Help|Message|Default", "The default message text."))
+		TOOLTIP_HANDLER(IDC_MESSAGE_TEXT, _L(_T("Help|Message|Text"), _T("The message text.")))
+		TOOLTIP_HANDLER(IDC_MESSAGE_KEY, _L(_T("Help|Message|Key"), _T("The message name.")))
+		TOOLTIP_HANDLER(IDC_MESSAGE_DEFAULT, _L(_T("Help|Message|Default"), _T("The default message text.")))
 	END_TOOLTIP_MAP()
 };

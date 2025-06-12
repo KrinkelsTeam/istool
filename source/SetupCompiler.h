@@ -102,7 +102,7 @@ public:
 	CString			m_strCompressionThreads, m_strVersionInfoProductName, m_strVersionInfoProductVersion, m_strSignTool;
 
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) {
-		_L(m_hWnd, "Compiler");
+		_L(m_hWnd, _T("Compiler"));
 		m_wndCompressLevel.Attach(GetDlgItem(IDC_COMPRESSLEVEL));
 		m_wndCompressLevelCombo.Attach(GetDlgItem(IDC_COMPRESSLEVELCOMBO));
 		m_wndInternalCompressLevel.Attach(GetDlgItem(IDC_INTERNALCOMPRESSLEVEL));
@@ -303,32 +303,32 @@ public:
 	}
 
 	BEGIN_TOOLTIP_MAP()
-		TOOLTIP_HANDLER(IDC_BTN_SOURCE_DIR, _L("Help|Compiler|SourceDirButton", "Click to select source directory."))
-		TOOLTIP_HANDLER(IDC_BTN_OUTPUT_DIR, _L("Help|Compiler|OutputDirButton", "Click to select output directory."))
-		TOOLTIP_HANDLER(IDC_CHECKUSESETUPLDR, _L("Help|Compiler|UseSetupLdr", "This tells the Setup Compiler which type of Setup to create. If this is yes, it compiles all setup data into a single EXE. If this is no, it compiles the setup data into at least three files: SETUP.EXE, SETUP.0, and SETUP-1.BIN. The only reason you would probably want to use no is for debugging purposes."))
-		TOOLTIP_HANDLER(IDC_COMPRESSLEVEL, _L("Help|Compiler|CompressLevel", "What level of compression to use."))
-		TOOLTIP_HANDLER(IDC_COMPRESSLEVELCOMBO, _L("Help|Compiler|CompressLevelCombo", "What level of compression to use."))
-		TOOLTIP_HANDLER(IDC_OUTPUTDIR, _L("Help|Compiler|OutputDir", "Specifies the \"output\" directory for the script, which is where the Setup Compiler will place the resulting SETUP.* files. By default, it creates a directory named \"Output\" under the directory containing the script for this."))
-		TOOLTIP_HANDLER(IDC_SOURCEDIR, _L("Help|Compiler|SourceDir", "Specifies a new source directory for the script."))
-		TOOLTIP_HANDLER(IDC_OUTPUTBASEFILENAME, _L("Help|Compiler|OutputBaseFileName", "This directive allows you to assign a different name for the resulting Setup file(s), so you don't have to manually rename them after running the Setup Compiler."))
-		TOOLTIP_HANDLER(IDC_MERGEDUPLICATEFILES, _L("Help|Compiler|MergeDuplicateFiles", "Normally two file entries referring to the same source file will be compressed and stored only once. If you have a bunch of identical files in your installation, make them point to the same source file in the script, and the size of your installation can drop significantly. If you wish to disable this feature for some reason, set this directive to no."))
-		TOOLTIP_HANDLER(IDC_COMPRESSION, _L("Help|Compiler|Compression", "This specifies the method of compression to use on the files."))
-		TOOLTIP_HANDLER(IDC_INTERNALCOMPRESSLEVEL, _L("Help|Compiler|InternalCompressLevel", "This specifies the level of LZMA compression to use on Setup's internal structures."))
-		TOOLTIP_HANDLER(IDC_SOLIDCOMPRESSION, _L("Help|Compiler|SolidCompression", "If yes, solid compression will be enabled. This causes all files to be compressed at once instead of separately."))
-		TOOLTIP_HANDLER(IDC_VERSIONINFOVERSION, _L("Help|Compiler|VersionInfoVersion", "Specifies the binary file version value for the Setup version info."))
-		TOOLTIP_HANDLER(IDC_VERSIONINFOCOMPANY, _L("Help|Compiler|VersionInfoCompany", "Specifies the company name value for the Setup version info."))
-		TOOLTIP_HANDLER(IDC_VERSIONINFODESCRIPTION, _L("Help|Compiler|VersionInfoDescription", "Specifies the file description value for the Setup version info."))
-		TOOLTIP_HANDLER(IDC_VERSIONINFOTEXTVERSION, _L("Help|Compiler|VersionInfoTextVersion", "Specifies the textual file version value for the Setup version info."))
-		TOOLTIP_HANDLER(IDC_ENCRYPTION, _L("Help|Compiler|Encryption", "If checked, files that are compiled into the installation (via [Files] section entries) will be encrypted using ARCFOUR encryption, with a 128-bit key derived from the value of the Password [Setup] section directive."))
-		TOOLTIP_HANDLER(IDC_OUTPUTMANIFESTFILE, _L("Help|Compiler|OutputManifestFile", "When this directive is set, the compiler will create a manifest file detailing information about the files compiled into Setup. The file will be created in the output directory unless a path is included."))
-		TOOLTIP_HANDLER(IDC_ARCHITECTURESINSTALLIN64BITMODE, _L("Help|Compiler|ArchitecturesInstallIn64BitMode", "Specifies the 64-bit processor architecture(s) on which Setup should install in 64-bit mode. If this directive is not specified or is blank, Setup will always install in 32-bit mode.\r\n\r\nNormally, you should not change this directive from its default value unless your application contains native 64-bit binaries."))
-		TOOLTIP_HANDLER(IDC_ARCHITECTURESALLOWED, _L("Help|Compiler|ArchitecturesAllowed", "Specifies which processor architecture(s) Setup is allowed to run on. If this directive is not specified or is blank, Setup will be allowed to run on all processor architectures capable of executing its 32-bit code (including ones it doesn't recognize). Otherwise, if a user's processor architecture is not one of those specified in this directive, Setup will display an error message and exit."))
-		TOOLTIP_HANDLER(IDC_VERSIONINFOCOPYRIGHT, _L("Help|Compiler|VersionInfoCopyright", "Specifies the copyright value for the Setup version info."))
-		TOOLTIP_HANDLER(IDC_SETUPLOGGING, _L("Help|Compiler|SetupLogging", "If set to yes, Setup will always create a log file. Equivalent to passing /LOG on the command line."))
-		TOOLTIP_HANDLER(IDC_COMPRESSIONTHREADS, _L("Help|Compiler|CompressionThreads", "Controls whether multi-threading mode is enabled on the LZMA compressor. Multi-threading can speed up the compression process by 50% or more on systems with multiple processor cores, and 20% or more on systems with single-core Intel processors featuring Hyper-Threading Technology.\n\nValid values are auto, 1, 2, or more."))
-		TOOLTIP_HANDLER(IDC_VERSIONINFOPRODUCTNAME, _L("Help|Compiler|ProductName", "Specifies the product name value for the Setup version info."))
-		TOOLTIP_HANDLER(IDC_VERSIONINFOPRODUCTVERSION, _L("Help|Compiler|ProductVersion", "Specifies the product version value for the Setup version info."))
-		TOOLTIP_HANDLER(IDC_SIGNTOOL, _L("Help|Compiler|SignTool", "Specifies the name and parameters of the Sign Tool to be used to digitally sign Setup and Uninstall."))
+		TOOLTIP_HANDLER(IDC_BTN_SOURCE_DIR, _L(_T("Help|Compiler|SourceDirButton"), _T("Click to select source directory.")))
+		TOOLTIP_HANDLER(IDC_BTN_OUTPUT_DIR, _L(_T("Help|Compiler|OutputDirButton"), _T("Click to select output directory.")))
+		TOOLTIP_HANDLER(IDC_CHECKUSESETUPLDR, _L(_T("Help|Compiler|UseSetupLdr"), _T("This tells the Setup Compiler which type of Setup to create. If this is yes, it compiles all setup data into a single EXE. If this is no, it compiles the setup data into at least three files: SETUP.EXE, SETUP.0, and SETUP-1.BIN. The only reason you would probably want to use no is for debugging purposes.")))
+		TOOLTIP_HANDLER(IDC_COMPRESSLEVEL, _L(_T("Help|Compiler|CompressLevel"), _T("What level of compression to use.")))
+		TOOLTIP_HANDLER(IDC_COMPRESSLEVELCOMBO, _L(_T("Help|Compiler|CompressLevelCombo"), _T("What level of compression to use.")))
+		TOOLTIP_HANDLER(IDC_OUTPUTDIR, _L(_T("Help|Compiler|OutputDir"), _T("Specifies the \"output\" directory for the script, which is where the Setup Compiler will place the resulting SETUP.* files. By default, it creates a directory named \"Output\" under the directory containing the script for this.")))
+		TOOLTIP_HANDLER(IDC_SOURCEDIR, _L(_T("Help|Compiler|SourceDir"), _T("Specifies a new source directory for the script.")))
+		TOOLTIP_HANDLER(IDC_OUTPUTBASEFILENAME, _L(_T("Help|Compiler|OutputBaseFileName"), _T("This directive allows you to assign a different name for the resulting Setup file(s), so you don't have to manually rename them after running the Setup Compiler.")))
+		TOOLTIP_HANDLER(IDC_MERGEDUPLICATEFILES, _L(_T("Help|Compiler|MergeDuplicateFiles"), _T("Normally two file entries referring to the same source file will be compressed and stored only once. If you have a bunch of identical files in your installation, make them point to the same source file in the script, and the size of your installation can drop significantly. If you wish to disable this feature for some reason, set this directive to no.")))
+		TOOLTIP_HANDLER(IDC_COMPRESSION, _L(_T("Help|Compiler|Compression"), _T("This specifies the method of compression to use on the files.")))
+		TOOLTIP_HANDLER(IDC_INTERNALCOMPRESSLEVEL, _L(_T("Help|Compiler|InternalCompressLevel"), _T("This specifies the level of LZMA compression to use on Setup's internal structures.")))
+		TOOLTIP_HANDLER(IDC_SOLIDCOMPRESSION, _L(_T("Help|Compiler|SolidCompression"), _T("If yes, solid compression will be enabled. This causes all files to be compressed at once instead of separately.")))
+		TOOLTIP_HANDLER(IDC_VERSIONINFOVERSION, _L(_T("Help|Compiler|VersionInfoVersion"), _T("Specifies the binary file version value for the Setup version info.")))
+		TOOLTIP_HANDLER(IDC_VERSIONINFOCOMPANY, _L(_T("Help|Compiler|VersionInfoCompany"), _T("Specifies the company name value for the Setup version info.")))
+		TOOLTIP_HANDLER(IDC_VERSIONINFODESCRIPTION, _L(_T("Help|Compiler|VersionInfoDescription"), _T("Specifies the file description value for the Setup version info.")))
+		TOOLTIP_HANDLER(IDC_VERSIONINFOTEXTVERSION, _L(_T("Help|Compiler|VersionInfoTextVersion"), _T("Specifies the textual file version value for the Setup version info.")))
+		TOOLTIP_HANDLER(IDC_ENCRYPTION, _L(_T("Help|Compiler|Encryption"), _T("If checked, files that are compiled into the installation (via [Files] section entries) will be encrypted using ARCFOUR encryption, with a 128-bit key derived from the value of the Password [Setup] section directive.")))
+		TOOLTIP_HANDLER(IDC_OUTPUTMANIFESTFILE, _L(_T("Help|Compiler|OutputManifestFile"), _T("When this directive is set, the compiler will create a manifest file detailing information about the files compiled into Setup. The file will be created in the output directory unless a path is included.")))
+		TOOLTIP_HANDLER(IDC_ARCHITECTURESINSTALLIN64BITMODE, _L(_T("Help|Compiler|ArchitecturesInstallIn64BitMode"), _T("Specifies the 64-bit processor architecture(s) on which Setup should install in 64-bit mode. If this directive is not specified or is blank, Setup will always install in 32-bit mode.\r\n\r\nNormally, you should not change this directive from its default value unless your application contains native 64-bit binaries.")))
+		TOOLTIP_HANDLER(IDC_ARCHITECTURESALLOWED, _L(_T("Help|Compiler|ArchitecturesAllowed"), _T("Specifies which processor architecture(s) Setup is allowed to run on. If this directive is not specified or is blank, Setup will be allowed to run on all processor architectures capable of executing its 32-bit code (including ones it doesn't recognize). Otherwise, if a user's processor architecture is not one of those specified in this directive, Setup will display an error message and exit.")))
+		TOOLTIP_HANDLER(IDC_VERSIONINFOCOPYRIGHT, _L(_T("Help|Compiler|VersionInfoCopyright"), _T("Specifies the copyright value for the Setup version info.")))
+		TOOLTIP_HANDLER(IDC_SETUPLOGGING, _L(_T("Help|Compiler|SetupLogging"), _T("If set to yes, Setup will always create a log file. Equivalent to passing /LOG on the command line.")))
+		TOOLTIP_HANDLER(IDC_COMPRESSIONTHREADS, _L(_T("Help|Compiler|CompressionThreads"), _T("Controls whether multi-threading mode is enabled on the LZMA compressor. Multi-threading can speed up the compression process by 50% or more on systems with multiple processor cores, and 20% or more on systems with single-core Intel processors featuring Hyper-Threading Technology.\n\nValid values are auto, 1, 2, or more.")))
+		TOOLTIP_HANDLER(IDC_VERSIONINFOPRODUCTNAME, _L(_T("Help|Compiler|ProductName"), _T("Specifies the product name value for the Setup version info.")))
+		TOOLTIP_HANDLER(IDC_VERSIONINFOPRODUCTVERSION, _L(_T("Help|Compiler|ProductVersion"), _T("Specifies the product version value for the Setup version info.")))
+		TOOLTIP_HANDLER(IDC_SIGNTOOL, _L(_T("Help|Compiler|SignTool"), _T("Specifies the name and parameters of the Sign Tool to be used to digitally sign Setup and Uninstall.")))
 	END_TOOLTIP_MAP()
 
 protected:

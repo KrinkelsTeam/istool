@@ -29,7 +29,7 @@ void CFilesHelper::OnDropFiles(HWND hWnd, HDROP hDropInfo, LPCTSTR lpszCurrentFo
 
 		DWORD dwAttr = ::GetFileAttributes(szFileName);
 		if (dwAttr == 0xFFFFFFFF) {
-			CString txt = _L("Error|GetFileAttributes", "Error getting information about %1.");
+			CString txt = _L(_T("Error|GetFileAttributes"), _T("Error getting information about %1."));
 			txt.Replace(_T("%1"), szFileName);
 			AtlMessageBox(hWnd, (LPCTSTR)txt, IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 		} else if (dwAttr & FILE_ATTRIBUTE_DIRECTORY) {
@@ -162,7 +162,7 @@ void CFilesHelper::CreateIcon(HWND hWnd, CScriptLine* pItem) {
 	for (int nPos = 0; nPos < icons.GetSize(); nPos++) {
 		CScriptLine* pIconCheck = icons[nPos];
 		if (strFilename == SAFESTR(pIconCheck->GetParameter(_T("Filename")))) {
-			CString txt = _L("IconAlreadyExists", "An icon already exists for %1.\n\nCreate icon anyway?");
+			CString txt = _L(_T("IconAlreadyExists"), _T("An icon already exists for %1.\n\nCreate icon anyway?"));
 			txt.Replace(_T("%1"), strFilename);
 			int nRet = AtlMessageBox(hWnd, (LPCTSTR)txt, MB_YESNOCANCEL | MB_DEFBUTTON2 | MB_ICONQUESTION);
 			if (nRet == IDCANCEL)
@@ -295,7 +295,7 @@ bool CFilesHelper::ImportRegistry(HWND hWnd, LPCTSTR lpszRegFile) {
 				else if (!_stricmp(lpszRoot, _T("HKEY_CURRENT_CONFIG")))
 					pszRoot = _T("HKCC");
 				else {
-					CString txt = _L("Unknown registry root %1.");
+					CString txt = _L(_T("Unknown registry root %1."));
 					txt.Replace(_T("%1"), lpszRoot);
 					AtlMessageBox(hWnd, (LPCTSTR)txt, IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 					pszRoot = NULL;
@@ -373,7 +373,7 @@ bool CFilesHelper::ImportRegistry(HWND hWnd, LPCTSTR lpszRegFile) {
 			}
 		}
 	} else {
-		CString txt = _L("Error|UnknownRegistryFormat", "Unknown or unimplemented registry format '%1'.");
+		CString txt = _L(_T("Error|UnknownRegistryFormat"), _T("Unknown or unimplemented registry format '%1'."));
 		txt.Replace(_T("%1"), lpszFormat);
 		AtlMessageBox(hWnd, (LPCTSTR)txt, IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 	}
@@ -396,7 +396,7 @@ bool CFilesHelper::ImportIni(HWND hWnd, LPCTSTR pszPathName) {
 	FILE* file;
 	errno_t err = fopen_s(&file, pszPathName, _T("r"));
 	if (err != 0) {
-		CString txt = _L("Failed to open '%1'.");
+		CString txt = _L(_T("Failed to open '%1'."));
 		txt.Replace(_T("%1"), pszPathName);
 		AtlMessageBox(hWnd, (LPCTSTR)txt, IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 		return false;

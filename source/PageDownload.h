@@ -36,7 +36,7 @@ public:
 	CComboBox2	m_wndDestDir;
 
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) {
-		_L(m_hWnd, "Download");
+		_L(m_hWnd, _T("Download"));
 		m_wndDestDir.SubclassWindow(GetDlgItem(IDC_DOWNLOAD_DESTDIR));
 		m_pDoc->AddDirConstants(m_wndDestDir);
 		m_pDoc->AddDirs(m_wndDestDir);
@@ -62,19 +62,19 @@ public:
 
 		if (bForce) {
 			if (m_strSource.IsEmpty()) {
-				AtlMessageBox(m_hWnd, _L("Download|NeedSource", "You must enter download source."), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
+				AtlMessageBox(m_hWnd, _L(_T("Download|NeedSource"), _T("You must enter download source.")), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 				return PSNRET_INVALID;
 			}
 			if (m_strDestDir.IsEmpty()) {
-				AtlMessageBox(m_hWnd, _L("Download|NeedDestDir", "You must enter destination directory."), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
+				AtlMessageBox(m_hWnd, _L(_T("Download|NeedDestDir"), _T("You must enter destination directory.")), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 				return PSNRET_INVALID;
 			}
 			if (m_strDestName.IsEmpty()) {
-				AtlMessageBox(m_hWnd, _L("Download|NeedDestName", "You must enter the destination name."), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
+				AtlMessageBox(m_hWnd, _L(_T("Download|NeedDestName"), _T("You must enter the destination name.")), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 				return PSNRET_INVALID;
 			}
 			if (!m_strDestDir.Left(5).CompareNoCase(_T("{app}"))) {
-				AtlMessageBox(m_hWnd, _L("Download|WarnAppDir", "Using the application directory as destination is not recommended.\n\nThe directory might not have been created yet."), IDR_MAINFRAME, MB_OK | MB_ICONWARNING);
+				AtlMessageBox(m_hWnd, _L(_T("Download|WarnAppDir"), _T("Using the application directory as destination is not recommended.\n\nThe directory might not have been created yet.")), IDR_MAINFRAME, MB_OK | MB_ICONWARNING);
 			}
 		}
 
@@ -100,7 +100,7 @@ public:
 	CPageDownload(CScriptList& list, CMyDoc* pDoc, const bool bNew) :
 		m_list(list), m_pDoc(pDoc), m_bNew(bNew), m_wndDestDir(pDoc)
 	{
-		m_strTitle = _L("DialogTitles|Download", "Download");
+		m_strTitle = _L(_T("DialogTitles|Download"), _T("Download"));
 		SetTitle((LPCTSTR)m_strTitle);
 
 		for (int nPos = 0; nPos < m_list.GetSize(); nPos++) {
@@ -117,8 +117,8 @@ public:
 	const bool   m_bNew;
 
 	BEGIN_TOOLTIP_MAP()
-		TOOLTIP_HANDLER(IDC_DOWNLOAD_SOURCE, _L("Help|Download|Source", "The address of the file you want to download. Must begin with http:// or ftp://"))
-		TOOLTIP_HANDLER(IDC_DOWNLOAD_DESTDIR, _L("Help|Download|DestDir", "The destination directory for the file."))
-		TOOLTIP_HANDLER(IDC_DOWNLOAD_DESTNAME, _L("Help|Download|DestName", "The destination name for the file."))
+		TOOLTIP_HANDLER(IDC_DOWNLOAD_SOURCE, _L(_T("Help|Download|Source"), _T("The address of the file you want to download. Must begin with http:// or ftp://")))
+		TOOLTIP_HANDLER(IDC_DOWNLOAD_DESTDIR, _L(_T("Help|Download|DestDir"), _T("The destination directory for the file.")))
+		TOOLTIP_HANDLER(IDC_DOWNLOAD_DESTNAME, _L(_T("Help|Download|DestName"), _T("The destination name for the file.")))
 	END_TOOLTIP_MAP()
 };

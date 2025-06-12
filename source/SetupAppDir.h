@@ -59,13 +59,13 @@ public:
 	BOOL		m_bAppendDefaultDirName;
 
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) {
-		_L(m_hWnd, "AppDir");
+		_L(m_hWnd, _T("AppDir"));
 		m_wndDirExistsWarning.Attach(GetDlgItem(IDC_DIREXISTSWARNING));
 		m_wndDefaultDirName.SubclassWindow(GetDlgItem(IDC_DEFAULTDIRNAME));
 
-		m_wndDirExistsWarning.AddString(_L("AppDir|Auto", "Auto"));
-		m_wndDirExistsWarning.AddString(_L("AppDir|Yes", "Yes"));
-		m_wndDirExistsWarning.AddString(_L("AppDir|No", "No"));
+		m_wndDirExistsWarning.AddString(_L(_T("AppDir|Auto"), _T("Auto")));
+		m_wndDirExistsWarning.AddString(_L(_T("AppDir|Yes"), _T("Yes")));
+		m_wndDirExistsWarning.AddString(_L(_T("AppDir|No"), _T("No")));
 
 		EnableControls();
 
@@ -142,15 +142,15 @@ public:
 	}
 
 	BEGIN_TOOLTIP_MAP()
-		TOOLTIP_HANDLER(IDC_CREATEAPPDIR, _L("Help|AppDir|CreateAppDir", "If this is set to no, no directory for the application will be created, the Select Destination Location wizard page will not be displayed, and the {app} directory constant is equivalent to the {win} directory constant. If the uninstall feature is enabled when CreateAppDir is no, the uninstall data files are created in the system's Windows directory."))
-		TOOLTIP_HANDLER(IDC_DEFAULTDIRNAME, _L("Help|AppDir|DefaultDirName", "This value of this required directive is used for the default directory name, which is used in the Select Destination Location page of the wizard. Normally it is prefixed by a directory constant."))
-		TOOLTIP_HANDLER(IDC_DISABLEDIRPAGE, _L("Help|AppDir|DisableDirPage", "If this is set to yes, Setup will not show the Select Destination Location wizard page. In this case, it will always use the default directory name."))
-		TOOLTIP_HANDLER(IDC_ENABLEDIRDOESNTEXISTWARNING, _L("Help|AppDir|EnableDirDoesntExistWarnnig", "When set to yes, Setup will display a message box if the directory the user selects doesn't exist. Usually you will also set DirExistsWarning=no when this is yes."))
-		TOOLTIP_HANDLER(IDC_ALLOWROOTDIRECTORY, _L("Help|AppDir|AllowRootDirectory", "When set to no, the default, the user will not be allowed to enter a root directory (such as \"C:\\\") on the Select Destination Location page of the wizard."))
-		TOOLTIP_HANDLER(IDC_USEPREVIOUSAPPDIR, _L("Help|AppDir|UserPreviousAppDir", "When this directive is yes, the default, at startup Setup will look in the registry to see if the same application is already installed, and if so, it will use the directory of the previous installation as the default directory presented to the user in the wizard."))
-		TOOLTIP_HANDLER(IDC_DIREXISTSWARNING, _L("Help|AppDir|DirExistsWarning", "When set to auto, the default setting, Setup will show a \"The directory ... already exists. Would you like to install to that directory anyway?\" message if the user selects a directory that already exists on the Select Destination Location wizard page, except when another version of the same application is already installed and the selected directory is the same as the previous one (only if UsePreviousAppDir is yes, the default setting).\r\n\r\nWhen set to yes, Setup will always display the \"Directory Exists\" message when the user selects an existing directory.\r\n\r\nWhen set to no, Setup will never display the \"Directory Exists\" message."))
-		TOOLTIP_HANDLER(IDC_ALLOWUNCPATH, _L("Help|AppDir|AllowUNCPath", "If set to no, the user will not be allowed to enter a UNC path (such as \"\\\\server\\share\") on the Select Destination Location page of the wizard."))
-		TOOLTIP_HANDLER(IDC_APPENDDEFAULTDIRNAME, _L("Help|AppDir|AppendDefaultDirName", "By default, when a folder in the dialog displayed by the Browse... button on the Select Destination Location wizard page is clicked, Setup automatically appends the last component of DefaultDirName onto the new path. For example, if DefaultDirName is {pf}\\My Program and \"Z:\\\" is clicked, the new path will become \"Z:\\My Program\".\r\n\r\nSetting this directive to no disables the aforementioned behavior. In addition, it causes a Make New Folder button to appear on the dialog."))
+		TOOLTIP_HANDLER(IDC_CREATEAPPDIR, _L(_T("Help|AppDir|CreateAppDir"), _T("If this is set to no, no directory for the application will be created, the Select Destination Location wizard page will not be displayed, and the {app} directory constant is equivalent to the {win} directory constant. If the uninstall feature is enabled when CreateAppDir is no, the uninstall data files are created in the system's Windows directory.")))
+		TOOLTIP_HANDLER(IDC_DEFAULTDIRNAME, _L(_T("Help|AppDir|DefaultDirName"), _T("This value of this required directive is used for the default directory name, which is used in the Select Destination Location page of the wizard. Normally it is prefixed by a directory constant.")))
+		TOOLTIP_HANDLER(IDC_DISABLEDIRPAGE, _L(_T("Help|AppDir|DisableDirPage"), _T("If this is set to yes, Setup will not show the Select Destination Location wizard page. In this case, it will always use the default directory name.")))
+		TOOLTIP_HANDLER(IDC_ENABLEDIRDOESNTEXISTWARNING, _L(_T("Help|AppDir|EnableDirDoesntExistWarnnig"), _T("When set to yes, Setup will display a message box if the directory the user selects doesn't exist. Usually you will also set DirExistsWarning=no when this is yes.")))
+		TOOLTIP_HANDLER(IDC_ALLOWROOTDIRECTORY, _L(_T("Help|AppDir|AllowRootDirectory"), _T("When set to no, the default, the user will not be allowed to enter a root directory (such as \"C:\\\") on the Select Destination Location page of the wizard.")))
+		TOOLTIP_HANDLER(IDC_USEPREVIOUSAPPDIR, _L(_T("Help|AppDir|UserPreviousAppDir"), _T("When this directive is yes, the default, at startup Setup will look in the registry to see if the same application is already installed, and if so, it will use the directory of the previous installation as the default directory presented to the user in the wizard.")))
+		TOOLTIP_HANDLER(IDC_DIREXISTSWARNING, _L(_T("Help|AppDir|DirExistsWarning"), _T("When set to auto, the default setting, Setup will show a \"The directory ... already exists. Would you like to install to that directory anyway?\" message if the user selects a directory that already exists on the Select Destination Location wizard page, except when another version of the same application is already installed and the selected directory is the same as the previous one (only if UsePreviousAppDir is yes, the default setting).\r\n\r\nWhen set to yes, Setup will always display the \"Directory Exists\" message when the user selects an existing directory.\r\n\r\nWhen set to no, Setup will never display the \"Directory Exists\" message.")))
+		TOOLTIP_HANDLER(IDC_ALLOWUNCPATH, _L(_T("Help|AppDir|AllowUNCPath"), _T("If set to no, the user will not be allowed to enter a UNC path (such as \"\\\\server\\share\") on the Select Destination Location page of the wizard.")))
+		TOOLTIP_HANDLER(IDC_APPENDDEFAULTDIRNAME, _L(_T("Help|AppDir|AppendDefaultDirName"), _T("By default, when a folder in the dialog displayed by the Browse... button on the Select Destination Location wizard page is clicked, Setup automatically appends the last component of DefaultDirName onto the new path. For example, if DefaultDirName is {pf}\\My Program and \"Z:\\\" is clicked, the new path will become \"Z:\\My Program\".\r\n\r\nSetting this directive to no disables the aforementioned behavior. In addition, it causes a Make New Folder button to appear on the dialog.")))
 	END_TOOLTIP_MAP()
 
 protected:

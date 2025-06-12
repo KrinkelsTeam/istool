@@ -83,7 +83,7 @@ public:
 	CString	m_strPermissions;
 
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) {
-		_L(m_hWnd, "Registry");
+		_L(m_hWnd, _T("Registry"));
 		m_wndSubkey.SubclassWindow(GetDlgItem(IDC_SUBKEY));
 		m_wndValueName.SubclassWindow(GetDlgItem(IDC_VALUENAME));
 		m_wndValueData.SubclassWindow(GetDlgItem(IDC_VALUEDATA));
@@ -182,12 +182,12 @@ public:
 
 		if (bForce) {
 			if (m_nRoot == -1) {
-				AtlMessageBox(m_hWnd, _L("Invalid root."), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
+				AtlMessageBox(m_hWnd, _L(_T("Invalid root.")), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 				return PSNRET_INVALID;
 			}
 
 			if (m_strSubkey.IsEmpty()) {
-				AtlMessageBox(m_hWnd, _L("Subkey must be entered."), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
+				AtlMessageBox(m_hWnd, _L(_T("Subkey must be entered.")), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 				return PSNRET_INVALID;
 			}
 		}
@@ -255,7 +255,7 @@ public:
 		m_list(list), m_pDoc(pDoc), m_bNew(bNew),
 		m_wndValueData(pDoc), m_wndValueName(pDoc), m_wndSubkey(pDoc)
 	{
-		m_strTitle = _L("DialogTitles|Registry", "Registry");
+		m_strTitle = _L(_T("DialogTitles|Registry"), _T("Registry"));
 		SetTitle((LPCTSTR)m_strTitle);
 
 		m_nRoot = -1;
@@ -298,21 +298,21 @@ public:
 	const bool   m_bNew;
 
 	BEGIN_TOOLTIP_MAP()
-		TOOLTIP_HANDLER(IDC_ROOT, _L("Help|Registry|Root", "The root key."))
-		TOOLTIP_HANDLER(IDC_SUBKEY, _L("Help|Registry|Subkey", "The subkey name, which can include constants."))
-		TOOLTIP_HANDLER(IDC_CREATEVALUEIFDOESNTEXIST, _L("Help|Registry|CreateValueIfDoesntExist", "When this flag is specified, Setup will create the value only if a value of the same name doesn't already exist. This flag has no effect if the data type is none, or if you specify the deletevalue flag."))
-		TOOLTIP_HANDLER(IDC_VALUETYPE, _L("Help|Registry|ValueType", "The data type of the value."))
-		TOOLTIP_HANDLER(IDC_UNINSCLEARVALUE, _L("Help|Registry|UninsClearValue", "When the program is uninstalled, set the value's data to a null string (type REG_SZ). This flag cannot be combined with the uninsdeletekey flag."))
-		TOOLTIP_HANDLER(IDC_UNINSDELETEKEY, _L("Help|Registry|UninsDeleteKey", "When the program is uninstalled, delete the entire key, including all values and subkeys in it. It obviously wouldn't be a good idea to use this on a key that is used by Windows itself. You should only use this on keys private to your application.\r\n\r\nTo prevent disasters, this flag is ignored during installation if Subkey is blank or contains only backslashes."))
-		TOOLTIP_HANDLER(IDC_UNINSDELETEKEYIFEMPTY, _L("Help|Registry|UninsDeleteKeyIfEmpty", "When the program is uninstalled, delete the key if it has no values or subkeys left in it. This flag can be combined with uninsdeletevalue.\r\n\r\nTo prevent disasters, this flag is ignored during installation if Subkey is blank or contains only backslashes."))
-		TOOLTIP_HANDLER(IDC_UNINSDELETEVALUE, _L("Help|Registry|UninsDeleteValue", "Delete the value when the program is uninstalled. This flag can be combined with uninsdeletekeyifempty."))
-		TOOLTIP_HANDLER(IDC_VALUEDATA, _L("Help|Registry|ValueData", "The data for the value. If the ValueType parameter is string, expandsz, or multisz, this is a string that can include constants. If the data type is dword, this can be a decimal integer (e.g. \"123\"), a hexadecimal integer (e.g. \"$7B\"), or a constant which resolves to an integer. If the data type is binary, this is a sequence of hexadecimal bytes in the form: \"00 ff 12 34\". If the data type is none, this is ignored."))
-		TOOLTIP_HANDLER(IDC_VALUENAME, _L("Help|Registry|ValueName", "The name of the value to create, which can include constants. If this is blank, it will write to the \"Default\" value. If the ValueType parameter is set to none, this parameter is ignored."))
-		TOOLTIP_HANDLER(IDC_PRESERVESTRINGTYPE, _L("Help|Registry|PreserveStringType", "This is only applicable when the ValueType parameter is string or expandsz. When this flag is specified and the value did not already exist or the existing value isn't a string type (REG_SZ or REG_EXPAND_SZ), it will be created with the type specified by ValueType. If the value did exist and is a string type, it will be replaced with the same value type as the pre-existing value."))
-		TOOLTIP_HANDLER(IDC_REGISTRY_DELETEKEY, _L("Help|Registry|DeleteKey", "When this flag is specified, Setup will first try deleting the entire key if it exists, including all values and subkeys in it. If ValueType is not none, it will then create a new key and value.\r\n\r\nTo prevent disasters, this flag is ignored during installation if Subkey is blank or contains only backslashes."))
-		TOOLTIP_HANDLER(IDC_REGISTRY_DELETEVALUE, _L("Help|Registry|DeleteValue", "When this flag is specified, Setup will first try deleting the value if it exists. If ValueType is not none, it will then create the key if it didn't already exist, and the new value."))
-		TOOLTIP_HANDLER(IDC_REGISTRY_NOERROR, _L("Help|Registry|NoError", "Don't display an error message if Setup fails to create the key or value for any reason."))
-		TOOLTIP_HANDLER(IDC_REGISTRY_DONT_CREATE_KEY, _L("Help|Registry|DontCreateKey", "When this flag is specified, Setup will not attempt to create the key or any value if the key did not already exist on the user's system. No error message is displayed if the key does not exist.\r\n\r\nTypically this flag is used in combination with the uninsdeletekey flag, for deleting keys during uninstallation but not creating them during installation."))
-		TOOLTIP_HANDLER(IDC_PERMISSIONS, _L("Help|Registry|Permissions", "Specifies additional permissions to grant in the registry key's ACL (access control list). It is not recommended that you use this parameter if you aren't familiar with ACLs or why you would need to change them, because misusing it could negatively impact system security."))
+		TOOLTIP_HANDLER(IDC_ROOT, _L(_T("Help|Registry|Root"), _T("The root key.")))
+		TOOLTIP_HANDLER(IDC_SUBKEY, _L(_T("Help|Registry|Subkey"), _T("The subkey name, which can include constants.")))
+		TOOLTIP_HANDLER(IDC_CREATEVALUEIFDOESNTEXIST, _L(_T("Help|Registry|CreateValueIfDoesntExist"), _T("When this flag is specified, Setup will create the value only if a value of the same name doesn't already exist. This flag has no effect if the data type is none, or if you specify the deletevalue flag.")))
+		TOOLTIP_HANDLER(IDC_VALUETYPE, _L(_T("Help|Registry|ValueType"), _T("The data type of the value.")))
+		TOOLTIP_HANDLER(IDC_UNINSCLEARVALUE, _L(_T("Help|Registry|UninsClearValue"), _T("When the program is uninstalled, set the value's data to a null string (type REG_SZ). This flag cannot be combined with the uninsdeletekey flag.")))
+		TOOLTIP_HANDLER(IDC_UNINSDELETEKEY, _L(_T("Help|Registry|UninsDeleteKey"), _T("When the program is uninstalled, delete the entire key, including all values and subkeys in it. It obviously wouldn't be a good idea to use this on a key that is used by Windows itself. You should only use this on keys private to your application.\r\n\r\nTo prevent disasters, this flag is ignored during installation if Subkey is blank or contains only backslashes.")))
+		TOOLTIP_HANDLER(IDC_UNINSDELETEKEYIFEMPTY, _L(_T("Help|Registry|UninsDeleteKeyIfEmpty"), _T("When the program is uninstalled, delete the key if it has no values or subkeys left in it. This flag can be combined with uninsdeletevalue.\r\n\r\nTo prevent disasters, this flag is ignored during installation if Subkey is blank or contains only backslashes.")))
+		TOOLTIP_HANDLER(IDC_UNINSDELETEVALUE, _L(_T("Help|Registry|UninsDeleteValue"), _T("Delete the value when the program is uninstalled. This flag can be combined with uninsdeletekeyifempty.")))
+		TOOLTIP_HANDLER(IDC_VALUEDATA, _L(_T("Help|Registry|ValueData"), _T("The data for the value. If the ValueType parameter is string, expandsz, or multisz, this is a string that can include constants. If the data type is dword, this can be a decimal integer (e.g. \"123\"), a hexadecimal integer (e.g. \"$7B\"), or a constant which resolves to an integer. If the data type is binary, this is a sequence of hexadecimal bytes in the form: \"00 ff 12 34\". If the data type is none, this is ignored.")))
+		TOOLTIP_HANDLER(IDC_VALUENAME, _L(_T("Help|Registry|ValueName"), _T("The name of the value to create, which can include constants. If this is blank, it will write to the \"Default\" value. If the ValueType parameter is set to none, this parameter is ignored.")))
+		TOOLTIP_HANDLER(IDC_PRESERVESTRINGTYPE, _L(_T("Help|Registry|PreserveStringType"), _T("This is only applicable when the ValueType parameter is string or expandsz. When this flag is specified and the value did not already exist or the existing value isn't a string type (REG_SZ or REG_EXPAND_SZ), it will be created with the type specified by ValueType. If the value did exist and is a string type, it will be replaced with the same value type as the pre-existing value.")))
+		TOOLTIP_HANDLER(IDC_REGISTRY_DELETEKEY, _L(_T("Help|Registry|DeleteKey"), _T("When this flag is specified, Setup will first try deleting the entire key if it exists, including all values and subkeys in it. If ValueType is not none, it will then create a new key and value.\r\n\r\nTo prevent disasters, this flag is ignored during installation if Subkey is blank or contains only backslashes.")))
+		TOOLTIP_HANDLER(IDC_REGISTRY_DELETEVALUE, _L(_T("Help|Registry|DeleteValue"), _T("When this flag is specified, Setup will first try deleting the value if it exists. If ValueType is not none, it will then create the key if it didn't already exist, and the new value.")))
+		TOOLTIP_HANDLER(IDC_REGISTRY_NOERROR, _L(_T("Help|Registry|NoError"), _T("Don't display an error message if Setup fails to create the key or value for any reason.")))
+		TOOLTIP_HANDLER(IDC_REGISTRY_DONT_CREATE_KEY, _L(_T("Help|Registry|DontCreateKey"), _T("When this flag is specified, Setup will not attempt to create the key or any value if the key did not already exist on the user's system. No error message is displayed if the key does not exist.\r\n\r\nTypically this flag is used in combination with the uninsdeletekey flag, for deleting keys during uninstallation but not creating them during installation.")))
+		TOOLTIP_HANDLER(IDC_PERMISSIONS, _L(_T("Help|Registry|Permissions"), _T("Specifies additional permissions to grant in the registry key's ACL (access control list). It is not recommended that you use this parameter if you aren't familiar with ACLs or why you would need to change them, because misusing it could negatively impact system security.")))
 	END_TOOLTIP_MAP()
 };

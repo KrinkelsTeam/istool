@@ -32,7 +32,7 @@ public:
 	CString	m_strKey, m_strText;
 
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) {
-		_L(m_hWnd, "CustomMessage");
+		_L(m_hWnd, _T("CustomMessage"));
 
 		DoDataExchange(DDX_LOAD);
 		return TRUE;
@@ -44,12 +44,12 @@ public:
 
 		if (bForce) {
 			if (m_strKey.IsEmpty()) {
-				AtlMessageBox(m_hWnd, _L("You must enter an ID."), IDR_MAINFRAME, MB_OK | MB_ICONSTOP);
+				AtlMessageBox(m_hWnd, _L(_T("You must enter an ID.")), IDR_MAINFRAME, MB_OK | MB_ICONSTOP);
 				GetDlgItem(IDC_MESSAGE_KEY).SetFocus();
 				return PSNRET_INVALID;
 			}
 			if (m_strText.IsEmpty()) {
-				AtlMessageBox(m_hWnd, _L("You must enter a message."), IDR_MAINFRAME, MB_OK | MB_ICONSTOP);
+				AtlMessageBox(m_hWnd, _L(_T("You must enter a message.")), IDR_MAINFRAME, MB_OK | MB_ICONSTOP);
 				GetDlgItem(IDC_MESSAGE_TEXT).SetFocus();
 				return PSNRET_INVALID;
 			}
@@ -77,7 +77,7 @@ public:
 	CPageCustomMessage(CScriptList& listMessages, CMyDoc* pDoc, const bool bNew) :
 		m_listMessages(listMessages), m_pDoc(pDoc), m_bNew(bNew)
 	{
-		m_strTitle = _L("DialogTitles|CustomMessage", "Custom Message");
+		m_strTitle = _L(_T("DialogTitles|CustomMessage"), _T("Custom Message"));
 		SetTitle((LPCTSTR)m_strTitle);
 
 		for (int nPos = 0; nPos < m_listMessages.GetSize(); nPos++) {
@@ -94,7 +94,7 @@ public:
 	const bool   m_bNew;
 
 	BEGIN_TOOLTIP_MAP()
-		TOOLTIP_HANDLER(IDC_MESSAGE_TEXT, _L("Help|CustomMessage|Text", "The custom message text."))
-		TOOLTIP_HANDLER(IDC_MESSAGE_KEY, _L("Help|CustomMessage|Key", "The name of the custom message."))
+		TOOLTIP_HANDLER(IDC_MESSAGE_TEXT, _L(_T("Help|CustomMessage|Text"), _T("The custom message text.")))
+		TOOLTIP_HANDLER(IDC_MESSAGE_KEY, _L(_T("Help|CustomMessage|Key"), _T("The name of the custom message.")))
 	END_TOOLTIP_MAP()
 };

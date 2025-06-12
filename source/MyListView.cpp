@@ -67,7 +67,7 @@ LRESULT CMyListView::OnContextMenu(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lPar
 
 	CMenuHandle pPopup = menu.GetSubMenu(m_nSubMenu);
 	ATLASSERT(pPopup != NULL);
-	_L(pPopup, "Popup");
+	_L(pPopup, _T("Popup"));
 
 	AfxGetMainWnd().OnIdle();
 	AfxGetMainWnd().TrackPopupMenu(pPopup, TPM_LEFTALIGN | TPM_RIGHTBUTTON, point.x, point.y);
@@ -154,7 +154,7 @@ LRESULT CMyListView::OnCut(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, 
 
 		SendMessage(UWM_DELETE);
 	} else {
-		AtlMessageBox(m_hWnd, _L("Failed to open clipboard."), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
+		AtlMessageBox(m_hWnd, _L(_T("Failed to open clipboard.")), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 	}
 
 	return 0;
@@ -183,7 +183,7 @@ LRESULT CMyListView::OnCopy(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/,
 		SetClipboardData(CF_TEXT, hGlobal);
 		CloseClipboard();
 	} else {
-		AtlMessageBox(m_hWnd, _L("Failed to open clipboard."), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
+		AtlMessageBox(m_hWnd, _L(_T("Failed to open clipboard.")), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 	}
 
 	return 0;
@@ -191,7 +191,7 @@ LRESULT CMyListView::OnCopy(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/,
 
 LRESULT CMyListView::OnPaste(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) {
 	if (!OpenClipboard()) {
-		AtlMessageBox(m_hWnd, _L("Failed to open clipboard."), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
+		AtlMessageBox(m_hWnd, _L(_T("Failed to open clipboard.")), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 		return 0;
 	}
 
@@ -231,7 +231,7 @@ LRESULT CMyListView::OnPaste(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/
 		Populate();
 		GetDocument()->SetModifiedFlag();
 	} else {
-		AtlMessageBox(m_hWnd, _L("Incorrect clipboard format."), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
+		AtlMessageBox(m_hWnd, _L(_T("Incorrect clipboard format.")), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 	}
 
 	return 0;
@@ -253,7 +253,7 @@ void CMyListView::WriteRegistryInfo(WORD* pDisplayInfo, UINT nCount) {
 			++nVisibleCount;
 
 	if (!GetColumnOrderArray(nVisibleCount, iOrderArray)) {
-		AtlMessageBox(m_hWnd, _L("Error|GetColumnOrder", "Failed to get column order."), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
+		AtlMessageBox(m_hWnd, _L(_T("Error|GetColumnOrder"), _T("Failed to get column order.")), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 	}
 	str.Format(_T("%sOrder"), lpszName);
 	AfxGetApp()->WriteProfileBinary(_T("Settings"), str, (LPBYTE)iOrderArray, nVisibleCount * sizeof(int));

@@ -56,7 +56,7 @@ public:
 	int				m_nExclusive, m_nDontInheritCheck, m_nCheckableAlone;
 
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) {
-		_L(m_hWnd, "Component");
+		_L(m_hWnd, _T("Component"));
 		m_wndTypeList.SubclassWindow(GetDlgItem(IDC_COMPONENT_TYPES));
 
 		m_wndTypeList.InsertColumn(0, _T("Description"), LVCFMT_LEFT, 10, 0);
@@ -188,11 +188,11 @@ public:
 		DoDataExchange(DDX_SAVE);
 		const bool bForce = m_list.GetSize() == 1;
 		if (bForce && m_strName.IsEmpty()) {
-			AtlMessageBox(m_hWnd, _L("You must enter a name."), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
+			AtlMessageBox(m_hWnd, _L(_T("You must enter a name.")), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 			return PSNRET_INVALID;
 		}
 		if (bForce && m_strDescription.IsEmpty()) {
-			AtlMessageBox(m_hWnd, _L("You must enter a description."), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
+			AtlMessageBox(m_hWnd, _L(_T("You must enter a description.")), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 			return PSNRET_INVALID;
 		}
 
@@ -261,7 +261,7 @@ public:
 	CPageComponent(CMyDoc* pDoc, CScriptList& list, const bool bNew, CInnoScriptEx& script) :
 		m_pDoc(pDoc), m_list(list), m_bNew(bNew), m_script(script), m_bInitialized(false)
 	{
-		m_strTitle = _L("DialogTitles|Component", "Component");
+		m_strTitle = _L(_T("DialogTitles|Component"), _T("Component"));
 		SetTitle((LPCTSTR)m_strTitle);
 
 		m_bFixed = FALSE;
@@ -291,15 +291,15 @@ public:
 	CMyDoc*        m_pDoc;
 
 	BEGIN_TOOLTIP_MAP()
-		TOOLTIP_HANDLER(IDC_COMPONENT_DESCRIPTION, _L("Help|Component|Description", "The description of the component, which can include constants. This description is shown to the end user during installation."))
-		TOOLTIP_HANDLER(IDC_COMPONENT_FIXED, _L("Help|Component|Fixed", "Instructs Setup that this component can not be manually selected or unselected by the end user during installation."))
-		TOOLTIP_HANDLER(IDC_COMPONENT_NAME, _L("Help|Component|Name", "The internal name of the component.\r\n\r\nThe total number of \\ or / characters in the name of the component is called the level of the component. Any component with a level of 1 or more is a child component. The component listed before the child component with a level of 1 less than the child component, is the parent component. Other components with the same parent component as the child component are sibling components."))
-		TOOLTIP_HANDLER(IDC_COMPONENT_RESTART, _L("Help|Component|Restart", "Instructs Setup to ask the user to restart the system if this component is installed, regardless of whether this is necessary (for example because of [Files] section entries with the restartreplace flag). Like AlwaysRestart but per component."))
-		TOOLTIP_HANDLER(IDC_COMPONENT_DISABLENOUNINSTALLWARNING, _L("Help|Component|DisableNoUninstallWarning", "Instructs Setup not to warn the user that this component will not be uninstalled after he/she deselected this component when it's already installed on his/her machine.\r\n\r\nDepending on the complexity of your components, you can try to use the [InstallDelete] section and this flag to automatically 'uninstall' deselected components."))
-		TOOLTIP_HANDLER(IDC_COMPONENT_EXTRADISKSPACEREQUIRED, _L("Help|Component|ExtraDiskSpaceRequired", "The extra disk space required by this component, similar to the ExtraDiskSpaceRequired directive for the [Setup] section."))
-		TOOLTIP_HANDLER(IDC_COMPONENTSEXCLUSIVE, _L("Help|Component|Exclusive", "Instructs Setup that this component is mutually exclusive with sibling components that also have the exclusive flag."))
-		TOOLTIP_HANDLER(IDC_COMPONENT_TYPES, _L("Help|Component|Types", "A space separated list of types this component belongs to. If the end user selects a type from this list, this component will be installed.\r\n\r\nIf the fixed flag isn't used (see below), any custom types (types using the iscustom flag) in this list are ignored by Setup."))
-		TOOLTIP_HANDLER(IDC_DONTINHERITCHECK, _L("Help|Component|DontInheritCheck", "Specifies that the component should not automatically become checked when its parent is checked. Has no effect on top-level components, and cannot be combined with the exclusive flag."))
-		TOOLTIP_HANDLER(IDC_CHECKABLEALONE, _L("Help|Component|CheckableAlone", "This flag specifies that the component can be checked when none of its children are. By default, if no Components parameter directly references the component, unchecking all of the component's children will cause the component to become unchecked."))
+		TOOLTIP_HANDLER(IDC_COMPONENT_DESCRIPTION, _L(_T("Help|Component|Description"), _T("The description of the component, which can include constants. This description is shown to the end user during installation.")))
+		TOOLTIP_HANDLER(IDC_COMPONENT_FIXED, _L(_T("Help|Component|Fixed"), _T("Instructs Setup that this component can not be manually selected or unselected by the end user during installation.")))
+		TOOLTIP_HANDLER(IDC_COMPONENT_NAME, _L(_T("Help|Component|Name"), _T("The internal name of the component.\r\n\r\nThe total number of \\ or / characters in the name of the component is called the level of the component. Any component with a level of 1 or more is a child component. The component listed before the child component with a level of 1 less than the child component, is the parent component. Other components with the same parent component as the child component are sibling components.")))
+		TOOLTIP_HANDLER(IDC_COMPONENT_RESTART, _L(_T("Help|Component|Restart"), _T("Instructs Setup to ask the user to restart the system if this component is installed, regardless of whether this is necessary (for example because of [Files] section entries with the restartreplace flag). Like AlwaysRestart but per component.")))
+		TOOLTIP_HANDLER(IDC_COMPONENT_DISABLENOUNINSTALLWARNING, _L(_T("Help|Component|DisableNoUninstallWarning"), _T("Instructs Setup not to warn the user that this component will not be uninstalled after he/she deselected this component when it's already installed on his/her machine.\r\n\r\nDepending on the complexity of your components, you can try to use the [InstallDelete] section and this flag to automatically 'uninstall' deselected components.")))
+		TOOLTIP_HANDLER(IDC_COMPONENT_EXTRADISKSPACEREQUIRED, _L(_T("Help|Component|ExtraDiskSpaceRequired"), _T("The extra disk space required by this component, similar to the ExtraDiskSpaceRequired directive for the [Setup] section.")))
+		TOOLTIP_HANDLER(IDC_COMPONENTSEXCLUSIVE, _L(_T("Help|Component|Exclusive"), _T("Instructs Setup that this component is mutually exclusive with sibling components that also have the exclusive flag.")))
+		TOOLTIP_HANDLER(IDC_COMPONENT_TYPES, _L(_T("Help|Component|Types"), _T("A space separated list of types this component belongs to. If the end user selects a type from this list, this component will be installed.\r\n\r\nIf the fixed flag isn't used (see below), any custom types (types using the iscustom flag) in this list are ignored by Setup.")))
+		TOOLTIP_HANDLER(IDC_DONTINHERITCHECK, _L(_T("Help|Component|DontInheritCheck"), _T("Specifies that the component should not automatically become checked when its parent is checked. Has no effect on top-level components, and cannot be combined with the exclusive flag.")))
+		TOOLTIP_HANDLER(IDC_CHECKABLEALONE, _L(_T("Help|Component|CheckableAlone"), _T("This flag specifies that the component can be checked when none of its children are. By default, if no Components parameter directly references the component, unchecking all of the component's children will cause the component to become unchecked.")))
 	END_TOOLTIP_MAP()
 };

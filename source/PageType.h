@@ -38,7 +38,7 @@ public:
 	BOOL			m_bIsCustom;
 
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) {
-		_L(m_hWnd, "Type");
+		_L(m_hWnd, _T("Type"));
 		for (int nPos = 0; nPos < m_list.GetSize(); nPos++) {
 			CScriptLine* pLine = m_list[nPos];
 
@@ -59,11 +59,11 @@ public:
 		DoDataExchange(DDX_SAVE);
 		const bool bForce = m_list.GetSize() == 1;
 		if (bForce && m_strName.IsEmpty()) {
-			AtlMessageBox(m_hWnd, _L("You must enter a name."), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
+			AtlMessageBox(m_hWnd, _L(_T("You must enter a name.")), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 			return PSNRET_INVALID;
 		}
 		if (bForce && m_strDescription.IsEmpty()) {
-			AtlMessageBox(m_hWnd, _L("You must enter a description."), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
+			AtlMessageBox(m_hWnd, _L(_T("You must enter a description.")), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 			return PSNRET_INVALID;
 		}
 
@@ -111,7 +111,7 @@ public:
 				}
 				if (!bFound) {
 					if (strMessage.GetLength() > 0) strMessage += _T("\n");
-					CString txt = _L("FixedComponentErrorType", "Fixed component '%1' which used non-existing type '%2'.");
+					CString txt = _L(_T("FixedComponentErrorType"), _T("Fixed component '%1' which used non-existing type '%2'."));
 					txt.Replace(_T("%1"), pLine->GetParameter(_T("Description")));
 					txt.Replace(_T("%2"), pszType);
 					strMessage += (LPCTSTR)txt;
@@ -132,7 +132,7 @@ public:
 	CPageType(CScriptList& list, CMyDoc* pDoc, const bool bNew) :
 		m_pDoc(pDoc), m_bNew(bNew), m_list(list)
 	{
-		m_strTitle = _L("DialogTitles|Type", "Type");
+		m_strTitle = _L(_T("DialogTitles|Type"), _T("Type"));
 		SetTitle((LPCTSTR)m_strTitle);
 
 		m_bIsCustom = FALSE;
@@ -152,8 +152,8 @@ public:
 	const bool	 m_bNew;
 
 	BEGIN_TOOLTIP_MAP()
-		TOOLTIP_HANDLER(IDC_TYPE_DESCRIPTION, _L("Help|Type|Description", "The description of the type, which can include constants. This description is shown during installation."))
-		TOOLTIP_HANDLER(IDC_TYPE_NAME, _L("Help|Type|Name", "The internal name of the type. Used as parameter for components in the [Components] section to instruct Setup to which types a component belongs."))
-		TOOLTIP_HANDLER(IDC_TYPE_ISCUSTOM, _L("Help|Type|IsCustom", "Instructs Setup that the type is a custom type. Whenever the end user manually changes the components selection during installation, Setup will set the setup type to the custom type. Note that if you don't define a custom type, Setup will only allow the user to choose a setup type and he/she can no longer manually select/unselect components."))
+		TOOLTIP_HANDLER(IDC_TYPE_DESCRIPTION, _L(_T("Help|Type|Description"), _T("The description of the type, which can include constants. This description is shown during installation.")))
+		TOOLTIP_HANDLER(IDC_TYPE_NAME, _L(_T("Help|Type|Name"), _T("The internal name of the type. Used as parameter for components in the [Components] section to instruct Setup to which types a component belongs.")))
+		TOOLTIP_HANDLER(IDC_TYPE_ISCUSTOM, _L(_T("Help|Type|IsCustom"), _T("Instructs Setup that the type is a custom type. Whenever the end user manually changes the components selection during installation, Setup will set the setup type to the custom type. Note that if you don't define a custom type, Setup will only allow the user to choose a setup type and he/she can no longer manually select/unselect components.")))
 	END_TOOLTIP_MAP()
 };

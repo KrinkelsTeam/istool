@@ -279,7 +279,7 @@ void CColorPickerCB::SetInnoColor(LPCTSTR lpszColor) {
 		SetSelectedColorName(_T("Custom"));
 		SetItemData(GetCurSel(), cr);
 	} else {
-		AtlMessageBox(m_hWnd, _L("Invalid color value."), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
+		AtlMessageBox(m_hWnd, _L(_T("Invalid color value.")), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 	}
 }
 

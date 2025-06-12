@@ -84,7 +84,7 @@ public:
 
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) {
 		DlgResize_Init(false, false, 0);
-		_L(m_hWnd, "Common");
+		_L(m_hWnd, _T("Common"));
 		m_wndCheck.Attach(GetDlgItem(IDC_SCRIPTING_CHECK));
 		m_wndBelowVersionNT.SubclassWindow(GetDlgItem(IDC_BTN_BELOWVERSIONNT));
 		m_wndBelowVersionWin.SubclassWindow(GetDlgItem(IDC_BTN_BELOWVERSIONWIN));
@@ -252,7 +252,7 @@ public:
 		m_wndBelowVersionNT(VER_NT),
 		m_dwFlags(dwFlags)
 	{
-		m_strTitle = _L("DialogTitles|Common", "Common");
+		m_strTitle = _L(_T("DialogTitles|Common"), _T("Common"));
 		SetTitle((LPCTSTR)m_strTitle);
 
 		for (int nPos = 0; nPos < m_listBase.GetSize(); nPos++) {
@@ -291,16 +291,16 @@ public:
 	DWORD         m_dwFlags;
 
 	BEGIN_TOOLTIP_MAP()
-		TOOLTIP_HANDLER(IDC_MINIMUM_VERSION_9X, _L("Help|Common|MinVerWin", "A minimum Windows version for the entry to be processed."))
-		TOOLTIP_HANDLER(IDC_BTN_MINVERSIONWIN, _L("Help|Common|MinVerWinButton", "Click this button to select Windows version."))
-		TOOLTIP_HANDLER(IDC_MINIMUM_VERSION_NT, _L("Help|Common|MinVerNT", "A minimum Windows NT version for the entry to be processed."))
-		TOOLTIP_HANDLER(IDC_BTN_MINVERSIONNT, _L("Help|Common|MinVerNTButton", "Click this button to select Windows NT version."))
-		TOOLTIP_HANDLER(IDC_ONLY_BELOW_VERSION_9X, _L("Help|Common|BelowVerWin", "Basically the opposite of MinVersion. Specifies the minimum Windows version for the entry not to be processed."))
-		TOOLTIP_HANDLER(IDC_BTN_BELOWVERSIONWIN, _L("Help|Common|BelowVerWinButton", "Click this button to select Windows version."))
-		TOOLTIP_HANDLER(IDC_ONLY_BELOW_VERSION_NT, _L("Help|Common|BelowVerNT", "Basically the opposite of MinVersion. Specifies the minimum Windows NT version for the entry not to be processed."))
-		TOOLTIP_HANDLER(IDC_BTN_BELOWVERSIONNT, _L("Help|Common|BelowVerNTButton", "Click this button to select Windows NT version."))
-		TOOLTIP_HANDLER(IDC_SCRIPTING_CHECK, _L("Help|Common|Check", "The name of the check function in the [Code] section that determines whether an entry has to be processed or not. May include one parameter that Setup should pass to the check function. This parameter may include constants."))
-		TOOLTIP_HANDLER(IDC_BEFOREINSTALL, _L("Help|Common|BeforeInstall", "The name of the function in the [Code] section that is to be called once just before an entry is installed. May include one parameter that Setup should pass to the function. This parameter may include constants."))
-		TOOLTIP_HANDLER(IDC_AFTERINSTALL, _L("Help|Common|AfterInstall", "The name of the function in the [Code] section that is to be called once just after an entry is installed. May include one parameter that Setup should pass to the function. This parameter may include constants."))
+		TOOLTIP_HANDLER(IDC_MINIMUM_VERSION_9X, _L(_T("Help|Common|MinVerWin"), _T("A minimum Windows version for the entry to be processed.")))
+		TOOLTIP_HANDLER(IDC_BTN_MINVERSIONWIN, _L(_T("Help|Common|MinVerWinButton"), _T("Click this button to select Windows version.")))
+		TOOLTIP_HANDLER(IDC_MINIMUM_VERSION_NT, _L(_T("Help|Common|MinVerNT"), _T("A minimum Windows NT version for the entry to be processed.")))
+		TOOLTIP_HANDLER(IDC_BTN_MINVERSIONNT, _L(_T("Help|Common|MinVerNTButton"), _T("Click this button to select Windows NT version.")))
+		TOOLTIP_HANDLER(IDC_ONLY_BELOW_VERSION_9X, _L(_T("Help|Common|BelowVerWin"), _T("Basically the opposite of MinVersion. Specifies the minimum Windows version for the entry not to be processed.")))
+		TOOLTIP_HANDLER(IDC_BTN_BELOWVERSIONWIN, _L(_T("Help|Common|BelowVerWinButton"), _T("Click this button to select Windows version.")))
+		TOOLTIP_HANDLER(IDC_ONLY_BELOW_VERSION_NT, _L(_T("Help|Common|BelowVerNT"), _T("Basically the opposite of MinVersion. Specifies the minimum Windows NT version for the entry not to be processed.")))
+		TOOLTIP_HANDLER(IDC_BTN_BELOWVERSIONNT, _L(_T("Help|Common|BelowVerNTButton"), _T("Click this button to select Windows NT version.")))
+		TOOLTIP_HANDLER(IDC_SCRIPTING_CHECK, _L(_T("Help|Common|Check"), _T("The name of the check function in the [Code] section that determines whether an entry has to be processed or not. May include one parameter that Setup should pass to the check function. This parameter may include constants.")))
+		TOOLTIP_HANDLER(IDC_BEFOREINSTALL, _L(_T("Help|Common|BeforeInstall"), _T("The name of the function in the [Code] section that is to be called once just before an entry is installed. May include one parameter that Setup should pass to the function. This parameter may include constants.")))
+		TOOLTIP_HANDLER(IDC_AFTERINSTALL, _L(_T("Help|Common|AfterInstall"), _T("The name of the function in the [Code] section that is to be called once just after an entry is installed. May include one parameter that Setup should pass to the function. This parameter may include constants.")))
 	END_TOOLTIP_MAP()
 };

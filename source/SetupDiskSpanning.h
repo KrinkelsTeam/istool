@@ -42,7 +42,7 @@ public:
 	CString			m_strDiskSliceSize, m_strSlicesPerDisk;
 
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) {
-		_L(m_hWnd, "DiskSpanning");
+		_L(m_hWnd, _T("DiskSpanning"));
 
 		GetDlgItem(IDC_DISKCLUSTERSIZE).EnableWindow(m_bDiskSpanning);
 		GetDlgItem(IDC_RESERVEBYTES).EnableWindow(m_bDiskSpanning);
@@ -105,11 +105,11 @@ public:
 	}
 
 	BEGIN_TOOLTIP_MAP()
-		TOOLTIP_HANDLER(IDC_DISKSPANNING, _L("Help|DiskSpanning|DiskSpanning", "If set to yes, the disk spanning feature will be enabled. Instead of storing all the compressed file data inside SETUP.EXE, the compiler will split it into multiple SETUP-*.BIN files -- known as \"slices\" -- suitable for copying onto separate floppy disks, CD-ROMs, or DVD-ROMs."))
-		TOOLTIP_HANDLER(IDC_DISKCLUSTERSIZE, _L("Help|DiskSpanning|DiskClusterSize", "This specifies the cluster size of the disk media. The Setup Compiler needs to know this in order to properly fill each disk to capacity."))
-		TOOLTIP_HANDLER(IDC_RESERVEBYTES, _L("Help|DiskSpanning|ReserveBytes", "This specifies the minimum number of free bytes to reserve on the first disk. This is useful if you have to copy other files onto the first disk that aren't part of the setup program, such as a Readme file."))
-		TOOLTIP_HANDLER(IDC_DISKSLICESIZE, _L("Help|DiskSpanning|DiskSliceSize", "This specifies the maximum number of bytes per disk slice (SETUP-*.BIN file)."))
-		TOOLTIP_HANDLER(IDC_SLICESPERDISK, _L("Help|DiskSpanning|SlicesPerDisk", "The number of SETUP-*.BIN files to create for each disk. If this is 1 (the default setting), the files will be named SETUP-x.BIN, where x is the disk number. If this is greater than 1, the files will be named SETUP-xy.BIN, where x is the disk number and y is a unique letter."))
+		TOOLTIP_HANDLER(IDC_DISKSPANNING, _L(_T("Help|DiskSpanning|DiskSpanning"), _T("If set to yes, the disk spanning feature will be enabled. Instead of storing all the compressed file data inside SETUP.EXE, the compiler will split it into multiple SETUP-*.BIN files -- known as \"slices\" -- suitable for copying onto separate floppy disks, CD-ROMs, or DVD-ROMs.")))
+		TOOLTIP_HANDLER(IDC_DISKCLUSTERSIZE, _L(_T("Help|DiskSpanning|DiskClusterSize"), _T("This specifies the cluster size of the disk media. The Setup Compiler needs to know this in order to properly fill each disk to capacity.")))
+		TOOLTIP_HANDLER(IDC_RESERVEBYTES, _L(_T("Help|DiskSpanning|ReserveBytes"), _T("This specifies the minimum number of free bytes to reserve on the first disk. This is useful if you have to copy other files onto the first disk that aren't part of the setup program, such as a Readme file.")))
+		TOOLTIP_HANDLER(IDC_DISKSLICESIZE, _L(_T("Help|DiskSpanning|DiskSliceSize"), _T("This specifies the maximum number of bytes per disk slice (SETUP-*.BIN file).")))
+		TOOLTIP_HANDLER(IDC_SLICESPERDISK, _L(_T("Help|DiskSpanning|SlicesPerDisk"), _T("The number of SETUP-*.BIN files to create for each disk. If this is 1 (the default setting), the files will be named SETUP-x.BIN, where x is the disk number. If this is greater than 1, the files will be named SETUP-xy.BIN, where x is the disk number and y is a unique letter.")))
 	END_TOOLTIP_MAP()
 
 protected:

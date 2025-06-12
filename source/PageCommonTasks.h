@@ -45,7 +45,7 @@ public:
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) {
 		DlgResize_Init(false, false, 0);
 
-		_L(m_hWnd, "CommonTasks");
+		_L(m_hWnd, _T("CommonTasks"));
 		m_wndComponentList.SubclassWindow(GetDlgItem(IDC_TASKS_LIST));
 		m_wndComponentList.InsertColumn(0, _T("Description"), LVCFMT_LEFT, 10, 0);
 		m_wndComponentList.SetExtendedListViewStyle(LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);
@@ -203,7 +203,7 @@ public:
 	CPageCommonTasks::CPageCommonTasks(CScriptList& listBase, CMyDoc* pDoc, const bool bNew) :
 		m_listBase(listBase), m_pDoc(pDoc), m_bNew(bNew), m_bInitialized(false)
 	{
-		m_strTitle = _L("DialogTitles|Task", "Task");
+		m_strTitle = _L(_T("DialogTitles|Task"), _T("Task"));
 		SetTitle((LPCTSTR)m_strTitle);
 
 		for (int nPos = 0; nPos < m_listBase.GetSize(); nPos++) {
@@ -220,7 +220,7 @@ public:
 	bool		 m_bInitialized;
 
 	BEGIN_TOOLTIP_MAP()
-		TOOLTIP_HANDLER(IDC_TASKS_LIST, _L("Help|CommonTasks|List", "List of tasks that can be chosen for this item(s)."))
-		TOOLTIP_HANDLER(IDC_EDIT, _L("Help|CommonTasks|Edit", "A space separated list of task names, telling Setup to which task the entry belongs. If the end user selects a task from this list, the entry is processed (for example: the file is installed)."))
+		TOOLTIP_HANDLER(IDC_TASKS_LIST, _L(_T("Help|CommonTasks|List"), _T("List of tasks that can be chosen for this item(s).")))
+		TOOLTIP_HANDLER(IDC_EDIT, _L(_T("Help|CommonTasks|Edit"), _T("A space separated list of task names, telling Setup to which task the entry belongs. If the end user selects a task from this list, the entry is processed (for example: the file is installed).")))
 	END_TOOLTIP_MAP()
 };

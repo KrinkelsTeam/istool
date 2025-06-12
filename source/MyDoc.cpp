@@ -102,7 +102,7 @@ BOOL CMyDoc::OnOpenDocument(HWND hWnd, LPCTSTR lpszPathName) {
 		for (int nPos = 0; nPos < list.GetSize(); nPos++) {
 			CScriptLine* pLine = list[nPos];
 			if (pLine->GetParameterFlag(_T("Flags"), _T("showcheckbox"))) {
-				CString txt = _L("Obsolete|ShowCheckbox", "Replaced showcheckbox flag with postinstall flag for %1 inside the run section.");
+				CString txt = _L(_T("Obsolete|ShowCheckbox"), _T("Replaced showcheckbox flag with postinstall flag for %1 inside the run section."));
 				txt.Replace(_T("%1"), pLine->GetParameter(_T("FileName")));
 
 				if (strMessage.GetLength() > 0) strMessage += _T("\n");
@@ -127,17 +127,17 @@ BOOL CMyDoc::OnOpenDocument(HWND hWnd, LPCTSTR lpszPathName) {
 					GetScript().DeleteLine(pLine);
 
 					if (strMessage.GetLength() > 0) strMessage += _T("\n");
-					strMessage += _L("Obsolete|CompressLevel", "CompressLevel directive replaced with new Compression directive.");
+					strMessage += _L(_T("Obsolete|CompressLevel"), _T("CompressLevel directive replaced with new Compression directive."));
 				} else if (!_stricmp(pLine->GetKey(), _T("AlwaysCreateUninstallIcon"))) {
 					GetScript().DeleteLine(pLine);
 
 					if (strMessage.GetLength() > 0) strMessage += _T("\n");
-					strMessage += _L("Obsolete|AlwaysCreateUninstallIcon", "AlwaysCreateUninstallIcon directive removed.");
+					strMessage += _L(_T("Obsolete|AlwaysCreateUninstallIcon"), _T("AlwaysCreateUninstallIcon directive removed."));
 				} else if (!_stricmp(pLine->GetKey(), _T("UninstallIconName"))) {
 					GetScript().DeleteLine(pLine);
 
 					if (strMessage.GetLength() > 0) strMessage += _T("\n");
-					strMessage += _L("Obsolete|UninstallIconName", "UninstallIconName directive removed.");
+					strMessage += _L(_T("Obsolete|UninstallIconName"), _T("UninstallIconName directive removed."));
 				} else if (!_stricmp(pLine->GetKey(), _T("MessagesFile"))) {
 					CScriptLine* pNewLine = new CScriptLine(CInnoScript::SEC_LANGUAGES);
 					pNewLine->SetParameter(_T("Name"), _T("default"));
@@ -147,7 +147,7 @@ BOOL CMyDoc::OnOpenDocument(HWND hWnd, LPCTSTR lpszPathName) {
 					GetScript().DeleteLine(pLine);
 
 					if (strMessage.GetLength() > 0) strMessage += _T("\n");
-					strMessage += _L("Obsolete|MessagesFile", "MessagesFile directive replaced with [Languages] section.");
+					strMessage += _L(_T("Obsolete|MessagesFile"), _T("MessagesFile directive replaced with [Languages] section."));
 				}
 			}
 		}
@@ -186,11 +186,11 @@ BOOL CMyDoc::OnOpenDocument(HWND hWnd, LPCTSTR lpszPathName) {
 		}
 		if (bCopyMode) {
 			if (strMessage.GetLength() > 0) strMessage += _T("\n");
-			strMessage += _L("Obsolete|CopyMode", "Replaced deprecated parameter CopyMode with corresponding flags [IS 3.0.5].");
+			strMessage += _L(_T("Obsolete|CopyMode"), _T("Replaced deprecated parameter CopyMode with corresponding flags [IS 3.0.5]."));
 		}
 		if (bCompareTimeStampAlso) {
 			if (strMessage.GetLength() > 0) strMessage += _T("\n");
-			strMessage += _L("Obsolete|CompareTimeStampAlso", "Replaced old flag comparetimestampalso with the new comparetimestamp [IS 3.0.5].");
+			strMessage += _L(_T("Obsolete|CompareTimeStampAlso"), _T("Replaced old flag comparetimestampalso with the new comparetimestamp [IS 3.0.5]."));
 		}
 
 		// Tell the user what has been altered in the script
@@ -214,7 +214,7 @@ BOOL CMyDoc::GetCompiler(CString& str, bool bDLL/*=false*/, bool bDLS/*=false*/)
 	CString strFolder;
 	strFolder = CMyApp::m_prefs.m_strInnoFolder;
 	if (strFolder.IsEmpty()) {
-		CString txt = _L("IS4NotFound", "This project uses Inno Setup, but\nthe Inno Setup Folder can't be found.\n\nCheck the preferences.");
+		CString txt = _L(_T("IS4NotFound"), _T("This project uses Inno Setup, but\nthe Inno Setup Folder can't be found.\n\nCheck the preferences."));
 		AtlMessageBox(AfxGetMainWnd(), (LPCTSTR)txt, IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 		return FALSE;
 	}
@@ -230,7 +230,7 @@ BOOL CMyDoc::GetCompiler(CString& str, bool bDLL/*=false*/, bool bDLS/*=false*/)
 		strTemp += _T("compil32.exe");
 
 	if (strFolder.IsEmpty() || !CMyUtils::IsFile(strTemp)) {
-		CString txt = _L("IS4NotFound", "This project uses Inno Setup, but\nthe Inno Setup Folder can't be found.\n\nCheck the preferences.");
+		CString txt = _L(_T("IS4NotFound"), _T("This project uses Inno Setup, but\nthe Inno Setup Folder can't be found.\n\nCheck the preferences."));
 		AtlMessageBox(AfxGetMainWnd(), (LPCTSTR)txt, IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 		return FALSE;
 	}
@@ -449,7 +449,7 @@ void CMyDoc::RenameFile(HWND hWnd, LPCTSTR lpszFrom, LPCTSTR lpszTo) {
 	}
 
 	if (nCount > 0) {
-		CString txt = _L("FileIsReferenced", "The file '%1' is referenced %2 times.\nChange these references to '%3'?");
+		CString txt = _L(_T("FileIsReferenced"), _T("The file '%1' is referenced %2 times.\nChange these references to '%3'?"));
 		CString str;
 		str.Format(_T("%d"), nCount);
 		txt.Replace(_T("%1"), lpszFrom);
@@ -643,7 +643,7 @@ void CMyDoc::AddValidMessages(HWND hWnd, CComboBox& wndCombo) {
 			strAlt += strFile;
 
 			if (!CMyUtils::IsFile(strAlt)) {
-				CString txt = _L("Failed to open '%1'.");
+				CString txt = _L(_T("Failed to open '%1'."));
 				txt.Replace(_T("%1"), strFile);
 				AtlMessageBox(hWnd, (LPCTSTR)txt, IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 				continue;
@@ -707,7 +707,7 @@ void CMyDoc::AddValidMessages(HWND hWnd, CComboBox& wndCombo) {
 
 void CMyDoc::OpenInnoSetup(HWND hWnd) {
 	if (GetPathName().IsEmpty()) {
-		AtlMessageBox(hWnd, _L("The script must be saved first."), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
+		AtlMessageBox(hWnd, _L(_T("The script must be saved first.")), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 		return;
 	}
 
@@ -716,7 +716,7 @@ void CMyDoc::OpenInnoSetup(HWND hWnd) {
 		return;
 
 	if (IsModified()) {
-		int nRet = AtlMessageBox(hWnd, _L("ScriptModifiedSaveChanges", "The script is modified.\nSave script before opening compiler?"), IDR_MAINFRAME, MB_YESNOCANCEL | MB_ICONQUESTION);
+		int nRet = AtlMessageBox(hWnd, _L(_T("ScriptModifiedSaveChanges"), _T("The script is modified.\nSave script before opening compiler?")), IDR_MAINFRAME, MB_YESNOCANCEL | MB_ICONQUESTION);
 		if (nRet == IDCANCEL) return;
 		if (nRet == IDYES) {
 			if (!OnSaveDocument(hWnd, GetPathName()))
@@ -792,7 +792,7 @@ bool CMyDoc::GetOutputExe(CInnoScriptEx* m_pScript, HWND hWnd, CString& rStr, bo
 	CMyUtils::EndWith(rStr, '\\');
 	rStr += strFile + _T(".exe");
 	if (!bNoWarning && !CMyUtils::IsFile(rStr)) {
-		CString txt = _L("Output file '%1' doesn't exist.");
+		CString txt = _L(_T("Output file '%1' doesn't exist."));
 		txt.Replace(_T("%1"), rStr);
 		ShowWindow(AfxGetMainWnd(), SW_RESTORE);
 		AtlMessageBox(hWnd, (LPCTSTR)txt, IDR_MAINFRAME, MB_OK | MB_ICONERROR);
@@ -849,7 +849,7 @@ bool CMyDoc::SaveModified(HWND hWnd) {
 		// get name based on caption
 		//name = m_strTitle;
 		//if (name.IsEmpty())
-		name = _L("System|Untitled", "Untitled");
+		name = _L(_T("System|Untitled"), _T("Untitled"));
 	} else {
 		// get name based on file title of path name
 		name = m_strPathName;
@@ -857,7 +857,7 @@ bool CMyDoc::SaveModified(HWND hWnd) {
 		name.ReleaseBuffer();
 	}
 
-	CString txt = _L("Save changes to '%1'?");
+	CString txt = _L(_T("Save changes to '%1'?"));
 	txt.Replace(_T("%1"), name);
 
 	switch (AtlMessageBox(hWnd, (LPCTSTR)txt, IDR_MAINFRAME, MB_YESNOCANCEL | MB_ICONQUESTION)) {
