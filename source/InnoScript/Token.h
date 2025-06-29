@@ -10,10 +10,10 @@ class CInnoScript::CToken {
 public:
 	CToken(LPCTSTR pszLine, LPCTSTR pszDelim);
 	virtual ~CToken();
-	LPSTR GetNext();
-	LPSTR GetRest();
+	LPTSTR GetNext();
+	LPTSTR GetRest();
 protected:
-	LPSTR m_pszLine;
-	LPSTR m_pszDelim;
-	LPSTR m_pszCurrPos;
+	LPTSTR m_pszLine;
+	LPTSTR m_pszDelim;
+	LPTSTR m_pszCurrPos;
 };

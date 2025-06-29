@@ -3,6 +3,7 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include "ISTool.h"
 #include "InnoScript.h"
 #include "Lines.h"
 
@@ -54,7 +55,7 @@ LPCTSTR CInnoScript::GetSectionName(SECTION sec) {
 CInnoScript::SECTION CInnoScript::GetSectionCode(LPCTSTR pszSection) {
 	CString strSection(pszSection);
 	int nLength = strSection.Trim().GetLength();
-	if (nLength > 2 && strSection[0] == '[' && strSection[nLength - 1] == ']')
+	if (nLength > 2 && strSection[0] == _T('[') && strSection[nLength - 1] == _T(']'))
 		strSection = strSection.Mid(1, nLength - 2);
 	for (UINT n = 0; m_sectionnames[n].m_pszName; n++) {
 		if (!strSection.CompareNoCase(m_sectionnames[n].m_pszName))
@@ -69,15 +70,6 @@ void CInnoScript::Clear() {
 	m_lines.RemoveAll();
 }
 
-bool CInnoScript::LoadScript(LPCTSTR pszFileName) {
-	FILE* pFile;
-	errno_t err = fopen_s(&pFile, pszFileName, _T("r"));
-	if (err != 0)
-		return false;
-
-	return LoadScript(pFile);
-}
-
 bool CInnoScript::AddLine(SECTION& sec, CString& strLine) {
 	CLine* pLine = NULL;
 	DWORD dwUserFlags = 0;
@@ -85,28 +77,25 @@ bool CInnoScript::AddLine(SECTION& sec, CString& strLine) {
 	strLine.TrimRight();
 
 	// Concatenation
-#if 1
 	if (!strLine.Right(2).Compare(_T(" \\"))) {
 		dwUserFlags |= CLine::FLG_CONCAT;
 		strLine = strLine.Left(strLine.GetLength() - 2);
 		strLine.ReleaseBuffer();
 	}
-#endif
-	//
 
 	int nFirstNonWhite = 0;
-	while (strLine[nFirstNonWhite] && iswspace(strLine[nFirstNonWhite])) nFirstNonWhite++;
+	while (strLine[nFirstNonWhite] && _istspace(strLine[nFirstNonWhite])) nFirstNonWhite++;
 
 	try {
-		if (strLine[0] == '[') {
-			if (strLine.GetLength() > 1 && strLine[1] == '/') {
+		if (strLine[0] == _T('[')) {
+			if (strLine.GetLength() > 1 && strLine[1] == _T('/')) {
 				// End of section
 				sec = SEC_NONE;
 			} else {
 				UINT nRow = 0;
 				while (m_sectionnames[nRow].m_sec != SEC_NONE) {
 					UINT nLength = _tcslen(m_sectionnames[nRow].m_pszName);
-					if (!strLine.Mid(1, nLength).CompareNoCase(m_sectionnames[nRow].m_pszName) && strLine.GetAt(nLength + 1) == ']') {
+					if (!strLine.Mid(1, nLength).CompareNoCase(m_sectionnames[nRow].m_pszName) && strLine.GetAt(nLength + 1) == _T(']')) {
 						sec = m_sectionnames[nRow].m_sec;
 						break;
 					}
@@ -117,9 +106,9 @@ bool CInnoScript::AddLine(SECTION& sec, CString& strLine) {
 					pLine = new CLineComment(sec, strLine);
 				}
 			}
-		} else if (strLine[0] == '#' || strLine[nFirstNonWhite] == '#') {
+		} else if (strLine[0] == _T('#') || strLine[nFirstNonWhite] == _T('#')) {
 			pLine = new CLineHash(sec, strLine);
-		} else if (strLine[0] == ';' || !strLine[0] || sec == SEC_NONE || sec == SEC_CODE) {
+		} else if (strLine[0] == _T(';') || !strLine[0] || sec == SEC_NONE || sec == SEC_CODE) {
 			pLine = new CLineComment(sec, strLine);
 		} else {
 			if (sec == SEC_SETUP || sec == SEC_MESSAGES || sec == PRJ_ISTOOL || sec == SEC_LANGOPTIONS || sec == SEC_CUSTOMMESSAGES)
@@ -140,18 +129,6 @@ bool CInnoScript::AddLine(SECTION& sec, CString& strLine) {
 		bool bFound = false;
 		for (long i = 0; i < (long)m_lines.GetCount(); i++) {
 			if (bFound && m_lines[i]->GetSection() != pLine->GetSection()) {
-#if 0
-				// Rewind
-				while (i > 0 && m_lines[i - 1]->GetSection() == pLine->GetSection()) {
-					CString strLine;
-					m_lines[i - 1]->Write(strLine.GetBufferSetLength(100), 100);
-					strLine.ReleaseBuffer();
-					if (strLine.Trim().IsEmpty())
-						i--;
-					else
-						break;
-				}
-#endif
 				m_lines.InsertAt(i, pLine);
 				return true;
 			}
@@ -163,14 +140,13 @@ bool CInnoScript::AddLine(SECTION& sec, CString& strLine) {
 	return true;
 }
 
-bool CInnoScript::LoadScriptBuffer(LPSTR pszBuffer) {
+bool CInnoScript::LoadScriptBuffer(LPTSTR pszBuffer) {
 	SECTION sec = SEC_NONE;
 	LPCTSTR pszLineStart = pszBuffer;
 	while (*pszBuffer) {
-		if (*pszBuffer == '\n') {
+		if (*pszBuffer == _T('\n')) {
 			*pszBuffer++ = 0;
 			AddLine(sec, CString(pszLineStart));
-			//while(*pszBuffer && iswspace(*pszBuffer)) pszBuffer++;
 			pszLineStart = pszBuffer;
 		} else
 			pszBuffer++;
@@ -181,58 +157,148 @@ bool CInnoScript::LoadScriptBuffer(LPSTR pszBuffer) {
 	return true;
 }
 
-bool CInnoScript::LoadScript(FILE* pFile) {
-	CString strLine;
-	char szLine[8192];
-	SECTION sec = SEC_NONE;
-	while (fgets(szLine, sizeof szLine, pFile)) {
-		strLine = szLine;
-		strLine.TrimRight();
-		if (strLine.GetLength() > 2 && strLine.Left(2) == _T("[/"))
-			continue;
-		AddLine(sec, strLine);
+bool CInnoScript::LoadScript(LPCTSTR pszFileName) {
+	CAtlFile file;
+	if (FAILED(file.Create(pszFileName, GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING)))
+		return false;
+
+	ULONGLONG size = 0;
+	if (FAILED(file.GetSize(size)) || size == 0 || size > ULONG_MAX)
+		return false;
+
+	DWORD len = static_cast<DWORD>(size);
+	CHeapPtr<BYTE> buf;
+	if (!buf.Allocate(len + 1))
+		return false;
+
+	DWORD read = 0;
+	if (FAILED(file.Read(buf, len, read)) || read != len)
+		return false;
+
+	buf[len] = 0;
+	LPCSTR data = reinterpret_cast<LPCSTR>(static_cast<BYTE*>(buf));
+	DWORD offset = 0;
+
+	CStringW content;
+
+	bool looksLikeUtf8 = false;
+	for (DWORD i = 0; i < len; ++i) {
+		if ((BYTE)data[i] >= 0x80) {
+			looksLikeUtf8 = true;
+			break;
+		}
 	}
-	fclose(pFile);
+
+	if (len >= 3 && (BYTE)data[0] == 0xEF && (BYTE)data[1] == 0xBB && (BYTE)data[2] == 0xBF) {
+		offset = 3;
+		theApp.m_saveEncoding = SaveEncoding::UTF8WithBOM;
+	} else if (looksLikeUtf8 && MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, data, len, nullptr, 0) > 0) {
+		offset = 0;
+		theApp.m_saveEncoding = SaveEncoding::UTF8WithoutBOM;
+	} else {
+		content = CStringW(CStringA(data));
+		theApp.m_saveEncoding = SaveEncoding::Auto;
+	}
+
+	if (content.IsEmpty() && len > offset) {
+		int wlen = MultiByteToWideChar(CP_UTF8, 0, data + offset, len - offset, nullptr, 0);
+		if (wlen <= 0) return false;
+		LPWSTR p = content.GetBuffer(wlen);
+		MultiByteToWideChar(CP_UTF8, 0, data + offset, len - offset, p, wlen);
+		content.ReleaseBuffer(wlen);
+	}
+
+	SECTION sec = SEC_NONE;
+	int pos = 0;
+
+	while (pos >= 0) {
+		int next = content.Find(L'\n', pos);
+		CStringW line = (next >= 0) ? content.Mid(pos, next - pos) : content.Mid(pos);
+		line.TrimRight(L"\r\n");
+		AddLine(sec, CString(line));
+		if (next >= 0) pos = next + 1; else break;
+	}
+
 	return true;
 }
 
-bool CInnoScript::WriteScript(FILE* fp) {
+bool CInnoScript::WriteScript(LPCTSTR pszFileName)
+{
+	CAtlFile file;
+	HRESULT hr = file.Create(pszFileName, GENERIC_WRITE, FILE_SHARE_READ, CREATE_ALWAYS);
+	if (FAILED(hr))
+		return false;
+
+	// Write UTF-8 BOM if required
+	if (theApp.m_saveEncoding == SaveEncoding::UTF8WithBOM) {
+		static const BYTE bom[] = { 0xEF, 0xBB, 0xBF };
+		file.Write(bom, sizeof(bom));
+	}
+
+	// Inline lambda for ANSI compatibility check
+	auto isAnsi = [](const CString& str) -> bool {
+		CStringA ansi(str);
+		CStringW roundTrip(ansi);
+		return str == roundTrip;
+	};
+
 	SECTION sec = SEC_NONE;
+	CString line;
+	bool requiresUtf8 = false;
+
 	for (long i = 0; i < GetCount(); i++) {
 		CLine* pLine = m_lines[i];
-		// New section?
+
+		// Insert section header if changed
 		if (pLine->GetSection() != sec) {
-#if 0
-			if (sec != SEC_NONE)
-				fprintf(fp, _T("[/%s]\r\n"), m_sectionnames[sec].m_pszName);
-#endif
 			sec = pLine->GetSection();
 			if (sec != SEC_NONE) {
-				fprintf(fp, _T("[%s]\r\n"), m_sectionnames[sec].m_pszName);
+				line.Format(_T("[%s]\r\n"), m_sectionnames[sec].m_pszName);
+				if (theApp.m_saveEncoding == SaveEncoding::Auto && !isAnsi(line))
+					requiresUtf8 = true;
+
+				WriteLineToFile(file, line);
 			}
 		}
 
-		// Write line
-		char szLine[5000];
-		pLine->Write(szLine, 5000);
-		fprintf(fp, _T("%s\r\n"), szLine);
+		// Write line content
+		TCHAR szLine[5000] = {};
+		pLine->Write(szLine, _countof(szLine));
+		line.Format(_T("%s\r\n"), szLine);
+		if (theApp.m_saveEncoding == SaveEncoding::Auto && !isAnsi(line))
+			requiresUtf8 = true;
+
+		WriteLineToFile(file, line);
 	}
-#if 0
-	if (sec != SEC_NONE)
-		fprintf(fp, _T("[/%s]\r\n"), m_sectionnames[sec].m_pszName);
-#endif
+
+	// Adjust encoding if Auto mode was used
+	if (theApp.m_saveEncoding == SaveEncoding::Auto) {
+		theApp.m_saveEncoding = requiresUtf8
+			? SaveEncoding::UTF8WithoutBOM
+			: SaveEncoding::Auto; // ANSI-compatible
+	}
+
 	return true;
 }
 
-bool CInnoScript::WriteScript(LPCTSTR pszName) {
-	FILE* fp;
-	errno_t err = fopen_s(&fp, pszName, _T("wb"));
-	bool bRet = false;
-	if (err == 0 && fp) {
-		bRet = WriteScript(fp);
-		fclose(fp);
+void CInnoScript::WriteLineToFile(CAtlFile& file, const CString& line)
+{
+	LPCWSTR wsz = line;
+
+	if (theApp.m_saveEncoding == SaveEncoding::UTF8WithBOM ||
+		theApp.m_saveEncoding == SaveEncoding::UTF8WithoutBOM) {
+		int len = WideCharToMultiByte(CP_UTF8, 0, wsz, -1, nullptr, 0, nullptr, nullptr);
+		if (len <= 0) return;
+
+		CHeapPtr<char> utf8;
+		if (!utf8.Allocate(len)) return;
+
+		WideCharToMultiByte(CP_UTF8, 0, wsz, -1, utf8, len, nullptr, nullptr);
+		file.Write(utf8, len - 1); // exclude null terminator
+	} else {
+		CStringA ansi(wsz);
+		file.Write(ansi, ansi.GetLength());
 	}
-	return bRet;
 }
 
 void CInnoScript::MoveUp(CLine* pLine) {

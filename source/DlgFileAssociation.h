@@ -120,7 +120,7 @@ public:
 
 	LRESULT OnKillFocusFaFileExtension(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {
 		DoDataExchange(DDX_SAVE);
-		if (!m_strFileExtension.IsEmpty() && m_strFileExtension[0] != '.') {
+		if (!m_strFileExtension.IsEmpty() && m_strFileExtension[0] != _T('.')) {
 			m_strFileExtension = _T(".") + m_strFileExtension;
 			DoDataExchange(DDX_LOAD);
 		}

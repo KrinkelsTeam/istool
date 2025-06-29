@@ -40,7 +40,7 @@ public:
 		m_wndDestDir.SubclassWindow(GetDlgItem(IDC_DOWNLOAD_DESTDIR));
 		m_pDoc->AddDirConstants(m_wndDestDir);
 		m_pDoc->AddDirs(m_wndDestDir);
-		theApp.m_shell.SHAutoComplete(GetDlgItem(IDC_DOWNLOAD_SOURCE), SHACF_URLALL);
+		SHAutoComplete(GetDlgItem(IDC_DOWNLOAD_SOURCE), SHACF_URLALL);
 
 		for (int nPos = 0; nPos < m_list.GetSize(); nPos++) {
 			CInnoScript::CLine* pItem = m_list[nPos];

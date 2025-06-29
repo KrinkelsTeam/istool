@@ -23,15 +23,15 @@ public:
 	bool DoSave(HWND hWnd, LPCTSTR lpszPathName, bool bReplace = true);
 	bool DoPrompt(HWND hWnd, CString& newName, bool bOpen, UINT nID);
 
-	bool			GetSourceDir(CString& rStr);
-	void			GetScriptFileName(CString& ref, LPCTSTR pszFileName);
-	bool			GetOutputExe(CInnoScriptEx* pScript, HWND hWnd, CString& rStr, bool bNoWarning = false);
-	bool			RunCompileSteps(CInnoScript::SECTION sec);
-	bool			GetCompilerPath(CString& str);
+	bool GetSourceDir(CString& rStr);
+	void GetScriptFileName(CString& ref, LPCTSTR pszFileName);
+	bool GetOutputExe(CInnoScriptEx* pScript, HWND hWnd, CString& rStr, bool bNoWarning = false);
+	bool RunCompileSteps(CInnoScript::SECTION sec);
+	bool GetCompilerPath(CString& str);
 	CInnoScriptEx& GetScript() { ATLASSERT(m_pScript); return *m_pScript; }
-	bool			GetUseAbsolutePaths();
+	bool GetUseAbsolutePaths();
 	CInnoScriptEx* GetMessages() { return m_pMessages; }
-	bool			IsValid() { return m_pScript != NULL; }
+	bool IsValid() { return m_pScript != NULL; }
 
 	void RenameDir(LPCTSTR, LPCTSTR);
 	void RenameFile(HWND hWnd, LPCTSTR, LPCTSTR);
@@ -44,8 +44,9 @@ public:
 	void AddFilesExeFiles(CComboBox&);
 	void AddValidMessages(HWND hWnd, CComboBox&);
 	void AddFileIfDoesntExist(CScriptLine* pLine);
+
 	// Preference functions
-	BOOL GetCompiler(CString& str, bool bDLL = false, bool bDLS = false);
+	BOOL GetCompiler(CString& str, bool bDLL = false, bool bISPP = false);
 	BOOL GetMessageFile(CString& str);
 	bool RunISWizard();
 	void GetOutputFolder(CString& rStr);

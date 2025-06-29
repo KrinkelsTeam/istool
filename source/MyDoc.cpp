@@ -118,7 +118,7 @@ BOOL CMyDoc::OnOpenDocument(HWND hWnd, LPCTSTR lpszPathName) {
 		for (int nPos = 0; nPos < list.GetSize(); nPos++) {
 			CScriptLine* pLine = list[nPos];
 			if (pLine->GetSection() == CInnoScript::SEC_SETUP) {
-				if (!_stricmp(pLine->GetKey(), _T("CompressLevel"))) {
+				if (!_tcsicmp(pLine->GetKey(), _T("CompressLevel"))) {
 					if (_ttol(pLine->GetValue()) != 7) {
 						CString str;
 						str.Format(_T("zip/%d"), _ttol(pLine->GetValue()));
@@ -128,17 +128,17 @@ BOOL CMyDoc::OnOpenDocument(HWND hWnd, LPCTSTR lpszPathName) {
 
 					if (strMessage.GetLength() > 0) strMessage += _T("\n");
 					strMessage += _L(_T("Obsolete|CompressLevel"), _T("CompressLevel directive replaced with new Compression directive."));
-				} else if (!_stricmp(pLine->GetKey(), _T("AlwaysCreateUninstallIcon"))) {
+				} else if (!_tcsicmp(pLine->GetKey(), _T("AlwaysCreateUninstallIcon"))) {
 					GetScript().DeleteLine(pLine);
 
 					if (strMessage.GetLength() > 0) strMessage += _T("\n");
 					strMessage += _L(_T("Obsolete|AlwaysCreateUninstallIcon"), _T("AlwaysCreateUninstallIcon directive removed."));
-				} else if (!_stricmp(pLine->GetKey(), _T("UninstallIconName"))) {
+				} else if (!_tcsicmp(pLine->GetKey(), _T("UninstallIconName"))) {
 					GetScript().DeleteLine(pLine);
 
 					if (strMessage.GetLength() > 0) strMessage += _T("\n");
 					strMessage += _L(_T("Obsolete|UninstallIconName"), _T("UninstallIconName directive removed."));
-				} else if (!_stricmp(pLine->GetKey(), _T("MessagesFile"))) {
+				} else if (!_tcsicmp(pLine->GetKey(), _T("MessagesFile"))) {
 					CScriptLine* pNewLine = new CScriptLine(CInnoScript::SEC_LANGUAGES);
 					pNewLine->SetParameter(_T("Name"), _T("default"));
 					pNewLine->SetParameter(_T("MessagesFile"), pLine->GetValue());
@@ -210,7 +210,7 @@ BOOL CMyDoc::OnOpenDocument(HWND hWnd, LPCTSTR lpszPathName) {
 /////////////////////////////////////////////////////////////////////////////
 // CMyDoc commands
 
-BOOL CMyDoc::GetCompiler(CString& str, bool bDLL/*=false*/, bool bDLS/*=false*/) {
+BOOL CMyDoc::GetCompiler(CString& str, bool bDLL/*=false*/, bool bISPP/*=false*/) {
 	CString strFolder;
 	strFolder = CMyApp::m_prefs.m_strInnoFolder;
 	if (strFolder.IsEmpty()) {
@@ -220,10 +220,10 @@ BOOL CMyDoc::GetCompiler(CString& str, bool bDLL/*=false*/, bool bDLS/*=false*/)
 	}
 
 	CString strTemp(strFolder);
-	CMyUtils::EndWith(strTemp, _T('\\'));
+	CMyUtils::EndWith(strTemp, __T('\\'));
 	if (bDLL) {
-		if (bDLS)
-			strTemp += _T("ISCmplr.dls");
+		if (bISPP)
+			strTemp += _T("ISPP.dll");
 		else
 			strTemp += _T("ISCmplr.dll");
 	} else
@@ -240,7 +240,7 @@ BOOL CMyDoc::GetCompiler(CString& str, bool bDLL/*=false*/, bool bDLS/*=false*/)
 }
 
 void GenerateTempFileName(CString& str) {
-	CHAR szPath[MAX_PATH + 1];
+	TCHAR szPath[MAX_PATH + 1];
 
 	GetTempPath(MAX_PATH, szPath);
 	GetTempFileName(szPath, _T("x"), 0, str.GetBuffer(MAX_PATH + 1));
@@ -285,7 +285,7 @@ BOOL CMyDoc::GetMessageFile(CString& str) {
 	if (CMyApp::m_prefs.m_strInnoFolder.IsEmpty()) return FALSE;
 
 	CString strTemp;
-	strTemp.Format(_T("%s\\DEFAULT.ISL"), CMyApp::m_prefs.m_strInnoFolder);
+	strTemp.Format(_T("%s\\Default.isl"), CMyApp::m_prefs.m_strInnoFolder);
 
 	if (!CMyUtils::IsFile(strTemp)) return FALSE;
 	str = strTemp;
@@ -408,7 +408,7 @@ void CMyDoc::RenameFile(HWND hWnd, LPCTSTR lpszFrom, LPCTSTR lpszTo) {
 	for (nPos = 0; nPos < list.GetSize(); nPos++) {
 		CScriptLine* pItem = list[nPos];
 		LPCTSTR psz = pItem->GetParameter(_T("Filename"));
-		if (psz && !_stricmp(psz, lpszFrom))
+		if (psz && !_tcsicmp(psz, lpszFrom))
 			nCount++;
 	}
 
@@ -417,7 +417,7 @@ void CMyDoc::RenameFile(HWND hWnd, LPCTSTR lpszFrom, LPCTSTR lpszTo) {
 	for (nPos = 0; nPos < list.GetSize(); nPos++) {
 		CScriptLine* pItem = list[nPos];
 		LPCTSTR psz = pItem->GetParameter(_T("Name"));
-		if (psz && !_stricmp(psz, lpszFrom))
+		if (psz && !_tcsicmp(psz, lpszFrom))
 			nCount++;
 	}
 
@@ -426,7 +426,7 @@ void CMyDoc::RenameFile(HWND hWnd, LPCTSTR lpszFrom, LPCTSTR lpszTo) {
 	for (nPos = 0; nPos < list.GetSize(); nPos++) {
 		CScriptLine* pItem = list[nPos];
 		LPCTSTR psz = pItem->GetParameter(_T("Name"));
-		if (psz && !_stricmp(psz, lpszFrom))
+		if (psz && !_tcsicmp(psz, lpszFrom))
 			nCount++;
 	}
 
@@ -435,7 +435,7 @@ void CMyDoc::RenameFile(HWND hWnd, LPCTSTR lpszFrom, LPCTSTR lpszTo) {
 	for (nPos = 0; nPos < list.GetSize(); nPos++) {
 		CScriptLine* pItem = list[nPos];
 		LPCTSTR psz = pItem->GetParameter(_T("Filename"));
-		if (psz && !_stricmp(psz, lpszFrom))
+		if (psz && !_tcsicmp(psz, lpszFrom))
 			nCount++;
 	}
 
@@ -444,7 +444,7 @@ void CMyDoc::RenameFile(HWND hWnd, LPCTSTR lpszFrom, LPCTSTR lpszTo) {
 	for (nPos = 0; nPos < list.GetSize(); nPos++) {
 		CScriptLine* pItem = list[nPos];
 		LPCTSTR psz = pItem->GetParameter(_T("Filename"));
-		if (psz && !_stricmp(psz, lpszFrom))
+		if (psz && !_tcsicmp(psz, lpszFrom))
 			nCount++;
 	}
 
@@ -464,7 +464,7 @@ void CMyDoc::RenameFile(HWND hWnd, LPCTSTR lpszFrom, LPCTSTR lpszTo) {
 	for (nPos = 0; nPos < list.GetSize(); nPos++) {
 		CScriptLine* pItem = list[nPos];
 		LPCTSTR psz = pItem->GetParameter(_T("Filename"));
-		if (psz && !_stricmp(psz, lpszFrom))
+		if (psz && !_tcsicmp(psz, lpszFrom))
 			pItem->SetParameter(_T("Filename"), lpszTo);
 	}
 
@@ -473,7 +473,7 @@ void CMyDoc::RenameFile(HWND hWnd, LPCTSTR lpszFrom, LPCTSTR lpszTo) {
 	for (nPos = 0; nPos < list.GetSize(); nPos++) {
 		CScriptLine* pItem = list[nPos];
 		LPCTSTR psz = pItem->GetParameter(_T("Name"));
-		if (psz && !_stricmp(psz, lpszFrom))
+		if (psz && !_tcsicmp(psz, lpszFrom))
 			pItem->SetParameter(_T("Name"), lpszTo);
 	}
 
@@ -482,7 +482,7 @@ void CMyDoc::RenameFile(HWND hWnd, LPCTSTR lpszFrom, LPCTSTR lpszTo) {
 	for (nPos = 0; nPos < list.GetSize(); nPos++) {
 		CScriptLine* pItem = list[nPos];
 		LPCTSTR psz = pItem->GetParameter(_T("Name"));
-		if (psz && !_stricmp(psz, lpszFrom))
+		if (psz && !_tcsicmp(psz, lpszFrom))
 			pItem->SetParameter(_T("Name"), lpszTo);
 	}
 
@@ -491,7 +491,7 @@ void CMyDoc::RenameFile(HWND hWnd, LPCTSTR lpszFrom, LPCTSTR lpszTo) {
 	for (nPos = 0; nPos < list.GetSize(); nPos++) {
 		CScriptLine* pItem = list[nPos];
 		LPCTSTR psz = pItem->GetParameter(_T("Filename"));
-		if (psz && !_stricmp(psz, lpszFrom))
+		if (psz && !_tcsicmp(psz, lpszFrom))
 			pItem->SetParameter(_T("Filename"), lpszTo);
 	}
 
@@ -500,7 +500,7 @@ void CMyDoc::RenameFile(HWND hWnd, LPCTSTR lpszFrom, LPCTSTR lpszTo) {
 	for (nPos = 0; nPos < list.GetSize(); nPos++) {
 		CScriptLine* pItem = list[nPos];
 		LPCTSTR psz = pItem->GetParameter(_T("Filename"));
-		if (psz && !_stricmp(psz, lpszFrom))
+		if (psz && !_tcsicmp(psz, lpszFrom))
 			pItem->SetParameter(_T("Filename"), lpszTo);
 	}
 }
@@ -621,7 +621,7 @@ void CMyDoc::AddValidMessages(HWND hWnd, CComboBox& wndCombo) {
 		return;
 
 	CString strFolder(CMyApp::m_prefs.m_strInnoFolder);
-	CMyUtils::EndWith(strFolder, '\\');
+	CMyUtils::EndWith(strFolder, _T('\\'));
 
 	wndCombo.ResetContent();
 
@@ -639,7 +639,7 @@ void CMyDoc::AddValidMessages(HWND hWnd, CComboBox& wndCombo) {
 		if (!CMyUtils::IsFile(strFile)) {
 			CString strAlt;
 			GetSourceDir(strAlt);
-			CMyUtils::EndWith(strAlt, '\\');
+			CMyUtils::EndWith(strAlt, _T('\\'));
 			strAlt += strFile;
 
 			if (!CMyUtils::IsFile(strAlt)) {
@@ -657,7 +657,7 @@ void CMyDoc::AddValidMessages(HWND hWnd, CComboBox& wndCombo) {
 		if (!file.Open(strFile, CFile::modeRead | CFile::typeText)) {
 			CString strAlt;
 			GetSourceDir(strAlt);
-			CMyUtils::EndWith(strAlt, '\\');
+			CMyUtils::EndWith(strAlt, _T('\\'));
 			strAlt += strFile;
 			if (!file.Open(strAlt, CFile::modeRead | CFile::typeText)) {
 				AfxMessageBox(_T("Failed to open ") + strFile);
@@ -672,9 +672,9 @@ void CMyDoc::AddValidMessages(HWND hWnd, CComboBox& wndCombo) {
 			while (file.ReadString(strLine)) {
 				nLine++;
 				strLine.TrimLeft(); strLine.TrimRight();
-				if (strLine.IsEmpty() || strLine[0] == ';') continue;
+				if (strLine.IsEmpty() || strLine[0] == _T(';')) continue;
 
-				if (strLine[0] == '[') {
+				if (strLine[0] == _T('[')) {
 					if (!strLine.CompareNoCase(_T("[Messages]"))) bInSection = true;
 					else bInSection = false;
 					continue;
@@ -765,11 +765,11 @@ void CMyDoc::GetOutputFolder(CString& rStr) {
 	// Next, check source file directory
 	if (rStr.IsEmpty()) {
 		rStr = GetPathName();
-		int nPos = rStr.ReverseFind('\\');
-		if (nPos < 0) nPos = rStr.ReverseFind('/');
+		int nPos = rStr.ReverseFind(_T('\\'));
+		if (nPos < 0) nPos = rStr.ReverseFind(_T('/'));
 		if (nPos >= 0)
 			rStr = rStr.Left(nPos);
-		CMyUtils::EndWith(rStr, '\\');
+		CMyUtils::EndWith(rStr, _T('\\'));
 		rStr += _T("Output");
 	} else {
 		CString strTmp;
@@ -789,7 +789,7 @@ bool CMyDoc::GetOutputExe(CInnoScriptEx* m_pScript, HWND hWnd, CString& rStr, bo
 	if (strFile.IsEmpty()) strFile = _T("setup");
 
 	GetOutputFolder(rStr);
-	CMyUtils::EndWith(rStr, '\\');
+	CMyUtils::EndWith(rStr, _T('\\'));
 	rStr += strFile + _T(".exe");
 	if (!bNoWarning && !CMyUtils::IsFile(rStr)) {
 		CString txt = _L(_T("Output file '%1' doesn't exist."));
@@ -809,8 +809,8 @@ void CMyDoc::AddFileIfDoesntExist(CScriptLine* pLine) {
 	for (int nPos = 0; nPos < files.GetSize(); nPos++) {
 		CScriptLine* p2 = files[nPos];
 
-		if (!_stricmp(SAFESTR(pLine->GetParameter(_T("Source"))), SAFESTR(p2->GetParameter(_T("Source"))))
-			&& !_stricmp(SAFESTR(pLine->GetParameter(_T("DestDir"))), SAFESTR(p2->GetParameter(_T("DestDir"))))) {
+		if (!_tcsicmp(SAFESTR(pLine->GetParameter(_T("Source"))), SAFESTR(p2->GetParameter(_T("Source"))))
+			&& !_tcsicmp(SAFESTR(pLine->GetParameter(_T("DestDir"))), SAFESTR(p2->GetParameter(_T("DestDir"))))) {
 
 			delete pLine;
 			return;
@@ -852,9 +852,9 @@ bool CMyDoc::SaveModified(HWND hWnd) {
 		name = _L(_T("System|Untitled"), _T("Untitled"));
 	} else {
 		// get name based on file title of path name
-		name = m_strPathName;
-		AfxGetFileTitle(m_strPathName, name.GetBuffer(_MAX_PATH), _MAX_PATH);
-		name.ReleaseBuffer();
+		TCHAR szTitle[_MAX_PATH];
+		AfxGetFileTitle(m_strPathName, szTitle, _countof(szTitle));
+		name = szTitle;
 	}
 
 	CString txt = _L(_T("Save changes to '%1'?"));
@@ -862,12 +862,12 @@ bool CMyDoc::SaveModified(HWND hWnd) {
 
 	switch (AtlMessageBox(hWnd, (LPCTSTR)txt, IDR_MAINFRAME, MB_YESNOCANCEL | MB_ICONQUESTION)) {
 	case IDCANCEL:
-		return false;       // don't continue
+		return false; // don't continue
 
 	case IDYES:
 		// If so, either Save or Update, as appropriate
 		if (!DoFileSave(hWnd))
-			return false;       // don't continue
+			return false; // don't continue
 		break;
 
 	case IDNO:
@@ -878,7 +878,7 @@ bool CMyDoc::SaveModified(HWND hWnd) {
 		ATLASSERT(FALSE);
 		break;
 	}
-	return true;    // keep going
+	return true; // keep going
 }
 
 bool CMyDoc::DoFileSave(HWND hWnd) {
@@ -948,7 +948,7 @@ bool CMyDoc::DoPrompt(HWND hWnd, CString& newName, bool bOpen, UINT nID) {
 	if (nResult != IDOK) return false;
 
 	CString strScriptFolder(newName);
-	int nPos = strScriptFolder.ReverseFind('\\');
+	int nPos = strScriptFolder.ReverseFind(_T('\\'));
 	if (nPos > 0) CMyApp::m_prefs.m_strScriptFolder = strScriptFolder.Left(nPos);
 	return true;
 }
@@ -960,26 +960,26 @@ bool CMyDoc::GetSourceDir(CString& rStr) {
 
 	if (str.IsEmpty()) {
 		str = GetPathName();
-		int nPos = str.ReverseFind('\\');
+		int nPos = str.ReverseFind(_T('\\'));
 		if (nPos < 0)
-			nPos = str.ReverseFind('/');
+			nPos = str.ReverseFind(_T('/'));
 		if (nPos < 0) return false;
 
 		rStr = str.Left(nPos);
 	} else if (CMyUtils::IsRelativePath(str)) {
 		rStr = GetPathName();
-		int nPos = rStr.ReverseFind('\\');
+		int nPos = rStr.ReverseFind(_T('\\'));
 		if (nPos < 0)
-			nPos = rStr.ReverseFind('/');
+			nPos = rStr.ReverseFind(_T('/'));
 		if (nPos < 0) return false;
 
 		rStr = rStr.Left(nPos);
-		CMyUtils::EndWith(rStr, '\\');
-		if (str[0] == '\\' && rStr.GetLength() >= 2) {
-			if (rStr[1] == ':')
+		CMyUtils::EndWith(rStr, _T('\\'));
+		if (str[0] == _T('\\') && rStr.GetLength() >= 2) {
+			if (rStr[1] == _T(':'))
 				rStr.ReleaseBuffer(2);
 			else if (rStr.GetLength() > 2)
-				rStr.ReleaseBuffer(rStr.Find('\\', 2));
+				rStr.ReleaseBuffer(rStr.Find(_T('\\'), 2));
 		}
 		rStr += str;
 	} else
@@ -998,8 +998,8 @@ void CMyDoc::GetScriptFileName(CString& ref, LPCTSTR pszFileName) {
 
 	if (CMyUtils::IsRelativePath(pszFileName)) {
 		GetSourceDir(ref);
-		CMyUtils::EndWith(ref, '\\');
-		if (pszFileName[0] == '\\' && pszFileName[1] != '\\' && ref.GetLength() >= 2 && ref[1] == ':') {
+		CMyUtils::EndWith(ref, _T('\\'));
+		if (pszFileName[0] == _T('\\') && pszFileName[1] != _T('\\') && ref.GetLength() >= 2 && ref[1] == _T(':')) {
 			ref.ReleaseBuffer(2);
 		}
 		ref += pszFileName;
@@ -1028,7 +1028,7 @@ bool CMyDoc::GetUseAbsolutePaths() {
 
 void CMyDoc::SetCurrentDir() {
 	if (!m_strPathName.IsEmpty()) {
-		int pos = m_strPathName.ReverseFind('\\');
+		int pos = m_strPathName.ReverseFind(_T('\\'));
 		if (pos > 0) {
 			SetCurrentDirectory(m_strPathName.Left(pos));
 		}

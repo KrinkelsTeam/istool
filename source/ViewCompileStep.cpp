@@ -19,7 +19,7 @@ CViewCompileStep::CViewCompileStep(CInnoScript::SECTION sec) : CMyListView(sec)
 // CViewCompileStep message handlers
 
 const CListInfo CViewCompileStep::m_colInfo[] = {
-	"Name",			LVCFMT_LEFT,	250,	0/*Flags*/,
+	_T("Name"),			LVCFMT_LEFT,	250,	0/*Flags*/,
 	_T("Parameters"),	LVCFMT_LEFT,	180,	0,
 	_T("Flags"),		LVCFMT_LEFT,	180,	0,
 	NULL

@@ -16,7 +16,6 @@
 // CViewScript construction/destruction
 
 CViewScript::CViewScript() : CMyView<CViewScript>(CInnoScript::PRJ_ISTOOL) {
-	//SetSelectionMargin(FALSE);
 	m_bUpdateModified = true;
 	m_bModified = false;
 }
@@ -41,39 +40,26 @@ void CViewScript::UpdateView() {
 	CInnoScript::SECTION sec = CInnoScript::SEC_NONE;
 
 	CString str;
-	char szLine[5000];
+	TCHAR szLine[5000];
 	for (long i = 0; i < GetDocument()->GetScript().GetCount(); i++) {
 		CScriptLine* pLine = GetDocument()->GetScript()[i];
 		// New section?
 		if (pLine->GetSection() != sec) {
-#if 0
-			if (sec != CInnoScript::SEC_NONE) {
-				sprintf(szLine, _T("[/%s]"), CInnoScript::GetSectionName(sec));
-				str += szLine;
-				str += _T("\r\n");
-			}
-#endif
 			sec = pLine->GetSection();
 			if (sec != CInnoScript::SEC_NONE) {
-				sprintf_s(szLine, sizeof(szLine), _T("[%s]"), CInnoScript::GetSectionName(sec));
+				_stprintf_s(szLine, _countof(szLine), _T("[%s]"), CInnoScript::GetSectionName(sec));
 				str += szLine;
 				str += _T("\r\n");
 			}
 		}
 
 		// Write line
-		pLine->Write(szLine, 5000);
+		pLine->Write(szLine, _countof(szLine));
 		str += szLine;
 		if (i + 1 < GetDocument()->GetScript().GetCount()) str += _T("\r\n");
 	}
-#if 0
-	if (sec != CInnoScript::SEC_NONE) {
-		sprintf(szLine, _T("\r\n[/%s]"), CInnoScript::GetSectionName(sec));
-		str += szLine;
-	}
-#endif
-
-	SetText(CT2A(str));
+	
+	SetText(CSTRING_TO_UTF8(str));
 	if (GetDocument()->m_nScriptLine >= 0)
 		SetTimer(987, 10);
 
@@ -86,11 +72,15 @@ bool CViewScript::ApplyView() {
 	if (m_bModified) {
 		CWaitCursor wait;
 		try {
-			CString str;
 			long len = GetLength();
-			GetText(len + 1, str.GetBufferSetLength(len + 1));
+			CStringA strA;
+			strA.GetBufferSetLength(len + 1);
+			GetText(len + 1, strA.GetBuffer());
+			strA.ReleaseBuffer();
+
+			CString str = UTF8_TO_CSTRING(strA);
+
 			AfxGetDocument()->GetScript().Clear();
-			//AfxGetDocument()->GetScript().LoadScript(m_xTextBuffer);
 			AfxGetDocument()->GetScript().LoadScriptBuffer(str.GetBuffer());
 		} catch (...) {
 			AtlMessageBox(m_hWnd, _L(_T("ScriptParseError"), _T("An error occured while parsing the script.")), IDR_MAINFRAME, MB_OK | MB_ICONERROR);
@@ -199,13 +189,13 @@ bool CViewScript::PrintPage(UINT nPage, HDC hDC) {
 	// To get the right and lower unprintable area,
 	// we take the entire width and height of the paper and
 	// subtract everything else.
-	rectPhysMargins.right = ptPage.x						// total paper width
-		- GetDeviceCaps(hdc, HORZRES) // printable width
-		- rectPhysMargins.left;				// left unprintable margin
+	rectPhysMargins.right = ptPage.x	// total paper width
+		- GetDeviceCaps(hdc, HORZRES)	// printable width
+		- rectPhysMargins.left;			// left unprintable margin
 
-	rectPhysMargins.bottom = ptPage.y						// total paper height
+	rectPhysMargins.bottom = ptPage.y	// total paper height
 		- GetDeviceCaps(hdc, VERTRES)	// printable height
-		- rectPhysMargins.top;				// right unprintable margin
+		- rectPhysMargins.top;			// right unprintable margin
 
 	// At this point, rectPhysMargins contains the widths of the
 	// unprintable regions on all four sides of the page in device units.
@@ -223,7 +213,7 @@ bool CViewScript::PrintPage(UINT nPage, HDC hDC) {
 		TCHAR localeInfo[3];
 		GetLocaleInfo(LOCALE_USER_DEFAULT, LOCALE_IMEASURE, localeInfo, 3);
 
-		if (localeInfo[0] == '0') {	// Metric system. '1' is US System
+		if (localeInfo[0] == _T('0')) {	// Metric system. '1' is US System
 			rectSetup.left = MulDiv(pagesetupMargin.left, ptDpi.x, 2540);
 			rectSetup.top = MulDiv(pagesetupMargin.top, ptDpi.y, 2540);
 			rectSetup.right = MulDiv(pagesetupMargin.right, ptDpi.x, 2540);
@@ -335,10 +325,10 @@ static void WrapString(CString& tmp, bool bFunction) {
 	for (long i = 0; i < tmp.GetLength(); i++) {
 		if (!bFunction && pos++ > 25 && iswspace(tmp.GetAt(i))) {
 			pos = 0;
-			tmp.SetAt(i, '\n');
-		} else if (bFunction && pos++ > 45 && i > 0 && iswspace(tmp.GetAt(i)) && (tmp.GetAt(i - 1) == ';' || tmp.GetAt(i - 1) == ',')) {
+			tmp.SetAt(i, _T('\n'));
+		} else if (bFunction && pos++ > 45 && i > 0 && iswspace(tmp.GetAt(i)) && (tmp.GetAt(i - 1) == _T(';') || tmp.GetAt(i - 1) == _T(','))) {
 			pos = 0;
-			tmp.SetAt(i, '\n');
+			tmp.SetAt(i, _T('\n'));
 		}
 	}
 }
@@ -350,7 +340,7 @@ static bool compare_strings(const std::string& a, const std::string& b)
 
 LRESULT CViewScript::OnCharAdded(int /*idCtrl*/, LPNMHDR pnmh, BOOL& /*bHandled*/) {
 	static CString	strConstantsComplete;
-	char szLine[4000];
+	CHAR szLine[4000];
 	SCNotification* scn = (SCNotification*)pnmh;
 
 	if (AutoCActive() || CallTipActive())
@@ -364,7 +354,7 @@ LRESULT CViewScript::OnCharAdded(int /*idCtrl*/, LPNMHDR pnmh, BOOL& /*bHandled*
 			strConstantsComplete.Trim();
 		}
 
-		AutoCShow(1, strConstantsComplete);
+		AutoCShow(1, CSTRING_TO_UTF8(strConstantsComplete));
 		return 0;
 	}
 
@@ -377,12 +367,12 @@ LRESULT CViewScript::OnCharAdded(int /*idCtrl*/, LPNMHDR pnmh, BOOL& /*bHandled*
 			startword--;
 		szLine[current - 1] = '\0';
 
-		LPCTSTR word = szLine + startword;
+		CString word = szLine + startword;
 		for (long i = 0; i < CMyApp::m_functions.GetSize(); i++) {
-			if (!_stricmp(word, CMyApp::m_functions[i]->m_strName)) {
+			if (!_tcsicmp(word, CMyApp::m_functions[i]->m_strName)) {
 				CString tmp(CMyApp::m_functions[i]->m_strDescription);
 				WrapString(tmp, true);
-				CallTipShow(GetCurrentPos() - current + startword, tmp);
+				CallTipShow(GetCurrentPos() - current + startword, CSTRING_TO_UTF8(tmp));
 				return 0;
 			}
 		}
@@ -399,7 +389,7 @@ LRESULT CViewScript::OnCharAdded(int /*idCtrl*/, LPNMHDR pnmh, BOOL& /*bHandled*
 		CHAR ins[2];
 		ins[0] = GetCharAt(nFrom);
 		ins[1] = 0;
-		while (iswspace(ins[0]) && nLength > 0 && ins[0] != '\n' && ins[0] != '\r') {
+		while (_istspace(ins[0]) && nLength > 0 && ins[0] != '\n' && ins[0] != '\r') {
 			--nLength;
 			InsertText(nTo++, ins);
 			nPos++;
@@ -419,10 +409,10 @@ LRESULT CViewScript::OnCharAdded(int /*idCtrl*/, LPNMHDR pnmh, BOOL& /*bHandled*
 			startword--;
 		szLine[current - 1] = '\0';
 
-		CString strWord = szLine + startword;
+		CStringA strWord = szLine + startword;
 		strWord.Trim();
 		if (!strWord.IsEmpty()) {
-			CString strVarName = strWord.MakeLower();
+			CStringA strVarName = strWord.MakeLower();
 			long nLine = LineFromPosition(pos);
 			while (nLine--) {
 				Sci_TextRange tr;
@@ -432,7 +422,7 @@ LRESULT CViewScript::OnCharAdded(int /*idCtrl*/, LPNMHDR pnmh, BOOL& /*bHandled*
 				int len = GetTextRange(&tr);
 				strWord.ReleaseBufferSetLength(len);
 				strWord.MakeLower();
-				long pos = strWord.Find(_T("createoleobject"));
+				long pos = strWord.Find("createoleobject");
 				if (pos >= 0 && strWord.Find(strVarName) >= 0) {
 					long iStart = strWord.Find('(', pos);
 					long iEnd = strWord.Find(')', iStart);
@@ -480,7 +470,7 @@ LRESULT CViewScript::OnCharAdded(int /*idCtrl*/, LPNMHDR pnmh, BOOL& /*bHandled*
 													strWord.Empty();
 													for (std::vector<std::string>::iterator it = myArray.begin(); it != myArray.end(); it++) {
 														strWord.Append(it->c_str());
-														strWord.Append(_T(" "));
+														strWord.Append(" ");
 													}
 												}
 												pTypeInfo->Release();
@@ -518,7 +508,7 @@ LRESULT CViewScript::OnCallTip(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bH
 		str.Trim();
 	}
 
-	char szLine[1000];
+	CHAR szLine[1000];
 	long current = GetCurLine(sizeof szLine, szLine);
 	long linelength = LineLength(LineFromPosition(GetCurrentPos()));
 	long pos = GetCurrentPos();
@@ -526,7 +516,7 @@ LRESULT CViewScript::OnCallTip(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bH
 	while (startword > 0 && isalpha(szLine[startword - 1]))
 		startword--;
 
-	AutoCShow(current - startword, str);
+	AutoCShow(current - startword, CSTRING_TO_UTF8(str));
 
 	return 0;
 }
@@ -540,7 +530,7 @@ LRESULT CViewScript::OnDwellStart(int /*idCtrl*/, LPNMHDR pnmh, BOOL& /*bHandled
 	long nLine = LineFromPosition(scn->position);
 	long current = GetColumn(scn->position);
 
-	char szLine[8000];
+	CHAR szLine[8000];
 	long nLineLength = GetLine(nLine, szLine);
 	long startword = current - 1;
 
@@ -551,12 +541,12 @@ LRESULT CViewScript::OnDwellStart(int /*idCtrl*/, LPNMHDR pnmh, BOOL& /*bHandled
 		startword--;
 	szLine[current] = '\0';
 
-	LPCTSTR word = szLine + startword;
+	CString word = szLine + startword;
 	for (long i = 0; i < CMyApp::m_calltips.GetSize(); i++) {
 		if (!_tcsicmp(word, CMyApp::m_calltips[i]->m_strName)) {
 			CString tmp(CMyApp::m_calltips[i]->m_strDescription);
 			WrapString(tmp, false);
-			CallTipShow(scn->position, tmp);
+			CallTipShow(scn->position, CSTRING_TO_UTF8(tmp));
 			return 0;
 		}
 	}
@@ -583,7 +573,7 @@ LRESULT CViewScript::OnCommentSelection(UINT uMsg, WPARAM wParam, LPARAM lParam,
 
 		if (GetSectionFromLine(nLine) == CInnoScript::SEC_CODE) {
 			if (bAdd) {
-				InsertText(PositionFromLine(nLine), _T("//"));
+				InsertText(PositionFromLine(nLine), "//");
 				nSaveEnd += 2;
 			} else if (GetCharAt(PositionFromLine(nLine)) == '/' && GetCharAt(PositionFromLine(nLine) + 1) == '/') {
 				SetSelectionStart(PositionFromLine(nLine));
@@ -593,7 +583,7 @@ LRESULT CViewScript::OnCommentSelection(UINT uMsg, WPARAM wParam, LPARAM lParam,
 			}
 		} else {
 			if (bAdd) {
-				InsertText(PositionFromLine(nLine), _T(";"));
+				InsertText(PositionFromLine(nLine), ";");
 				nSaveEnd += 1;
 			} else if (GetCharAt(PositionFromLine(nLine)) == ';') {
 				SetSelectionStart(PositionFromLine(nLine));
@@ -611,14 +601,14 @@ LRESULT CViewScript::OnCommentSelection(UINT uMsg, WPARAM wParam, LPARAM lParam,
 CInnoScript::SECTION CViewScript::GetSectionFromLine(long nLine) {
 	CInnoScript::SECTION sec = CInnoScript::SEC_NONE;
 
-	TCHAR szLine[1024];
+	CHAR szLine[1024];
 	do {
 		*reinterpret_cast<WORD*>(szLine) = sizeof szLine;
 		int len = GetLine(nLine, szLine);
 		szLine[len] = 0;
-		if (szLine[0] == _T('[')) {
-			if (szLine[1] != _T('/'))
-				sec = CInnoScript::GetSectionCode(szLine);
+		if (szLine[0] == '[') {
+			if (szLine[1] != '/')
+				sec = CInnoScript::GetSectionCode(UTF8_TO_CSTRING(szLine));
 			break;
 		}
 		--nLine;
@@ -628,18 +618,19 @@ CInnoScript::SECTION CViewScript::GetSectionFromLine(long nLine) {
 }
 
 LRESULT CViewScript::OnProperties(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) {
-	TCHAR szLine[2048];
+	CHAR szLine[2048];
 
 	CInnoScript::SECTION sec = GetSectionFromLine(LineFromPosition(GetCurrentPos()));
 	if (sec == CInnoScript::SEC_NONE || sec == CInnoScript::SEC_SETUP)
 		return 0;
 
 	GetCurLine(sizeof szLine, szLine);
+	CString strLine = UTF8_TO_CSTRING(szLine);
 	CScriptLine* pLine;
 	if (sec == CInnoScript::SEC_MESSAGES || sec == CInnoScript::SEC_CUSTOMMESSAGES)
-		pLine = new CInnoScript::CLineSetup(sec, szLine);
+		pLine = new CInnoScript::CLineSetup(sec, strLine);
 	else
-		pLine = new CInnoScript::CLineParam(sec, szLine);
+		pLine = new CInnoScript::CLineParam(sec, strLine);
 
 	CScriptList	list;
 	list.Add(pLine);
@@ -648,8 +639,10 @@ LRESULT CViewScript::OnProperties(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lPa
 		return 0;
 	}
 
-	pLine->Write(szLine, sizeof szLine);
-	_tcscat_s(szLine, sizeof(szLine) / sizeof(TCHAR), _T("\r\n"));
+	TCHAR szOut[2048];
+	pLine->Write(szOut, _countof(szOut));
+	strcpy_s(szLine, sizeof(szLine), CSTRING_TO_UTF8(szOut));
+	strcat_s(szLine, sizeof(szLine), "\r\n");
 
 	long nPos = GetCurrentPos();
 	long nLine = LineFromPosition(nPos);

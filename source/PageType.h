@@ -70,7 +70,7 @@ public:
 		for (int nPos = 0; nPos < m_list.GetSize(); nPos++) {
 			CScriptLine* pLine = m_list[nPos];
 
-			m_strName.Replace(' ', '_');
+			m_strName.Replace(_T(' '), _T('_'));
 
 			if (bForce) {
 				CString strOldName(pLine->GetParameter(_T("Name")));
@@ -104,7 +104,7 @@ public:
 				for (int nPos2 = 0; nPos2 < listTypes.GetSize(); nPos2++) {
 					CScriptLine* pType = listTypes[nPos2];
 					CString strTypeName = pType->GetParameter(_T("Name"));
-					if (!_stricmp(strTypeName, pszType)) {
+					if (!_tcsicmp(strTypeName, pszType)) {
 						bFound = true;
 						break;
 					}

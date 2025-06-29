@@ -15,8 +15,8 @@ public:
 	CDlgUpdates() {
 		CString strLibrary;
 		if (::GetModuleFileName(_Module.GetModuleInstance(), strLibrary.GetBuffer(_MAX_PATH), _MAX_PATH)) {
-			int nPos = strLibrary.ReverseFind('\\');
-			if (nPos < 0) nPos = strLibrary.ReverseFind('/');
+			int nPos = strLibrary.ReverseFind(_T('\\'));
+			if (nPos < 0) nPos = strLibrary.ReverseFind(_T('/'));
 			if (nPos >= 0) {
 				strLibrary.ReleaseBuffer(nPos + 1);
 			}
@@ -89,7 +89,7 @@ public:
 
 		GetTempPath(MAX_PATH, m_strFileUpdate.GetBuffer(MAX_PATH));
 		m_strFileUpdate.ReleaseBuffer();
-		CMyUtils::EndWith(m_strFileUpdate, '\\');
+		CMyUtils::EndWith(m_strFileUpdate, _T('\\'));
 		m_strFileUpdate += _T("istoolupdate.exe");
 
 		isxdl_ClearFiles();

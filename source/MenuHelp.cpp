@@ -14,7 +14,7 @@
 LRESULT CMainFrame::OnHelpInnoSetupHelp(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {
 	CWaitCursor wait;
 	CString strHelp(CMyApp::m_prefs.m_strInnoFolder);
-	CMyUtils::EndWith(strHelp, '\\');
+	CMyUtils::EndWith(strHelp, _T('\\'));
 	strHelp += _T("ISetup.chm");
 
 	//::WinHelp(AfxGetMainWnd(),strHelp,HELP_FINDER,0);
@@ -25,7 +25,7 @@ LRESULT CMainFrame::OnHelpInnoSetupHelp(WORD /*wNotifyCode*/, WORD /*wID*/, HWND
 LRESULT CMainFrame::OnHelpISPP(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {
 	CWaitCursor wait;
 	CString strHelp(CMyApp::m_prefs.m_strInnoFolder);
-	CMyUtils::EndWith(strHelp, '\\');
+	CMyUtils::EndWith(strHelp, _T('\\'));
 	strHelp += _T("ISetup.chm");
 
 	CString strTopic;

@@ -1419,6 +1419,12 @@ BEGIN
         MENUITEM "&Save\tCtrl+S",               ID_FILE_SAVE
         MENUITEM "Save &As...",                 ID_FILE_SAVE_AS
         MENUITEM "Save Copy As...",             ID_FILE_SAVE_COPY_AS
+        POPUP "Save &Encoding"
+        BEGIN
+            MENUITEM "&Auto (ANSI or UTF-8)",       ID_FILE_SAVE_ENCODING_AUTO
+            MENUITEM "&UTF-8",                      ID_FILE_SAVE_ENCODING_UTF8
+            MENUITEM "UTF-8 with &BOM",             ID_FILE_SAVE_ENCODING_UTF8_BOM
+        END
         MENUITEM SEPARATOR
         MENUITEM "&Preferences...",             ID_FILE_PREFERENCES
         MENUITEM SEPARATOR
@@ -1426,7 +1432,7 @@ BEGIN
         MENUITEM "Print Pre&view",              57609
         MENUITEM "&Print...\tCtrl+P",           ID_FILE_PRINT
         MENUITEM SEPARATOR
-        MENUITEM "(empty)",                     ID_FILE_MRU_FILE1, GRAYED
+        MENUITEM "(empty)",                     ID_FILE_MRU_FILE1
         MENUITEM SEPARATOR
         MENUITEM "E&xit",                       ID_APP_EXIT
     END
@@ -2314,6 +2320,11 @@ STRINGTABLE
 BEGIN
     ID_HELP_ISPP            "Open Inno Setup Preprocessor help\nInno Setup Preprocessor Help"
     ID_VIEW_CUSTOMMESSAGES  "Show custom messages\nCustom Messages"
+    ID_FILE_SAVE_ENCODING_AUTO 
+                            "Automatically select script saving encoding\nSave Encoding"
+    ID_FILE_SAVE_ENCODING_UTF8 "Save script in UTF-8 encoding\nSave Encoding"
+    ID_FILE_SAVE_ENCODING_UTF8_BOM 
+                            "Save script in UTF-8 encoding with BOM\nSave Encoding"
 END
 
 #endif    // English (United States) resources

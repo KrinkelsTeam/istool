@@ -18,7 +18,7 @@ public:
 	void SetValue(LPCTSTR pszValue);
 	void SetName(LPCTSTR pszName);
 protected:
-	LPSTR	m_pszName;
-	LPSTR	m_pszValue;
+	LPTSTR	m_pszName;
+	LPTSTR	m_pszValue;
 	CParam* m_pNext;
 };

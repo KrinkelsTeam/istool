@@ -52,7 +52,7 @@ public:
 	{
 		DoDataExchange(DDX_SAVE);
 		if (wID == IDOK) {
-			CMyUtils::EndWith(m_strRoot, '\\');
+			CMyUtils::EndWith(m_strRoot, _T('\\'));
 		}
 		EndDialog(wID);
 		return 0;

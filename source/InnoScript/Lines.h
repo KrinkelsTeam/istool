@@ -13,7 +13,7 @@ public:
 	virtual ~CLine();
 	virtual CLine* Copy();
 
-	virtual void	Write(LPSTR pszOut, UINT nLength);
+	virtual void	Write(LPTSTR pszOut, UINT nLength);
 	SECTION			GetSection();
 	virtual LPCTSTR	GetComment();
 	virtual LPCTSTR	GetParameter(LPCTSTR pszName);
@@ -36,7 +36,7 @@ public:
 	LPCTSTR GetIndent() const;
 
 protected:
-	LPSTR			UnQuote(LPSTR pszLine);
+	LPTSTR			UnQuote(LPTSTR pszLine);
 
 	const SECTION	m_sec;
 	CParam* m_pParams;
@@ -49,10 +49,10 @@ public:
 	virtual ~CLineComment();
 	virtual CLine* Copy();
 
-	virtual void	Write(LPSTR pszOut, UINT nLength);
+	virtual void	Write(LPTSTR pszOut, UINT nLength);
 	virtual LPCTSTR	GetComment();
 protected:
-	LPSTR			m_pszLine;
+	LPTSTR			m_pszLine;
 };
 
 class CInnoScript::CLineHash : public CLine {
@@ -61,11 +61,11 @@ public:
 	virtual ~CLineHash();
 	virtual CLine* Copy();
 
-	virtual void	Write(LPSTR pszOut, UINT nLength);
+	virtual void	Write(LPTSTR pszOut, UINT nLength);
 	virtual LPCTSTR	GetComment();
 	virtual bool	IsHash();
 protected:
-	LPSTR			m_pszLine;
+	LPTSTR			m_pszLine;
 };
 
 class CInnoScript::CLineSetup : public CLine {
@@ -74,7 +74,7 @@ public:
 	CLineSetup(SECTION sec);
 	virtual CLine* Copy();
 	virtual ~CLineSetup();
-	virtual void Write(LPSTR pszOut, UINT nLength);
+	virtual void Write(LPTSTR pszOut, UINT nLength);
 	virtual LPCTSTR	GetKey();
 	virtual LPCTSTR	GetValue();
 	virtual void SetKey(LPCTSTR pszKey);

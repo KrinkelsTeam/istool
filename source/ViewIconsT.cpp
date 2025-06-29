@@ -32,8 +32,8 @@ HTREEITEM CViewIconsT::InsertItem(CScriptLine* pLine) {
 
 	CString strName(pLine->GetParameter(_T("Name")));
 	CString strFolder;
-	int pos = strName.ReverseFind('\\');
-	if (pos <= 0) pos = strName.ReverseFind(':');
+	int pos = strName.ReverseFind(_T('\\'));
+	if (pos <= 0) pos = strName.ReverseFind(_T(':'));
 	if (pos >= 0) {
 		strFolder = strName.Left(pos);
 		strName = strName.Mid(pos + 1);

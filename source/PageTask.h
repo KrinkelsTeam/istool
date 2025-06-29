@@ -112,7 +112,7 @@ public:
 		for (int nPos = 0; nPos < m_list.GetSize(); nPos++) {
 			CScriptLine* pItem = m_list[nPos];
 
-			m_strName.Replace(' ', '_');
+			m_strName.Replace(_T(' '), _T('_'));
 
 			if (bForce) {
 				CString strOldName(pItem->GetParameter(_T("Name")));

@@ -56,7 +56,7 @@ public:
 		int nPos = 0;
 		while (CInnoScriptEx::m_constants[nPos].m_pszConstant) {
 			if (CInnoScriptEx::m_constants[nPos].m_bFolder) {
-				if (CInnoScriptEx::m_constants[nPos].m_pszConstant[0] == '-') {
+				if (CInnoScriptEx::m_constants[nPos].m_pszConstant[0] == _T('-')) {
 					pSubMenu.AppendMenu(MF_STRING | MF_SEPARATOR, 0);
 				} else {
 					CString str;
@@ -77,7 +77,7 @@ public:
 		nPos = 0;
 		while (CInnoScriptEx::m_constants[nPos].m_pszConstant) {
 			if (!CInnoScriptEx::m_constants[nPos].m_bFolder) {
-				if (CInnoScriptEx::m_constants[nPos].m_pszConstant[0] == '-') {
+				if (CInnoScriptEx::m_constants[nPos].m_pszConstant[0] == _T('-')) {
 					pSubMenu.AppendMenu(MF_STRING | MF_SEPARATOR, 0);
 				} else {
 					CString str;
@@ -142,10 +142,10 @@ public:
 
 		CString str;
 		GetWindowText(str.GetBuffer(256), 256);
-		int nPos = str.Find('}');
-		if (nPos > 0 && str[0] == '{') {
+		int nPos = str.Find(_T('}'));
+		if (nPos > 0 && str[0] == _T('{')) {
 			str = str.Mid(nPos + 1);
-			if (str.GetLength() > 0 && str[0] == '\\') str = str.Mid(1);
+			if (str.GetLength() > 0 && str[0] == _T('\\')) str = str.Mid(1);
 		}
 		str = CString(lpszConstant) + _T("\\") + str;
 		SetWindowText(str);
@@ -169,12 +169,12 @@ public:
 
 		CString str, str2(pLine->GetParameter(_T("Name")));
 		GetWindowText(str.GetBuffer(256), 256);
-		int nPos = str.ReverseFind('\\');
+		int nPos = str.ReverseFind(_T('\\'));
 		if (nPos >= 0) {
 			str = str.Mid(nPos + 1);
-			if (str.GetLength() > 0 && str[0] == '\\') str = str.Mid(1);
+			if (str.GetLength() > 0 && str[0] == _T('\\')) str = str.Mid(1);
 		}
-		if (str2[str2.GetLength() - 1] != '\\') str2 += _T("\\");
+		if (str2[str2.GetLength() - 1] != _T('\\')) str2 += _T("\\");
 		str = str2 + str;
 		SetWindowText(str);
 		return 0;

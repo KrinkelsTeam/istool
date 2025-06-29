@@ -86,7 +86,6 @@ public:
 	friend CMainFrame& AfxGetMainWnd();
 	friend HWND AfxGetMainHWnd();
 	friend CMyDoc* AfxGetDocument();
-	friend int AfxMessageBox(LPCTSTR, UINT, UINT);
 
 	DECLARE_FRAME_WND_CLASS(NULL, IDR_MAINFRAME)
 
@@ -99,7 +98,7 @@ public:
 
 		TCHAR localeInfo[3];
 		GetLocaleInfo(LOCALE_USER_DEFAULT, LOCALE_IMEASURE, localeInfo, 3);
-		if (localeInfo[0] == '0') {	// Metric system. '1' is US System
+		if (localeInfo[0] == _T('0')) {	// Metric system. '1' is US System
 			m_rcMargin.left = 1500;
 			m_rcMargin.top = 1500;
 			m_rcMargin.right = 1500;
@@ -184,6 +183,10 @@ public:
 		UPDATE_ELEMENT(ID_FILE_PRINT, UPDUI_MENUPOPUP)
 		UPDATE_ELEMENT(ID_FILE_PRINT_SETUP, UPDUI_MENUPOPUP)
 		UPDATE_ELEMENT(ID_FILE_PRINT_PREVIEW, UPDUI_MENUPOPUP)
+
+		UPDATE_ELEMENT(ID_FILE_SAVE_ENCODING_AUTO, UPDUI_MENUPOPUP)
+		UPDATE_ELEMENT(ID_FILE_SAVE_ENCODING_UTF8, UPDUI_MENUPOPUP)
+		UPDATE_ELEMENT(ID_FILE_SAVE_ENCODING_UTF8_BOM, UPDUI_MENUPOPUP)
 		// Edit
 		UPDATE_ELEMENT(ID_EDIT_UNDO, UPDUI_MENUPOPUP | UPDUI_TOOLBAR)
 		UPDATE_ELEMENT(ID_EDIT_REDO, UPDUI_MENUPOPUP | UPDUI_TOOLBAR)
@@ -266,6 +269,9 @@ public:
 		COMMAND_ID_HANDLER(ID_FILE_SAVE, OnFileSave)
 		COMMAND_ID_HANDLER(ID_FILE_SAVE_AS, OnFileSaveAs)
 		COMMAND_ID_HANDLER(ID_FILE_SAVE_COPY_AS, OnFileSaveCopyAs)
+		COMMAND_ID_HANDLER(ID_FILE_SAVE_ENCODING_AUTO, OnFileSaveEncoding)
+		COMMAND_ID_HANDLER(ID_FILE_SAVE_ENCODING_UTF8, OnFileSaveEncoding)
+		COMMAND_ID_HANDLER(ID_FILE_SAVE_ENCODING_UTF8_BOM, OnFileSaveEncoding)
 		COMMAND_ID_HANDLER(ID_FILE_PAGE_SETUP, OnFilePageSetup)
 		COMMAND_ID_HANDLER(ID_FILE_PRINT_PREVIEW, OnFilePrintPreview)
 		COMMAND_ID_HANDLER(ID_FILE_PRINT, OnFilePrint)
@@ -378,6 +384,7 @@ public:
 	LRESULT OnFileSave(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 	LRESULT OnFileSaveAs(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 	LRESULT OnFileSaveCopyAs(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
+	LRESULT OnFileSaveEncoding(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 	LRESULT OnFilePageSetup(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 	LRESULT OnFilePrintPreview(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 	LRESULT OnFileRecent(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);

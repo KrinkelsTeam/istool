@@ -142,13 +142,13 @@ LRESULT CMainFrame::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/
 
 	if (__argc > 1) {
 		for (int n = 1; n < __argc; n++) {
-			if (!_stricmp(__argv[n], _T("-langedit"))) {
+			if (!_tcsicmp(__targv[n], _T("-langedit"))) {
 				//CTransDialog::SetLanguageMode();
-			} else if (!_stricmp(__argv[n], _T("-compile"))) {
+			} else if (!_tcsicmp(__targv[n], _T("-compile"))) {
 				m_document.m_bCompileAndExit = true;
 			} else {
-				if (m_document.OnOpenDocument(m_hWnd, __argv[n]))
-					AddToRecentFileList(__argv[n]);
+				if (m_document.OnOpenDocument(m_hWnd, __targv[n]))
+					AddToRecentFileList(__targv[n]);
 				break;
 			}
 		}
@@ -242,7 +242,7 @@ LRESULT CMainFrame::OnPaneClose(WORD /*wNotifyCode*/, WORD /*wID*/, HWND hWndCtl
 
 void CMainFrame::SetSection(UINT nID) {
 	if (m_wndView.m_hWnd) {
-		if (m_wndView.SendMessage(WM_HIDEVIEW) != 0) return;	// Anything other than 0 aborts changeview
+		if (m_wndView.SendMessage(WM_HIDEVIEW) != 0) return; // Anything other than 0 aborts changeview
 		m_wndSectionMain.SetClient(NULL);
 		switch (m_uViewIndex) {
 		case  0: m_wndScript.DestroyView(); break;
@@ -382,7 +382,7 @@ void CMainFrame::SetSection(UINT nID) {
 	//	m_pView->SetFocus();
 	CString strTitle;
 	strTitle.LoadString(m_uCurrentView);
-	int nPos = strTitle.Find('\n');
+	int nPos = strTitle.Find(_T('\n'));
 	if (nPos >= 0) strTitle = strTitle.Mid(nPos + 1);
 	m_wndSectionMain.SetClient(m_wndView);
 	m_wndSectionMain.SetTitle(strTitle);
@@ -468,6 +468,10 @@ void CMainFrame::UIUpdateAll() {
 	// File
 	UIEnable(ID_FILE_PRINT_PREVIEW, FALSE);
 	UIEnable(ID_FILE_PRINT, SendUpdateUI(hWndFocus, ID_FILE_PRINT, FALSE));
+
+	UISetCheck(ID_FILE_SAVE_ENCODING_AUTO, (theApp.m_saveEncoding == SaveEncoding::Auto));
+	UISetCheck(ID_FILE_SAVE_ENCODING_UTF8, (theApp.m_saveEncoding == SaveEncoding::UTF8WithoutBOM));
+	UISetCheck(ID_FILE_SAVE_ENCODING_UTF8_BOM, (theApp.m_saveEncoding == SaveEncoding::UTF8WithBOM));
 
 	// Edit
 	UIEnable(ID_EDIT_NEWITEM, SendUpdateUI(hWndFocus, ID_EDIT_NEWITEM, FALSE));

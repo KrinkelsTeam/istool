@@ -44,13 +44,11 @@ public:
 	};
 
 	bool LoadScript(LPCTSTR pszFileName);
-	bool LoadScript(FILE* fp);
-	bool LoadScriptBuffer(LPSTR pszBuffer);
+	bool LoadScriptBuffer(LPTSTR pszBuffer);
 	bool AddLine(SECTION& sec,CString& strLine);
 	bool AddHead(CLine* pLine);
 	bool AddTail(CLine* pLine);
 	bool WriteScript(LPCTSTR pszName);
-	bool WriteScript(FILE* fp);
 	long GetLineNumber(CLine* pLine);
 	long GetLineNumber(SECTION sec);
 
@@ -65,6 +63,9 @@ public:
 	long GetCount();
 	CLine* operator[](long iItem);
 	const CInnoScript& operator=(CInnoScript& in);
+
+private:
+	void WriteLineToFile(CAtlFile& file, const CString& line);
 
 protected:
 	class CToken;

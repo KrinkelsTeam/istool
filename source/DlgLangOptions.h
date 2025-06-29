@@ -220,7 +220,7 @@ public:
 			CString		strLanguageName = m_langInfo[m_nLanguageName].m_pszLanguageName;
 			CString		strLanguageID; strLanguageID.Format(_T("$%04X"), m_langInfo[m_nLanguageName].m_nLanguageID);
 
-			int n = strLanguageName.Find('(');
+			int n = strLanguageName.Find(_T('('));
 			if (n >= 0) {
 				strLanguageName.GetBufferSetLength(n);
 				strLanguageName.TrimRight();
@@ -296,7 +296,7 @@ public:
 			CString strID;
 			strID.Format(_T("$%04X"), m_langInfo[nLanguage].m_nLanguageID);
 			int nIndex = m_wndLanguageID.AddString(strID);
-			if (!_stricmp(strLanguageID, strID)) {
+			if (!_tcsicmp(strLanguageID, strID)) {
 				m_nLanguageName = nIndex;
 				m_nLanguageID = nIndex;
 			}

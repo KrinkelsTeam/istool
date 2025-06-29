@@ -107,7 +107,7 @@ public:
 		box.AddString(_T("qword"));
 		box.Detach();
 
-		if (!_stricmp(_T("none"), SAFESTR(CInnoScriptEx::GetRegistryValueType(m_nValueType))))
+		if (!_tcsicmp(_T("none"), SAFESTR(CInnoScriptEx::GetRegistryValueType(m_nValueType))))
 			m_wndValueData.EnableWindow(FALSE);
 
 		for (int nPos = 0; nPos < m_list.GetSize(); nPos++) {
@@ -225,7 +225,7 @@ public:
 	LRESULT OnSelChangeValueType(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {
 		if (!m_bNew) SetModified();
 		DoDataExchange(DDX_SAVE);
-		BOOL bEnable = _stricmp(_T("none"), SAFESTR(CInnoScriptEx::GetRegistryValueType(m_nValueType)));
+		BOOL bEnable = _tcsicmp(_T("none"), SAFESTR(CInnoScriptEx::GetRegistryValueType(m_nValueType)));
 		m_wndValueData.EnableWindow(bEnable);
 		return 0;
 	}

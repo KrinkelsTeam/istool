@@ -9,11 +9,11 @@
 UINT CFunc::GetDriveLength(LPCTSTR pszPath) {
 	UINT nLength = _tcslen(pszPath);
 
-	if (nLength >= 2 && pszPath[1] == ':') {
+	if (nLength >= 2 && pszPath[1] == _T(':')) {
 		return 2;
-	} else if (nLength >= 2 && pszPath[0] == '\\' && pszPath[1] == '\\') {
+	} else if (nLength >= 2 && pszPath[0] == _T('\\') && pszPath[1] == _T('\\')) {
 		nLength = 2;
-		while (pszPath[nLength] && pszPath[nLength] != '\\')
+		while (pszPath[nLength] && pszPath[nLength] != _T('\\'))
 			nLength++;
 		if (!pszPath[nLength])
 			return 0;
@@ -28,7 +28,7 @@ int CFunc::SplitDirs(LPCTSTR pszPath, int* nLengths) {
 	int nLength = 0;
 
 	while (*pszPath) {
-		if (*pszPath == '\\' || *pszPath == '/') {
+		if (*pszPath == _T('\\') || *pszPath == _T('/')) {
 			nLengths[nDirs++] = nLength;
 			nLength = 0;
 		} else

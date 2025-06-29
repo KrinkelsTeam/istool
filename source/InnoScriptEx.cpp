@@ -232,7 +232,6 @@ void CInnoScriptEx::AddLine(CLine* pLine) {
 	bool bFound = false;
 	for (long i = 0; i < GetSize(); i++) {
 		if (bFound && m_lines[i]->GetSection() != pLine->GetSection()) {
-#if 1
 			// Rewind
 			while (i > 0 && m_lines[i - 1]->GetSection() == pLine->GetSection()) {
 				CString strLine;
@@ -243,7 +242,6 @@ void CInnoScriptEx::AddLine(CLine* pLine) {
 				else
 					break;
 			}
-#endif
 			m_lines.InsertAt(i, pLine);
 			return;
 		}
@@ -274,9 +272,9 @@ UINT CInnoScriptEx::CountLines(SECTION sec) {
 }
 
 bool CInnoScriptEx::GetBoolean(LPCTSTR pszValue) {
-	if (!_stricmp(pszValue, _T("yes")))
+	if (!_tcsicmp(pszValue, _T("yes")))
 		return true;
-	if (!_stricmp(pszValue, _T("true")))
+	if (!_tcsicmp(pszValue, _T("true")))
 		return true;
 	if (_ttol(pszValue))
 		return true;
@@ -286,7 +284,7 @@ bool CInnoScriptEx::GetBoolean(LPCTSTR pszValue) {
 int CInnoScriptEx::Convert(const CConverter* pData, LPCTSTR pszValue) {
 	if (!pszValue) return -1;
 	for (UINT n = 0; pData[n].m_pszString; n++) {
-		if (!_stricmp(pszValue, pData[n].m_pszString))
+		if (!_tcsicmp(pszValue, pData[n].m_pszString))
 			return pData[n].m_nValue;
 	}
 	return -1;
@@ -306,7 +304,7 @@ void CInnoScriptEx::GetDestDir(CLine* pLine, CString& ref) {
 	if (pLine->GetSection() != SEC_DIRS) return;
 
 	CString str(pLine->GetParameter(_T("Name")));
-	int pos = str.ReverseFind('\\');
+	int pos = str.ReverseFind(_T('\\'));
 	if (pos >= 0) ref = str.Left(pos);
 	else ref.Empty();
 }
@@ -316,12 +314,12 @@ void CInnoScriptEx::GetDestName(CLine* pLine, CString& ref) {
 	if (pLine->GetSection() != SEC_FILES) return;
 
 	ref = pLine->GetParameter(_T("DestDir"));
-	CMyUtils::EndWith(ref, '\\');
+	CMyUtils::EndWith(ref, _T('\\'));
 	LPCTSTR pszDestName = pLine->GetParameter(_T("DestName"));
 	if (!pszDestName) {
 		CString tmp(pLine->GetParameter(_T("Source")));
-		int pos = tmp.ReverseFind('\\');
-		if (pos <= 0) pos = tmp.ReverseFind(':');
+		int pos = tmp.ReverseFind(_T('\\'));
+		if (pos <= 0) pos = tmp.ReverseFind(_T(':'));
 		if (pos >= 0) ref += tmp.Mid(pos + 1);
 		else ref += pLine->GetParameter(_T("Source"));
 	} else
@@ -334,8 +332,8 @@ void CInnoScriptEx::GetDestTitle(CLine* pLine, CString& ref) {
 		LPCTSTR pszDestName = pLine->GetParameter(_T("DestName"));
 		if (!pszDestName) {
 			CString tmp(pLine->GetParameter(_T("Source")));
-			int pos = tmp.ReverseFind('\\');
-			if (pos <= 0) pos = tmp.ReverseFind(':');
+			int pos = tmp.ReverseFind(_T('\\'));
+			if (pos <= 0) pos = tmp.ReverseFind(_T(':'));
 			if (pos >= 0) ref = tmp.Mid(pos + 1);
 			else ref = pLine->GetParameter(_T("Source"));
 		} else {
@@ -343,15 +341,13 @@ void CInnoScriptEx::GetDestTitle(CLine* pLine, CString& ref) {
 		}
 	} else if (pLine->GetSection() == SEC_DIRS) {
 		CString str(pLine->GetParameter(_T("Name")));
-		int pos = str.ReverseFind('\\');
+		int pos = str.ReverseFind(_T('\\'));
 		if (pos >= 0) ref = str.Mid(pos + 1);
 		else ref = pLine->GetParameter(_T("Name"));
 	}
 }
 
 void CInnoScriptEx::SetString(CLine* pLine, bool bForce, LPCTSTR pszName, LPCTSTR pszValue) {
-	//	if(bForce || !m_strName.IsEmpty()) pLine->m_strName = m_strName;
-
 	if (bForce || (pszValue && *pszValue)) {
 		if (pszValue && *pszValue)
 			pLine->SetParameter(pszName, pszValue);
@@ -361,7 +357,6 @@ void CInnoScriptEx::SetString(CLine* pLine, bool bForce, LPCTSTR pszName, LPCTST
 }
 
 void CInnoScriptEx::SetLong(CLine* pLine, bool bForce, LPCTSTR pszName, LONG nDefault, LONG nValue) {
-	//	if(bForce || m_nIconIndex!=-1) pLine->m_nIconIndex = m_nIconIndex;
 	if (bForce || nValue != nDefault) {
 		if (nValue != nDefault) {
 			CString strValue;
@@ -373,9 +368,6 @@ void CInnoScriptEx::SetLong(CLine* pLine, bool bForce, LPCTSTR pszName, LONG nDe
 }
 
 void CInnoScriptEx::SetFlag(CLine* pLine, LPCTSTR pszName, LPCTSTR pszFlag, int nFlag) {
-	//	if(m_bReadOnly==TRUE) pFile->SetParameterFlag("Attribs","readonly",true);
-	//	else if(m_bReadOnly==FALSE) pFile->SetParameterFlag("Attribs","readonly",false);
-
 	if (nFlag == 1)
 		pLine->SetParameterFlag(pszName, pszFlag, true);
 	else if (nFlag == 0)
@@ -401,7 +393,7 @@ LPCTSTR CInnoScriptEx::GetDefault(LPCTSTR pszName, SECTION sec/*=SEC_SETUP*/) {
 
 	// If it equals default don't add it
 	for (UINT n = 0; m_defaults2[n].m_pszName; n++) {
-		if (!_stricmp(pszName, m_defaults2[n].m_pszName))
+		if (!_tcsicmp(pszName, m_defaults2[n].m_pszName))
 			return m_defaults2[n].m_pszValue;
 	}
 #ifdef _DEBUG
@@ -414,11 +406,9 @@ LPCTSTR CInnoScriptEx::GetDefault(LPCTSTR pszName, SECTION sec/*=SEC_SETUP*/) {
 
 
 void CInnoScriptEx::SetPropertyString(LPCTSTR pszName, LPCTSTR pszValue, SECTION sec/*=SEC_SETUP*/) {
-	//	if(pszValue && !*pszValue) pszValue = NULL;
-
 	for (long i = 0; i < GetSize(); i++) {
 		CLine* pLine = m_lines[i];
-		if (pLine->GetSection() == sec && !pLine->GetComment() && pLine->GetKey() && !_stricmp(pLine->GetKey(), pszName)) {
+		if (pLine->GetSection() == sec && !pLine->GetComment() && pLine->GetKey() && !_tcsicmp(pLine->GetKey(), pszName)) {
 			if (pszValue)
 				pLine->SetParameter(pszName, pszValue);
 			else
@@ -431,7 +421,7 @@ void CInnoScriptEx::SetPropertyString(LPCTSTR pszName, LPCTSTR pszValue, SECTION
 
 	// If it equals default don't add it
 	LPCTSTR pszDefault = GetDefault(pszName, sec);
-	if ((sec == SEC_SETUP || sec == SEC_LANGOPTIONS) && pszDefault && !_stricmp(pszDefault, pszValue))
+	if ((sec == SEC_SETUP || sec == SEC_LANGOPTIONS) && pszDefault && !_tcsicmp(pszDefault, pszValue))
 		return;
 
 	CString str;
@@ -453,7 +443,7 @@ LONG CInnoScriptEx::GetPropertyNumber(LPCTSTR pszName, SECTION sec/*=SEC_SETUP*/
 LPCTSTR CInnoScriptEx::GetPropertyString(LPCTSTR pszName, SECTION sec/*=SEC_SETUP*/) {
 	for (long i = 0; i < GetSize(); i++) {
 		CLine* pLine = m_lines[i];
-		if (pLine->GetSection() == sec && !pLine->GetComment() && pLine->GetKey() && !_stricmp(pLine->GetKey(), pszName)) {
+		if (pLine->GetSection() == sec && !pLine->GetComment() && pLine->GetKey() && !_tcsicmp(pLine->GetKey(), pszName)) {
 			return pLine->GetValue();
 		}
 	}
@@ -652,7 +642,7 @@ bool CInnoScriptEx::GetFolderName(CString& ref, CScriptLine* p) {
 	ref.Empty();
 	if (p->GetSection() == CInnoScript::SEC_ICONS) {
 		CString strDir(p->GetParameter(_T("Name")));
-		int nPos = strDir.ReverseFind('\\');
+		int nPos = strDir.ReverseFind(_T('\\'));
 		if (nPos >= 0)
 			ref = strDir.Left(nPos);
 	} else if (p->GetSection() == CInnoScript::SEC_FILES) {
@@ -673,8 +663,7 @@ bool CInnoScriptEx::GetFolderName(CString& ref, CScriptLine* p) {
 #endif
 	}
 
-
-	if (!ref.IsEmpty() && ref[ref.GetLength() - 1] == '\\')
+	if (!ref.IsEmpty() && ref[ref.GetLength() - 1] == _T('\\'))
 		ref.ReleaseBuffer(ref.GetLength() - 1);
 
 	return ref.IsEmpty() ? false : true;
@@ -753,7 +742,7 @@ const CInnoScriptEx::CConstantInfo CInnoScriptEx::m_constants[] = {
 bool CInnoScriptEx::IsFolderConstant(LPCTSTR pszConstant) {
 	UINT nPos = 0;
 	while (m_constants[nPos].m_pszConstant) {
-		if (!_stricmp(pszConstant, m_constants[nPos].m_pszConstant))
+		if (!_tcsicmp(pszConstant, m_constants[nPos].m_pszConstant))
 			return true;
 		nPos++;
 	}
@@ -763,7 +752,7 @@ bool CInnoScriptEx::IsFolderConstant(LPCTSTR pszConstant) {
 LPCTSTR CInnoScriptEx::GetConstantName(LPCTSTR pszConstant) {
 	UINT nPos = 0;
 	while (m_constants[nPos].m_pszConstant) {
-		if (!_stricmp(pszConstant, m_constants[nPos].m_pszConstant))
+		if (!_tcsicmp(pszConstant, m_constants[nPos].m_pszConstant))
 			return m_constants[nPos].m_pszName;
 		nPos++;
 	}
@@ -772,15 +761,15 @@ LPCTSTR CInnoScriptEx::GetConstantName(LPCTSTR pszConstant) {
 
 LPCTSTR CInnoScriptEx::GetRootName(LPCTSTR pszRoot) {
 	if (!pszRoot) return NULL;
-	if (!_stricmp(pszRoot, _T("HKCR")))
+	if (!_tcsicmp(pszRoot, _T("HKCR")))
 		return _T("HKEY_CLASSES_ROOT");
-	else if (!_stricmp(pszRoot, _T("HKCU")))
+	else if (!_tcsicmp(pszRoot, _T("HKCU")))
 		return _T("HKEY_CURRENT_USER");
-	else if (!_stricmp(pszRoot, _T("HKLM")))
+	else if (!_tcsicmp(pszRoot, _T("HKLM")))
 		return _T("HKEY_LOCAL_MACHINE");
-	else if (!_stricmp(pszRoot, _T("HKU")))
+	else if (!_tcsicmp(pszRoot, _T("HKU")))
 		return _T("HKEY_USERS");
-	else if (!_stricmp(pszRoot, _T("HKCC")))
+	else if (!_tcsicmp(pszRoot, _T("HKCC")))
 		return _T("HKEY_CURRENT_CONFIG");
 	return NULL;
 }
@@ -788,7 +777,7 @@ LPCTSTR CInnoScriptEx::GetRootName(LPCTSTR pszRoot) {
 LPCTSTR CInnoScriptEx::GetDisplayName(CScriptLine* p) {
 	if (p->GetSection() == CInnoScript::SEC_DIRS) {
 		LPCTSTR pszName = p->GetParameter(_T("Name"));
-		LPCTSTR psz = _tcsrchr(pszName, '\\');
+		LPCTSTR psz = _tcsrchr(pszName, _T('\\'));
 		if (psz)
 			return psz + 1;
 		return pszName;
@@ -797,13 +786,13 @@ LPCTSTR CInnoScriptEx::GetDisplayName(CScriptLine* p) {
 		if (pszName) return pszName;
 
 		pszName = p->GetParameter(_T("Source"));
-		LPCTSTR psz = _tcsrchr(pszName, '\\');
+		LPCTSTR psz = _tcsrchr(pszName, _T('\\'));
 		if (psz)
 			return psz + 1;
 		return pszName;
 	} else if (p->GetSection() == CInnoScript::SEC_ICONS) {
 		LPCTSTR pszName = p->GetParameter(_T("Name"));
-		LPCTSTR psz = _tcsrchr(pszName, '\\');
+		LPCTSTR psz = _tcsrchr(pszName, _T('\\'));
 		if (psz)
 			return psz + 1;
 		return pszName;
@@ -859,7 +848,7 @@ void CInnoScriptEx::Split(const CString& Str, TSetupVersionDataVersion& Ver, WOR
 		}
 		J = _ttol(Z);
 		if (J < 0 || J>99) throw 0;
-		if (J < 10 && Z[0] != '0') J *= 10;
+		if (J < 10 && Z[0] != _T('0')) J *= 10;
 		Ver.Minor = J;
 		if (HasBuild) {
 			J = _ttol(B);
@@ -896,7 +885,7 @@ bool CInnoScriptEx::StrToVersionNumbers(const CString& S, TSetupVersionData& Ver
 }
 
 CString CInnoScriptEx::GetMessage(const CString& strName, CString strHomeDir) {
-	CMyUtils::EndWith(strHomeDir, '\\');
+	CMyUtils::EndWith(strHomeDir, _T('\\'));
 	CString strMessagesFile;
 	CScriptList lines;
 	GetList(CInnoScript::SEC_LANGUAGES, lines);
@@ -905,7 +894,7 @@ CString CInnoScriptEx::GetMessage(const CString& strName, CString strHomeDir) {
 	else
 		strMessagesFile = lines[0]->GetParameter(_T("MessagesFile"));
 
-	long nPos = strMessagesFile.Trim().ReverseFind(',');
+	long nPos = strMessagesFile.Trim().ReverseFind(_T(','));
 	do {
 		CString strFile;
 		if (nPos < 0) {
@@ -924,7 +913,7 @@ CString CInnoScriptEx::GetMessage(const CString& strName, CString strHomeDir) {
 		if (!strMessage.IsEmpty())
 			return strMessage;
 
-		nPos = strMessagesFile.Trim().ReverseFind(',');
+		nPos = strMessagesFile.Trim().ReverseFind(_T(','));
 	} while (!strMessagesFile.IsEmpty());
 
 

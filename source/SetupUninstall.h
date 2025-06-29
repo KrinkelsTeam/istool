@@ -124,9 +124,9 @@ public:
 
 		SetIcons();
 
-		theApp.m_shell.SHAutoComplete(GetDlgItem(IDC_APPPUBLISHERURL), SHACF_URLALL);
-		theApp.m_shell.SHAutoComplete(GetDlgItem(IDC_APPSUPPORTURL), SHACF_URLALL);
-		theApp.m_shell.SHAutoComplete(GetDlgItem(IDC_APPUPDATESURL), SHACF_URLALL);
+		SHAutoComplete(GetDlgItem(IDC_APPPUBLISHERURL), SHACF_URLALL);
+		SHAutoComplete(GetDlgItem(IDC_APPSUPPORTURL), SHACF_URLALL);
+		SHAutoComplete(GetDlgItem(IDC_APPUPDATESURL), SHACF_URLALL);
 
 		DoDataExchange(DDX_LOAD);
 		return TRUE;
@@ -340,7 +340,7 @@ public:
 		m_strSignedUninstallerDir = script.GetPropertyString(_T("SignedUninstallerDir"));
 
 		CString str(script.GetPropertyString(_T("UninstallDisplayIcon")));
-		int nPos = str.ReverseFind(',');
+		int nPos = str.ReverseFind(_T(','));
 		if (nPos > 0) {
 			m_nUninstallDisplayIconIndex = _ttol(str.Mid(nPos + 1));
 			m_strUninstallDisplayIcon = str.Left(nPos);

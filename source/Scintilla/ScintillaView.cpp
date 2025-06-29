@@ -5,6 +5,8 @@
 
 LRESULT CScintillaView::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& bHandled) {
 	LRESULT res = DefWindowProc();
+	SetCodePage(SC_CP_UTF8);
+
 	static bool bLoaded = false;
 	if (!bLoaded) {
 		//LoadLexerLibrary("isslexer.dll");
@@ -32,10 +34,12 @@ LRESULT CScintillaView::OnFindReplaceMsg(UINT /*uMsg*/, WPARAM /*wParam*/, LPARA
 		if (AfxGetMainWnd().m_pFindReplaceDlg->MatchWholeWord())
 			m_iSearchFlags |= SCFIND_WHOLEWORD;
 
+		CStringA strSearchUtf8 = CSTRING_TO_UTF8(m_strSearch);
+		
 		Sci_TextToFind ft = { 0 };
 		ft.chrg.cpMin = GetCurrentPos() + 1;
 		ft.chrg.cpMax = GetTextLength();
-		ft.lpstrText = (LPSTR)(LPCTSTR)m_strSearch;
+		ft.lpstrText = (LPSTR)(LPCSTR)strSearchUtf8;
 		long pos = FindText(m_iSearchFlags, &ft);
 		if (pos == -1) {
 			MessageBeep(MB_ICONERROR);
@@ -46,7 +50,8 @@ LRESULT CScintillaView::OnFindReplaceMsg(UINT /*uMsg*/, WPARAM /*wParam*/, LPARA
 	} else if (AfxGetMainWnd().m_pFindReplaceDlg->ReplaceCurrent()) {
 		if (GetSelectionStart() < GetSelectionEnd()) {
 			m_strReplace = AfxGetMainWnd().m_pFindReplaceDlg->GetReplaceString();
-			ReplaceSel(CT2A(m_strReplace));
+			CStringA strReplaceUtf8 = CSTRING_TO_UTF8(m_strReplace);
+			ReplaceSel(strReplaceUtf8);
 		}
 	} else if (AfxGetMainWnd().m_pFindReplaceDlg->ReplaceAll()) {
 		m_strSearch = AfxGetMainWnd().m_pFindReplaceDlg->GetFindString();
@@ -58,12 +63,15 @@ LRESULT CScintillaView::OnFindReplaceMsg(UINT /*uMsg*/, WPARAM /*wParam*/, LPARA
 		if (AfxGetMainWnd().m_pFindReplaceDlg->MatchWholeWord())
 			m_iSearchFlags |= SCFIND_WHOLEWORD;
 
+		CStringA strSearchUtf8 = CSTRING_TO_UTF8(m_strSearch);
+		CStringA strReplaceUtf8 = CSTRING_TO_UTF8(m_strReplace);
+		
 		long nStart = 0;
 		do {
 			Sci_TextToFind ft = { 0 };
 			ft.chrg.cpMin = nStart;
 			ft.chrg.cpMax = GetTextLength();
-			ft.lpstrText = (LPSTR)(LPCTSTR)m_strSearch;
+			ft.lpstrText = (LPSTR)(LPCSTR)strSearchUtf8;
 			long pos = FindText(m_iSearchFlags, &ft);
 			if (pos == -1) {
 				//MessageBeep(MB_ICONERROR);
@@ -71,7 +79,7 @@ LRESULT CScintillaView::OnFindReplaceMsg(UINT /*uMsg*/, WPARAM /*wParam*/, LPARA
 			} else {
 				//SetCurrentPos(pos);
 				SetSel(ft.chrgText.cpMin, ft.chrgText.cpMax);
-				ReplaceSel(CT2A(m_strReplace));
+				ReplaceSel(strReplaceUtf8);
 				nStart = GetCurrentPos() + m_strReplace.GetLength();
 			}
 		} while (true);
@@ -87,8 +95,14 @@ LRESULT CScintillaView::OnFind(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam
 	if (!AfxGetMainWnd().m_pFindReplaceDlg) {
 		long nStart = GetSelectionStart();
 		long nEnd = GetSelectionEnd();
-		if (nStart < nEnd)
-			GetSelText(CT2A(m_strSearch.GetBuffer(nEnd - nStart)));
+		if (nStart < nEnd) {
+			CStringA strA;
+			strA.GetBufferSetLength((nEnd - nStart) * 4); // reserve for UTF-8
+			GetSelText(strA.GetBuffer());
+			strA.ReleaseBuffer();
+
+			m_strSearch = UTF8_TO_CSTRING(strA);
+		}
 		AfxGetMainWnd().m_pFindReplaceDlg = new CFindReplaceDialog();
 		AfxGetMainWnd().m_pFindReplaceDlg->Create(TRUE, m_strSearch, NULL, FR_HIDEUPDOWN | FR_DOWN, m_hWnd);
 		AfxGetMainWnd().m_pFindReplaceDlg->CenterWindow(m_hWnd);
@@ -103,11 +117,13 @@ LRESULT CScintillaView::OnRepeat(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lPar
 		return 0;
 	}
 
-#if 1
 	Sci_TextToFind ft = { 0 };
 	ft.chrg.cpMin = GetCurrentPos() + 1;
 	ft.chrg.cpMax = GetTextLength();
-	ft.lpstrText = (LPSTR)(LPCTSTR)m_strSearch;
+
+	CStringA strUtf8 = CSTRING_TO_UTF8(m_strSearch);
+	ft.lpstrText = (LPSTR)(LPCSTR)strUtf8;
+
 	long pos = FindText(m_iSearchFlags, &ft);
 	if (pos == -1) {
 		MessageBeep(MB_ICONERROR);
@@ -115,20 +131,6 @@ LRESULT CScintillaView::OnRepeat(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lPar
 		SetCurrentPos(pos);
 		SetSel(ft.chrgText.cpMin, ft.chrgText.cpMax);
 	}
-#else
-	int res;
-	if (m_bSearchDown) {
-		SetAnchor(GetCurrentPos() + 1);
-		SearchAnchor();
-		res = SearchNext(m_iSearchFlags, m_strSearch);
-	} else {
-		SetAnchor(GetCurrentPos() - 1);
-		SearchAnchor();
-		res = SearchPrev(m_iSearchFlags, m_strSearch);
-	}
-
-	if (res == -1) MessageBeep(MB_ICONERROR);
-#endif
 
 	return 0;
 }
@@ -138,7 +140,12 @@ LRESULT CScintillaView::OnReplace(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lPa
 		long nStart = GetSelectionStart();
 		long nEnd = GetSelectionEnd();
 		if (nStart < nEnd) {
-			GetSelText(m_strSearch.GetBuffer(nEnd - nStart));
+			CStringA strA;
+			strA.GetBufferSetLength((nEnd - nStart) * 4); // reserve for UTF-8
+			GetSelText(strA.GetBuffer());
+			strA.ReleaseBuffer();
+
+			m_strSearch = UTF8_TO_CSTRING((LPCSTR)strA);
 		}
 
 		AfxGetMainWnd().m_pFindReplaceDlg = new CFindReplaceDialog();
@@ -168,7 +175,7 @@ LRESULT CScintillaView::OnGoto(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam
 }
 
 LRESULT CScintillaView::OnSelectAll(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& bHandled) {
-	SetSel(0, -1);
+	SelectAll();
 	return 0;
 }
 

@@ -9,42 +9,6 @@
 namespace Henden {
 
 	/**
-	** @brief This class encapsulates the SHGetFolderPath function.
-	**
-	** Allows the use of SHGetFolderPath on all systems.
-	*/
-	class CShellFolder {
-	private:
-		CShellFolder() {}
-	public:
-		static HRESULT GetFolderPath(HWND hwndOwner, int nFolder, HANDLE hToken, DWORD dwFlags, LPTSTR pszPath) {
-			HRESULT(WINAPI * _SHGetFolderPath)(HWND, int, HANDLE, DWORD, LPTSTR);
-			HMODULE hModule;
-
-			hModule = LoadLibrary(_T("shell32.dll"));
-			if (!hModule) return E_FAIL;
-			_SHGetFolderPath = (HRESULT(WINAPI*)(HWND, int, HANDLE, DWORD, LPTSTR))GetProcAddress(hModule, "SHGetFolderPathA");
-			if (_SHGetFolderPath) {
-				HRESULT hr = _SHGetFolderPath(hwndOwner, nFolder, hToken, dwFlags, pszPath);
-				FreeLibrary(hModule);
-				return hr;
-			}
-			FreeLibrary(hModule);
-
-			hModule = LoadLibrary(_T("shfolder.dll"));
-			if (!hModule) return E_FAIL;
-			_SHGetFolderPath = (HRESULT(WINAPI*)(HWND, int, HANDLE, DWORD, LPTSTR))GetProcAddress(hModule, "SHGetFolderPathA");
-			if (_SHGetFolderPath) {
-				HRESULT hr = _SHGetFolderPath(hwndOwner, nFolder, hToken, dwFlags, pszPath);
-				FreeLibrary(hModule);
-				return hr;
-			}
-			FreeLibrary(hModule);
-			return E_FAIL;
-		}
-	};
-
-	/**
 	** @brief A class for storing application information in ini-files.
 	**
 	** This class is used to read values from, and write values to ini-files.
@@ -56,11 +20,9 @@ namespace Henden {
 		CAppFile(UINT uID) {
 			CString str;
 			str.LoadString(uID);
-#if 1
-			CShellFolder::GetFolderPath(NULL, CSIDL_APPDATA, NULL, SHGFP_TYPE_CURRENT, m_strAppFile.GetBuffer(MAX_PATH));
-#else
-			::SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, SHGFP_TYPE_CURRENT, m_strAppFile.GetBuffer(MAX_PATH));
-#endif
+
+			SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, SHGFP_TYPE_CURRENT, m_strAppFile.GetBuffer(MAX_PATH));
+			
 			m_strAppFile.ReleaseBuffer();
 			Henden::CUtils::EndWith(m_strAppFile, _T('\\'));
 			m_strAppFile += str;
@@ -68,7 +30,7 @@ namespace Henden {
 			Henden::CUtils::EndWith(m_strAppFile, _T('\\'));
 			m_strAppFile += str;
 			m_strAppFile += _T(".ini");
-			//AtlMessageBox(NULL,(LPCTSTR)m_strAppFile);
+			// AtlMessageBox(NULL, (LPCTSTR)m_strAppFile);
 		}
 
 		/// Returns the name of the ini-file.

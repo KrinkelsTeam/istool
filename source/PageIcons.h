@@ -243,7 +243,7 @@ public:
 		if (!CMyUtils::IsFile(strFileName)) {
 			CString strSourceDir;
 			if (m_pDoc->GetSourceDir(strSourceDir)) {
-				CMyUtils::EndWith(strSourceDir, '\\');
+				CMyUtils::EndWith(strSourceDir, _T('\\'));
 				strFileName = strSourceDir + strFileName;
 			}
 		}

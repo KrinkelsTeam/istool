@@ -45,20 +45,20 @@ void CFilesHelper::OnDropFiles(HWND hWnd, HDROP hDropInfo, LPCTSTR lpszCurrentFo
 				CWaitCursor wait;
 
 				CString strAddedDir(szFileName);
-				int pos = strAddedDir.ReverseFind('\\');
-				if (pos < 0) pos = strAddedDir.ReverseFind('/');
+				int pos = strAddedDir.ReverseFind(_T('\\'));
+				if (pos < 0) pos = strAddedDir.ReverseFind(_T('/'));
 				if (pos >= 0) strAddedDir = strAddedDir.Mid(pos + 1);
 
-				CMyUtils::EndWith(szFileName, '\\');
+				CMyUtils::EndWith(szFileName, _T('\\'));
 				fia.AddDir(
 					CString(szFileName), strWildCard,
 					dlg.m_bIncludeSubDirectories,
 					dlg.m_bAddDirectories
 				);
 				if (fia.GetSize() > 0) {
-					// Finn katalog filene skal registreres under
+					// Find the directory the files should be registered under
 					CString strCurrentFolder(lpszCurrentFolder);
-					CMyUtils::EndWith(strCurrentFolder, '\\');
+					CMyUtils::EndWith(strCurrentFolder, _T('\\'));
 					strCurrentFolder += strAddedDir;
 
 					{ // Add the main directory entry
@@ -66,15 +66,15 @@ void CFilesHelper::OnDropFiles(HWND hWnd, HDROP hDropInfo, LPCTSTR lpszCurrentFo
 						pLine->SetParameter(_T("Name"), strCurrentFolder);
 						m_pDoc->GetScript().AddLine(pLine);
 					}
-					CMyUtils::EndWith(strCurrentFolder, '\\');
+					CMyUtils::EndWith(strCurrentFolder, _T('\\'));
 
-					// Loop gjennom og add alle filer funnet
+					// Loop through and add all files found
 					for (int i = 0; i < fia.GetSize(); i++) {
 						if (dlg.m_bAddFiles && !fia[i].IsDirectory()) {
 							// Get path between szFileName and the files name
 							CString strSubPath(fia[i].GetFilePath());
 							strSubPath = strSubPath.Mid(_tcslen(szFileName)/*+1*/);
-							pos = strSubPath.ReverseFind('\\');
+							pos = strSubPath.ReverseFind(_T('\\'));
 							if (pos < 0) strSubPath.Empty();
 							else strSubPath = /*"\\"+*/strSubPath.Left(pos);
 
@@ -189,7 +189,7 @@ void CFilesHelper::CreateIcon(HWND hWnd, CScriptLine* pItem) {
 void CFilesHelper::OnFileAddFiles(LPCTSTR lpszCurrentFolder) {
 	const int nSize = 65535;
 	CFileDialog dlg(TRUE, NULL, NULL, OFN_ALLOWMULTISELECT | OFN_EXPLORER | OFN_ENABLESIZING, NULL, 0);
-	LPSTR lpstrFile = new CHAR[nSize];
+	LPTSTR lpstrFile = new TCHAR[nSize];
 	dlg.m_ofn.lpstrFile = lpstrFile;
 	dlg.m_ofn.lpstrFile[0] = 0;
 	dlg.m_ofn.nMaxFile = nSize;
@@ -213,43 +213,53 @@ void CFilesHelper::OnFileAddFiles(LPCTSTR lpszCurrentFolder) {
 
 class CTextImport {
 public:
-	static void GetTextFromFile(LPCTSTR, CString&);
+	static void GetTextFromFile(LPCTSTR lpszFileName, CString& str);
+
 protected:
-	static inline BOOL IsBOM(PBYTE pb) {
-		return (*pb == 0xFF) & (*(pb + 1) == 0xFE);
-	}
-	static inline BOOL IsRBOM(PBYTE pb) {
-		return (*pb == 0xFE) & (*(pb + 1) == 0xFF);
+	// Check UTF-16 LE BOM (0xFF 0xFE)
+	static inline BOOL IsBOM(const BYTE* pb) {
+		return pb && pb[0] == 0xFF && pb[1] == 0xFE;
 	}
 };
 
 void CTextImport::GetTextFromFile(LPCTSTR lpszFileName, CString& str) {
 	str.Empty();
 
-	FILE* fp;
-	fopen_s(&fp, lpszFileName, _T("rb"));
-	fseek(fp, 0, SEEK_END);
-	int nLength = ftell(fp);
-	fseek(fp, 0, SEEK_SET);
-	BYTE* ptr = new BYTE[nLength + 2];
-	memset(ptr, 0, nLength + 2);
-	fread(ptr, nLength, 1, fp);
-	fclose(fp);
+	FILE* fp = nullptr;  
+	errno_t err = _tfopen_s(&fp, lpszFileName, _T("rb"));  
+	if (err != 0 || fp == nullptr) {  
+		return;  
+	}
+	if (!fp) return;
 
-	if (IsBOM(ptr) || IsRBOM(ptr)) {
-		USES_CONVERSION;
-		str = W2A(((LPCWSTR)ptr) + 1);
-	} else {
-		int nPos = nLength;
-		while (nPos--) {
-			if (ptr[nPos] == 0 && ptr[nPos + 1] == '"') {
-				memmove(&ptr[nPos], &ptr[nPos + 1], nLength - nPos);
-			}
-		}
-		str = ptr;
+	fseek(fp, 0, SEEK_END);
+	long nLength = ftell(fp);
+	fseek(fp, 0, SEEK_SET);
+
+	if (nLength < 2) {
+		fclose(fp);
+		return;
 	}
 
-	delete[]ptr;
+	BYTE* ptr = new BYTE[nLength + 2]();
+	fread(ptr, 1, nLength, fp);
+	fclose(fp);
+
+	if (IsBOM(ptr)) {
+		// UTF-16 LE with BOM - skip first 2 bytes of BOM
+		LPCWSTR pszText = (LPCWSTR)(ptr + 2);
+		str = pszText;
+	} else {
+		// ANSI or no BOM
+		int len = MultiByteToWideChar(CP_ACP, 0, (LPCSTR)ptr, nLength, NULL, 0);
+		LPWSTR pszWide = new WCHAR[len + 1];
+		MultiByteToWideChar(CP_ACP, 0, (LPCSTR)ptr, nLength, pszWide, len);
+		pszWide[len] = 0;
+		str = pszWide;
+		delete[] pszWide;
+	}
+
+	delete[] ptr;
 }
 
 bool CFilesHelper::ImportRegistry(HWND hWnd, LPCTSTR lpszRegFile) {
@@ -264,14 +274,14 @@ bool CFilesHelper::ImportRegistry(HWND hWnd, LPCTSTR lpszRegFile) {
 	CStringToken tok_lines(strFile, _T("\n\r"));
 	LPCTSTR lpszFormat = tok_lines.GetNext();
 
-	if (!_stricmp(lpszFormat, _T("REGEDIT4")) || !_stricmp(lpszFormat, _T("Windows Registry Editor Version 5.00"))) {
+	if (!_tcsicmp(lpszFormat, _T("REGEDIT4")) || !_tcsicmp(lpszFormat, _T("Windows Registry Editor Version 5.00"))) {
 		while (LPCTSTR lpszLine = tok_lines.GetNext()) {
 			CString str(lpszLine);
 			CScriptLine* p = NULL;
 			str.TrimLeft(); str.TrimRight();
-			if (str.IsEmpty() || str[0] == ';') continue;
+			if (str.IsEmpty() || str[0] == _T(';')) continue;
 
-			if (str[0] == '[' && str[str.GetLength() - 1] == ']') {
+			if (str[0] == _T('[') && str[str.GetLength() - 1] == _T(']')) {
 				// Find root and key
 				CStringToken token(str.Mid(1, str.GetLength() - 2), _T("\\"));
 				LPCTSTR lpszRoot = token.GetNext();
@@ -279,20 +289,20 @@ bool CFilesHelper::ImportRegistry(HWND hWnd, LPCTSTR lpszRegFile) {
 				strSubkey.Replace(_T("{"), _T("{{"));
 
 				bool bDeleteKey = false;
-				if (*lpszRoot == '-') {
+				if (*lpszRoot == _T('-')) {
 					bDeleteKey = true;
 					lpszRoot++;
 				}
 
-				if (!_stricmp(lpszRoot, _T("HKEY_CLASSES_ROOT")))
+				if (!_tcsicmp(lpszRoot, _T("HKEY_CLASSES_ROOT")))
 					pszRoot = _T("HKCR");
-				else if (!_stricmp(lpszRoot, _T("HKEY_CURRENT_USER")))
+				else if (!_tcsicmp(lpszRoot, _T("HKEY_CURRENT_USER")))
 					pszRoot = _T("HKCU");
-				else if (!_stricmp(lpszRoot, _T("HKEY_LOCAL_MACHINE")))
+				else if (!_tcsicmp(lpszRoot, _T("HKEY_LOCAL_MACHINE")))
 					pszRoot = _T("HKLM");
-				else if (!_stricmp(lpszRoot, _T("HKEY_USERS")))
+				else if (!_tcsicmp(lpszRoot, _T("HKEY_USERS")))
 					pszRoot = _T("HKU");
-				else if (!_stricmp(lpszRoot, _T("HKEY_CURRENT_CONFIG")))
+				else if (!_tcsicmp(lpszRoot, _T("HKEY_CURRENT_CONFIG")))
 					pszRoot = _T("HKCC");
 				else {
 					CString txt = _L(_T("Unknown registry root %1."));
@@ -322,27 +332,27 @@ bool CFilesHelper::ImportRegistry(HWND hWnd, LPCTSTR lpszRegFile) {
 				CString strValueName(token.GetNext());
 				CString strValueData(token.GetRest());
 				bool bDeleteValue = strValueData == _T("-");
-				if (strValueName[0] == '_T("' && strValueName[strValueName.GetLength() - 1] == '")')
+				if (strValueName[0] == _T('"') && strValueName[strValueName.GetLength() - 1] == _T('"'))
 					strValueName = strValueName.Mid(1, strValueName.GetLength() - 2);
-				if (strValueData[0] == '_T("' && strValueData[strValueData.GetLength() - 1] == '")')
+				if (strValueData[0] == _T('"') && strValueData[strValueData.GetLength() - 1] == _T('"'))
 					strValueData = strValueData.Mid(1, strValueData.GetLength() - 2);
 
 				p = new CScriptLine(CInnoScript::SEC_REGISTRY);
 				p->SetParameter(_T("Root"), pszRoot);
 				p->SetParameter(_T("SubKey"), strSubkey);
-				int nPos = strValueData.Find(':');
+				int nPos = strValueData.Find(_T(':'));
 				if (nPos >= 0) {
 					CStringToken token(strValueData, _T(":"));
 					LPCTSTR lpszValueType = token.GetNext();
 					CString strNewValueData(token.GetRest());
 
-					if (!_stricmp(lpszValueType, _T("dword"))) {
+					if (!_tcsicmp(lpszValueType, _T("dword"))) {
 						p->SetParameter(_T("ValueType"), _T("dword"));
-						if (strNewValueData[0] != '$')
+						if (strNewValueData[0] != _T('$'))
 							strValueData = _T("$") + strNewValueData;
 						else
 							strValueData = strNewValueData;
-					} else if (!_stricmp(lpszValueType, _T("hex"))) {
+					} else if (!_tcsicmp(lpszValueType, _T("hex"))) {
 						p->SetParameter(_T("ValueType"), _T("binary"));
 						strValueData = strNewValueData;
 						strValueData.Replace(_T(","), _T(" "));	// Replace commas with spaces
@@ -394,8 +404,7 @@ void CFilesHelper::OnDropFilesRegistry(HWND hWnd, HDROP hDropInfo) {
 bool CFilesHelper::ImportIni(HWND hWnd, LPCTSTR pszPathName) {
 	CWaitCursor wait;
 	FILE* file;
-	errno_t err = fopen_s(&file, pszPathName, _T("r"));
-	if (err != 0) {
+	if (_tfopen_s(&file, pszPathName, _T("r")) == 0) {
 		CString txt = _L(_T("Failed to open '%1'."));
 		txt.Replace(_T("%1"), pszPathName);
 		AtlMessageBox(hWnd, (LPCTSTR)txt, IDR_MAINFRAME, MB_OK | MB_ICONERROR);
@@ -406,14 +415,14 @@ bool CFilesHelper::ImportIni(HWND hWnd, LPCTSTR pszPathName) {
 
 	CString str;
 	bool bAdded = false;
-	while (fgets(str.GetBuffer(1024), 1024, file)) {
+	while (_fgetts(str.GetBuffer(1024), 1024, file)) {
 		str.ReleaseBuffer();
 		str.TrimLeft(); str.TrimRight();
 		if (str.IsEmpty()) continue;
 
-		if (str[0] == '[' && str[str.GetLength() - 1] == ']') {
+		if (str[0] == _T('[') && str[str.GetLength() - 1] == _T(']')) {
 			strSection = str.Mid(1, str.GetLength() - 2);
-		} else if (str[0] != ';') {
+		} else if (str[0] != _T(';')) {
 			CStringToken token(str, _T("="));
 			CString strKey(token.GetNext());
 			CString strString(token.GetRest());
@@ -441,10 +450,10 @@ void CFilesHelper::AutoComponentSelect(CScriptList& list) {
 			CString str(pFile->GetParameter(_T("DestDir")));
 
 			if (str.IsEmpty()) continue;
-			if (str[str.GetLength() - 1] == '\\' || str[str.GetLength() - 1] == '/')
+			if (str[str.GetLength() - 1] == _T('\\') || str[str.GetLength() - 1] == _T('/'))
 				str = str.Left(str.GetLength() - 1);
-			int nPos = str.ReverseFind('\\');
-			if (nPos < 0) nPos = str.ReverseFind('/');
+			int nPos = str.ReverseFind(_T('\\'));
+			if (nPos < 0) nPos = str.ReverseFind(_T('/'));
 			if (nPos >= 0) {
 				str = str.Mid(nPos + 1);
 				CScriptList list;

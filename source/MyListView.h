@@ -45,7 +45,7 @@ protected:
 	virtual const CListInfo* GetListInfo();
 
 	typedef struct {
-		CHAR	m_szTitle[32];
+		TCHAR	m_szTitle[32];
 		int		m_nFormat;
 		bool	m_bVisible;
 		int		m_nWidth;
@@ -63,7 +63,7 @@ protected:
 	int GetDisplayColumn(int nCol);
 
 
-	CFont		m_boldFont;
+	CFont	m_boldFont;
 
 	DWORD	m_dwFlags;
 	enum {

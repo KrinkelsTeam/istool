@@ -272,7 +272,7 @@ void CColorPickerCB::SetInnoColor(LPCTSTR lpszColor) {
 	if (!str.Left(2).CompareNoCase(_T("cl"))) {
 		str = str.Mid(2);
 		SetSelectedColorName(str);
-	} else if (str[0] == '$') {
+	} else if (str[0] == _T('$')) {
 		COLORREF cr;
 		_stscanf_s(str, _T("$%x"), &cr);
 		//	cr = RGB(GetBValue(cr), GetGValue(cr), GetRValue(cr));	// Get correct byte order

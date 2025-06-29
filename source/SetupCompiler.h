@@ -236,35 +236,35 @@ public:
 
 		CString str;
 		str = script.GetPropertyString(_T("Compression"));
-		long nPos = str.Find('/');
+		long nPos = str.Find(_T('/'));
 		if (!_tcsnicmp(str, _T("lzma"), 4)) {
 			m_nCompressLevel = 2;
 			if (nPos > 0) {
 				CString tmp = str.Mid(nPos + 1);
-				if (!_stricmp(tmp, _T("fast")))
+				if (!_tcsicmp(tmp, _T("fast")))
 					m_nCompressLevel = 0;
-				else if (!_stricmp(tmp, _T("normal")))
+				else if (!_tcsicmp(tmp, _T("normal")))
 					m_nCompressLevel = 1;
-				else if (!_stricmp(tmp, _T("ultra")))
+				else if (!_tcsicmp(tmp, _T("ultra")))
 					m_nCompressLevel = 3;
-				else if (!_stricmp(tmp, _T("ultra64")))
+				else if (!_tcsicmp(tmp, _T("ultra64")))
 					m_nCompressLevel = 4;
 				str = str.Left(nPos);
 			}
 		} else if (nPos != -1) {
 			m_nCompressLevel = _ttol(str.Mid(nPos + 1));
 			str = str.Left(nPos);
-		} else if (!_stricmp(str, _T("zip"))) {
+		} else if (!_tcsicmp(str, _T("zip"))) {
 			m_nCompressLevel = 7;
 		} else {
 			m_nCompressLevel = 9;
 		}
 
-		if (!_stricmp(str, _T("zip")))
+		if (!_tcsicmp(str, _T("zip")))
 			m_nCompression = 0;
-		else if (!_stricmp(str, _T("bzip")))
+		else if (!_tcsicmp(str, _T("bzip")))
 			m_nCompression = 1;
-		else if (!_stricmp(str, _T("lzma")))
+		else if (!_tcsicmp(str, _T("lzma")))
 			m_nCompression = 2;
 		else
 			m_nCompression = 3;

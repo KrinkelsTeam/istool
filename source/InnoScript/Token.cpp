@@ -9,38 +9,38 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-CInnoScript::CToken::CToken(LPCTSTR pszLine,LPCTSTR pszDelim) {
+CInnoScript::CToken::CToken(LPCTSTR pszLine, LPCTSTR pszDelim) {
 	UINT nLength = _tcslen(pszLine);
-	m_pszLine = new char[nLength+1];
-	strcpy_s(m_pszLine, nLength + 1, pszLine);
+	m_pszLine = new TCHAR[nLength + 1];
+	_tcscpy_s(m_pszLine, nLength + 1, pszLine);
 
-	m_pszDelim = new char[_tcslen(pszDelim)+1];
-	strcpy_s(m_pszDelim, _tcslen(pszDelim) + 1, pszDelim);
+	m_pszDelim = new TCHAR[_tcslen(pszDelim) + 1];
+	_tcscpy_s(m_pszDelim, _tcslen(pszDelim) + 1, pszDelim);
 
 	m_pszCurrPos = m_pszLine;
 }
 
 CInnoScript::CToken::~CToken() {
-	if(m_pszLine) delete []m_pszLine;
-	if(m_pszDelim) delete []m_pszDelim;
+	if (m_pszLine) delete[]m_pszLine;
+	if (m_pszDelim) delete[]m_pszDelim;
 }
 
-LPSTR CInnoScript::CToken::GetNext() {
-	while(iswspace(*m_pszCurrPos)) m_pszCurrPos++;
-	char* pszSave = m_pszCurrPos;
+LPTSTR CInnoScript::CToken::GetNext() {
+	while (_istspace(*m_pszCurrPos)) m_pszCurrPos++;
+	LPTSTR pszSave = m_pszCurrPos;
 
-	if(!*pszSave) return NULL;
+	if (!*pszSave) return NULL;
 
 	bool bInQuote = false;
-	while(*m_pszCurrPos) {
-		if(*m_pszCurrPos=='"' && !bInQuote) {
+	while (*m_pszCurrPos) {
+		if (*m_pszCurrPos == _T('"') && !bInQuote) {
 			bInQuote = true;
-		} else if(*m_pszCurrPos=='_T("' && m_pszCurrPos[1]=='")') {
+		} else if (*m_pszCurrPos == _T('"') && m_pszCurrPos[1] == _T('"')) {
 			m_pszCurrPos++;	// Skip the extra quote
-		} else if(*m_pszCurrPos=='"') {
+		} else if (*m_pszCurrPos == _T('"')) {
 			bInQuote = false;
-		} else if(!bInQuote) {
-			if(_tcschr(m_pszDelim,*m_pszCurrPos)) {
+		} else if (!bInQuote) {
+			if (_tcschr(m_pszDelim, *m_pszCurrPos)) {
 				*m_pszCurrPos++ = 0;
 				return pszSave;
 			}
@@ -50,9 +50,9 @@ LPSTR CInnoScript::CToken::GetNext() {
 	return pszSave;
 }
 
-LPSTR CInnoScript::CToken::GetRest() {
-	while(iswspace(*m_pszCurrPos)) m_pszCurrPos++;
-	if(!*m_pszCurrPos) return NULL;
+LPTSTR CInnoScript::CToken::GetRest() {
+	while (_istspace(*m_pszCurrPos)) m_pszCurrPos++;
+	if (!*m_pszCurrPos) return NULL;
 	return m_pszCurrPos;
 }
 

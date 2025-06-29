@@ -146,7 +146,7 @@ LRESULT CMyListView::OnCut(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, 
 	if (OpenClipboard()) {
 		HGLOBAL hGlobal = GlobalAlloc(GMEM_MOVEABLE | GMEM_DDESHARE, strClip.GetLength() + 1);
 		LPVOID lp = GlobalLock(hGlobal);
-		_tcscpy_s(reinterpret_cast<LPSTR>(lp), strClip.GetLength() + 1, strClip);
+		_tcscpy_s(reinterpret_cast<LPTSTR>(lp), strClip.GetLength() + 1, strClip);
 		GlobalUnlock(lp);
 		EmptyClipboard();
 		SetClipboardData(CF_TEXT, hGlobal);
@@ -177,7 +177,7 @@ LRESULT CMyListView::OnCopy(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/,
 	if (OpenClipboard()) {
 		HGLOBAL hGlobal = GlobalAlloc(GMEM_MOVEABLE | GMEM_DDESHARE, strClip.GetLength() + 1);
 		LPVOID lp = GlobalLock(hGlobal);
-		_tcscpy_s(reinterpret_cast<LPSTR>(lp), strClip.GetLength() + 1, strClip);
+		_tcscpy_s(reinterpret_cast<LPTSTR>(lp), strClip.GetLength() + 1, strClip);
 		GlobalUnlock(lp);
 		EmptyClipboard();
 		SetClipboardData(CF_TEXT, hGlobal);
@@ -336,7 +336,7 @@ void CMyListView::AddColumn(LPCTSTR lpszName, int nFormat, int nWidth, bool bVis
 }
 
 void CMyListView::DoDisplay(bool bDontRead/*=false*/) {
-	WORD	wDisplayInfo[20];
+	WORD wDisplayInfo[20];
 
 	if (!bDontRead) {
 		if (ReadRegistryInfo(wDisplayInfo, m_columnList.GetSize() + 1)) {
@@ -368,7 +368,7 @@ void CMyListView::DoDisplay(bool bDontRead/*=false*/) {
 }
 
 void CMyListView::WriteDisplayInfo() {
-	WORD	wDisplayInfo[20];
+	WORD wDisplayInfo[20];
 
 	wDisplayInfo[0] = m_columnList.GetSize();
 	UINT nPos = 1;

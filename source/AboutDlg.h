@@ -67,7 +67,7 @@ public:
 #endif
 		m_strISVersion.Format(_T("%s"), ISVERSION);
 
-		m_strTransVer = _L("TransVersion", m_strVersion);
+		m_strTransVer = _L(_T("TransVersion"), m_strVersion);
 
 		GetCompilerVersion(CMyApp::m_prefs.m_strInnoFolder + _T("\\ISCmplr.dll"), m_strInstalledIS);
 	}

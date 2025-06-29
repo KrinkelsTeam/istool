@@ -21,31 +21,6 @@ int myReverseFind(const CString& ref, TCHAR ch);
 
 #include "Func.h"
 
-class CShellApi {
-public:
-	CShellApi() {
-		m_hModule = LoadLibrary(_T("shlwapi.dll"));
-		if (m_hModule) {
-			m_SHAutoComplete = (HRESULT(WINAPI*)(HWND, DWORD))GetProcAddress(m_hModule, "SHAutoComplete");
-		} else {
-			m_SHAutoComplete = NULL;
-		}
-	}
-	~CShellApi() {
-		if (m_hModule) FreeLibrary(m_hModule);
-	}
-
-	HRESULT SHAutoComplete(HWND hwndEdit, DWORD dwFlags) {
-		if (!m_SHAutoComplete)
-			return E_FAIL;
-		else
-			return m_SHAutoComplete(hwndEdit, dwFlags);
-	}
-protected:
-	HMODULE		m_hModule;
-	HRESULT(WINAPI* m_SHAutoComplete)(HWND, DWORD);
-};
-
 typedef struct {
 	UINT		uSchemeID;
 	LPCTSTR		pszName;
@@ -62,13 +37,18 @@ typedef struct {
 	bool		bUnderline;
 } tagSTYLE;
 
+enum class SaveEncoding {
+	Auto = 0,
+	UTF8WithBOM,
+	UTF8WithoutBOM
+};
+
 class CMyPrefs {
 public:
 	CMyPrefs(LPCTSTR pszSubKey);
 	bool LoadPrefs();
 	bool SavePrefs();
 
-	//LOGFONT			m_editorFont;
 	bool			m_bReplaceCopy;
 	bool			m_bAutoComponentSelect;
 	bool			m_bTestCompiledSetup;
@@ -157,8 +137,8 @@ public:
 	}
 
 protected:
-	CString		m_strHtmlHelpFile;
-	CString		m_strCallTipsFile;
+	CString	m_strHtmlHelpFile;
+	CString	m_strCallTipsFile;
 };
 
 class CMyApp : public CWTLApp<CMyApp> {
@@ -177,16 +157,16 @@ public:
 	static HTREEITEM FindParentItem(CTreeViewCtrl&, LPCTSTR lpszFolder, bool bSystem = false);
 	static void MyExpand(CTreeViewCtrl&, HTREEITEM);
 	static DWORD MyExec(LPCTSTR pszFilename, LPCTSTR pszParams, LPCTSTR pszWorkingDir = NULL, bool bWaitUntilTerminated = true, bool bRunMinimized = false, bool bWaitForIdle = false);
-	static CMyPrefs		m_prefs;
+	static CMyPrefs	m_prefs;
 	void OpenHtmlHelp(UINT nCmd, DWORD dwData);
 	static bool IsBooleanExp(LPCTSTR pszArg);
 
 protected:
-	CMutex		m_mutex;
+	CMutex m_mutex;
 
 public:
-	CString		m_strProgramPath;
-	CShellApi	m_shell;
+	CString	m_strProgramPath;
+	SaveEncoding m_saveEncoding;
 };
 
 #define WM_HIDEVIEW	(WM_USER+1)

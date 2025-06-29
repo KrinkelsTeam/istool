@@ -76,7 +76,7 @@ public:
 
 	LRESULT OnBrowse(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {
 		BROWSEINFO bi = { 0 };
-		char DirName[MAX_PATH];
+		TCHAR DirName[MAX_PATH];
 		LPITEMIDLIST pidl;
 		LPMALLOC pmalloc = NULL;
 		CString strText;
@@ -102,7 +102,7 @@ public:
 	}
 
 	static int CALLBACK BrowseCallbackProc(HWND hwnd, UINT uMsg, LPARAM lParam, LPARAM lpData) {
-		CHAR szDir[MAX_PATH];
+		TCHAR szDir[MAX_PATH];
 
 		switch (uMsg) {
 		case BFFM_INITIALIZED:
@@ -140,10 +140,10 @@ public:
 		m_items.RemoveAll();
 		WIN32_FIND_DATA wfd;
 		CString strInnoFolder = CMyApp::m_prefs.m_strInnoFolder;
-		CMyUtils::EndWith(strInnoFolder, '\\');
+		CMyUtils::EndWith(strInnoFolder, _T('\\'));
 		for (UINT i = 0; i < CMyApp::m_prefs.m_languageDirs.GetCount(); i++) {
 			CString strPath = CMyApp::m_prefs.m_languageDirs[i];
-			CMyUtils::EndWith(strPath, '\\');
+			CMyUtils::EndWith(strPath, _T('\\'));
 			HANDLE hFind = FindFirstFile(strPath + _T("*.isl"), &wfd);
 			if (hFind) {
 				do {

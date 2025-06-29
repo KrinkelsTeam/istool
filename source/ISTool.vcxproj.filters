@@ -47,7 +47,7 @@
     <Filter Include="Extras\Dialog Files">
       <UniqueIdentifier>{ca23cf49-3101-41ae-816b-10872a6869f4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scripts">
+    <Filter Include="Python Scripts">
       <UniqueIdentifier>{8487e424-db0f-4256-8c57-1af38ee89b73}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -92,9 +92,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MyDropTarget.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ScintillaPrefs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Sheets.cpp">
@@ -202,6 +199,9 @@
     <ClCompile Include="Scintilla\ScintillaView.cpp">
       <Filter>Scintilla</Filter>
     </ClCompile>
+    <ClCompile Include="ScintillaPrefs.cpp">
+      <Filter>Scintilla</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConstantListBox.h">
@@ -241,9 +241,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ScintillaPrefs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SectionView.h">
@@ -543,6 +540,9 @@
     <ClInclude Include="MyUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ScintillaPrefs.h">
+      <Filter>Scintilla</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\ISTool.ico">
@@ -580,16 +580,16 @@
       <Filter>Language Files</Filter>
     </None>
     <None Include="..\scripts\Face.py">
-      <Filter>Scripts</Filter>
+      <Filter>Python Scripts</Filter>
     </None>
     <None Include="..\scripts\FileGenerator.py">
-      <Filter>Scripts</Filter>
+      <Filter>Python Scripts</Filter>
     </None>
     <None Include="..\scripts\ScintillaATLFacer.py">
-      <Filter>Scripts</Filter>
+      <Filter>Python Scripts</Filter>
     </None>
     <None Include="..\scripts\CallTipGenerator.py">
-      <Filter>Scripts</Filter>
+      <Filter>Python Scripts</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

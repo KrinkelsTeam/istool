@@ -41,14 +41,14 @@ HMENU CTranslate::Translate(HMENU hMenu, CString strParent/*=CString()*/) {
 		if (strParent.IsEmpty())
 			strKey = strName;
 		else
-			strKey.Format(_T("%s|%s"), strParent, strName);
+			strKey.Format(_T("%s|%s"), (LPCTSTR)strParent, (LPCTSTR)strName);
 
-		// Oversett undermeny
+		// Translate submenu
 		if (info.hSubMenu) Translate(info.hSubMenu, strKey);
 
 		if (!strAcc.IsEmpty()) {
 			CString strAccKey;
-			strAccKey.Format(_T("ShortCut|%s"), strAcc);
+			strAccKey.Format(_T("ShortCut|%s"), (LPCTSTR)strAcc);
 
 			Warning(strAccKey, strAcc);
 
@@ -80,31 +80,95 @@ HMENU CTranslate::Translate(HMENU hMenu, CString strParent/*=CString()*/) {
 	return hMenu;
 }
 
-void CTranslate::AddFile(const CString& strFileName) {
+void CTranslate::AddFile(const CString& strFileName)
+{
 	if (strFileName.IsEmpty())
 		return;
 
-	FILE* fp;
-	if (fopen_s(&fp, strFileName, _T("rb")) != 0 || !fp) return;
-
-	TCHAR szLine[10000];
-	while (fgets(szLine, sizeof szLine / sizeof szLine[0], fp)) {
-		CString strLine(szLine);
-		strLine.TrimRight();
-		int pos = strLine.Find('=');
-		if (strLine.IsEmpty() || strLine[0] == _T(';') || strLine[0] == _T('[') || pos < 0) continue;
-
-		CString strTrans = strLine.Mid(pos + 1).Trim();
-		if (strTrans.IsEmpty()) continue;
-#if 1
-		strTrans.Replace(_T("\\r"), _T("\r"));
-		strTrans.Replace(_T("\\n"), _T("\n"));
-		strTrans.Replace(_T("\\t"), _T("\t"));
-#endif
-		m_map[strLine.Left(pos).Trim()] = strTrans;
+	CAtlFile file;
+	if (FAILED(file.Create(strFileName, GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING))) {
+		return;
 	}
 
-	fclose(fp);
+	ULONGLONG size = 0;
+	if (FAILED(file.GetSize(size)) || size == 0 || size > ULONG_MAX) {
+		return;
+	}
+
+	DWORD len = static_cast<DWORD>(size);
+	CHeapPtr<BYTE> buf;
+	if (!buf.Allocate(len + 1)) {
+		return;
+	}
+
+	DWORD read = 0;
+	if (FAILED(file.Read(buf, len, read)) || read != len) {
+		return;
+	}
+
+	buf[len] = 0;
+	LPCSTR data = reinterpret_cast<LPCSTR>(static_cast<BYTE*>(buf));
+	DWORD offset = 0;
+
+	// Lambda to check whether the buffer contains valid UTF-8 characters
+	auto isUtf8 = [=]() -> bool {
+		for (DWORD i = 0; i < len; ++i) {
+			if ((BYTE)data[i] >= 0x80) {
+				return MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, data, len, nullptr, 0) > 0;
+			}
+		}
+		return false;
+	};
+
+	CStringW content;
+
+	// UTF-8 with BOM
+	if (len >= 3 && (BYTE)data[0] == 0xEF && (BYTE)data[1] == 0xBB && (BYTE)data[2] == 0xBF) {
+		offset = 3;
+	} else if (isUtf8()) {
+		offset = 0;
+	} else {
+		content = CStringW(CStringA(data));
+	}
+
+	// Convert UTF-8 content if needed
+	if (content.IsEmpty() && len > offset) {
+		int wlen = MultiByteToWideChar(CP_UTF8, 0, data + offset, len - offset, nullptr, 0);
+		if (wlen <= 0) return;
+
+		LPWSTR p = content.GetBuffer(wlen);
+		MultiByteToWideChar(CP_UTF8, 0, data + offset, len - offset, p, wlen);
+		content.ReleaseBuffer(wlen);
+	}
+
+	// Parse key=value lines
+	int pos = 0;
+	while (pos >= 0) {
+		int next = content.Find(L'\n', pos);
+		CStringW line = (next >= 0) ? content.Mid(pos, next - pos) : content.Mid(pos);
+		line.TrimRight(L"\r\n");
+
+		int eq = line.Find(L'=');
+		if (line.IsEmpty() || line[0] == L';' || line[0] == L'[' || eq < 0) {
+			if (next < 0) break;
+			pos = next + 1;
+			continue;
+		}
+
+		CStringW value = line.Mid(eq + 1).Trim();
+		if (!value.IsEmpty()) {
+			// Replace escaped sequences
+			value.Replace(L"\\r", L"\r");
+			value.Replace(L"\\n", L"\n");
+			value.Replace(L"\\t", L"\t");
+
+			CStringW key = line.Left(eq).Trim();
+			m_map[CString(key)] = CString(value);
+		}
+
+		if (next < 0) break;
+		pos = next + 1;
+	}
 }
 
 bool CTranslate::Lookup(LPCTSTR pszKey, CString& strTrans) {
@@ -157,15 +221,7 @@ void CTranslate::FixTextTitle(CString& str) {
 }
 
 void CTranslate::Translate(HWND hWnd, const CString& strTitle) {
-#if 1
 	EnumChildProc(hWnd, (LPARAM)(LPCTSTR)strTitle);
-#else
-	CString strTrans;
-	_GetProfileString(m_strTransFile, m_strSection, _T("0"), strTrans);
-	if (!strTrans.IsEmpty())
-		m_wnd.SetWindowText(strTrans);
-#endif
-
 	::EnumChildWindows(hWnd, EnumChildProc, (LPARAM)(LPCTSTR)strTitle);
 }
 
@@ -180,7 +236,7 @@ BOOL CALLBACK CTranslate::EnumChildProc(HWND hWnd, LPARAM lParam) {
 		return TRUE;
 
 	CString strKey, strTrans;
-	strKey.Format(_T("%s|%s"), pszTitle, str);
+	strKey.Format(_T("%s|%s"), pszTitle, (LPCTSTR)str);
 
 	FixTextTitle(strKey);
 
@@ -204,8 +260,8 @@ bool CTranslate::IgnoreWord(LPCTSTR pszWord) {
 		_T("X.X.X"),
 		_T("https://istool.krinkels.org/"),
 		_T("ISTool"),
-		_T("Bjшrnar Henden"),
-		_T("Copyright © 1999 - 2009 Bjшrnar Henden."),
+		_T("Bjørnar Henden"),
+		_T("Copyright © 1999 - 2009 Bjørnar Henden."),
 		_T("https://www.innosetup.com/"),
 		_T("Inno Setup"),
 		_T("KrinkelsTeam"),

@@ -9,7 +9,7 @@ namespace Henden {
 
 #define BEGIN_TOOLTIP_MAP()	LPCTSTR _GetToolTip(UINT uID) {switch(uID) {	///< Start of a tooltip map
 #define TOOLTIP_HANDLER(a, b) case (a): return (b);							///< Handles the tooltip for a command id
-#define END_TOOLTIP_MAP() default: return _T("<missing tooltip>");}}			///< End of the tooltip map
+#define END_TOOLTIP_MAP() default: return _T("<missing tooltip>");}}		///< End of the tooltip map
 
 /**
 ** @brief A class to enable tooltips in dialogs

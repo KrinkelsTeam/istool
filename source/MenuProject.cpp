@@ -53,14 +53,14 @@ LRESULT CMainFrame::OnProjectUseAbsolutePaths(WORD /*wNotifyCode*/, WORD /*wID*/
 				for (int nPos = 0; nPos < files.GetSize(); nPos++) {
 					CScriptLine* pLine = files[nPos];
 					CString strSource = pLine->GetParameter(_T("Source"));
-					if (CFunc::GetDriveLength(strSource) == 0 && (strSource.GetLength() == 0 || strSource[0] != '{')) {
+					if (CFunc::GetDriveLength(strSource) == 0 && (strSource.GetLength() == 0 || strSource[0] != _T('{'))) {
 						// This is a relative path
 						CString strNewSource(strSourceDir);
 						if (strSource.GetLength() > 0) {
 							if (strSource.Left(3) == _T("..\\") || strSource.Left(3) == _T("../")) {
-								int nPos = strNewSource.ReverseFind('\\');
+								int nPos = strNewSource.ReverseFind(_T('\\'));
 								if (nPos < 0)
-									nPos = strNewSource.ReverseFind('/');
+									nPos = strNewSource.ReverseFind(_T('/'));
 								if (nPos >= 0) {
 									strNewSource = strNewSource.Left(nPos);
 									strSource = strSource.Mid(3);
@@ -69,8 +69,8 @@ LRESULT CMainFrame::OnProjectUseAbsolutePaths(WORD /*wNotifyCode*/, WORD /*wID*/
 								strSource = strSource.Mid(2);
 							}
 
-							if (strSource[0] != '\\' && strSource[0] != '/')
-								CMyUtils::EndWith(strNewSource, '\\');
+							if (strSource[0] != _T('\\') && strSource[0] != _T('/'))
+								CMyUtils::EndWith(strNewSource, _T('\\'));
 
 							strNewSource += strSource;
 							pLine->SetParameter(_T("Source"), strNewSource);
@@ -85,7 +85,7 @@ LRESULT CMainFrame::OnProjectUseAbsolutePaths(WORD /*wNotifyCode*/, WORD /*wID*/
 					CScriptLine* pLine = files[nPos];
 					CString strSource = pLine->GetParameter(_T("Source"));
 					strSource = CFunc::ExtractRelativePath(strSourceDir, strSource);
-					if (!strSource.IsEmpty() && strSource[0] != '{')
+					if (!strSource.IsEmpty() && strSource[0] != _T('{'))
 						pLine->SetParameter(_T("Source"), strSource);
 				}
 			}
@@ -219,15 +219,15 @@ LRESULT CMainFrame::OnProjectInstallFonts(WORD /*wNotifyCode*/, WORD /*wID*/, HW
 }
 
 static LPCTSTR GetFullRoot(LPCTSTR pszRoot) {
-	if (!_stricmp(pszRoot, _T("HKCR")))
+	if (!_tcsicmp(pszRoot, _T("HKCR")))
 		return _T("HKEY_CLASSES_ROOT");
-	if (!_stricmp(pszRoot, _T("HKCU")))
+	if (!_tcsicmp(pszRoot, _T("HKCU")))
 		return _T("HKEY_CURRENT_USER");
-	if (!_stricmp(pszRoot, _T("HKLM")))
+	if (!_tcsicmp(pszRoot, _T("HKLM")))
 		return _T("HKEY_LOCAL_MACHINE");
-	if (!_stricmp(pszRoot, _T("HKU")))
+	if (!_tcsicmp(pszRoot, _T("HKU")))
 		return _T("HKEY_USERS");
-	if (!_stricmp(pszRoot, _T("HKCC")))
+	if (!_tcsicmp(pszRoot, _T("HKCC")))
 		return _T("HKEY_CURRENT_CONFIG");
 
 	return pszRoot;
@@ -243,7 +243,7 @@ LRESULT CMainFrame::OnProjectExportRegistry(WORD /*wNotifyCode*/, WORD /*wID*/, 
 
 	CWaitCursor wait;
 	FILE* fp;
-	if (fopen_s(&fp, dlg.m_szFileName, _T("w")) != 0) {
+	if (_tfopen_s(&fp, dlg.m_szFileName, _T("w")) != 0 || !fp) {
 		CString txt = _L(_T("Error|CreateFile"), _T("Failed to create '%1'."));
 		txt.Replace(_T("%1"), dlg.m_szFileName);
 		AtlMessageBox(m_hWnd, (LPCTSTR)txt, IDR_MAINFRAME, MB_OK | MB_ICONERROR);
@@ -251,11 +251,11 @@ LRESULT CMainFrame::OnProjectExportRegistry(WORD /*wNotifyCode*/, WORD /*wID*/, 
 	}
 
 
-	fprintf(fp, _T("REGEDIT4\n\n"));
+	_ftprintf(fp, _T("REGEDIT4\n\n"));
 	for (int nPos = 0; nPos < list.GetSize(); nPos++) {
 		CScriptLine* pLine = list[nPos];
 
-		fprintf(fp, _T("[%s\\%s]\n"),
+		_ftprintf(fp, _T("[%s\\%s]\n"),
 			GetFullRoot(pLine->GetParameter(_T("Root"))),
 			pLine->GetParameter(_T("Subkey"))
 		);
@@ -267,11 +267,11 @@ LRESULT CMainFrame::OnProjectExportRegistry(WORD /*wNotifyCode*/, WORD /*wID*/, 
 		if (!strValueData.IsEmpty()) {
 			// Fix for different stuff
 			LPCTSTR pszValueType = pLine->GetParameter(_T("ValueType"));
-			if (!_stricmp(pszValueType, _T("binary"))) {
+			if (!_tcsicmp(pszValueType, _T("binary"))) {
 				strValueData = _T("hex:") + strValueData;
 				strValueData.Replace(_T(" "), _T(","));
-			} else if (!_stricmp(pszValueType, _T("dword"))) {
-				if (strValueData[0] == '$') {
+			} else if (!_tcsicmp(pszValueType, _T("dword"))) {
+				if (strValueData[0] == _T('$')) {
 					strValueData = _T("dword:") + strValueData.Mid(1);
 				} else {
 					DWORD dwValueData = _ttol(strValueData);
@@ -284,9 +284,9 @@ LRESULT CMainFrame::OnProjectExportRegistry(WORD /*wNotifyCode*/, WORD /*wID*/, 
 			}
 		}
 
-		fprintf(fp, _T("\"%s\"=%s\n"), strValueName.GetBuffer(), strValueData.GetBuffer());
+		_ftprintf(fp, _T("\"%s\"=%s\n"), (LPCTSTR)strValueName, (LPCTSTR)strValueData);
 
-		fprintf(fp, _T("\n"));
+		_ftprintf(fp, _T("\n"));
 	}
 
 	fclose(fp);
@@ -306,7 +306,7 @@ LRESULT CMainFrame::OnProjectImportMessages(WORD /*wNotifyCode*/, WORD /*wID*/, 
 	CString strFilename(dlg.m_szFileName);
 	CString strSection;
 	FILE* file;
-	if (fopen_s(&file, strFilename, _T("r")) != 0) {
+	if (_tfopen_s(&file, strFilename, _T("r")) != 0) {
 		CString txt = _L(_T("Failed to open '%1'."));
 		txt.Replace(_T("%1"), strFilename);
 		AtlMessageBox(m_hWnd, (LPCTSTR)txt, IDR_MAINFRAME, MB_OK | MB_ICONERROR);
@@ -317,13 +317,13 @@ LRESULT CMainFrame::OnProjectImportMessages(WORD /*wNotifyCode*/, WORD /*wID*/, 
 	UINT nLine = 0;
 	bool bInSection = false;
 	bool bAdded = false;
-	while (fgets(str.GetBuffer(1024), 1024, file)) {
+	while (_fgetts(str.GetBuffer(1024), 1024, file)) {
 		nLine++;
 		str.ReleaseBuffer();
 		str.TrimLeft(); str.TrimRight();
-		if (str.IsEmpty() || str[0] == ';') continue;
+		if (str.IsEmpty() || str[0] == _T(';')) continue;
 
-		if (str[0] == '[') {
+		if (str[0] == _T('[')) {
 			if (!str.CompareNoCase(_T("[Messages]"))) {
 				bInSection = true;
 			} else {
@@ -391,7 +391,7 @@ LRESULT CMainFrame::OnProjectCreateInternetShortcut(WORD /*wNotifyCode*/, WORD /
 	dlg.m_strFileName += m_document.GetScript().GetPropertyString(_T("AppName"));
 	dlg.m_strFileName += _T(".url");
 
-	dlg.m_strURL = _T("http://www.");
+	dlg.m_strURL = _T("https://");
 	dlg.m_strURL += m_document.GetScript().GetPropertyString(_T("AppName"));
 	dlg.m_strURL += _T(".com/");
 	dlg.m_strURL.MakeLower();
@@ -424,7 +424,7 @@ LRESULT CMainFrame::OnProjectVerifyFiles(WORD /*wNotifyCode*/, WORD /*wID*/, HWN
 	CString			strSourceDir;
 
 	bool bValidSourceDir = m_document.GetSourceDir(strSourceDir);
-	if (bValidSourceDir) CMyUtils::EndWith(strSourceDir, '\\');
+	if (bValidSourceDir) CMyUtils::EndWith(strSourceDir, _T('\\'));
 
 	// Unselect all files if files section
 	bool bFilesList = m_uCurrentView == ID_VIEW_FILES && CMyApp::m_prefs.m_bFilesList;
@@ -442,7 +442,7 @@ LRESULT CMainFrame::OnProjectVerifyFiles(WORD /*wNotifyCode*/, WORD /*wID*/, HWN
 		CString strSource = pLine->GetParameter(_T("Source"));
 
 		// Don't check empty entries and anything that uses constants
-		if (!strSource.GetLength() || strSource[0] == '{') continue;
+		if (!strSource.GetLength() || strSource[0] == _T('{')) continue;
 
 		CString strFileName;
 		m_document.GetScriptFileName(strFileName, strSource);
@@ -498,7 +498,7 @@ LRESULT CMainFrame::OnProjectExportMessages(WORD /*wNotifyCode*/, WORD /*wID*/, 
 
 	CWaitCursor wait;
 	FILE* fp;
-	if (fopen_s(&fp, dlg.m_szFileName, _T("w")) != 0) {
+	if (_tfopen_s(&fp, dlg.m_szFileName, _T("w")) != 0) {
 		CString txt = _L(_T("Error|CreateFile"), _T("Failed to create '%1'."));
 		txt.Replace(_T("%1"), dlg.m_szFileName);
 		AtlMessageBox(m_hWnd, (LPCTSTR)txt, IDR_MAINFRAME, MB_OK | MB_ICONERROR);
@@ -506,13 +506,13 @@ LRESULT CMainFrame::OnProjectExportMessages(WORD /*wNotifyCode*/, WORD /*wID*/, 
 	}
 
 
-	fprintf(fp, _T("[Messages]\r\n"));
+	_ftprintf(fp, _T("[Messages]\r\n"));
 	for (int nPos = 0; nPos < list.GetSize(); nPos++) {
 		CScriptLine* pLine = list[nPos];
 		CString strLine;
 
 		pLine->Write(strLine.GetBuffer(8000), 8000);
-		fprintf(fp, _T("%s\r\n"), strLine.GetBuffer());
+		_ftprintf(fp, _T("%s\r\n"), (LPCTSTR)strLine);
 	}
 
 	fclose(fp);

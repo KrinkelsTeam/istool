@@ -220,7 +220,7 @@ bool CMyPrefs::LoadPrefs() {
 	}
 
 	if (::GetModuleFileName(_Module.GetModuleInstance(), m_strAppDir.GetBuffer(_MAX_PATH), _MAX_PATH)) {
-		int nPos = m_strAppDir.ReverseFind('\\');
+		int nPos = m_strAppDir.ReverseFind(_T('\\'));
 		if (nPos >= 0) m_strAppDir.ReleaseBuffer(nPos);
 	}
 
@@ -241,29 +241,20 @@ BOOL CMyApp::InitInstance() {
 	m_prefs.LoadPrefs();
 
 	// Locate help files
-#ifdef NDEBUG
 	SetHtmlHelpFile(_T("ISTool.chm"));
 	m_strCallTipsFile = _T("calltips.txt");
 	CString strHelp;
 	if (::GetModuleFileName(_Module.GetModuleInstance(), strHelp.GetBuffer(_MAX_PATH), _MAX_PATH)) {
-		int nPos = strHelp.ReverseFind('\\');
-		if (nPos < 0) nPos = strHelp.ReverseFind('/');
+		int nPos = strHelp.ReverseFind(_T('\\'));
+		if (nPos < 0) nPos = strHelp.ReverseFind(_T('/'));
 		if (nPos >= 0) {
 			strHelp.ReleaseBuffer(nPos + 1);
 			SetHtmlHelpFile(strHelp + _T("ISTool.chm"));
 			m_strCallTipsFile = strHelp + _T("calltips.txt");
 			m_strProgramPath = strHelp;
-			//CTransDialog::SetIndexFile(strHelp + "ISTool.idx");
 		}
 	}
 	CTranslate::AddFile(CMyApp::m_prefs.m_strLanguageFile);
-#else
-	SetHtmlHelpFile(_T("U:\\ISTool\\help\\html\\ISTool.chm"));
-	m_strCallTipsFile = _T("U:\\istool\\calltips.txt");
-	//CTransDialog::SetIndexFile("U:\\ISTool\\distribution\\ISTool.idx");
-	//CTransDialog::SetLanguageFile("F:\\Utvk\\ISTool\\distribution\\German.lng");
-	CTranslate::AddFile(CMyApp::m_prefs.m_strLanguageFile);
-#endif
 
 	m_imageList.Create(16, 16, ILC_MASK | ILC_COLOR32, 18, 1);
 	CBitmap bm;
@@ -294,7 +285,7 @@ BOOL CMyApp::InitInstance() {
 		TCHAR szValue[1024] = {};
 		ULONG len = _countof(szValue);
 		CString cmdLine;
-		cmdLine.Format(_T("\"%s\" \"%%1\""), __argv[0]);
+		cmdLine.Format(_T("\"%s\" \"%%1\""), CMyUtils::GetAppExePath());
 
 		if (key.QueryStringValue(nullptr, szValue, &len) != ERROR_SUCCESS ||
 			_tcscmp(szValue, cmdLine) != 0) {
@@ -323,13 +314,21 @@ BOOL CMyApp::InitInstance() {
 	}
 
 	FILE* fp;
-	if (fopen_s(&fp, m_strCallTipsFile, _T("rb")) == 0) {
-		CString strLine;
+	if (_tfopen_s(&fp, m_strCallTipsFile, _T("rb")) == 0) {
+		CHAR buf[2048];
 		long nSection = -1;
-		while (fgets(strLine.GetBuffer(1000), 1000, fp)) {
-			strLine.ReleaseBuffer();
-			strLine.Trim();
-			if (strLine.IsEmpty() || strLine[0] == ';') continue;
+		while (fgets(buf, sizeof(buf), fp)) {
+			size_t len = strlen(buf);
+			while (len > 0 && (buf[len - 1] == '\n' || buf[len - 1] == '\r')) {
+				buf[--len] = '\0';
+			}
+
+			CStringA lineA(buf);
+			lineA.Trim();
+
+			if (lineA.IsEmpty() || lineA[0] == ';') continue;
+
+			CString strLine = CA2T((LPCSTR)lineA, CP_ACP);
 
 			if (!strLine.CompareNoCase(_T("[functions]")))
 				nSection = 1;
@@ -340,7 +339,7 @@ BOOL CMyApp::InitInstance() {
 			else if (nSection > 0) {
 				CString strName, strDescription;
 
-				long pos = strLine.Find('=');
+				long pos = strLine.Find(_T('='));
 				if (pos > 0) {
 					strName = strLine.Left(pos).Trim();
 					strDescription = strLine.Mid(pos + 1).Trim();
@@ -424,10 +423,10 @@ int myFind(const CString& ref, TCHAR ch, int startPos/*=0*/) {
 	int nInConstant = 0;
 
 	while (pos < len) {
-		if (ref[pos] == '{') {
+		if (ref[pos] == _T('{')) {
 			nInConstant++;
 		}
-		else if (ref[pos] == '}') {
+		else if (ref[pos] == _T('}')) {
 			nInConstant--;
 		}
 		else if (!nInConstant && ref[pos] == ch) {
@@ -456,7 +455,7 @@ HTREEITEM CMyApp::FindParentItem(CTreeViewCtrl& ctrl, LPCTSTR lpszFolder, bool b
 	HTREEITEM hRoot = TVI_ROOT;
 
 	do {
-		int pos = myFind(str, '\\');
+		int pos = myFind(str, _T('\\'));
 		if (pos >= 0) {
 			sub = str.Left(pos);
 			str = str.Mid(pos + 1);
@@ -531,9 +530,9 @@ DWORD CMyApp::MyExec(LPCTSTR pszFilename, LPCTSTR pszParams, LPCTSTR pszWorkingD
 	DWORD				dwResult = -1;
 
 #if NDEBUG
-	strCmdLine.Format(_T("\"%s\" %s"), pszFilename, pszParams ? pszParams : "");
+	strCmdLine.Format(_T("\"%s\" %s"), pszFilename, pszParams ? pszParams : _T(""));
 #else
-	strCmdLine.Format(_T("\"%s\" %s /DEBUGWND=%d"), pszFilename, pszParams ? pszParams : "", AfxGetMainHWnd());
+	strCmdLine.Format(_T("\"%s\" %s /DEBUGWND=%d"), pszFilename, pszParams ? pszParams : _T(""), AfxGetMainHWnd());
 #endif
 
 	memset(&si, 0, sizeof si);
@@ -583,7 +582,6 @@ bool CMyApp::IsBooleanExp(LPCTSTR pszArg) {
 	return false;
 }
 
-
 CMainFrame& AfxGetMainWnd() {
 	ATLASSERT(CMainFrame::m_pMainWnd);
 	return *CMainFrame::m_pMainWnd;
@@ -600,15 +598,23 @@ CMyDoc* AfxGetDocument() {
 	return CMainFrame::m_pDoc;
 }
 
-void AfxGetFileTitle(LPCTSTR pszPathName, LPSTR pszBuffer, UINT nLength) {
+void AfxGetFileTitle(LPCTSTR pszPathName, LPTSTR pszBuffer, UINT nLength) {
 	CString str(pszPathName);
-	int nPos1 = str.ReverseFind('\\');
-	int nPos2 = str.ReverseFind('/');
-	if (nPos2 > nPos1) str = str.Mid(nPos2 + 1);
-	else str = str.Mid(nPos1 + 1);
-	nPos1 = str.ReverseFind('.');
-	if (nPos1 >= 0)
-		str.ReleaseBuffer(nPos1);
-	_tcscpy_s(pszBuffer, _tcslen(str) + 1, str);
+
+	int nPos1 = str.ReverseFind(_T('\\'));
+	int nPos2 = str.ReverseFind(_T('/'));
+
+	if (nPos2 > nPos1) {
+		str = str.Mid(nPos2 + 1);
+	} else {
+		str = str.Mid(nPos1 + 1);
+	}
+
+	int nDot = str.ReverseFind(_T('.'));
+	if (nDot >= 0) {
+		str = str.Left(nDot);
+	}
+
+	_tcsncpy_s(pszBuffer, nLength, str, _TRUNCATE);
 }
 

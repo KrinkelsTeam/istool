@@ -6,12 +6,10 @@
 
 #include "ScintillaPrefs.h"
 
-//class CScintillaView : public CScintillaWindowImpl<CScintillaView>
 class CScintillaView : public CWindowImpl<CScintillaView, CScintilla>
 {
 public:
 	DECLARE_WND_SUPERCLASS(NULL, CScintilla::GetWndClassName())
-	//DECLARE_WND_CLASS(NULL)
 
 	typedef CWindowImpl<CScintillaView, CScintilla> baseClass;
 
@@ -47,8 +45,8 @@ public:
 	//	LRESULT CommandHandler(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 	//	LRESULT NotifyHandler(int /*idCtrl*/, LPNMHDR /*pnmh*/, BOOL& /*bHandled*/)
 
-	CString				m_strSearch, m_strReplace;
-	long				m_iSearchFlags;
+	CString	m_strSearch, m_strReplace;
+	long	m_iSearchFlags;
 
 	LRESULT OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& bHandled);
 	LRESULT OnDestroy(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);

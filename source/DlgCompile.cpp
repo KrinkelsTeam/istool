@@ -5,7 +5,7 @@
 CDlgCompile::CDlgCompile(CMyDoc* pDoc, const bool bForceRun) :
 	m_hCompiler(NULL), m_pDoc(pDoc), m_nCurrentLine(0),
 	m_eAbort(FALSE, TRUE), m_eDone(FALSE, TRUE), m_bForceRun(bForceRun),
-	m_hCompilerDLS(NULL)
+	m_hCompilerISPP(NULL)
 {
 	m_sec = CInnoScript::SEC_NONE;
 	m_logFile = NULL;
@@ -14,8 +14,8 @@ CDlgCompile::CDlgCompile(CMyDoc* pDoc, const bool bForceRun) :
 	bool bAppend = m_pDoc->GetScript().GetPropertyBool(_T("LogFileAppend"), CInnoScript::PRJ_ISTOOL);
 	if (pszLogFile && *pszLogFile) {
 		errno_t err = bAppend
-			? fopen_s(&m_logFile, pszLogFile, _T("ab"))
-			: fopen_s(&m_logFile, pszLogFile, _T("wb"));
+			? _tfopen_s(&m_logFile, pszLogFile, _T("ab"))
+			: _tfopen_s(&m_logFile, pszLogFile, _T("wb"));
 		if (err != 0) {
 			m_logFile = NULL;
 		}
@@ -24,7 +24,7 @@ CDlgCompile::CDlgCompile(CMyDoc* pDoc, const bool bForceRun) :
 
 CDlgCompile::~CDlgCompile() {
 	if (m_hCompiler) FreeLibrary(m_hCompiler);
-	if (m_hCompilerDLS) FreeLibrary(m_hCompilerDLS);
+	if (m_hCompilerISPP) FreeLibrary(m_hCompilerISPP);
 	if (m_logFile) fclose(m_logFile);
 }
 
@@ -38,9 +38,7 @@ LRESULT CDlgCompile::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lPa
 
 	HMENU hMenu = GetSystemMenu(FALSE);
 	EnableMenuItem(hMenu, SC_CLOSE, MF_BYCOMMAND | MF_GRAYED);
-	//GetSystemMenu(FALSE)->EnableMenuItem(SC_CLOSE,MF_BYCOMMAND|MF_GRAYED);
 
-	//m_script.SetLines(m_pDoc->GetScript().CopyScript());
 	m_script = m_pDoc->GetScript();
 	m_nCurrentLine = 0;
 
@@ -84,22 +82,15 @@ bool CDlgCompile::LoadCompiler() {
 		AtlMessageBox(m_hWnd, (LPCTSTR)txt, IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 		return false;
 	} else {
-		m_fCompileScriptA = (ISDllCompileScriptProcA)GetProcAddress(m_hCompiler, "ISDllCompileScript");
-		m_fCompileScriptW = NULL;
-		//m_fCompileScriptW = (ISDllCompileScriptProcW)GetProcAddress(m_hCompiler,"ISDllCompileScriptW");
-		m_fCompileScriptISPPA = (ISDllCompileScriptISPPProcA)GetProcAddress(m_hCompiler, "ISPPDllCompileScript");
-		m_fCompileScriptISPPW = NULL;
-		//m_fCompileScriptISPPW = (ISDllCompileScriptISPPProcW)GetProcAddress(m_hCompiler,"ISPPDllCompileScriptW");
+		m_fCompileScript = (ISDllCompileScriptProc)GetProcAddress(m_hCompiler, "ISDllCompileScriptW");
 		m_fGetVersion = (ISDllGetVersionProc)GetProcAddress(m_hCompiler, "ISDllGetVersion");
 
 		// ISPP is installed and ISTool is doing the
 		// pre-processing, so bypass ISPP when compiling
-		if ((m_fCompileScriptISPPA || m_fCompileScriptISPPW) && CMyApp::m_prefs.m_bPreProcess)
+		if (CMyApp::m_prefs.m_bPreProcess)
 			if (m_pDoc->GetCompiler(strLibrary, true, true)) {
-				if (m_hCompilerDLS = LoadLibrary(strLibrary)) {
-					m_fCompileScriptA = (ISDllCompileScriptProcA)GetProcAddress(m_hCompilerDLS, "ISDllCompileScript");
-					m_fCompileScriptW = NULL;
-					//m_fCompileScriptW = (ISDllCompileScriptProcW)GetProcAddress(m_hCompilerDLS,"ISDllCompileScriptW");
+				if (m_hCompilerISPP = LoadLibrary(strLibrary)) {
+					m_fCompileScriptISPP = (ISPreprocessScriptProc)GetProcAddress(m_hCompiler, "ISPreprocessScript");
 				}
 			}
 
@@ -117,7 +108,7 @@ DWORD WINAPI CDlgCompile::ThreadEntry(LPVOID lpParameter) {
 
 	pDlg->m_pDoc->SetCurrentDir();
 
-	if ((pDlg->m_fCompileScriptISPPA || pDlg->m_fCompileScriptISPPW) && CMyApp::m_prefs.m_bPreProcess)
+	if (pDlg->m_fCompileScriptISPP && CMyApp::m_prefs.m_bPreProcess)
 		dwRet = pDlg->PreProcess();
 
 	if (dwRet == 0)
@@ -139,61 +130,6 @@ DWORD WINAPI CDlgCompile::ThreadEntry(LPVOID lpParameter) {
 }
 
 UINT CDlgCompile::PreProcess() {
-	// Find script folder
-	CString strScriptPath(m_pDoc->GetPathName());
-	int nPos = strScriptPath.ReverseFind('\\');
-	if (nPos < 0) nPos = strScriptPath.ReverseFind('/');
-	if (nPos >= 0) strScriptPath = strScriptPath.Left(nPos);
-
-	// Compile script
-	if (m_fCompileScriptISPPW) {
-		TCompileScriptParamsW params;
-		params.Size = sizeof params;
-		params.CompilerPath = NULL;
-		params.ScriptPath = CA2W(strScriptPath);
-		params.CallbackProc = CompilerCallbackW;
-		params.AppData = (DWORD)this;
-
-		TIsppOptionsW options = {
-			OPTION_B | OPTION_P,
-			OPTION_E,
-			0,
-			_T("\2{#"),
-			_T("\1}"),
-			'\\'
-		};
-		m_fCompileScriptISPPW(&params, &options, NULL, NULL);
-	} else {
-		TCompileScriptParamsA params;
-		params.Size = sizeof params;
-		params.CompilerPath = NULL;
-		params.ScriptPath = strScriptPath;
-		params.CallbackProc = CompilerCallbackA;
-		params.AppData = (DWORD)this;
-
-		TIsppOptionsA options = {
-			OPTION_B | OPTION_P,
-			OPTION_E,
-			0,
-			_T("\2{#"),
-			_T("\1}"),
-			'\\'
-		};
-		m_fCompileScriptISPPA(&params, &options, NULL, NULL);
-	}
-	if (m_strTranslation.IsEmpty()) {
-		AddListString(_T("ISPP preprocessing failed."));
-		SetFinished();
-		return 2;
-	}
-
-	// Empty string
-	AddListString(_T(""));
-
-	m_script.Clear();
-	m_script.LoadScriptBuffer(m_strTranslation.GetBuffer());
-	//m_script.WriteScript("c:\\temp\\debug.iss");
-
 	return 0;
 }
 
@@ -201,9 +137,13 @@ UINT CDlgCompile::DoCompile() {
 	CString tmp;
 	__time64_t time;
 	_time64(&time);
+
 	char timeStr[26];
 	_ctime64_s(timeStr, sizeof(timeStr), &time);
-	tmp.Format(_T("Compilation started: %s"), timeStr);
+
+	USES_CONVERSION;
+
+	tmp.Format(_T("Compilation started: %s"), A2T(timeStr));
 	tmp.TrimRight();
 	AddListString(tmp);
 
@@ -218,44 +158,31 @@ UINT CDlgCompile::DoCompile() {
 	if (!AddDownloadSection())
 		return 1;
 
-
 	// Print compiler version information
 	TCompilerVersionInfo* pVersionInfo = m_fGetVersion();
 	CString strVersion;
 	strVersion.Format(_T("Compiling script using %s %s"),
-		pVersionInfo->Title,
-		pVersionInfo->Version);
+		CString(pVersionInfo->Title),
+		CString(pVersionInfo->Version));
 	AddListString(strVersion);
 
 	// Find script folder
 	CString strScriptPath(m_pDoc->GetPathName());
-	int nPos = strScriptPath.ReverseFind('\\');
-	if (nPos < 0) nPos = strScriptPath.ReverseFind('/');
+	int nPos = strScriptPath.ReverseFind(_T('\\'));
+	if (nPos < 0) nPos = strScriptPath.ReverseFind(_T('/'));
 	if (nPos >= 0) strScriptPath = strScriptPath.Left(nPos);
 
 	// Compile script
-	if (m_fCompileScriptW) {
-		TCompileScriptParamsW params;
-		params.Size = sizeof params;
-		params.CompilerPath = NULL;
-		params.ScriptPath = CA2W(strScriptPath);
-		params.CallbackProc = CompilerCallbackW;
-		params.AppData = (DWORD)this;
-		if (m_fCompileScriptW(&params) != isceNoError) {
-			SetFinished();
-			return 2;
-		}
-	} else {
-		TCompileScriptParamsA params;
-		params.Size = sizeof params;
-		params.CompilerPath = NULL;
-		params.ScriptPath = strScriptPath;
-		params.CallbackProc = CompilerCallbackA;
-		params.AppData = (DWORD)this;
-		if (m_fCompileScriptA(&params) != isceNoError) {
-			SetFinished();
-			return 2;
-		}
+	TCompileScriptParamsEx params;
+	params.Size = sizeof params;
+	params.CompilerPath = NULL;
+	params.SourcePath = (LPTSTR)(LPCTSTR)strScriptPath;
+	params.CallbackProc = CompilerCallback;
+	params.AppData = (DWORD)this;
+	params.Options = NULL;
+	if (m_fCompileScript(&params) != isceNoError) {
+		SetFinished();
+		return 2;
 	}
 
 	// Empty string
@@ -272,7 +199,7 @@ UINT CDlgCompile::DoCompile() {
 
 	_time64(&time);
 	_ctime64_s(timeStr, sizeof(timeStr), &time);
-	tmp.Format(_T("Compilation ended: %s"), timeStr);
+	tmp.Format(_T("Compilation ended: %s"), A2T(timeStr));
 	tmp.TrimRight();
 	AddListString(tmp);
 
@@ -294,11 +221,11 @@ UINT CDlgCompile::DoCompile() {
 	return 0;
 }
 
-LONG __stdcall CDlgCompile::CompilerCallbackA(LONG Code, TCompilerCallbackDataA* Data, DWORD AppData) {
-	return reinterpret_cast<CDlgCompile*>(AppData)->CompilerCallbackA(Code, Data);
+LONG __stdcall CDlgCompile::CompilerCallback(LONG Code, TCompilerCallbackData* Data, DWORD AppData) {
+	return reinterpret_cast<CDlgCompile*>(AppData)->CompilerCallback(Code, Data);
 }
 
-UINT CDlgCompile::CompilerCallbackA(LONG Code, TCompilerCallbackDataA* Data) {
+UINT CDlgCompile::CompilerCallback(LONG Code, TCompilerCallbackData* Data) {
 	int nString = LB_ERR;
 	CString str;
 
@@ -306,7 +233,7 @@ UINT CDlgCompile::CompilerCallbackA(LONG Code, TCompilerCallbackDataA* Data) {
 		return iscrRequestAbort;
 
 	switch (Code) {
-	case iscbReceiveTranslation:
+	case iscbNotifyPreproc:
 		m_strTranslation = Data->NotifyStatus.StatusMsg;
 		break;
 	case iscbReadScript:
@@ -321,11 +248,11 @@ UINT CDlgCompile::CompilerCallbackA(LONG Code, TCompilerCallbackDataA* Data) {
 		} else if (m_script[m_nCurrentLine]->GetSection() != m_sec && m_script[m_nCurrentLine]->GetSection() != CInnoScript::SEC_NONE) {
 			m_sec = m_script[m_nCurrentLine]->GetSection();
 			m_strCurrentLine.Format(_T("[%s]"), CInnoScriptEx::GetSectionName(m_sec));
-			Data->ReadScript.LineRead = m_strCurrentLine;
+			Data->ReadScript.LineRead = (LPTSTR)(LPCTSTR)m_strCurrentLine;
 		} else {
 			m_script[m_nCurrentLine]->Write(m_strCurrentLine.GetBuffer(8192), 8192);
 			m_strCurrentLine.ReleaseBuffer();
-			Data->ReadScript.LineRead = m_strCurrentLine;
+			Data->ReadScript.LineRead = (LPTSTR)(LPCTSTR)m_strCurrentLine;
 			m_nCurrentLine++;
 		}
 		break;
@@ -377,89 +304,6 @@ UINT CDlgCompile::CompilerCallbackA(LONG Code, TCompilerCallbackDataA* Data) {
 	return iscrSuccess;
 }
 
-LONG __stdcall CDlgCompile::CompilerCallbackW(LONG Code, TCompilerCallbackDataW* Data, DWORD AppData) {
-	return reinterpret_cast<CDlgCompile*>(AppData)->CompilerCallbackW(Code, Data);
-}
-
-UINT CDlgCompile::CompilerCallbackW(LONG Code, TCompilerCallbackDataW* Data) {
-	int nString = LB_ERR;
-	CString str;
-
-	if (WaitForSingleObject(m_eAbort, 0) == WAIT_OBJECT_0)
-		return iscrRequestAbort;
-
-	switch (Code) {
-	case iscbReceiveTranslation:
-		m_strTranslation = Data->NotifyStatus.StatusMsg;
-		break;
-	case iscbReadScript:
-		if (Data->ReadScript.Reset) {
-			m_sec = CInnoScript::SEC_NONE;
-			//m_pCurrentLine = m_pScriptLines;
-			m_nCurrentLine = 0;
-		}
-
-		if (m_nCurrentLine >= m_script.GetSize()) {
-			Data->ReadScript.LineRead = NULL;
-		} else if (m_script[m_nCurrentLine]->GetSection() != m_sec && m_script[m_nCurrentLine]->GetSection() != CInnoScript::SEC_NONE) {
-			m_sec = m_script[m_nCurrentLine]->GetSection();
-			m_strCurrentLine.Format(_T("[%s]"), CInnoScriptEx::GetSectionName(m_sec));
-			Data->ReadScript.LineRead = CA2W(m_strCurrentLine);
-		} else {
-			m_script[m_nCurrentLine]->Write(m_strCurrentLine.GetBuffer(8192), 8192);
-			m_strCurrentLine.ReleaseBuffer();
-			Data->ReadScript.LineRead = CA2W(m_strCurrentLine);
-			m_nCurrentLine++;
-		}
-		break;
-
-	case iscbNotifyStatus:
-		if (Data->NotifyStatus.StatusMsg)
-			nString = AddListString(CW2A(Data->NotifyStatus.StatusMsg));
-		break;
-
-	case iscbNotifyIdle:
-		if (Data->NotifyIdle.CompressProgress > 0) {
-			if (!m_wndProgress.IsWindowVisible())
-				m_wndProgress.ShowWindow(SW_SHOW);
-
-			m_wndProgress.SetRange32(0, Data->NotifyIdle.CompressProgressMax);
-			m_wndProgress.SetPos(Data->NotifyIdle.CompressProgress);
-		}
-		break;
-
-	case iscbNotifySuccess:
-		if (Data->NotifySuccess.OutputExeFilename) {
-			m_strOutputExeFilename = Data->NotifySuccess.OutputExeFilename;
-			nString = AddListString(CW2A(Data->NotifySuccess.OutputExeFilename));
-		}
-		break;
-
-	case iscbNotifyError:
-		if (Data->NotifyError.ErrorMsg) {
-			CString str;
-			if (Data->NotifyError.ErrorFilename)
-				str.Format(_T("%s line %d:"), Data->NotifyError.ErrorFilename, Data->NotifyError.ErrorLine);
-			else {
-				str.Format(_T("Line %d:"), Data->NotifyError.ErrorLine);
-				m_nErrorLine = Data->NotifyError.ErrorLine;
-			}
-
-			AddListString(str);
-			nString = AddListString(CW2A(Data->NotifyError.ErrorMsg));
-		}
-		break;
-	}
-
-	if (nString != LB_ERR) {
-		//		m_wndList.SetTopIndex(nString);
-		//		m_wndList.UpdateWindow();
-				//Sleep(500);
-	}
-
-	return iscrSuccess;
-}
-
 bool CDlgCompile::AddDownloadSection() {
 	CScriptList listDownload;
 	m_script.GetList(CInnoScript::PRJ_DOWNLOAD, listDownload);
@@ -468,15 +312,10 @@ bool CDlgCompile::AddDownloadSection() {
 		CString strCode, tmp;
 		AddListString(_T("Building download script"));
 
-		strCode += _T("[Code]\r\n");
-		//strCode += "function istool_Download(hWnd: Integer; URL, Filename: PChar): Integer; external 'isxdl_Download@files:isxdl.dll stdcall';\r\n";
-		strCode += _T("procedure istool_AddFile(URL, Filename: PChar); external 'isxdl_AddFile@files:isxdl.dll stdcall';\r\n");
-		//strCode += "procedure istool_AddFileSize(URL, Filename: PChar; Size: Cardinal); external 'isxdl_AddFileSize@files:isxdl.dll stdcall';\r\n";
+		strCode += _T("[Code]\r\n");	
+		strCode += _T("procedure istool_AddFile(URL, Filename: String); external 'isxdl_AddFile@files:isxdl.dll stdcall';\r\n");
 		strCode += _T("function istool_DownloadFiles(hWnd: Integer): Integer; external 'isxdl_DownloadFiles@files:isxdl.dll stdcall';\r\n");
 		strCode += _T("procedure istool_ClearFiles; external 'isxdl_ClearFiles@files:isxdl.dll stdcall';\r\n");
-		//strCode += "function istool_IsConnected: Integer; external 'isxdl_IsConnected@files:isxdl.dll stdcall';\r\n";
-		//strCode += "function istool_SetOption(Option, Value: PChar): Integer; external 'isxdl_SetOption@files:isxdl.dll stdcall';\r\n";
-		//strCode += "function istool_GetFileName(URL: PChar): PChar; external 'isxdl_GetFileName@files:isxdl.dll stdcall';\r\n";
 		strCode += _T("\r\ntype\r\n");
 		strCode += _T("  ISXDL = record\r\n");
 		strCode += _T("    Source:     String;\r\n");
@@ -491,11 +330,7 @@ bool CDlgCompile::AddDownloadSection() {
 		strCode += _T("  istool_files: array of ISXDL;\r\n");
 		strCode += _T("\r\nprocedure istool_download_init();\r\n");
 		strCode += _T("begin\r\n");
-		//strCode += "  ExtractTemporaryFile('norwegian.ini');\r\n";
-		//strCode += "  isxdl_SetOption('language',ExpandConstant('{tmp}\\norwegian.ini'));\r\n";
-		//strCode += "  isxdl_SetOption('title','Setup - Download Demo');\r\n";
-		//strCode += "  isxdl_SetOption('label','Some label...');\r\n";
-		//strCode += "  isxdl_SetOption('description','Some description...');\r\n";
+		
 		tmp.Format(_T("  SetArrayLength(istool_files,%d);\r\n"), listDownload.GetSize()); strCode += tmp;
 		for (int i = 0; i < listDownload.GetSize(); i++) {
 			CScriptLine* pLine = listDownload[i];
@@ -507,26 +342,26 @@ bool CDlgCompile::AddDownloadSection() {
 			strComponents = pLine->GetParameter(_T("Components"));
 			strLanguages = pLine->GetParameter(_T("Languages"));
 
-			if (strSource.Find('{') < 0)
-				tmp.Format(_T("  istool_files[%d].Source     := '%s';\r\n"), i, strSource);
+			if (strSource.Find(_T('{')) < 0)
+				tmp.Format(_T("  istool_files[%d].Source     := '%s';\r\n"), i, (LPCTSTR)strSource);
 			else
-				tmp.Format(_T("  istool_files[%d].Source     := ExpandConstant('%s');\r\n"), i, strSource);
+				tmp.Format(_T("  istool_files[%d].Source     := ExpandConstant('%s');\r\n"), i, (LPCTSTR)strSource);
 			strCode += tmp;
-			if (strDestDir.Find('{') < 0)
-				tmp.Format(_T("  istool_files[%d].DestDir    := '%s';\r\n"), i, strDestDir);
+			if (strDestDir.Find(_T('{')) < 0)
+				tmp.Format(_T("  istool_files[%d].DestDir    := '%s';\r\n"), i, (LPCTSTR)strDestDir);
 			else
-				tmp.Format(_T("  istool_files[%d].DestDir    := ExpandConstant('%s');\r\n"), i, strDestDir);
+				tmp.Format(_T("  istool_files[%d].DestDir    := ExpandConstant('%s');\r\n"), i, (LPCTSTR)strDestDir);
 			strCode += tmp;
-			if (strDestName.Find('{') < 0)
-				tmp.Format(_T("  istool_files[%d].DestName   := '%s';\r\n"), i, strDestName);
+			if (strDestName.Find(_T('{')) < 0)
+				tmp.Format(_T("  istool_files[%d].DestName   := '%s';\r\n"), i, (LPCTSTR)strDestName);
 			else
-				tmp.Format(_T("  istool_files[%d].DestName   := ExpandConstant('%s');\r\n"), i, strDestName);
+				tmp.Format(_T("  istool_files[%d].DestName   := ExpandConstant('%s');\r\n"), i, (LPCTSTR)strDestName);
 			strCode += tmp;
-			tmp.Format(_T("  istool_files[%d].Tasks      := '%s';\r\n"), i, strTasks);
+			tmp.Format(_T("  istool_files[%d].Tasks      := '%s';\r\n"), i, (LPCTSTR)strTasks);
 			strCode += tmp;
-			tmp.Format(_T("  istool_files[%d].Components := '%s';\r\n"), i, strComponents);
+			tmp.Format(_T("  istool_files[%d].Components := '%s';\r\n"), i, (LPCTSTR)strComponents);
 			strCode += tmp;
-			tmp.Format(_T("  istool_files[%d].Languages  := '%s';\r\n"), i, strLanguages);
+			tmp.Format(_T("  istool_files[%d].Languages  := '%s';\r\n"), i, (LPCTSTR)strLanguages);
 			strCode += tmp;
 			tmp.Format(_T("  istool_files[%d].Flags      := 0;\r\n"), i);
 			strCode += tmp;
@@ -537,7 +372,7 @@ bool CDlgCompile::AddDownloadSection() {
 		strCode += _T("begin\r\n");
 		strCode += _T("	Result := True;\r\n");
 		strCode += _T("	if Languages = '' then exit;\r\n");
-		strCode += _T("	if Pos(ActiveLanguage,Languages)=0 then Result := False;\r\n");
+		strCode += _T("	if Pos(ActiveLanguage, Languages) = 0 then Result := False;\r\n");
 		strCode += _T("end;\r\n");
 
 		strCode += _T("\r\nfunction istool_download(CurPage: Integer): boolean;\r\n");
@@ -545,38 +380,30 @@ bool CDlgCompile::AddDownloadSection() {
 		strCode += _T("  i, NumFiles: Integer;\r\n");
 		strCode += _T("  DestFile, DestDir: String;\r\n");
 		strCode += _T("begin\r\n");
-		strCode += _T("  if CurPage<>wpReady then begin\r\n");
+		strCode += _T("  if CurPage <> wpReady then begin\r\n");
 		strCode += _T("    Result := true;\r\n");
 		strCode += _T("    Exit;\r\n");
 		strCode += _T("  end;\r\n");
 		strCode += _T("  istool_ClearFiles();\r\n");
 		strCode += _T("  istool_download_init();\r\n");
 		strCode += _T("  NumFiles := GetArrayLength(istool_files);\r\n");
-		strCode += _T("  for i:=0 to NumFiles-1 do begin\r\n");
-		// 4.0 strCode += "    if srYes <> ShouldProcessEntry(istool_files[i].Components,istool_files[i].Tasks) then continue;\r\n";
+		strCode += _T("  for i := 0 to NumFiles - 1 do begin\r\n");
+
 		strCode += _T("	if (IsComponentSelected(istool_files[i].Components) = false) or (IsTaskSelected(istool_files[i].Tasks) = false) then continue;\r\n");
 		strCode += _T("    if not istool_checklanguages(istool_files[i].Languages) then continue;\r\n");
 		strCode += _T("    DestDir := AddBackslash(istool_files[i].DestDir);\r\n");
-		strCode += _T("    if istool_files[i].DestName='' then\r\n");
+		strCode += _T("    if istool_files[i].DestName = '' then\r\n");
 		strCode += _T("      DestFile := DestDir + 'dlfile.' + IntToStr(i)\r\n");
 		strCode += _T("    else\r\n");
 		strCode += _T("      DestFile := DestDir + istool_files[i].DestName;\r\n");
-		//			strCode += "    MsgBox(DestFile,mbInformation,MB_OK);\r\n";
-		//			strCode += "	MsgBox(DestDir,mbInformation,MB_OK);\r\n";
-		strCode += _T("    istool_AddFile(istool_files[i].Source,DestFile);\r\n");
+		strCode += _T("    istool_AddFile(istool_files[i].Source, DestFile);\r\n");
 		strCode += _T("  end;\r\n");
-		strCode += _T("  Result := 0<>istool_DownloadFiles(StrToInt(ExpandConstant('{wizardhwnd}')));\r\n");
+		strCode += _T("  Result := 0 <> istool_DownloadFiles(StrToInt(ExpandConstant('{wizardhwnd}')));\r\n");
 		strCode += _T("end;\r\n");
 		strCode += _T("\r\n[Files]\r\n");
 
-		tmp.Format(_T("Source: %sisxdl.dll; DestDir: {tmp}; Flags: dontcopy\r\n"), theApp.m_strProgramPath);
+		tmp.Format(_T("Source: %sisxdl.dll; DestDir: {tmp}; Flags: dontcopy\r\n"), (LPCTSTR)theApp.m_strProgramPath);
 		strCode += tmp;
-
-		//strCode += "function NextButtonClick(CurPage: Integer): Boolean;\r\n";
-		//strCode += "begin\r\n";
-		//strCode += "  Result := istool_download(CurPage);\r\n";
-		//strCode += "end;\r\n";
-
 
 		if (FAILED(codefile.Create())) {
 			AddListString(_T("Failed to create code file"));
@@ -599,7 +426,7 @@ bool CDlgCompile::AddDownloadSection() {
 		//			AtlMessageBox(m_hWnd,(LPCTSTR)strTempFileName);
 		m_strIncludeFile = strTempFileName;
 		// Add include file to script
-		tmp.Format(_T("#include \"%s\""), strTempFileName);
+		tmp.Format(_T("#include \"%s\""), (LPCTSTR)strTempFileName);
 		m_script.AddHead(new CInnoScript::CLineComment(CInnoScript::SEC_NONE, tmp));
 	}
 	return true;
@@ -613,7 +440,7 @@ void CDlgCompile::ParseDir(LPCTSTR pszFilter, CAtlTemporaryFile& file, const CSt
 		do {
 			if (find.IsDots()) {
 			} else if (find.IsDirectory()) {
-				tmp.Format(_T("%s\\*.*"), find.GetFilePath());
+				tmp.Format(_T("%s\\*.*"), (LPCTSTR)find.GetFilePath());
 				ParseDir(tmp, file, strDestDir, strRoot);
 			} else {
 				CString strSource = find.GetFilePath();
@@ -633,19 +460,18 @@ void CDlgCompile::ParseDir(LPCTSTR pszFilter, CAtlTemporaryFile& file, const CSt
 void CDlgCompile::AppendLogFile(LPCTSTR pszFileName) {
 	if (!m_logFile) return;
 	FILE* fp;
-	errno_t err = fopen_s(&fp, pszFileName, _T("rb"));
-	if (err != 0) {
-		fprintf(m_logFile, _T("==============================================================================\r\n"));
-		fprintf(m_logFile, _T("Contents of \"%s\"\r\n"), pszFileName);
-		fprintf(m_logFile, _T("==============================================================================\r\n"));
+	if (_tfopen_s(&fp, pszFileName, _T("rb")) == 0) {
+		_ftprintf(m_logFile, _T("==============================================================================\r\n"));
+		_ftprintf(m_logFile, _T("Contents of \"%s\"\r\n"), pszFileName);
+		_ftprintf(m_logFile, _T("==============================================================================\r\n"));
 
-		char szLine[8192];
-		while (fgets(szLine, sizeof szLine, fp)) {
-			fputs(szLine, m_logFile);
+		TCHAR szLine[8192];
+		while (_fgetts(szLine, _countof(szLine), fp)) {
+			_fputts(szLine, m_logFile);
 		}
 		fclose(fp);
 
-		fprintf(m_logFile, _T("==============================================================================\r\n"));
+		_ftprintf(m_logFile, _T("==============================================================================\r\n"));
 	}
 }
 
@@ -660,7 +486,7 @@ void CDlgCompile::SetFinished() {
 }
 
 int CDlgCompile::AddListString(LPCTSTR pszString) {
-	if (m_logFile) fprintf(m_logFile, _T("%s\r\n"), pszString);
+	if (m_logFile) _ftprintf(m_logFile, _T("%s\r\n"), pszString);
 
 	m_wndList.SetRedraw(FALSE);
 	int nString = m_wndList.AddString(pszString);

@@ -57,8 +57,8 @@ HTREEITEM CViewFilesT::InsertItem(CScriptLine* pLine) {
 		CString strFolder(pLine->GetParameter(_T("Name")));
 		//int pos = strFolder.ReverseFind('\\');
 		//if(pos<0) pos = strFolder.ReverseFind(':');
-		int pos = myReverseFind(strFolder, '\\');
-		if (pos < 0) pos = myReverseFind(strFolder, ':');
+		int pos = myReverseFind(strFolder, _T('\\'));
+		if (pos < 0) pos = myReverseFind(strFolder, _T(':'));
 		if (pos >= 0) strFolder = strFolder.Left(pos);
 		else strFolder.Empty();
 
@@ -72,8 +72,8 @@ HTREEITEM CViewFilesT::InsertItem(CScriptLine* pLine) {
 		CString tmp(pLine->GetParameter(_T("DestName")));
 		if (tmp.IsEmpty()) {
 			tmp = pLine->GetParameter(_T("Source"));
-			int pos = tmp.ReverseFind('\\');
-			if (pos < 0) pos = tmp.ReverseFind(':');
+			int pos = tmp.ReverseFind(_T('\\'));
+			if (pos < 0) pos = tmp.ReverseFind(_T(':'));
 			if (pos > 0) tmp = tmp.Mid(pos + 1);
 		}
 		HTREEITEM hParent = CMyApp::FindParentItem(GetTreeCtrl(), pLine->GetParameter(_T("DestDir")));
@@ -90,15 +90,15 @@ void CViewFilesT::SetItemData(HTREEITEM hItem, CInnoScript::CLine* pLine) {
 		CString strName(pLine->GetParameter(_T("DestName")));
 		if (strName.IsEmpty()) {
 			strName = pLine->GetParameter(_T("Source"));
-			int pos = strName.ReverseFind('\\');
-			if (pos < 0) pos = strName.ReverseFind(':');
+			int pos = strName.ReverseFind(_T('\\'));
+			if (pos < 0) pos = strName.ReverseFind(_T(':'));
 			if (pos >= 0) strName = strName.Mid(pos + 1);
 		}
 		GetTreeCtrl().SetItemText(hItem, strName);
 	} else if (pLine->GetSection() == CInnoScript::SEC_DIRS) {
 		CString strName = pLine->GetParameter(_T("Name"));
-		int pos = myReverseFind(strName, '\\');
-		if (pos < 0) pos = myReverseFind(strName, ':');
+		int pos = myReverseFind(strName, _T('\\'));
+		if (pos < 0) pos = myReverseFind(strName, _T(':'));
 		if (pos >= 0) strName = strName.Mid(pos + 1);
 		GetTreeCtrl().SetItemText(hItem, strName);
 	}
@@ -127,7 +127,7 @@ int CViewFilesT::CompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort) 
 		//return 0;	// Both are dirs
 		CString strName1(pBase1->GetParameter(_T("Name")));
 		CString strName2(pBase2->GetParameter(_T("Name")));
-		return _stricmp(strName1, strName2);
+		return _tcsicmp(strName1, strName2);
 	}
 	if (bDir1) return -1;
 	if (bDir2) return 1;

@@ -82,6 +82,22 @@ LRESULT CMainFrame::OnFileSaveCopyAs(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*
 	return 0;
 }
 
+LRESULT CMainFrame::OnFileSaveEncoding(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {	
+	switch (wID) {
+	case ID_FILE_SAVE_ENCODING_AUTO:
+		theApp.m_saveEncoding = SaveEncoding::Auto;
+		break;
+	case ID_FILE_SAVE_ENCODING_UTF8:
+		theApp.m_saveEncoding = SaveEncoding::UTF8WithoutBOM;
+		break;
+	case ID_FILE_SAVE_ENCODING_UTF8_BOM:
+		theApp.m_saveEncoding = SaveEncoding::UTF8WithBOM;
+		break;
+	}
+	
+	return 0;
+}
+
 LRESULT CMainFrame::OnFileRecent(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {
 	// get file name from the MRU list
 	TCHAR szFile[MAX_PATH];

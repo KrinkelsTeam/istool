@@ -180,7 +180,7 @@ LRESULT CMyTreeView::OnCut(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, 
 	if (OpenClipboard()) {
 		HGLOBAL hGlobal = GlobalAlloc(GMEM_MOVEABLE | GMEM_DDESHARE, strClip.GetLength() + 1);
 		LPVOID lp = GlobalLock(hGlobal);
-		_tcscpy_s(reinterpret_cast<LPSTR>(lp), strClip.GetLength() + 1, strClip);
+		_tcscpy_s(reinterpret_cast<LPTSTR>(lp), strClip.GetLength() + 1, strClip);
 		GlobalUnlock(lp);
 		EmptyClipboard();
 		SetClipboardData(CF_TEXT, hGlobal);
@@ -216,7 +216,7 @@ LRESULT CMyTreeView::OnCopy(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/,
 	if (OpenClipboard()) {
 		HGLOBAL hGlobal = GlobalAlloc(GMEM_MOVEABLE | GMEM_DDESHARE, strClip.GetLength() + 1);
 		LPVOID lp = GlobalLock(hGlobal);
-		_tcscpy_s(reinterpret_cast<LPSTR>(lp), strClip.GetLength() + 1, strClip);
+		_tcscpy_s(reinterpret_cast<LPTSTR>(lp), strClip.GetLength() + 1, strClip);
 		GlobalUnlock(lp);
 		EmptyClipboard();
 		SetClipboardData(CF_TEXT, hGlobal);

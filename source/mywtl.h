@@ -11,7 +11,7 @@ class CMyDoc;
 extern CMyApp* AfxGetApp();
 extern CMainFrame& AfxGetMainWnd();
 extern HWND AfxGetMainHWnd();
-extern void AfxGetFileTitle(LPCTSTR pszPathName, LPSTR pszBuffer, UINT nLength);
+extern void AfxGetFileTitle(LPCTSTR pszPathName, LPTSTR pszBuffer, UINT nLength);
 extern CMyDoc* AfxGetDocument();
 
 template <class T>
@@ -103,37 +103,40 @@ public:
 	}
 
 #define DDX_CBINDEX(nID, var) \
-		if(nCtlID == (UINT)-1 || nCtlID == nID) \
+		if(nCtlID == (UINT) -1 || nCtlID == nID) \
 		{ \
-			if(bSaveAndValidate) var = ::SendMessage(GetDlgItem(nID),CB_GETCURSEL,0,0);\
-			else ::SendMessage(GetDlgItem(nID),CB_SETCURSEL,var,0);\
+			if(bSaveAndValidate) var = ::SendMessage(GetDlgItem(nID), CB_GETCURSEL, 0, 0);\
+			else ::SendMessage(GetDlgItem(nID), CB_SETCURSEL, var, 0);\
 		}
 
-#define DDX_CBICON(wnd,nID,var) \
-	if(nCtlID==(UINT)-1 || nCtlID==nID) { \
+#define DDX_CBICON(wnd, nID, var) \
+	if(nCtlID == (UINT) -1 || nCtlID == nID) { \
 		if(bSaveAndValidate) var = wnd.GetCurSelIcon(); \
 		else wnd.SetCurSelIcon(var); \
 	}
 
-#define DDX_CBSTRING(nID,var) \
-	if(nCtlID==(UINT)-1 || nCtlID==nID) { \
+#define DDX_CBSTRING(nID, var) \
+	if(nCtlID == (UINT) -1 || nCtlID == nID) { \
 		if(bSaveAndValidate) {  \
 			int nLength = ::GetWindowTextLength(GetDlgItem(nID)); \
-			if(nLength>0) { \
-				::GetWindowText(GetDlgItem(nID),var.GetBufferSetLength(nLength),nLength+1); \
+			if(nLength > 0) { \
+				::GetWindowText(GetDlgItem(nID), var.GetBufferSetLength(nLength), nLength + 1); \
 			} else { \
-				::GetWindowText(GetDlgItem(nID),var.GetBufferSetLength(255),256); \
+				::GetWindowText(GetDlgItem(nID), var.GetBufferSetLength(255), 256); \
 			} \
 			var.ReleaseBuffer(); \
 		} else { \
-			int i = (int)::SendMessage(GetDlgItem(nID), CB_FINDSTRINGEXACT, (WPARAM)-1, (LPARAM)(LPCTSTR)var); \
+			int i = (int)::SendMessage(GetDlgItem(nID), CB_FINDSTRINGEXACT, (WPARAM) -1, (LPARAM)(LPCTSTR)var); \
 			if (i < 0) { \
-				::SetWindowText(GetDlgItem(nID),var); \
+				::SetWindowText(GetDlgItem(nID), var); \
 			} else { \
 				::SendMessage(GetDlgItem(nID), CB_SETCURSEL, i, 0L); \
 			} \
 		} \
 	}
+
+#define UTF8_TO_CSTRING(utf8str) (CString(CA2W((utf8str), CP_UTF8)))
+#define CSTRING_TO_UTF8(tstr)    (CStringA(CW2A((tstr), CP_UTF8)))
 
 namespace WTL {
 
@@ -169,7 +172,7 @@ public:
 };
 
 #ifdef _DEBUG
-#define VERIFY(x)			ATLASSERT(x)
+	#define VERIFY(x)	ATLASSERT(x)
 #else
-#define VERIFY(x)			x
+	#define VERIFY(x)	x
 #endif

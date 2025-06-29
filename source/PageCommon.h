@@ -195,8 +195,8 @@ public:
 		CString str9X(tok.GetNext());
 		CString strNT(tok.GetNext());
 		float f1 = 0, f2 = 0;
-		sscanf_s(str9X, _T("%f"), &f1);
-		sscanf_s(strNT, _T("%f"), &f2);
+		_stscanf_s(str9X, _T("%f"), &f1);
+		_stscanf_s(strNT, _T("%f"), &f2);
 		if (f1 < 3.09) v1 = 1;
 		else if (f1 < 3.99) v1 = 2;
 		else if (f1 < 4.09) v1 = 3;
@@ -219,22 +219,22 @@ public:
 			LPCTSTR pszLine = strLine;
 
 
-			char szName[256] = _T("");
+			TCHAR szName[256] = _T("");
 
-			while (iswspace(*pszLine)) pszLine++;
+			while (_istspace(*pszLine)) pszLine++;
 			if (!_tcsnicmp(pszLine, _T("function"), 8)) {
 				pszLine += 8;
-				while (*pszLine && iswspace(*pszLine)) pszLine++;
+				while (*pszLine && _istspace(*pszLine)) pszLine++;
 
 				bool bInParm = false;
-				while (*pszLine && (*pszLine != ':' || bInParm)) {
-					if (!bInParm && *pszLine == '(') bInParm = true;
-					else if (!bInParm && !iswspace(*pszLine)) _tcsncat_s(szName, sizeof(szName) / sizeof(TCHAR), pszLine, 1);
-					else if (bInParm && *pszLine == ')') bInParm = false;
+				while (*pszLine && (*pszLine != _T(':') || bInParm)) {
+					if (!bInParm && *pszLine == _T('(')) bInParm = true;
+					else if (!bInParm && !_istspace(*pszLine)) _tcsncat_s(szName, sizeof(szName) / sizeof(TCHAR), pszLine, 1);
+					else if (bInParm && *pszLine == _T(')')) bInParm = false;
 					pszLine++;
 				}
 
-				while (*pszLine && (iswspace(*pszLine) || *pszLine == ':')) pszLine++;
+				while (*pszLine && (_istspace(*pszLine) || *pszLine == _T(':'))) pszLine++;
 
 				if (!_tcsnicmp(pszLine, _T("Boolean"), 7)) m_wndCheck.AddString(szName);
 			}

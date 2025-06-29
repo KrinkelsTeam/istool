@@ -47,7 +47,7 @@ void CFileInfo::Create(const CString strFilePath, LPARAM lParam) {
 
    hFind = FindFirstFile(strFilePath, &wfd);
    if (hFind != INVALID_HANDLE_VALUE) {
-      nBarPos = strFilePath.ReverseFind(TCHAR('\\'));
+      nBarPos = strFilePath.ReverseFind(_T('\\'));
       Create(&wfd, strFilePath.Left(strFilePath.GetLength()-nBarPos), lParam);
       FindClose(hFind);
    }

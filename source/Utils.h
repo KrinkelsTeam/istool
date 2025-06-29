@@ -13,13 +13,13 @@ namespace Henden {
 class CFindData : protected WIN32_FIND_DATA {
 public:
 	/// Returns a pointer to the WIN32_FIND_DATA
-	operator WIN32_FIND_DATA*() {
+	operator WIN32_FIND_DATA* () {
 		return this;
 	}
 
 	/// Returns true if this is a directory called "." or ".."
 	bool IsDots() const {
-		return IsDirectory() && cFileName[0] == '.' && (cFileName[1] == '\0' || (cFileName[1] == '.' && cFileName[2] == '\0'));
+		return IsDirectory() && cFileName[0] == _T('.') && (cFileName[1] == _T('\0') || (cFileName[1] == _T('.') && cFileName[2] == _T('\0')));
 	}
 
 	/// Returns true if this is a directory
@@ -49,7 +49,7 @@ public:
 	/// Returns the full path name including file name
 	CString GetFilePath() const {
 		CString strResult = m_strRoot;
-		if(strResult[strResult.GetLength() - 1] != '\\' && strResult[strResult.GetLength() - 1] != '/')
+		if (strResult[strResult.GetLength() - 1] != _T('\\') && strResult[strResult.GetLength() - 1] != _T('/'))
 			strResult += _T('\\');
 		strResult += GetFileName();
 		return strResult;
@@ -74,33 +74,33 @@ class CUtils {
 public:
 #ifdef __CSTRINGT_H__
 	/// Makes sure a string ends with a certain character
-	static void EndWith(CString& ref,TCHAR nChar) {
+	static void EndWith(CString& ref, TCHAR nChar) {
 		int nLength = (int)_tcslen(ref);
-		if(!nLength || ref[nLength-1]!=nChar)
+		if (!nLength || ref[nLength - 1] != nChar)
 			ref += _T('\\');
 	}
 
 	/// Lists all files in the given directory
 	static CDirList ListDir(CString strDir) {
-		EndWith(strDir,_T('\\'));
+		EndWith(strDir, _T('\\'));
 		CDirList dirList;
 
 		CFindData wfd(strDir);
-		HANDLE hFind = ::FindFirstFile(strDir+ _T("*.*"),wfd);
-		if(hFind!=INVALID_HANDLE_VALUE) {
+		HANDLE hFind = ::FindFirstFile(strDir + _T("*.*"), wfd);
+		if (hFind != INVALID_HANDLE_VALUE) {
 			do {
-				if(wfd.IsDirectory() && !wfd.IsDots())
+				if (wfd.IsDirectory() && !wfd.IsDots())
 					dirList.Add(wfd);
-			} while(::FindNextFile(hFind,wfd));
+			} while (::FindNextFile(hFind, wfd));
 			::FindClose(hFind);
 		}
-		
-		hFind = ::FindFirstFile(strDir+ _T("*.*"),wfd);
-		if(hFind!=INVALID_HANDLE_VALUE) {
+
+		hFind = ::FindFirstFile(strDir + _T("*.*"), wfd);
+		if (hFind != INVALID_HANDLE_VALUE) {
 			do {
-				if(!wfd.IsDirectory())
+				if (!wfd.IsDirectory())
 					dirList.Add(wfd);
-			} while(::FindNextFile(hFind,wfd));
+			} while (::FindNextFile(hFind, wfd));
 			::FindClose(hFind);
 		}
 		return dirList;
@@ -111,12 +111,12 @@ public:
 		CDirList dirList;
 
 		CFindData wfd(strDir);
-		HANDLE hFind = ::FindFirstFile(strDir+ _T("*.*"),wfd);
-		if(hFind!=INVALID_HANDLE_VALUE) {
+		HANDLE hFind = ::FindFirstFile(strDir + _T("*.*"), wfd);
+		if (hFind != INVALID_HANDLE_VALUE) {
 			do {
-				if(wfd.IsDirectory() && !wfd.IsDots())
+				if (wfd.IsDirectory() && !wfd.IsDots())
 					dirList.Add(wfd);
-			} while(::FindNextFile(hFind,wfd));
+			} while (::FindNextFile(hFind, wfd));
 			::FindClose(hFind);
 		}
 		return dirList;
@@ -130,22 +130,22 @@ public:
 	** @param bDirsAlso If this is true, directories will be added to the list also
 	*/
 	/// List all files and possible directories
-	static bool ListFiles(CDirList& dirList,CString strMatch,bool bRecursive,bool bDirsAlso) {
+	static bool ListFiles(CDirList& dirList, CString strMatch, bool bRecursive, bool bDirsAlso) {
 		bool bRet = false;
 		int nRootLen = strMatch.ReverseFind(_T('\\'));
-		CFindData wfd(strMatch.Left(nRootLen+1));
+		CFindData wfd(strMatch.Left(nRootLen + 1));
 
-		HANDLE hFind = ::FindFirstFile(strMatch,wfd);
-		if(hFind!=INVALID_HANDLE_VALUE) {
+		HANDLE hFind = ::FindFirstFile(strMatch, wfd);
+		if (hFind != INVALID_HANDLE_VALUE) {
 			do {
-				if(!wfd.IsDots()) {
-					if(!wfd.IsDirectory() || bDirsAlso)
+				if (!wfd.IsDots()) {
+					if (!wfd.IsDirectory() || bDirsAlso)
 						dirList.Add(wfd);
-					if(wfd.IsDirectory() && bRecursive)
-						ListFiles(dirList,wfd.GetFilePath() + _T("\\*.*"),bRecursive,bDirsAlso);
+					if (wfd.IsDirectory() && bRecursive)
+						ListFiles(dirList, wfd.GetFilePath() + _T("\\*.*"), bRecursive, bDirsAlso);
 				}
-			} while(::FindNextFile(hFind,wfd));
-			bRet = ::GetLastError()==ERROR_NO_MORE_FILES;
+			} while (::FindNextFile(hFind, wfd));
+			bRet = ::GetLastError() == ERROR_NO_MORE_FILES;
 			::FindClose(hFind);
 		}
 		return bRet;
@@ -155,12 +155,12 @@ public:
 	static bool IsDirectory(LPCTSTR pszPathName) {
 #if 1
 		DWORD dw = GetFileAttributes(pszPathName);
-		return dw!=INVALID_FILE_ATTRIBUTES && (dw & FILE_ATTRIBUTE_DIRECTORY);
+		return dw != INVALID_FILE_ATTRIBUTES && (dw & FILE_ATTRIBUTE_DIRECTORY);
 #else
 		bool bIsDirectory = false;
 		CFindData wfd(pszPathName);
-		HANDLE hFind = ::FindFirstFile(pszPathName,wfd);
-		if(hFind!=INVALID_HANDLE_VALUE) {
+		HANDLE hFind = ::FindFirstFile(pszPathName, wfd);
+		if (hFind != INVALID_HANDLE_VALUE) {
 			bIsDirectory = wfd.IsDirectory();
 			::FindClose(hFind);
 		}
@@ -188,26 +188,24 @@ public:
 		bool bRetVal = false;
 
 		CString strAlloc(pcszDirectory);
-		const int nLength = (int)_tcslen( pcszDirectory ) + 1;
+		const int nLength = (int)_tcslen(pcszDirectory) + 1;
 		LPTSTR pszDirectoryPath = strAlloc.GetBuffer();
-		if( pszDirectoryPath )
-		{
+		if (pszDirectoryPath) {
 
 			LPCTSTR pcszNextDirectory = pcszDirectory;
 
 			//
 			//	Determine if the path is a UNC path. We do this by looking at the first two bytes
 			//	and checkin they are both backslashes
-			if( nLength > 2 && *pcszNextDirectory == cSlash && *(pcszNextDirectory+1) == cSlash )
-			{
+			if (nLength > 2 && *pcszNextDirectory == cSlash && *(pcszNextDirectory + 1) == cSlash) {
 				//	We need to skip passed this bit and copy it into out local path.
 				//	"\\Russ\C\"
 				pcszNextDirectory += 2;
-				while( *pcszNextDirectory && *pcszNextDirectory != cSlash )	pcszNextDirectory++;
+				while (*pcszNextDirectory && *pcszNextDirectory != cSlash)	pcszNextDirectory++;
 				pcszNextDirectory++;
-				while( *pcszNextDirectory && *pcszNextDirectory != cSlash )	pcszNextDirectory++;
-                _tcsncpy_s( pszDirectoryPath, nLength, pcszDirectory, pcszNextDirectory - pcszDirectory );
-				pszDirectoryPath[ pcszNextDirectory - pcszDirectory ] = '\000';
+				while (*pcszNextDirectory && *pcszNextDirectory != cSlash)	pcszNextDirectory++;
+				_tcsncpy_s(pszDirectoryPath, nLength, pcszDirectory, pcszNextDirectory - pcszDirectory);
+				pszDirectoryPath[pcszNextDirectory - pcszDirectory] = _T('\000');
 			}
 
 			//
@@ -218,22 +216,22 @@ public:
 			//
 			//	Now, loop over the path, creating directories as we go. If we fail at any point then get out of the loop
 			do {
-				if( *pcszNextDirectory )
+				if (*pcszNextDirectory)
 					pcszNextDirectory++;
 
-				while( *pcszNextDirectory && *pcszNextDirectory != cSlash && *pcszNextDirectory!='/')
+				while (*pcszNextDirectory && *pcszNextDirectory != cSlash && *pcszNextDirectory != _T('/'))
 					pcszNextDirectory++;
 
-                _tcsncpy_s(pszDirectoryPath, nLength, pcszDirectory, pcszNextDirectory - pcszDirectory);
-				pszDirectoryPath[ pcszNextDirectory - pcszDirectory ] = '\000';
+				_tcsncpy_s(pszDirectoryPath, nLength, pcszDirectory, pcszNextDirectory - pcszDirectory);
+				pszDirectoryPath[pcszNextDirectory - pcszDirectory] = _T('\000');
 
-				if(!IsDirectory(pszDirectoryPath)) {
-					if(!CreateDirectory(pszDirectoryPath,NULL)) {
+				if (!IsDirectory(pszDirectoryPath)) {
+					if (!CreateDirectory(pszDirectoryPath, NULL)) {
 						bRetVal = false;
 						break;
 					}
 				}
-			} while( *pcszNextDirectory );
+			} while (*pcszNextDirectory);
 		}
 		return bRetVal;
 	}

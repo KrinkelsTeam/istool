@@ -34,7 +34,7 @@ public:
 			return false;
 		}
 
-		char buffer[4097];
+		TCHAR buffer[4097];
 		CString strData;
 		DWORD dwBytes = 0;
 		BOOL bOk;

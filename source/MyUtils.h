@@ -30,6 +30,12 @@ public:
 		return isAdmin;
 	}
 
+	static LPCTSTR GetAppExePath() {
+		static TCHAR szExePath[MAX_PATH] = { 0 };
+		::GetModuleFileName(_Module.GetModuleInstance(), szExePath, _countof(szExePath));
+		return szExePath;
+	}
+
 	static bool GetSysError(CString& strError, DWORD dwError, LPCTSTR pszModule = NULL) {
 		HMODULE hModule = NULL;
 		DWORD dwFlags = FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS;
@@ -275,7 +281,7 @@ public:
 				pcszNextDirectory++;
 				while (*pcszNextDirectory && *pcszNextDirectory != cSlash)	pcszNextDirectory++;
 				_tcsncpy_s(pszDirectoryPath, nLength, pcszDirectory, pcszNextDirectory - pcszDirectory);
-				pszDirectoryPath[pcszNextDirectory - pcszDirectory] = '\000';
+				pszDirectoryPath[pcszNextDirectory - pcszDirectory] = _T('\000');
 			}
 
 			//
@@ -289,11 +295,11 @@ public:
 				if (*pcszNextDirectory)
 					pcszNextDirectory++;
 
-				while (*pcszNextDirectory && *pcszNextDirectory != cSlash && *pcszNextDirectory != '/')
+				while (*pcszNextDirectory && *pcszNextDirectory != cSlash && *pcszNextDirectory != _T('/'))
 					pcszNextDirectory++;
 
 				_tcsncpy_s(pszDirectoryPath, nLength, pcszDirectory, pcszNextDirectory - pcszDirectory);
-				pszDirectoryPath[pcszNextDirectory - pcszDirectory] = '\000';
+				pszDirectoryPath[pcszNextDirectory - pcszDirectory] = _T('\000');
 
 				if (_taccess(pszDirectoryPath, 0)) {
 					if (!CreateDirectory(pszDirectoryPath, NULL)) {
@@ -381,96 +387,4 @@ private:
 		reinterpret_cast<CMyThread*>(pArg)->Run();
 		return 0;
 	}
-};
-
-/*
-class CTestThread : public CMyThread {
-public:
-	CTest() {
-		Resume();
-	}
-	virtual void Run() {
-		for(UINT i=0;i<100;i++) {
-			printf(".");
-			fflush(stdout);
-			Sleep(100);
-			if(_isDying) break;
-		}
-		printf("!\n");
-	}
-	virtual void FlushThread() {};
-};
-*/
-
-class CStringSplitter {
-public:
-	CStringSplitter() : m_strings(NULL) {
-	}
-
-	CStringSplitter(LPCTSTR pszString, LPCTSTR pszSplit) : m_strings(NULL) {
-		Split(pszString, pszSplit);
-	}
-
-	void Split(LPCTSTR pszString, LPCTSTR pszSplit) {
-		Free();
-
-		// 1. Scan string and find string count
-		UINT nCount = 1;
-		LPCTSTR ptr = pszString;
-		while (*ptr) {
-			if (_tcschr(pszSplit, *ptr)) nCount++;
-			ptr++;
-		}
-
-		// 2. Allocate array of pointers
-		m_strings = new TCHAR * [nCount + 1];
-		nCount = 0;
-		ptr = pszString;
-		while (*ptr) {
-			UINT nLength = 0;
-			while (ptr[nLength] && !_tcschr(pszSplit, ptr[nLength])) nLength++;
-			m_strings[nCount] = new TCHAR[nLength + 1];
-			_tcsncpy_s(m_strings[nCount], nLength + 1, ptr, nLength);
-			m_strings[nCount][nLength] = 0;
-			nCount++;
-
-			if (!ptr[nLength]) break;
-			ptr += nLength + 1;
-			//while(strchr(pszSplit,*ptr)) ptr++;
-		}
-		m_strings[nCount] = NULL;
-	}
-
-	UINT GetLength() {
-		if (!m_strings) return 0;
-
-		TCHAR** ptr = m_strings;
-		UINT nCount = 0;
-		while (ptr[nCount]) nCount++;
-		return nCount;
-	}
-
-	LPCTSTR GetAt(UINT n) {
-		if (!m_strings) return NULL;
-		return m_strings[n];
-	}
-
-	LPCTSTR operator[](UINT n) {
-		return GetAt(n);
-	}
-
-protected:
-	void Free() {
-		if (m_strings) {
-			TCHAR** ptr = m_strings;
-			while (*ptr) {
-				delete[] * ptr;
-				ptr++;
-			}
-			delete[]m_strings;
-			m_strings = NULL;
-		}
-	}
-
-	TCHAR** m_strings;
 };

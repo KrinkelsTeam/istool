@@ -6,7 +6,7 @@ static LRESULT SendCopyDataMessageStr(HWND DestWnd, HWND SourceWnd, DWORD CopyDa
 	COPYDATASTRUCT CopyDataStruct;
 
 	CopyDataStruct.dwData = CopyDataMsg;
-	CopyDataStruct.cbData = strlen(Data);
+	CopyDataStruct.cbData = (_tcslen(Data) + 1) * sizeof(TCHAR);
 	CopyDataStruct.lpData = (PVOID)Data;
 	
 	return SendMessage(DestWnd, WM_COPYDATA, WPARAM(SourceWnd), LPARAM(&CopyDataStruct));
@@ -17,15 +17,12 @@ LRESULT CMainFrame::OnDebuggerCopyData(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM 
 	COPYDATASTRUCT* pcds = reinterpret_cast<COPYDATASTRUCT*>(lParam);
 
 	switch (pcds->dwData) {
-	case CD_Debugger_LogMessage:
-		_tcsncpy_s(tmp.GetBufferSetLength(pcds->cbData), pcds->cbData + 1, (char*)pcds->lpData, pcds->cbData);
-		tmp = LPCTSTR(pcds->lpData);
-		//SetString(S, PChar(Message.CopyDataStruct.lpData),
-		//Message.CopyDataStruct.cbData);
-		//DebugLogMessage(S);
+	case CD_Debugger_LogMessageW:
+		tmp = CString((LPCTSTR)pcds->lpData);
+		// DebugLogMessage(tmp);
 		return 1;
 	default:
-		_tcsncpy_s(tmp.GetBufferSetLength(pcds->cbData), pcds->cbData + 1, (char*)pcds->lpData, pcds->cbData);
+		tmp = CString((LPCTSTR)pcds->lpData);
 		return 1;
 	}
 
@@ -43,7 +40,7 @@ LRESULT CMainFrame::OnDebuggerHello(UINT /*uMsg*/, WPARAM wParam, LPARAM lParam,
 		hProcess = OpenProcess(PROCESS_TERMINATE, FALSE, dwPID);
 
 	if (bWantCodeText)
-		SendCopyDataMessageStr(hDebugClientWnd, m_hWnd, CD_DebugClient_CompiledCodeText, _T("FCompiledCodeText"));
-	SendCopyDataMessageStr(hDebugClientWnd, m_hWnd, CD_DebugClient_CompiledCodeDebugInfo, _T("FCompiledCodeDebugInfo"));
+		SendCopyDataMessageStr(hDebugClientWnd, m_hWnd, CD_DebugClient_CompiledCodeTextA, _T("FCompiledCodeText"));
+	SendCopyDataMessageStr(hDebugClientWnd, m_hWnd, CD_DebugClient_CompiledCodeDebugInfoA, _T("FCompiledCodeDebugInfo"));
 	return 0;
 }
