@@ -435,9 +435,6 @@
     <ClInclude Include="DlgSelectLanguageFiles.h">
       <Filter>Extras\Dialog Files</Filter>
     </ClInclude>
-    <ClInclude Include="DlgSysPath.h">
-      <Filter>Extras\Dialog Files</Filter>
-    </ClInclude>
     <ClInclude Include="DlgUpdates.h">
       <Filter>Extras\Dialog Files</Filter>
     </ClInclude>

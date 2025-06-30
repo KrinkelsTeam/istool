@@ -292,7 +292,6 @@
     <ClInclude Include="DlgLogFile.h" />
     <ClInclude Include="DlgSelectFonts.h" />
     <ClInclude Include="DlgSelectLanguageFiles.h" />
-    <ClInclude Include="DlgSysPath.h" />
     <ClInclude Include="DlgUpdates.h" />
     <ClInclude Include="DlgVersion.h" />
     <ClInclude Include="DragDropImpl.h" />
