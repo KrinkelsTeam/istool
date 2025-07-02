@@ -109,7 +109,7 @@ LRESULT CMainFrame::OnFileRecent(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*
 		} else {
 			m_mru.RemoveFromList(wID);
 		}
-		m_mru.WriteToRegistry(NULL);
+		m_mru.WriteToRegistry(CMyApp::m_pszKeyApp);
 	} else {
 		::MessageBeep(MB_ICONERROR);
 	}

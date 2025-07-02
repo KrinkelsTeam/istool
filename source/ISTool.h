@@ -49,34 +49,34 @@ public:
 	bool LoadPrefs();
 	bool SavePrefs();
 
-	bool			m_bReplaceCopy;
-	bool			m_bAutoComponentSelect;
-	bool			m_bTestCompiledSetup;
-	bool			m_bFilesList;
-	bool			m_bIconsList;
-	bool			m_bRegistryList;
-	bool			m_bIgnoreDefaults;
-	bool			m_bOverwriteMessages;
-	CString			m_strInnoFolder;
-	CString			m_strScriptFolder;
-	bool			m_bToolBar;
-	bool			m_bStatusBar;
-	bool			m_bSectionPanel;
-	bool			m_bOpenLastProject;
-	bool			m_bShowNewWizard;
-	UINT			m_uStartupSection;
-	CString			m_strLanguageFile;
-	int				m_nSplitterPos;
-	CString			m_strFontName;
-	long			m_nFontHeight;
-	long			m_nTabStopValue;
-	bool			m_bShowVerticalTabLines;
-	bool			m_bAutoIndent;
-	bool			m_bShowLineNumbers;
-	CString			m_strAppDir;
-	bool			m_bPreProcess;
+	bool				m_bReplaceCopy;
+	bool				m_bAutoComponentSelect;
+	bool				m_bTestCompiledSetup;
+	bool				m_bFilesList;
+	bool				m_bIconsList;
+	bool				m_bRegistryList;
+	bool				m_bIgnoreDefaults;
+	bool				m_bOverwriteMessages;
+	CString				m_strInnoFolder;
+	CString				m_strScriptFolder;
+	bool				m_bToolBar;
+	bool				m_bStatusBar;
+	bool				m_bSectionPanel;
+	bool				m_bOpenLastProject;
+	bool				m_bShowNewWizard;
+	UINT				m_uStartupSection;
+	CString				m_strLanguageFile;
+	int					m_nSplitterPos;
+	CString				m_strFontName;
+	long				m_nFontHeight;
+	long				m_nTabStopValue;
+	bool				m_bShowVerticalTabLines;
+	bool				m_bAutoIndent;
+	bool				m_bShowLineNumbers;
+	CString				m_strAppDir;
+	bool				m_bPreProcess;
 	CAtlArray<CString>	m_languageDirs;
-	bool			m_bNoOutputExeFilename;
+	bool				m_bNoOutputExeFilename;
 protected:
 	const CString	m_strSubKey;
 };
@@ -98,40 +98,31 @@ public:
 	}
 
 	bool WriteProfileBinary(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPVOID pData, ULONG nBytes) {
-		Henden::CAppFile appFile(IDR_MAINFRAME);
-		return appFile.SetBinaryValue(lpszSection, lpszEntry, pData, nBytes);
+		return Henden::CAppReg(T::m_pszKeyApp).SetBinaryValue(lpszSection, lpszEntry, pData, nBytes);
 	}
 
 	bool WriteProfileInt(LPCTSTR lpszSection, LPCTSTR lpszEntry, int nValue) {
-		Henden::CAppFile appFile(IDR_MAINFRAME);
-		appFile.SetDWORDValue(lpszSection, lpszEntry, nValue);
-		return true;
+		return Henden::CAppReg(T::m_pszKeyApp).SetDWORDValue(lpszSection, lpszEntry, nValue);
 	}
 
 	bool WriteProfileString(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPCTSTR lpszValue) {
-		Henden::CAppFile appFile(IDR_MAINFRAME);
-		appFile.SetStringValue(lpszSection, lpszEntry, lpszValue);
-		return true;
+		return Henden::CAppReg(T::m_pszKeyApp).SetStringValue(lpszSection, lpszEntry, lpszValue);
 	}
 
 	bool GetProfileBinary(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPVOID pData, ULONG* pnBytes) {
-		Henden::CAppFile appFile(IDR_MAINFRAME);
-		return appFile.QueryBinaryValue(lpszSection, lpszEntry, pData, *pnBytes);
+		return Henden::CAppReg(T::m_pszKeyApp).QueryBinaryValue(lpszSection, lpszEntry, pData, *pnBytes);
 	}
 
 	UINT GetProfileInt(LPCTSTR lpszSection, LPCTSTR lpszEntry, int nDefault) {
-		Henden::CAppFile appFile(IDR_MAINFRAME);
 		DWORD dwRet = nDefault;
-		if (!appFile.QueryDWORDValue(lpszSection, lpszEntry, dwRet))
+		if (!Henden::CAppReg(T::m_pszKeyApp).QueryDWORDValue(lpszSection, lpszEntry, dwRet))
 			dwRet = nDefault;
 		return dwRet;
 	}
 
 	CString GetProfileString(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPCTSTR lpszDefault = NULL) {
-		Henden::CAppFile appFile(IDR_MAINFRAME);
-		ULONG nChars = MAX_PATH;
 		CString str;
-		if (!appFile.QueryStringValue(lpszSection, lpszEntry, str))
+		if (!Henden::CAppReg(T::m_pszKeyApp).QueryStringValue(lpszSection, lpszEntry, str))
 			return lpszDefault;
 		return str;
 	}
@@ -144,6 +135,7 @@ protected:
 class CMyApp : public CWTLApp<CMyApp> {
 public:
 	static const LPCTSTR m_pszKeyIS;
+	static const LPCTSTR m_pszKeyApp;
 	static CSimpleArray<CallTipInfo*>	m_functions;
 	static CSimpleArray<CallTipInfo*>	m_constants;
 	static CSimpleArray<CallTipInfo*>	m_calltips;
@@ -169,7 +161,7 @@ public:
 	SaveEncoding m_saveEncoding;
 };
 
-#define WM_HIDEVIEW	(WM_USER+1)
-#define WM_SHOWVIEW	(WM_USER+2)
+#define WM_HIDEVIEW	(WM_USER + 1)
+#define WM_SHOWVIEW	(WM_USER + 2)
 
 /////////////////////////////////////////////////////////////////////////////

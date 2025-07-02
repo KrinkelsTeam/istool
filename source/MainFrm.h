@@ -122,7 +122,7 @@ public:
 
 	CToolBarCtrl			m_wndToolBar;
 	CCommandBarCtrl			m_wndCmdBar;
-	Henden::CRecentDocumentList	m_mru;
+	CRecentDocumentList		m_mru;
 	CMultiPaneStatusBarCtrl m_sbar;
 	CSplitterWindow			m_wndSplitter;
 	CPaneContainer			m_wndSectionPane, m_wndSectionMain;

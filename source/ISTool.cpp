@@ -114,7 +114,8 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR lp
 /////////////////////////////////////////////////////////////////////////////
 // CMyApp construction
 
-const LPCTSTR CMyApp::m_pszKeyIS = _T("Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Inno Setup 6_is1");
+const LPCTSTR CMyApp::m_pszKeyApp	= _T("Software\\Henden\\ISTool");
+const LPCTSTR CMyApp::m_pszKeyIS	= _T("Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Inno Setup 6_is1");
 
 CMyApp::CMyApp() : m_mutex(FALSE, _T("ISTool")) {}
 

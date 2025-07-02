@@ -27,54 +27,53 @@ public:
 
 protected:
 	/// The button was clicked - open a browse for folder dialog
-	LRESULT OnClicked(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {
-		HWND hWnd = ::GetNextWindow(m_hWnd, GW_HWNDPREV);
-		if (hWnd) {
-			BROWSEINFO bi = { 0 };
-			TCHAR DirName[MAX_PATH];
-			LPITEMIDLIST pidl;
-			LPMALLOC pmalloc = NULL;
-			CString strText;
+	LRESULT OnClicked(WORD, WORD, HWND, BOOL&) {
+		HWND hWndEdit = ::GetNextWindow(m_hWnd, GW_HWNDPREV);
+		if (!hWndEdit)
+			return 0;
 
-			::GetWindowText(hWnd, strText.GetBuffer(MAX_PATH), MAX_PATH);
-			//pWnd->GetWindowText(strTe);
-			SHGetMalloc(&pmalloc);
+		CString strInitial;
+		::GetWindowText(hWndEdit, strInitial.GetBuffer(MAX_PATH), MAX_PATH);
 
-			bi.hwndOwner = m_hWnd;
-			bi.pszDisplayName = DirName;
-			bi.lpszTitle = (LPCTSTR)m_lpszTitle;
-			bi.ulFlags = BIF_NEWDIALOGSTYLE | BIF_RETURNONLYFSDIRS | BIF_STATUSTEXT/*|BIF_EDITBOX*/;
-			bi.lpfn = BrowseCallbackProc;
-			bi.lParam = (LPARAM)strText.GetBuffer(MAX_PATH);
+		CShellFileOpenDialog dlg;
+		CComPtr<IFileOpenDialog> pDlg = dlg.GetPtr();
 
-			if (pidl = SHBrowseForFolder(&bi)) {
-				SHGetPathFromIDList(pidl, strText.GetBuffer(MAX_PATH));
-				pmalloc->Free(pidl);
+		DWORD dwOptions = 0;
+		pDlg->GetOptions(&dwOptions);
+		pDlg->SetOptions(dwOptions | FOS_PICKFOLDERS | FOS_FORCEFILESYSTEM);
+
+		if (m_lpszTitle != NULL)
+			pDlg->SetTitle(m_lpszTitle);
+
+		if (!strInitial.IsEmpty()) {
+			CComPtr<IShellItem> psiFolder;
+			if (SUCCEEDED(SHCreateItemFromParsingName(strInitial, NULL, IID_PPV_ARGS(&psiFolder)))) {
+				pDlg->SetFolder(psiFolder);
 			}
-
-			pmalloc->Release();
-			if (pidl) ::SetWindowText(hWnd, strText);
 		}
+
+		if (dlg.DoModal(m_hWnd) == IDOK) {
+			CComPtr<IShellItem> pItem;
+			if (SUCCEEDED(pDlg->GetResult(&pItem))) {
+				CString strFolder = GetShellItemPath(pItem);
+				::SetWindowText(hWndEdit, strFolder);
+			}
+		}
+
 		return 0;
 	}
 
 private:
-	static int CALLBACK BrowseCallbackProc(HWND hwnd, UINT uMsg, LPARAM lParam, LPARAM lpData) {
-		TCHAR szDir[MAX_PATH];
-
-		switch (uMsg) {
-		case BFFM_INITIALIZED:
-			SendMessage(hwnd, BFFM_SETSELECTION, TRUE, (LPARAM)lpData);
-			break;
-		case BFFM_SELCHANGED:
-			// Set the status window to the currently selected path.
-			if (SHGetPathFromIDList((LPITEMIDLIST)lParam, szDir))
-				SendMessage(hwnd, BFFM_SETSTATUSTEXT, 0, (LPARAM)szDir);
-			break;
-		default:
-			break;
+	CString GetShellItemPath(IShellItem* pItem) {
+		CString strPath;
+		if (pItem) {
+			PWSTR pszPath = nullptr;
+			if (SUCCEEDED(pItem->GetDisplayName(SIGDN_FILESYSPATH, &pszPath))) {
+				strPath = pszPath;
+				CoTaskMemFree(pszPath);
+			}
 		}
-		return 0;
+		return strPath;
 	}
 
 	LPCTSTR m_lpszTitle;

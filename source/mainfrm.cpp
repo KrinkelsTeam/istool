@@ -16,7 +16,7 @@ LRESULT SendUpdateUI(HWND hWndFocus, UINT uID, LRESULT lDefault) {
 
 void CMainFrame::AddToRecentFileList(LPCTSTR pszPath) {
 	m_mru.AddToList(pszPath);
-	m_mru.WriteToRegistry(NULL);
+	m_mru.WriteToRegistry(CMyApp::m_pszKeyApp);
 }
 
 LRESULT CMainFrame::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) {
@@ -95,16 +95,10 @@ LRESULT CMainFrame::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/
 	UIAddToolBar(m_wndToolBarPP);
 #endif
 
-	if (true) {
-		Henden::CAppFile appFile(IDR_MAINFRAME);
-		m_mru.SetAppFile(appFile);
-	}
-
-
 	CMenuHandle menu = m_wndCmdBar.GetMenu();
 	CMenuHandle menuFile = menu.GetSubMenu(0);
 	m_mru.SetMenuHandle(menuFile);
-	m_mru.ReadFromRegistry(NULL);
+	m_mru.ReadFromRegistry(CMyApp::m_pszKeyApp);
 	m_mru.SetMaxEntries(8);
 
 

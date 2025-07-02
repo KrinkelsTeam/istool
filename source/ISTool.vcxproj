@@ -273,6 +273,7 @@
   <ItemGroup>
     <ClInclude Include="ButtonFile.h" />
     <ClInclude Include="ButtonFolder.h" />
+    <ClInclude Include="misc.h" />
     <ClInclude Include="MyUtils.h" />
     <ClInclude Include="Scintilla\AtlScintilla.h" />
     <ClInclude Include="AboutDlg.h" />
