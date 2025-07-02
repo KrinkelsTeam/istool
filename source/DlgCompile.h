@@ -4,6 +4,7 @@
 #include "CompInt.h"
 #include "MyDoc.h"
 #include <time.h>
+#include <TextFileIO.h>
 
 class CTempDir {
 public:
@@ -14,7 +15,7 @@ public:
 
         do {  
             ULONGLONG dw = GetTickCount64();  
-            m_strDir.Format(_T("%sist7z%04x.tmp"), tmp, (LPCTSTR)(dw & 0xFFFF));  
+            m_strDir.Format(_T("%sist7z%04x.tmp"), (LPCTSTR)tmp, (LPCTSTR)(dw & 0xFFFF));
         } while (!CreateDirectory(m_strDir, NULL));  
     }
 	~CTempDir() {
@@ -23,7 +24,7 @@ public:
 	}
 
 	void GetFile(LPCTSTR pszName, CString& ref) {
-		ref.Format(_T("%s\\%s"), m_strDir, (LPCTSTR)pszName);
+		ref.Format(_T("%s\\%s"), (LPCTSTR)m_strDir, (LPCTSTR)pszName);
 	}
 
 	const CString GetSlashDir() {
@@ -83,11 +84,11 @@ protected:
 	LRESULT OnCloseCmd(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 	LRESULT OnGotoError(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 
-	CListBox	m_wndList;
-	long		m_nErrorLine;
-	CString		m_strIncludeFile;
-	FILE*		m_logFile;
-	CString		m_strTranslation;
+	CListBox			m_wndList;
+	long				m_nErrorLine;
+	CString				m_strIncludeFile;
+	CTextFileWriter		m_logWriter;
+	CString				m_strTranslation;
 	CProgressBarCtrl	m_wndProgress;
 
 	HINSTANCE				m_hCompiler, m_hCompilerISPP;

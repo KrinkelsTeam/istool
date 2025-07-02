@@ -202,6 +202,9 @@
     <ClCompile Include="ScintillaPrefs.cpp">
       <Filter>Scintilla</Filter>
     </ClCompile>
+    <ClCompile Include="TextFileIO.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConstantListBox.h">
@@ -539,6 +542,9 @@
     </ClInclude>
     <ClInclude Include="ScintillaPrefs.h">
       <Filter>Scintilla</Filter>
+    </ClInclude>
+    <ClInclude Include="TextFileIO.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

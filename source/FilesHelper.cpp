@@ -11,6 +11,7 @@
 #include "FileInfo.h"
 #include "SplitPath.h"
 #include "StringToken.h"
+#include "TextFileIO.h"
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -186,103 +187,71 @@ void CFilesHelper::CreateIcon(HWND hWnd, CScriptLine* pItem) {
 	}
 }
 
-void CFilesHelper::OnFileAddFiles(LPCTSTR lpszCurrentFolder) {
-	const int nSize = 65535;
-	CFileDialog dlg(TRUE, NULL, NULL, OFN_ALLOWMULTISELECT | OFN_EXPLORER | OFN_ENABLESIZING, NULL, 0);
-	LPTSTR lpstrFile = new TCHAR[nSize];
-	dlg.m_ofn.lpstrFile = lpstrFile;
-	dlg.m_ofn.lpstrFile[0] = 0;
-	dlg.m_ofn.nMaxFile = nSize;
-	if (dlg.DoModal() == IDOK) {
-		if (dlg.m_ofn.nFileExtension == 0) {
-			LPCTSTR lpszFile = dlg.m_ofn.lpstrFile;
-			CString strFolder(lpszFile);
-			lpszFile += dlg.m_ofn.nFileOffset;
-			while (*lpszFile) {
-				CString strFile(lpszFile);
-				while (*lpszFile++);
-				InsertFileName(strFolder + _T("\\") + strFile, lpszCurrentFolder);
-			}
-		} else {
-			InsertFileName(dlg.m_ofn.lpstrFile, lpszCurrentFolder);
-		}
-		m_pDoc->SetModifiedFlag();
-	}
-	delete[]lpstrFile;
-}
+void CFilesHelper::OnFileAddFiles(LPCTSTR lpszCurrentFolder)
+{
+	CMyDoc* pDoc = m_pDoc; // optional shortcut
 
-class CTextImport {
-public:
-	static void GetTextFromFile(LPCTSTR lpszFileName, CString& str);
+	// Create shell-style file open dialog with multi-select enabled
+	CShellFileOpenDialog dlg(
+		NULL,
+		FOS_ALLOWMULTISELECT | FOS_FILEMUSTEXIST | FOS_PATHMUSTEXIST | FOS_FORCEFILESYSTEM,
+		NULL, nullptr, 0
+	);
 
-protected:
-	// Check UTF-16 LE BOM (0xFF 0xFE)
-	static inline BOOL IsBOM(const BYTE* pb) {
-		return pb && pb[0] == 0xFF && pb[1] == 0xFE;
-	}
-};
-
-void CTextImport::GetTextFromFile(LPCTSTR lpszFileName, CString& str) {
-	str.Empty();
-
-	FILE* fp = nullptr;  
-	errno_t err = _tfopen_s(&fp, lpszFileName, _T("rb"));  
-	if (err != 0 || fp == nullptr) {  
-		return;  
-	}
-	if (!fp) return;
-
-	fseek(fp, 0, SEEK_END);
-	long nLength = ftell(fp);
-	fseek(fp, 0, SEEK_SET);
-
-	if (nLength < 2) {
-		fclose(fp);
+	if (dlg.DoModal() != IDOK)
 		return;
+
+	// Get result array of selected files
+	CComPtr<IFileOpenDialog> pFD = dlg.GetPtr();
+	CComPtr<IShellItemArray> pItems;
+	if (FAILED(pFD->GetResults(&pItems)))
+		return;
+
+	DWORD dwCount = 0;
+	if (FAILED(pItems->GetCount(&dwCount)) || dwCount == 0)
+		return;
+
+	for (DWORD i = 0; i < dwCount; ++i) {
+		CComPtr<IShellItem> pItem;
+		if (SUCCEEDED(pItems->GetItemAt(i, &pItem))) {
+			CString strPath;
+			if (SUCCEEDED(CShellFileDialogImpl<CShellFileOpenDialog>::GetFileNameFromShellItem(pItem, SIGDN_FILESYSPATH, strPath)))
+				InsertFileName(strPath, lpszCurrentFolder);
+		}
 	}
 
-	BYTE* ptr = new BYTE[nLength + 2]();
-	fread(ptr, 1, nLength, fp);
-	fclose(fp);
-
-	if (IsBOM(ptr)) {
-		// UTF-16 LE with BOM - skip first 2 bytes of BOM
-		LPCWSTR pszText = (LPCWSTR)(ptr + 2);
-		str = pszText;
-	} else {
-		// ANSI or no BOM
-		int len = MultiByteToWideChar(CP_ACP, 0, (LPCSTR)ptr, nLength, NULL, 0);
-		LPWSTR pszWide = new WCHAR[len + 1];
-		MultiByteToWideChar(CP_ACP, 0, (LPCSTR)ptr, nLength, pszWide, len);
-		pszWide[len] = 0;
-		str = pszWide;
-		delete[] pszWide;
-	}
-
-	delete[] ptr;
+	pDoc->SetModifiedFlag();
 }
 
 bool CFilesHelper::ImportRegistry(HWND hWnd, LPCTSTR lpszRegFile) {
 	CWaitCursor wait;
 	bool bRet = false;
 
-	CString strFile;
-	CTextImport::GetTextFromFile(lpszRegFile, strFile);
+	CTextFileReader reader;
+	if (!reader.Load(lpszRegFile)) {
+		CString txt = _L(_T("Failed to open '%1'."));
+		txt.Replace(_T("%1"), lpszRegFile);
+		AtlMessageBox(hWnd, (LPCTSTR)txt, IDR_MAINFRAME, MB_OK | MB_ICONERROR);
+		return false;
+	}
+
+	CAtlArray<CString> lines;
+	reader.GetLines(lines);
+
+	if (lines.IsEmpty()) return false;
 
 	LPCTSTR pszRoot = NULL;
 	CString strSubkey;
-	CStringToken tok_lines(strFile, _T("\n\r"));
-	LPCTSTR lpszFormat = tok_lines.GetNext();
+	CString strFormat = lines[0];
 
-	if (!_tcsicmp(lpszFormat, _T("REGEDIT4")) || !_tcsicmp(lpszFormat, _T("Windows Registry Editor Version 5.00"))) {
-		while (LPCTSTR lpszLine = tok_lines.GetNext()) {
-			CString str(lpszLine);
+	if (!_tcsicmp(strFormat, _T("REGEDIT4")) || !_tcsicmp(strFormat, _T("Windows Registry Editor Version 5.00"))) {
+		for (size_t i = 1; i < lines.GetCount(); ++i) {
+			CString str = lines[i].Trim();
 			CScriptLine* p = NULL;
-			str.TrimLeft(); str.TrimRight();
+
 			if (str.IsEmpty() || str[0] == _T(';')) continue;
 
 			if (str[0] == _T('[') && str[str.GetLength() - 1] == _T(']')) {
-				// Find root and key
 				CStringToken token(str.Mid(1, str.GetLength() - 2), _T("\\"));
 				LPCTSTR lpszRoot = token.GetNext();
 				strSubkey = token.GetRest();
@@ -291,19 +260,14 @@ bool CFilesHelper::ImportRegistry(HWND hWnd, LPCTSTR lpszRegFile) {
 				bool bDeleteKey = false;
 				if (*lpszRoot == _T('-')) {
 					bDeleteKey = true;
-					lpszRoot++;
+					++lpszRoot;
 				}
 
-				if (!_tcsicmp(lpszRoot, _T("HKEY_CLASSES_ROOT")))
-					pszRoot = _T("HKCR");
-				else if (!_tcsicmp(lpszRoot, _T("HKEY_CURRENT_USER")))
-					pszRoot = _T("HKCU");
-				else if (!_tcsicmp(lpszRoot, _T("HKEY_LOCAL_MACHINE")))
-					pszRoot = _T("HKLM");
-				else if (!_tcsicmp(lpszRoot, _T("HKEY_USERS")))
-					pszRoot = _T("HKU");
-				else if (!_tcsicmp(lpszRoot, _T("HKEY_CURRENT_CONFIG")))
-					pszRoot = _T("HKCC");
+				if (!_tcsicmp(lpszRoot, _T("HKEY_CLASSES_ROOT"))) pszRoot = _T("HKCR");
+				else if (!_tcsicmp(lpszRoot, _T("HKEY_CURRENT_USER"))) pszRoot = _T("HKCU");
+				else if (!_tcsicmp(lpszRoot, _T("HKEY_LOCAL_MACHINE"))) pszRoot = _T("HKLM");
+				else if (!_tcsicmp(lpszRoot, _T("HKEY_USERS"))) pszRoot = _T("HKU");
+				else if (!_tcsicmp(lpszRoot, _T("HKEY_CURRENT_CONFIG"))) pszRoot = _T("HKCC");
 				else {
 					CString txt = _L(_T("Unknown registry root %1."));
 					txt.Replace(_T("%1"), lpszRoot);
@@ -311,7 +275,6 @@ bool CFilesHelper::ImportRegistry(HWND hWnd, LPCTSTR lpszRegFile) {
 					pszRoot = NULL;
 				}
 
-				//p = new CScriptRegistry(nRoot,strSubkey);
 				if (bDeleteKey) {
 					p = new CScriptLine(CInnoScript::SEC_REGISTRY);
 					p->SetParameter(_T("Root"), pszRoot);
@@ -319,19 +282,19 @@ bool CFilesHelper::ImportRegistry(HWND hWnd, LPCTSTR lpszRegFile) {
 					p->SetParameterFlag(_T("Flags"), _T("deletekey"), true);
 				}
 			} else {
-				// Find value
 				while (str.Right(1) == _T("\\")) {
-					CString tmp = tok_lines.GetNext();
-					tmp.TrimLeft(); tmp.TrimRight();
+					if (++i >= lines.GetCount()) break;
+					CString tmp = lines[i].Trim();
 					if (!tmp.IsEmpty()) {
-						str = str.Left(str.GetLength() - 1);
-						str += tmp;
+						str = str.Left(str.GetLength() - 1) + tmp;
 					}
 				}
+
 				CStringToken token(str, _T("="));
 				CString strValueName(token.GetNext());
 				CString strValueData(token.GetRest());
 				bool bDeleteValue = strValueData == _T("-");
+
 				if (strValueName[0] == _T('"') && strValueName[strValueName.GetLength() - 1] == _T('"'))
 					strValueName = strValueName.Mid(1, strValueName.GetLength() - 2);
 				if (strValueData[0] == _T('"') && strValueData[strValueData.GetLength() - 1] == _T('"'))
@@ -340,31 +303,47 @@ bool CFilesHelper::ImportRegistry(HWND hWnd, LPCTSTR lpszRegFile) {
 				p = new CScriptLine(CInnoScript::SEC_REGISTRY);
 				p->SetParameter(_T("Root"), pszRoot);
 				p->SetParameter(_T("SubKey"), strSubkey);
+
 				int nPos = strValueData.Find(_T(':'));
 				if (nPos >= 0) {
 					CStringToken token(strValueData, _T(":"));
 					LPCTSTR lpszValueType = token.GetNext();
-					CString strNewValueData(token.GetRest());
+					CString strNewValueData = token.GetRest();
 
 					if (!_tcsicmp(lpszValueType, _T("dword"))) {
 						p->SetParameter(_T("ValueType"), _T("dword"));
-						if (strNewValueData[0] != _T('$'))
-							strValueData = _T("$") + strNewValueData;
-						else
-							strValueData = strNewValueData;
+						strValueData = (strNewValueData[0] != _T('$')) ? (_T("$") + strNewValueData) : strNewValueData;
+
+					} else if (!_tcsicmp(lpszValueType, _T("qword"))) {
+						p->SetParameter(_T("ValueType"), _T("qword"));
+						strValueData = (strNewValueData[0] != _T('$')) ? (_T("$") + strNewValueData) : strNewValueData;
+
 					} else if (!_tcsicmp(lpszValueType, _T("hex"))) {
 						p->SetParameter(_T("ValueType"), _T("binary"));
 						strValueData = strNewValueData;
-						strValueData.Replace(_T(","), _T(" "));	// Replace commas with spaces
+						strValueData.Replace(_T(","), _T(" "));
+
+					} else if (!_tcsnicmp(lpszValueType, _T("hex("), 4)) {
+						if (!_tcsnicmp(lpszValueType, _T("hex(2)"), 7)) {
+							p->SetParameter(_T("ValueType"), _T("expandsz"));
+						} else if (!_tcsnicmp(lpszValueType, _T("hex(7)"), 7)) {
+							p->SetParameter(_T("ValueType"), _T("multisz"));
+						} else {
+							p->SetParameter(_T("ValueType"), _T("binary"));
+						}
+						strValueData = strNewValueData;
+						strValueData.Replace(_T(","), _T(" "));
+
 					} else {
 						p->SetParameter(_T("ValueType"), _T("string"));
 					}
-				} else
+				} else {
 					p->SetParameter(_T("ValueType"), _T("string"));
+				}
 
 				if (strValueName == _T("@")) strValueName.Empty();
 				p->SetParameter(_T("ValueName"), strValueName);
-				// Replace { with {{
+
 				strValueData.Replace(_T("{"), _T("{{"));
 				strValueData.Replace(_T("\\\\"), _T("\\"));
 
@@ -375,18 +354,19 @@ bool CFilesHelper::ImportRegistry(HWND hWnd, LPCTSTR lpszRegFile) {
 					p->SetParameter(_T("ValueType"), _T("none"));
 				}
 			}
+
 			if (p) {
 				m_pDoc->GetScript().AddLine(p);
 				m_pDoc->SetModifiedFlag();
-				//				InsertItem(p);
 				bRet = true;
 			}
 		}
 	} else {
 		CString txt = _L(_T("Error|UnknownRegistryFormat"), _T("Unknown or unimplemented registry format '%1'."));
-		txt.Replace(_T("%1"), lpszFormat);
+		txt.Replace(_T("%1"), strFormat);
 		AtlMessageBox(hWnd, (LPCTSTR)txt, IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 	}
+
 	return bRet;
 }
 
@@ -401,26 +381,31 @@ void CFilesHelper::OnDropFilesRegistry(HWND hWnd, HDROP hDropInfo) {
 	::DragFinish(hDropInfo);
 }
 
-bool CFilesHelper::ImportIni(HWND hWnd, LPCTSTR pszPathName) {
+bool CFilesHelper::ImportIni(HWND hWnd, LPCTSTR pszPathName)
+{
 	CWaitCursor wait;
-	FILE* file;
-	if (_tfopen_s(&file, pszPathName, _T("r")) == 0) {
+
+	CTextFileReader reader;
+	if (!reader.Load(pszPathName)) {
 		CString txt = _L(_T("Failed to open '%1'."));
 		txt.Replace(_T("%1"), pszPathName);
 		AtlMessageBox(hWnd, (LPCTSTR)txt, IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 		return false;
 	}
+
 	CString strFilename(pszPathName);
 	CString strSection;
-
-	CString str;
 	bool bAdded = false;
-	while (_fgetts(str.GetBuffer(1024), 1024, file)) {
-		str.ReleaseBuffer();
-		str.TrimLeft(); str.TrimRight();
-		if (str.IsEmpty()) continue;
 
-		if (str[0] == _T('[') && str[str.GetLength() - 1] == _T(']')) {
+	CAtlArray<CString> lines;
+	reader.GetLines(lines);
+
+	for (size_t i = 0; i < lines.GetCount(); ++i) {
+		CString str = lines[i].Trim();
+
+		if (str.IsEmpty()) {
+			continue;
+		} else if (str[0] == _T('[') && str[str.GetLength() - 1] == _T(']')) {
 			strSection = str.Mid(1, str.GetLength() - 2);
 		} else if (str[0] != _T(';')) {
 			CStringToken token(str, _T("="));
@@ -432,13 +417,15 @@ bool CFilesHelper::ImportIni(HWND hWnd, LPCTSTR pszPathName) {
 			pLine->SetParameter(_T("Section"), strSection);
 			pLine->SetParameter(_T("Key"), strKey);
 			pLine->SetParameter(_T("String"), strString);
-			bAdded = true;
 			m_pDoc->GetScript().AddLine(pLine);
 			m_pDoc->SetModifiedFlag();
+			bAdded = true;
 		}
 	}
-	fclose(file);
-	if (bAdded) m_pDoc->UpdateAll();
+
+	if (bAdded)
+		m_pDoc->UpdateAll();
+
 	return true;
 }
 

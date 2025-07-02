@@ -6,6 +6,7 @@
 #include "ISTool.h"
 #include "InnoScript.h"
 #include "Lines.h"
+#include "TextFileIO.h"
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -158,65 +159,30 @@ bool CInnoScript::LoadScriptBuffer(LPTSTR pszBuffer) {
 }
 
 bool CInnoScript::LoadScript(LPCTSTR pszFileName) {
-	CAtlFile file;
-	if (FAILED(file.Create(pszFileName, GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING)))
+	CTextFileReader reader;
+	if (!reader.Load(pszFileName))
 		return false;
 
-	ULONGLONG size = 0;
-	if (FAILED(file.GetSize(size)) || size == 0 || size > ULONG_MAX)
-		return false;
-
-	DWORD len = static_cast<DWORD>(size);
-	CHeapPtr<BYTE> buf;
-	if (!buf.Allocate(len + 1))
-		return false;
-
-	DWORD read = 0;
-	if (FAILED(file.Read(buf, len, read)) || read != len)
-		return false;
-
-	buf[len] = 0;
-	LPCSTR data = reinterpret_cast<LPCSTR>(static_cast<BYTE*>(buf));
-	DWORD offset = 0;
-
-	CStringW content;
-
-	bool looksLikeUtf8 = false;
-	for (DWORD i = 0; i < len; ++i) {
-		if ((BYTE)data[i] >= 0x80) {
-			looksLikeUtf8 = true;
-			break;
-		}
-	}
-
-	if (len >= 3 && (BYTE)data[0] == 0xEF && (BYTE)data[1] == 0xBB && (BYTE)data[2] == 0xBF) {
-		offset = 3;
+	// Save detected encoding
+	switch (reader.GetEncoding()) {
+	case TextEncoding::UTF8_BOM:
 		theApp.m_saveEncoding = SaveEncoding::UTF8WithBOM;
-	} else if (looksLikeUtf8 && MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, data, len, nullptr, 0) > 0) {
-		offset = 0;
+		break;
+	case TextEncoding::UTF8:
 		theApp.m_saveEncoding = SaveEncoding::UTF8WithoutBOM;
-	} else {
-		content = CStringW(CStringA(data));
+		break;
+	default:
 		theApp.m_saveEncoding = SaveEncoding::Auto;
+		break;
 	}
 
-	if (content.IsEmpty() && len > offset) {
-		int wlen = MultiByteToWideChar(CP_UTF8, 0, data + offset, len - offset, nullptr, 0);
-		if (wlen <= 0) return false;
-		LPWSTR p = content.GetBuffer(wlen);
-		MultiByteToWideChar(CP_UTF8, 0, data + offset, len - offset, p, wlen);
-		content.ReleaseBuffer(wlen);
-	}
+	CAtlArray<CString> lines;
+	reader.GetLines(lines);
 
 	SECTION sec = SEC_NONE;
-	int pos = 0;
-
-	while (pos >= 0) {
-		int next = content.Find(L'\n', pos);
-		CStringW line = (next >= 0) ? content.Mid(pos, next - pos) : content.Mid(pos);
-		line.TrimRight(L"\r\n");
-		AddLine(sec, CString(line));
-		if (next >= 0) pos = next + 1; else break;
+	for (size_t i = 0; i < lines.GetCount(); ++i) {
+		CString line = lines[i].TrimRight();
+		AddLine(sec, line);
 	}
 
 	return true;
@@ -224,81 +190,39 @@ bool CInnoScript::LoadScript(LPCTSTR pszFileName) {
 
 bool CInnoScript::WriteScript(LPCTSTR pszFileName)
 {
-	CAtlFile file;
-	HRESULT hr = file.Create(pszFileName, GENERIC_WRITE, FILE_SHARE_READ, CREATE_ALWAYS);
-	if (FAILED(hr))
-		return false;
-
-	// Write UTF-8 BOM if required
-	if (theApp.m_saveEncoding == SaveEncoding::UTF8WithBOM) {
-		static const BYTE bom[] = { 0xEF, 0xBB, 0xBF };
-		file.Write(bom, sizeof(bom));
-	}
-
-	// Inline lambda for ANSI compatibility check
-	auto isAnsi = [](const CString& str) -> bool {
-		CStringA ansi(str);
-		CStringW roundTrip(ansi);
-		return str == roundTrip;
-	};
-
+	CString content;
 	SECTION sec = SEC_NONE;
-	CString line;
-	bool requiresUtf8 = false;
 
 	for (long i = 0; i < GetCount(); i++) {
 		CLine* pLine = m_lines[i];
 
-		// Insert section header if changed
 		if (pLine->GetSection() != sec) {
 			sec = pLine->GetSection();
 			if (sec != SEC_NONE) {
-				line.Format(_T("[%s]\r\n"), m_sectionnames[sec].m_pszName);
-				if (theApp.m_saveEncoding == SaveEncoding::Auto && !isAnsi(line))
-					requiresUtf8 = true;
-
-				WriteLineToFile(file, line);
+				content.AppendFormat(_T("[%s]\r\n"), m_sectionnames[sec].m_pszName);
 			}
 		}
 
-		// Write line content
 		TCHAR szLine[5000] = {};
 		pLine->Write(szLine, _countof(szLine));
-		line.Format(_T("%s\r\n"), szLine);
-		if (theApp.m_saveEncoding == SaveEncoding::Auto && !isAnsi(line))
-			requiresUtf8 = true;
-
-		WriteLineToFile(file, line);
+		content.AppendFormat(_T("%s\r\n"), szLine);
 	}
 
-	// Adjust encoding if Auto mode was used
-	if (theApp.m_saveEncoding == SaveEncoding::Auto) {
-		theApp.m_saveEncoding = requiresUtf8
-			? SaveEncoding::UTF8WithoutBOM
-			: SaveEncoding::Auto; // ANSI-compatible
+	TextEncoding encoding;
+	switch (theApp.m_saveEncoding) {
+	case SaveEncoding::UTF8WithBOM:
+		encoding = TextEncoding::UTF8_BOM;
+		break;
+	case SaveEncoding::UTF8WithoutBOM:
+		encoding = TextEncoding::UTF8;
+		break;
+	default:
+		encoding = TextEncoding::Auto;
+		break;
 	}
 
-	return true;
-}
-
-void CInnoScript::WriteLineToFile(CAtlFile& file, const CString& line)
-{
-	LPCWSTR wsz = line;
-
-	if (theApp.m_saveEncoding == SaveEncoding::UTF8WithBOM ||
-		theApp.m_saveEncoding == SaveEncoding::UTF8WithoutBOM) {
-		int len = WideCharToMultiByte(CP_UTF8, 0, wsz, -1, nullptr, 0, nullptr, nullptr);
-		if (len <= 0) return;
-
-		CHeapPtr<char> utf8;
-		if (!utf8.Allocate(len)) return;
-
-		WideCharToMultiByte(CP_UTF8, 0, wsz, -1, utf8, len, nullptr, nullptr);
-		file.Write(utf8, len - 1); // exclude null terminator
-	} else {
-		CStringA ansi(wsz);
-		file.Write(ansi, ansi.GetLength());
-	}
+	CTextFileWriter writer;
+	return writer.Save(pszFileName, content, encoding);
 }
 
 void CInnoScript::MoveUp(CLine* pLine) {

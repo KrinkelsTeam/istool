@@ -8,16 +8,14 @@ CDlgCompile::CDlgCompile(CMyDoc* pDoc, const bool bForceRun) :
 	m_hCompilerISPP(NULL)
 {
 	m_sec = CInnoScript::SEC_NONE;
-	m_logFile = NULL;
 	m_nErrorLine = 0;
 	LPCTSTR pszLogFile = m_pDoc->GetScript().GetPropertyString(_T("LogFile"), CInnoScript::PRJ_ISTOOL);
 	bool bAppend = m_pDoc->GetScript().GetPropertyBool(_T("LogFileAppend"), CInnoScript::PRJ_ISTOOL);
 	if (pszLogFile && *pszLogFile) {
-		errno_t err = bAppend
-			? _tfopen_s(&m_logFile, pszLogFile, _T("ab"))
-			: _tfopen_s(&m_logFile, pszLogFile, _T("wb"));
-		if (err != 0) {
-			m_logFile = NULL;
+		if (!m_logWriter.Open(pszLogFile, TextEncoding::Auto, bAppend)) {
+			CString txt = _L(_T("Failed to open log file '%1'."));
+			txt.Replace(_T("%1"), pszLogFile);
+			AtlMessageBox(m_hWnd, (LPCTSTR)txt, IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 		}
 	}
 }
@@ -25,7 +23,7 @@ CDlgCompile::CDlgCompile(CMyDoc* pDoc, const bool bForceRun) :
 CDlgCompile::~CDlgCompile() {
 	if (m_hCompiler) FreeLibrary(m_hCompiler);
 	if (m_hCompilerISPP) FreeLibrary(m_hCompilerISPP);
-	if (m_logFile) fclose(m_logFile);
+	if (m_logWriter.IsOpen()) m_logWriter.Close();
 }
 
 LRESULT CDlgCompile::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) {
@@ -117,9 +115,8 @@ DWORD WINAPI CDlgCompile::ThreadEntry(LPVOID lpParameter) {
 	if (!pDlg->m_strIncludeFile.IsEmpty())
 		DeleteFile(pDlg->m_strIncludeFile);
 
-	if (pDlg->m_logFile) {
-		fclose(pDlg->m_logFile);
-		pDlg->m_logFile = NULL;
+	if (pDlg->m_logWriter.IsOpen()) {
+		pDlg->m_logWriter.Close();
 	}
 	if (pDlg->m_pDoc->m_bCompileAndExit) {
 		CMyApp::m_nExitCode = dwRet;
@@ -189,7 +186,6 @@ UINT CDlgCompile::DoCompile() {
 	AddListString(_T(""));
 
 	// Perform post-compile steps
-	if (m_logFile) fflush(m_logFile);
 	int nString = AddListString(_T("Running post-compile steps"));
 	if (nString != LB_ERR) m_wndList.SetTopIndex(nString);
 	if (!RunCompileSteps(CInnoScript::PRJ_POSTCOMPILESTEPS)) {
@@ -216,7 +212,6 @@ UINT CDlgCompile::DoCompile() {
 
 	// We're done
 	SetFinished();
-	if (m_logFile) fflush(m_logFile);
 
 	return 0;
 }
@@ -307,8 +302,8 @@ UINT CDlgCompile::CompilerCallback(LONG Code, TCompilerCallbackData* Data) {
 bool CDlgCompile::AddDownloadSection() {
 	CScriptList listDownload;
 	m_script.GetList(CInnoScript::PRJ_DOWNLOAD, listDownload);
+
 	if (listDownload.GetSize() > 0) {
-		CAtlTemporaryFile codefile;
 		CString strCode, tmp;
 		AddListString(_T("Building download script"));
 
@@ -405,28 +400,32 @@ bool CDlgCompile::AddDownloadSection() {
 		tmp.Format(_T("Source: %sisxdl.dll; DestDir: {tmp}; Flags: dontcopy\r\n"), (LPCTSTR)theApp.m_strProgramPath);
 		strCode += tmp;
 
-		if (FAILED(codefile.Create())) {
-			AddListString(_T("Failed to create code file"));
-			SetFinished();
-			return false;
-		}
-		if (FAILED(codefile.Write((LPCVOID)(LPCTSTR)strCode, strCode.GetLength()))) {
+		// Create a temporary file
+		TCHAR szTempPath[MAX_PATH], szTempFile[MAX_PATH];
+		GetTempPath(MAX_PATH, szTempPath);
+		GetTempFileName(szTempPath, _T("ISXDL"), 0, szTempFile);
+
+		// Save the script
+		CTextFileWriter writer;
+		if (!writer.Save(szTempFile, strCode, TextEncoding::Auto)) {
 			AddListString(_T("Failed to write code file"));
 			SetFinished();
 			return false;
 		}
-		CString strTempFileName = codefile.TempFileName();
-		codefile.HandsOff();
-		AddListString(strTempFileName);
+
+		AddListString(szTempFile);
 		AddListString(_T(""));
 
-		if (m_logFile) AppendLogFile(strTempFileName);
+		if (m_logWriter.IsOpen())
+			AppendLogFile(szTempFile);
 
-		//			AtlMessageBox(m_hWnd,(LPCTSTR)strCode);
-		//			AtlMessageBox(m_hWnd,(LPCTSTR)strTempFileName);
-		m_strIncludeFile = strTempFileName;
+		m_strIncludeFile = szTempFile;
+
+		// AtlMessageBox(m_hWnd, (LPCTSTR)strCode);
+		// AtlMessageBox(m_hWnd, (LPCTSTR)szTempFile);
+		
 		// Add include file to script
-		tmp.Format(_T("#include \"%s\""), (LPCTSTR)strTempFileName);
+		tmp.Format(_T("#include \"%s\""), szTempFile);
 		m_script.AddHead(new CInnoScript::CLineComment(CInnoScript::SEC_NONE, tmp));
 	}
 	return true;
@@ -458,20 +457,22 @@ void CDlgCompile::ParseDir(LPCTSTR pszFilter, CAtlTemporaryFile& file, const CSt
 }
 
 void CDlgCompile::AppendLogFile(LPCTSTR pszFileName) {
-	if (!m_logFile) return;
-	FILE* fp;
-	if (_tfopen_s(&fp, pszFileName, _T("rb")) == 0) {
-		_ftprintf(m_logFile, _T("==============================================================================\r\n"));
-		_ftprintf(m_logFile, _T("Contents of \"%s\"\r\n"), pszFileName);
-		_ftprintf(m_logFile, _T("==============================================================================\r\n"));
+	if (!m_logWriter.IsOpen()) return;
+	
+	CTextFileReader reader;
+	if (reader.Load(pszFileName)) {
+		m_logWriter.WriteLine(_T("=============================================================================="));
+		CString tmp;
+		tmp.Format(_T("Contents of \"%s\""), pszFileName);
+		m_logWriter.WriteLine(tmp);
+		m_logWriter.WriteLine(_T("=============================================================================="));
 
-		TCHAR szLine[8192];
-		while (_fgetts(szLine, _countof(szLine), fp)) {
-			_fputts(szLine, m_logFile);
+		CAtlArray<CString> lines;
+		for (size_t i = 0; i < lines.GetCount(); i++) {
+			m_logWriter.WriteLine(lines[i]);
 		}
-		fclose(fp);
 
-		_ftprintf(m_logFile, _T("==============================================================================\r\n"));
+		m_logWriter.WriteLine(_T("=============================================================================="));
 	}
 }
 
@@ -486,7 +487,9 @@ void CDlgCompile::SetFinished() {
 }
 
 int CDlgCompile::AddListString(LPCTSTR pszString) {
-	if (m_logFile) _ftprintf(m_logFile, _T("%s\r\n"), pszString);
+	if (m_logWriter.IsOpen()) {
+		m_logWriter.WriteLine(pszString);
+	}
 
 	m_wndList.SetRedraw(FALSE);
 	int nString = m_wndList.AddString(pszString);

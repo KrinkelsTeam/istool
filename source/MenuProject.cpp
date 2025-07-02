@@ -28,6 +28,7 @@
 #include "SetupAppearance.h"
 #include "SetupUninstall.h"
 #include "Sheets.h"
+#include "TextFileIO.h"
 
 LRESULT CMainFrame::OnProjectUseAbsolutePaths(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/) {
 	CUpdate::UpdateAll(CUpdate::HINT_APPLYCHANGES);
@@ -182,11 +183,28 @@ LRESULT CMainFrame::OnProjectImportRegistry(WORD /*wNotifyCode*/, WORD /*wID*/, 
 	// Allow all views to apply any changes not applied yet
 	m_document.UpdateAll(m_document.HINT_APPLYCHANGES);
 
-	CFileDialog dlg(TRUE, _T(".reg"), NULL, 0, _T("Registry Files (*.reg)\0*.reg\0All Files (*.*)\0*.*\0"), 0);
-	if (dlg.DoModal() != IDOK) return 0;
+	const COMDLG_FILTERSPEC filters[] = {
+		{ _T("Registry Files (*.reg)"), _T("*.reg") },
+		{ _T("All Files (*.*)"), _T("*.*") }
+	};
+
+	CShellFileOpenDialog dlg(
+		NULL, // lpszFileName
+		FOS_FORCEFILESYSTEM | FOS_PATHMUSTEXIST | FOS_FILEMUSTEXIST,
+		_T("reg"), // default extension
+		filters,
+		_countof(filters)
+	);
+
+	if (dlg.DoModal(m_hWnd) != IDOK)
+		return 0;
+
+	CString strFile;
+	if (FAILED(dlg.GetFilePath(strFile)))
+		return 0;
 
 	CFilesHelper helper(&m_document);
-	if (helper.ImportRegistry(m_hWnd, dlg.m_szFileName))
+	if (helper.ImportRegistry(m_hWnd, strFile))
 		m_document.UpdateAll();
 	else
 		m_document.UpdateAll();	// for reg on W2000?!?
@@ -197,10 +215,29 @@ LRESULT CMainFrame::OnProjectImportIni(WORD /*wNotifyCode*/, WORD /*wID*/, HWND 
 	// Allow all views to apply any changes not applied yet
 	m_document.UpdateAll(m_document.HINT_APPLYCHANGES);
 
-	CFileDialog dlg(TRUE, _T(".ini"), NULL, 0, _T("INI Files (*.ini)\0*.ini\0All Files (*.*)\0*.*\0"), 0);
-	if (dlg.DoModal() != IDOK) return 0;
+	const COMDLG_FILTERSPEC filters[] = {
+		{ _T("INI Files (*.ini)"), _T("*.ini") },
+		{ _T("All Files (*.*)"), _T("*.*") }
+	};
+
+	CShellFileOpenDialog dlg(
+		NULL,
+		FOS_FORCEFILESYSTEM | FOS_PATHMUSTEXIST | FOS_FILEMUSTEXIST,
+		_T("ini"),
+		filters,
+		_countof(filters)
+	);
+
+	if (dlg.DoModal(m_hWnd) != IDOK)
+		return 0;
+
+	CString strFile;
+	if (FAILED(dlg.GetFilePath(strFile)))
+		return 0;
+
 	CFilesHelper helper(&m_document);
-	helper.ImportIni(m_hWnd, dlg.m_szFileName);
+	helper.ImportIni(m_hWnd, strFile);
+
 	return 0;
 }
 
@@ -238,58 +275,120 @@ LRESULT CMainFrame::OnProjectExportRegistry(WORD /*wNotifyCode*/, WORD /*wID*/, 
 	m_document.GetScript().GetList(CInnoScript::SEC_REGISTRY, list);
 	if (list.GetSize() == 0) return 0;
 
-	CFileDialog dlg(FALSE, _T(".reg"), NULL, 0, _T("Registry Files (*.reg)\0*.reg\0All Files (*.*)\0*.*\0"), 0);
-	if (dlg.DoModal() != IDOK) return 0;
+	// Set up the shell save dialog with .reg filter
+	static const COMDLG_FILTERSPEC filters[] = {
+		{ _T("Registry Files (*.reg)"), _T("*.reg") },
+		{ _T("All Files (*.*)"),        _T(L"*.*")  }
+	};
+
+	CString defaultName; // Optional: generate default name here if needed
+
+	CShellFileSaveDialog dlg(
+		defaultName,
+		FOS_OVERWRITEPROMPT | FOS_PATHMUSTEXIST | FOS_FORCEFILESYSTEM,
+		_T("reg"),
+		filters,
+		_countof(filters)
+	);
+
+	if (dlg.DoModal(m_hWnd) != IDOK)
+		return 0;
+
+	CString strFile;
+	if (FAILED(dlg.GetFilePath(strFile)))
+		return 0;
 
 	CWaitCursor wait;
-	FILE* fp;
-	if (_tfopen_s(&fp, dlg.m_szFileName, _T("w")) != 0 || !fp) {
-		CString txt = _L(_T("Error|CreateFile"), _T("Failed to create '%1'."));
-		txt.Replace(_T("%1"), dlg.m_szFileName);
-		AtlMessageBox(m_hWnd, (LPCTSTR)txt, IDR_MAINFRAME, MB_OK | MB_ICONERROR);
-		return 0;
-	}
 
+	// Function to format hex bytes from a string
+	auto formatHexBytes = [](const CString& str) -> CString {
+		CString result;
+		for (int i = 0; i < str.GetLength(); ++i) {
+			result.AppendFormat(_T("%02X,"), (BYTE)str[i]);
+		}
+		result += _T("00");
+		return result;
+	};
 
-	_ftprintf(fp, _T("REGEDIT4\n\n"));
-	for (int nPos = 0; nPos < list.GetSize(); nPos++) {
-		CScriptLine* pLine = list[nPos];
+	// Function to format multi-string values as hex(7):...
+	auto formatMultiSz = [](const CString& str) -> CString {
+		CString result;
+		CStringToken tokens(str, _T("|"));
+		CString part;
+		while (!(part = tokens.GetNext()).IsEmpty()) {
+			for (int i = 0; i < part.GetLength(); ++i)
+				result.AppendFormat(_T("%02X,"), (BYTE)part[i]);
+			result.Append(_T("00,"));
+		}
+		result += _T("00");
+		result.TrimRight(_T(","));
+		return _T("hex(7):") + result;
+	};
 
-		_ftprintf(fp, _T("[%s\\%s]\n"),
-			GetFullRoot(pLine->GetParameter(_T("Root"))),
-			pLine->GetParameter(_T("Subkey"))
-		);
+	CString out;
+	out += _T("Windows Registry Editor Version 5.00\r\n\r\n");
 
-		CString strValueName(pLine->GetParameter(_T("ValueName")));
+	for (int i = 0; i < list.GetSize(); ++i) {
+		CScriptLine* pLine = list[i];
+		CString strRoot = GetFullRoot(pLine->GetParameter(_T("Root")));
+		CString strSubKey = pLine->GetParameter(_T("SubKey"));
+		CString section;
+		section.Format(_T("[%s\\%s]\r\n"), (LPCWSTR)strRoot, (LPCWSTR)strSubKey);
+		out += section;
+
+		CString strValueName = pLine->GetParameter(_T("ValueName"));
+		CString strValueData = pLine->GetParameter(_T("ValueData"));
+		CString strValueType = pLine->GetParameter(_T("ValueType"));
+
 		if (strValueName.IsEmpty()) strValueName = _T("@");
 
-		CString strValueData(pLine->GetParameter(_T("ValueData")));
-		if (!strValueData.IsEmpty()) {
-			// Fix for different stuff
-			LPCTSTR pszValueType = pLine->GetParameter(_T("ValueType"));
-			if (!_tcsicmp(pszValueType, _T("binary"))) {
-				strValueData = _T("hex:") + strValueData;
-				strValueData.Replace(_T(" "), _T(","));
-			} else if (!_tcsicmp(pszValueType, _T("dword"))) {
-				if (strValueData[0] == _T('$')) {
-					strValueData = _T("dword:") + strValueData.Mid(1);
-				} else {
-					DWORD dwValueData = _ttol(strValueData);
-					strValueData.Format(_T("dword:%08X"), dwValueData);
-				}
-			} else {
-				strValueData.Replace(_T("{{"), _T("{"));
-				strValueData = _T("\"") + strValueData;
-				strValueData += _T("\"");
+		CString line;
+
+		if (strValueType.IsEmpty() || !_tcsicmp(strValueType, _T("none"))) {
+			// Key-only (no value)
+			line.Format(_T("%s=-\r\n"), (LPCTSTR)strValueName);
+		} else if (!_tcsicmp(strValueType, _T("string"))) {
+			strValueData.Replace(_T("{{"), _T("{"));
+			strValueData.Replace(_T("\\"), _T("\\\\"));
+			strValueData.Replace(_T("\""), _T("\\\""));
+			line.Format(_T("\"%s\"=\"%s\"\r\n"), (LPCTSTR)strValueName, (LPCTSTR)strValueData);
+		} else if (!_tcsicmp(strValueType, _T("expandsz"))) {
+			strValueData.Replace(_T("{{"), _T("{"));
+			strValueData.Replace(_T("\\"), _T("\\\\"));
+			strValueData.Replace(_T("\""), _T("\\\""));
+			line.Format(_T("\"%s\"=hex(2):%s\r\n"), (LPCTSTR)strValueName, (LPCTSTR)formatHexBytes(strValueData));
+		} else if (!_tcsicmp(strValueType, _T("multisz"))) {
+			CString formatted = formatMultiSz(strValueData); // Convert to hex(7):...
+			line.Format(_T("\"%s\"=%s\r\n"), (LPCTSTR)strValueName, (LPCTSTR)formatted);
+		} else if (!_tcsicmp(strValueType, _T("dword"))) {
+			if (strValueData[0] == _T('$'))
+				strValueData = strValueData.Mid(1);
+			DWORD val = _tcstoul(strValueData, nullptr, 16);
+			line.Format(_T("\"%s\"=dword:%08X\r\n"), (LPCTSTR)strValueName, val);
+		} else if (!_tcsicmp(strValueType, _T("qword"))) {
+			ULONGLONG val = _tcstoull(strValueData, nullptr, 16);
+			CString tmp;
+			for (int j = 0; j < 8; ++j) {
+				tmp.AppendFormat(_T("%02X,"), (BYTE)((val >> (j * 8)) & 0xFF));
 			}
+			tmp.TrimRight(_T(","));
+			line.Format(_T("\"%s\"=hex(b):%s\r\n"), (LPCTSTR)strValueName, (LPCTSTR)tmp);
+		} else if (!_tcsicmp(strValueType, _T("binary"))) {
+			strValueData.Replace(_T(" "), _T(","));
+			line.Format(_T("\"%s\"=hex:%s\r\n"), (LPCTSTR)strValueName, (LPCTSTR)strValueData);
 		}
 
-		_ftprintf(fp, _T("\"%s\"=%s\n"), (LPCTSTR)strValueName, (LPCTSTR)strValueData);
-
-		_ftprintf(fp, _T("\n"));
+		out += CString(line);
+		out += _T("\r\n");
 	}
 
-	fclose(fp);
+	CTextFileWriter writer;
+	if (!writer.Save(strFile, out, TextEncoding::UTF16_LE)) {
+		CString txt = _L(_T("Error|CreateFile"), _T("Failed to save '%1'."));
+		txt.Replace(_T("%1"), strFile);
+		AtlMessageBox(m_hWnd, (LPCTSTR)txt, IDR_MAINFRAME, MB_OK | MB_ICONERROR);
+	}
+
 	return 0;
 }
 
@@ -297,30 +396,45 @@ LRESULT CMainFrame::OnProjectImportMessages(WORD /*wNotifyCode*/, WORD /*wID*/, 
 	// Allow all views to apply any changes not applied yet
 	m_document.UpdateAll(m_document.HINT_APPLYCHANGES);
 
-	CFileDialog dlg(TRUE, NULL, NULL, 0, _T("Message Files (*.isl;*.iss)\0*.isl;*.iss\0All Files (*.*)\0*.*\0"), 0);
+	// File type filters
+	static const COMDLG_FILTERSPEC filters[] = {
+		{ _T("Message Files (*.isl;*.iss)"), _T("*.isl;*.iss") },
+		{ _T("All Files (*.*)"),             _T("*.*") }
+	};
 
-	if (dlg.DoModal() != IDOK) return 0;
+	// Create shell-style open dialog
+	CShellFileOpenDialog dlg(
+		NULL,
+		FOS_FILEMUSTEXIST | FOS_PATHMUSTEXIST | FOS_FORCEFILESYSTEM,
+		NULL,
+		filters,
+		_countof(filters)
+	);
+
+	if (dlg.DoModal(m_hWnd) != IDOK)
+		return 0;
+
+	CString strFilename;
+	if (FAILED(dlg.GetFilePath(strFilename)))
+		return 0;
 
 	CWaitCursor wait;
 
-	CString strFilename(dlg.m_szFileName);
-	CString strSection;
-	FILE* file;
-	if (_tfopen_s(&file, strFilename, _T("r")) != 0) {
+	CTextFileReader reader;
+	if (!reader.Load(strFilename)) {
 		CString txt = _L(_T("Failed to open '%1'."));
 		txt.Replace(_T("%1"), strFilename);
 		AtlMessageBox(m_hWnd, (LPCTSTR)txt, IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 		return 0;
 	}
-	DWORD dwFlags = 0;
-	CString str;
-	UINT nLine = 0;
+
+	CAtlArray<CString> lines;
+	reader.GetLines(lines);
+	
 	bool bInSection = false;
 	bool bAdded = false;
-	while (_fgetts(str.GetBuffer(1024), 1024, file)) {
-		nLine++;
-		str.ReleaseBuffer();
-		str.TrimLeft(); str.TrimRight();
+	for (size_t i = 0; i < lines.GetCount(); ++i) {
+		CString str = lines[i].Trim();
 		if (str.IsEmpty() || str[0] == _T(';')) continue;
 
 		if (str[0] == _T('[')) {
@@ -347,9 +461,9 @@ LRESULT CMainFrame::OnProjectImportMessages(WORD /*wNotifyCode*/, WORD /*wID*/, 
 			}
 		}
 	}
-	fclose(file);
 
-	if (bAdded) m_document.UpdateAll();
+	if (bAdded)
+		m_document.UpdateAll();
 
 	return 0;
 }
@@ -492,30 +606,48 @@ LRESULT CMainFrame::OnProjectExportMessages(WORD /*wNotifyCode*/, WORD /*wID*/, 
 	m_document.GetScript().GetList(CInnoScript::SEC_MESSAGES, list);
 	if (list.GetSize() == 0) return 0;
 
-	CFileDialog dlg(FALSE, _T(".isl"), NULL, OFN_OVERWRITEPROMPT, _T("Message Files (*.isl)\0*.isl\0All Files (*.*)\0*.*\0"), 0);
+	static const COMDLG_FILTERSPEC filters[] = {
+		{ _T("Message Files (*.isl)"), _T("*.isl") },
+		{ _T("All Files (*.*)"),       _T("*.*") }
+	};
 
-	if (dlg.DoModal() != IDOK) return 0;
+	CShellFileSaveDialog dlg(
+		NULL, // optional default file name
+		FOS_OVERWRITEPROMPT | FOS_PATHMUSTEXIST | FOS_FORCEFILESYSTEM,
+		_T("isl"),
+		filters,
+		_countof(filters)
+	);
+
+	if (dlg.DoModal(m_hWnd) != IDOK)
+		return 0;
+
+	CString strFilename;
+	if (FAILED(dlg.GetFilePath(strFilename)))
+		return 0;
 
 	CWaitCursor wait;
-	FILE* fp;
-	if (_tfopen_s(&fp, dlg.m_szFileName, _T("w")) != 0) {
+
+	CString content;
+	content += _T("[Messages]\r\n");
+
+	for (int nPos = 0; nPos < list.GetSize(); nPos++) {
+		CScriptLine* pLine = list[nPos];
+		CString strLine;
+		pLine->Write(strLine.GetBuffer(8000), 8000);
+		strLine.ReleaseBuffer();
+		content += strLine;
+		content += _T("\r\n");
+	}
+
+	CTextFileWriter writer;
+	if (!writer.Save(strFilename, CString(content), TextEncoding::Auto)) {
 		CString txt = _L(_T("Error|CreateFile"), _T("Failed to create '%1'."));
-		txt.Replace(_T("%1"), dlg.m_szFileName);
+		txt.Replace(_T("%1"), strFilename);
 		AtlMessageBox(m_hWnd, (LPCTSTR)txt, IDR_MAINFRAME, MB_OK | MB_ICONERROR);
 		return 0;
 	}
 
-
-	_ftprintf(fp, _T("[Messages]\r\n"));
-	for (int nPos = 0; nPos < list.GetSize(); nPos++) {
-		CScriptLine* pLine = list[nPos];
-		CString strLine;
-
-		pLine->Write(strLine.GetBuffer(8000), 8000);
-		_ftprintf(fp, _T("%s\r\n"), (LPCTSTR)strLine);
-	}
-
-	fclose(fp);
 	return 0;
 }
 

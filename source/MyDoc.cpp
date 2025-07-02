@@ -257,8 +257,8 @@ bool CMyDoc::RunISWizard() {
 	GenerateTempFileName(strTempFile);
 
 	CString strTemp, strParam;
-	strTemp.Format(_T("%s\\compil32.exe"), strFolder);
-	strParam.Format(_T("/wizard \"Inno Setup Script Wizard\" \"%s\""), strTempFile);
+	strTemp.Format(_T("%s\\compil32.exe"), (LPCTSTR)strFolder);
+	strParam.Format(_T("/wizard \"Inno Setup Script Wizard\" \"%s\""), (LPCTSTR)strTempFile);
 	ShowWindow(AfxGetMainWnd(), SW_HIDE);
 	DWORD dwResult = CMyApp::MyExec(strTemp, strParam);
 	ShowWindow(AfxGetMainWnd(), SW_SHOW);
@@ -285,7 +285,7 @@ BOOL CMyDoc::GetMessageFile(CString& str) {
 	if (CMyApp::m_prefs.m_strInnoFolder.IsEmpty()) return FALSE;
 
 	CString strTemp;
-	strTemp.Format(_T("%s\\Default.isl"), CMyApp::m_prefs.m_strInnoFolder);
+	strTemp.Format(_T("%s\\Default.isl"), (LPCTSTR)CMyApp::m_prefs.m_strInnoFolder);
 
 	if (!CMyUtils::IsFile(strTemp)) return FALSE;
 	str = strTemp;
@@ -724,7 +724,7 @@ void CMyDoc::OpenInnoSetup(HWND hWnd) {
 		}
 	}
 	CString strParam;
-	strParam.Format(_T("\"%s\""), GetPathName());
+	strParam.Format(_T("\"%s\""), (LPCTSTR)GetPathName());
 
 	CWaitCursor wait;
 	/*DWORD dwCode =*/ CMyApp::MyExec(strCompiler, strParam, NULL, false);
@@ -898,9 +898,6 @@ bool CMyDoc::DoFileSave(HWND hWnd) {
 	return true;
 }
 
-static LPCTSTR lpszFilter = _T("Inno Setup Scripts (*.iss)\0*.iss\0All Files (*.*)\0*.*\0");
-static LPCTSTR lpszOpenFilter = _T("Supported Files\0*.iss;*.lst\0Inno Setup Scripts (*.iss)\0*.iss\0VB Setup Files (*.lst)\0*.lst\0All Files (*.*)\0*.*\0");
-
 bool CMyDoc::DoSave(HWND hWnd, LPCTSTR lpszPathName, bool bReplace/*=true*/)
 // Save the document data to a file
 // lpszPathName = path name where to save document file
@@ -933,23 +930,88 @@ bool CMyDoc::DoSave(HWND hWnd, LPCTSTR lpszPathName, bool bReplace/*=true*/)
 	return true;        // success
 }
 
-bool CMyDoc::DoPrompt(HWND hWnd, CString& newName, bool bOpen, UINT nID) {
-	CFileDialog dlgFile(bOpen, _T("iss"), NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, bOpen ? lpszOpenFilter : lpszFilter, 0);
+bool CMyDoc::DoPrompt(HWND hWnd, CString& newName, bool bOpen, UINT nID)
+{
+	const COMDLG_FILTERSPEC g_filterOpen[] = {
+		{ _T("Supported Files"),      _T("*.iss;*.lst") },
+		{ _T("Inno Setup Scripts"),   _T("*.iss") },
+		{ _T("VB Setup Files"),       _T("*.lst") },
+		{ _T("All Files"),            _T("*.*") }
+	};
 
+	const COMDLG_FILTERSPEC g_filterSave[] = {
+		{ _T("Inno Setup Scripts (*.iss)"), _T("*.iss") },
+		{ _T("All Files (*.*)"),            _T("*.*") }
+	};
+
+	// Load dialog title from resources
 	CString title;
-	VERIFY(title.LoadString(nID));
-	dlgFile.m_ofn.lpstrTitle = title;
-	dlgFile.m_ofn.lpstrFile = newName.GetBuffer(_MAX_PATH);
-	dlgFile.m_ofn.lpstrInitialDir = CMyApp::m_prefs.m_strScriptFolder;
+	if (!title.LoadString(nID))
+		return false;
 
-	int nResult = dlgFile.DoModal(hWnd);
-	newName.ReleaseBuffer();
+	// Retrieve initial folder path
+	CString initialDir = CMyApp::m_prefs.m_strScriptFolder;
 
-	if (nResult != IDOK) return false;
+	int nResult = IDCANCEL;
 
-	CString strScriptFolder(newName);
-	int nPos = strScriptFolder.ReverseFind(_T('\\'));
-	if (nPos > 0) CMyApp::m_prefs.m_strScriptFolder = strScriptFolder.Left(nPos);
+	if (bOpen) {
+		// Construct shell file open dialog
+		CShellFileOpenDialog dlg(
+			newName,
+			FOS_FILEMUSTEXIST | FOS_PATHMUSTEXIST | FOS_FORCEFILESYSTEM,
+			_T("iss"),
+			g_filterOpen,
+			_countof(g_filterOpen)
+		);
+
+		// Set title manually via COM pointer
+		if (IFileDialog* pFD = dlg.GetPtr()) {
+			pFD->SetTitle(title);
+
+			if (!initialDir.IsEmpty()) {
+				CComPtr<IShellItem> psiFolder;
+				if (SUCCEEDED(SHCreateItemFromParsingName(initialDir, NULL, IID_PPV_ARGS(&psiFolder))))
+					pFD->SetDefaultFolder(psiFolder);
+			}
+		}
+
+		nResult = dlg.DoModal(hWnd);
+		if (nResult == IDOK && FAILED(dlg.GetFilePath(newName)))
+			return false;
+	} else {
+		// Construct shell file save dialog
+		CShellFileSaveDialog dlg(
+			newName,
+			FOS_OVERWRITEPROMPT | FOS_PATHMUSTEXIST | FOS_FORCEFILESYSTEM,
+			_T("iss"),
+			g_filterSave,
+			_countof(g_filterSave)
+		);
+
+		// Set title and initial folder
+		if (IFileDialog* pFD = dlg.GetPtr()) {
+			pFD->SetTitle(title);
+
+			if (!initialDir.IsEmpty()) {
+				CComPtr<IShellItem> psiFolder;
+				if (SUCCEEDED(SHCreateItemFromParsingName(initialDir, NULL, IID_PPV_ARGS(&psiFolder))))
+					pFD->SetDefaultFolder(psiFolder);
+			}
+		}
+
+		nResult = dlg.DoModal(hWnd);
+		if (nResult == IDOK && FAILED(dlg.GetFilePath(newName)))
+			return false;
+	}
+
+	if (nResult != IDOK)
+		return false;
+
+	// Update stored script directory path
+	int nPos = newName.ReverseFind(L'\\');
+	if (nPos > 0)
+		CMyApp::m_prefs.m_strScriptFolder = newName.Left(nPos);
+
 	return true;
 }
 
@@ -1006,13 +1068,11 @@ void CMyDoc::GetScriptFileName(CString& ref, LPCTSTR pszFileName) {
 	} else
 		ref = pszFileName;
 
-	if (CMyUtils::GetDllVersion(_T("shlwapi.dll")) >= PACKVERSION(4, 71)) {
-		CString strTmp;
-		// Thanks to Silvio Iaccarino <Silvio.Iaccarino@de.adp.com> for this one
-		if (PathCanonicalize(strTmp.GetBuffer(MAX_PATH), ref)) {
-			strTmp.ReleaseBuffer();
-			ref = strTmp;
-		}
+	CString strTmp;
+	// Thanks to Silvio Iaccarino <Silvio.Iaccarino@de.adp.com> for this one
+	if (PathCanonicalize(strTmp.GetBuffer(MAX_PATH), ref)) {
+		strTmp.ReleaseBuffer();
+		ref = strTmp;
 	}
 }
 

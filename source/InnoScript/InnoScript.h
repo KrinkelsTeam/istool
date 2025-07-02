@@ -64,9 +64,6 @@ public:
 	CLine* operator[](long iItem);
 	const CInnoScript& operator=(CInnoScript& in);
 
-private:
-	void WriteLineToFile(CAtlFile& file, const CString& line);
-
 protected:
 	class CToken;
 	class CParam;

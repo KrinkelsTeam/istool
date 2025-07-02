@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "resource.h"
 #include "translate.h"
+#include "TextFileIO.h"
 
 CAtlMap<CString, CString>	CTranslate::m_map;
 #ifdef _DEBUG
@@ -85,89 +86,28 @@ void CTranslate::AddFile(const CString& strFileName)
 	if (strFileName.IsEmpty())
 		return;
 
-	CAtlFile file;
-	if (FAILED(file.Create(strFileName, GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING))) {
+	CTextFileReader reader;
+	if (!reader.Load(strFileName))
 		return;
-	}
 
-	ULONGLONG size = 0;
-	if (FAILED(file.GetSize(size)) || size == 0 || size > ULONG_MAX) {
-		return;
-	}
+	CAtlArray<CString> lines;
+	reader.GetLines(lines);
 
-	DWORD len = static_cast<DWORD>(size);
-	CHeapPtr<BYTE> buf;
-	if (!buf.Allocate(len + 1)) {
-		return;
-	}
-
-	DWORD read = 0;
-	if (FAILED(file.Read(buf, len, read)) || read != len) {
-		return;
-	}
-
-	buf[len] = 0;
-	LPCSTR data = reinterpret_cast<LPCSTR>(static_cast<BYTE*>(buf));
-	DWORD offset = 0;
-
-	// Lambda to check whether the buffer contains valid UTF-8 characters
-	auto isUtf8 = [=]() -> bool {
-		for (DWORD i = 0; i < len; ++i) {
-			if ((BYTE)data[i] >= 0x80) {
-				return MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, data, len, nullptr, 0) > 0;
-			}
-		}
-		return false;
-	};
-
-	CStringW content;
-
-	// UTF-8 with BOM
-	if (len >= 3 && (BYTE)data[0] == 0xEF && (BYTE)data[1] == 0xBB && (BYTE)data[2] == 0xBF) {
-		offset = 3;
-	} else if (isUtf8()) {
-		offset = 0;
-	} else {
-		content = CStringW(CStringA(data));
-	}
-
-	// Convert UTF-8 content if needed
-	if (content.IsEmpty() && len > offset) {
-		int wlen = MultiByteToWideChar(CP_UTF8, 0, data + offset, len - offset, nullptr, 0);
-		if (wlen <= 0) return;
-
-		LPWSTR p = content.GetBuffer(wlen);
-		MultiByteToWideChar(CP_UTF8, 0, data + offset, len - offset, p, wlen);
-		content.ReleaseBuffer(wlen);
-	}
-
-	// Parse key=value lines
-	int pos = 0;
-	while (pos >= 0) {
-		int next = content.Find(L'\n', pos);
-		CStringW line = (next >= 0) ? content.Mid(pos, next - pos) : content.Mid(pos);
-		line.TrimRight(L"\r\n");
-
-		int eq = line.Find(L'=');
-		if (line.IsEmpty() || line[0] == L';' || line[0] == L'[' || eq < 0) {
-			if (next < 0) break;
-			pos = next + 1;
+	for (size_t i = 0; i < lines.GetCount(); ++i) {
+		CString strLine = lines[i].TrimRight();
+		int pos = strLine.Find('=');
+		if (strLine.IsEmpty() || strLine[0] == _T(';') || strLine[0] == _T('[') || pos < 0)
 			continue;
-		}
 
-		CStringW value = line.Mid(eq + 1).Trim();
-		if (!value.IsEmpty()) {
-			// Replace escaped sequences
-			value.Replace(L"\\r", L"\r");
-			value.Replace(L"\\n", L"\n");
-			value.Replace(L"\\t", L"\t");
+		CString strTrans = strLine.Mid(pos + 1).Trim();
+		if (strTrans.IsEmpty())
+			continue;
 
-			CStringW key = line.Left(eq).Trim();
-			m_map[CString(key)] = CString(value);
-		}
+		strTrans.Replace(_T("\\r"), _T("\r"));
+		strTrans.Replace(_T("\\n"), _T("\n"));
+		strTrans.Replace(_T("\\t"), _T("\t"));
 
-		if (next < 0) break;
-		pos = next + 1;
+		m_map[strLine.Left(pos).Trim()] = strTrans;
 	}
 }
 
