@@ -278,7 +278,7 @@ LRESULT CMainFrame::OnProjectExportRegistry(WORD /*wNotifyCode*/, WORD /*wID*/, 
 	// Set up the shell save dialog with .reg filter
 	static const COMDLG_FILTERSPEC filters[] = {
 		{ _T("Registry Files (*.reg)"), _T("*.reg") },
-		{ _T("All Files (*.*)"),        _T(L"*.*")  }
+		{ _T("All Files (*.*)"),        _T("*.*")  }
 	};
 
 	CString defaultName; // Optional: generate default name here if needed

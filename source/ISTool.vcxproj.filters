@@ -594,6 +594,8 @@
     <None Include="..\scripts\CallTipGenerator.py">
       <Filter>Python Scripts</Filter>
     </None>
+    <None Include="..\README.md" />
+    <None Include="..\LICENSE" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\setup\calltips.txt" />
