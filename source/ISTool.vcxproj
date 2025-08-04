@@ -359,7 +359,6 @@
     <ClInclude Include="ToolTipDialog.h" />
     <ClInclude Include="Translate.h" />
     <ClInclude Include="Update.h" />
-    <ClInclude Include="Utils.h" />
     <ClInclude Include="ViewCompileStep.h" />
     <ClInclude Include="ViewCompileStepPost.h" />
     <ClInclude Include="ViewCompileStepPre.h" />

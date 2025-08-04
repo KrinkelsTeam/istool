@@ -525,9 +525,6 @@
     <ClInclude Include="WebUpdate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Utils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ButtonFile.h">
       <Filter>Library Files</Filter>
     </ClInclude>

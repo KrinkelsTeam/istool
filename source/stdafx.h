@@ -32,7 +32,6 @@ extern CAppModule _Module;
 #include <atlprint.h>
 #include <atlres.h>
 #include <atlfile.h>
-#include "Utils.h"
 #include "misc.h"
 #include "Thread.h"
 #include "ToolTipDialog.h"
