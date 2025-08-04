@@ -1,12 +1,5 @@
 #pragma once
 
-#include <windows.h>
-#include <shlobj.h>
-#include <shlwapi.h>
-#include <io.h>
-#include <tchar.h>
-#include <winsvc.h>
-
 #define PACKVERSION(major, minor) MAKELONG(minor, major)
 
 class CMyUtils {
@@ -64,16 +57,6 @@ public:
 			return true;
 		}
 	}
-
-#if defined(_WININET_)
-	static void GetInetResponse(CString& strResponse) {
-		DWORD	dwError;
-		DWORD	dwBufferLength = 0;
-
-		InternetGetLastResponseInfo(&dwError, strResponse.GetBuffer(0), &dwBufferLength);
-		InternetGetLastResponseInfo(&dwError, strResponse.GetBuffer(dwBufferLength), &dwBufferLength);
-	}
-#endif
 
 	// Returns true if the specified path is relative
 	static bool IsRelativePath(LPCTSTR pszPath) {
@@ -179,7 +162,6 @@ public:
 		}
 	}
 
-	//#ifdef _MFC_VER
 #ifdef __CSTRINGT_H__
 	static void EndWith(CString& ref, TCHAR nChar) {
 		int nLength = (int)_tcslen(ref);
@@ -187,133 +169,6 @@ public:
 			ref += _T('\\');
 	}
 #endif
-
-	static bool GetRegString(CRegKey& reg, LPCTSTR pszValueName, CString& out, LPCTSTR pszDefault = NULL) {
-		ULONG nChars = 1024;
-		if (reg.QueryStringValue(pszValueName, out.GetBuffer(nChars), &nChars) == ERROR_SUCCESS) {
-			out.ReleaseBufferSetLength(nChars - 1);
-			return true;
-		} else {
-			if (pszDefault)
-				out = pszDefault;
-			else
-				out.Empty();
-			return false;
-		}
-	}
-	static bool GetRegLong(CRegKey& reg, LPCTSTR pszValueName, long& out, long nDefault = 0) {
-		DWORD dw;
-		if (reg.QueryDWORDValue(pszValueName, dw) == ERROR_SUCCESS) {
-			out = dw;
-			return true;
-		} else {
-			out = nDefault;
-			return false;
-		}
-	}
-
-	static DWORD GetDllVersion(LPCTSTR lpszDllName) {
-		HINSTANCE hinstDll;
-		DWORD dwVersion = 0;
-
-		hinstDll = LoadLibrary(lpszDllName);
-
-		if (hinstDll) {
-			DLLGETVERSIONPROC pDllGetVersion;
-
-			pDllGetVersion = (DLLGETVERSIONPROC)GetProcAddress(hinstDll, "DllGetVersion");
-			/*
-			** Because some DLLs may not implement this function, you
-			** must test for it explicitly. Depending on the particular
-			** DLL, the lack of a DllGetVersion function may
-			** be a useful indicator of the version.
-			*/
-			if (pDllGetVersion) {
-				DLLVERSIONINFO dvi;
-				HRESULT hr;
-
-				ZeroMemory(&dvi, sizeof(dvi));
-				dvi.cbSize = sizeof(dvi);
-
-				hr = (*pDllGetVersion)(&dvi);
-
-				if (SUCCEEDED(hr)) {
-					dwVersion = PACKVERSION(dvi.dwMajorVersion, dvi.dwMinorVersion);
-				}
-			}
-			FreeLibrary(hinstDll);
-		}
-		return dwVersion;
-	}
-
-
-	/*----------------------------------------------------------------------
-	Copyright (c) 1998,1999 Gipsysoft. All Rights Reserved.
-	File:	CreateDirectoryPath.cpp
-	Owner:	russf@gipsysoft.com
-	Purpose:	Create a dfirectory path, that is given "c:\blah\de\blah" it
-						will create the entire path even if none of the parent directories
-						exist.
-						Also, it copes with UNC path names in the form of "\\Russ\C\blah\de\blah"
-	----------------------------------------------------------------------*/
-	static bool CreateDirectoryPath(LPCTSTR pcszDirectory) {
-		//	Must be passed a valid string!
-		//ASSERT_VALID_STR( pcszDirectory );
-
-		static TCHAR cSlash = _T('\\');
-
-		bool bRetVal = false;
-
-		const int nLength = (int)_tcslen(pcszDirectory) + 1;
-		LPTSTR pszDirectoryPath = (LPTSTR)malloc(nLength * sizeof(TCHAR));
-		if (pszDirectoryPath) {
-
-			LPCTSTR pcszNextDirectory = pcszDirectory;
-
-			//
-			//	Determine if the path is a UNC path. We do this by looking at the first two bytes
-			//	and checkin they are both backslashes
-			if (nLength > 2 && *pcszNextDirectory == cSlash && *(pcszNextDirectory + 1) == cSlash) {
-				//	We need to skip passed this bit and copy it into out local path.
-				//	"\\Russ\C\"
-				pcszNextDirectory += 2;
-				while (*pcszNextDirectory && *pcszNextDirectory != cSlash)	pcszNextDirectory++;
-				pcszNextDirectory++;
-				while (*pcszNextDirectory && *pcszNextDirectory != cSlash)	pcszNextDirectory++;
-				_tcsncpy_s(pszDirectoryPath, nLength, pcszDirectory, pcszNextDirectory - pcszDirectory);
-				pszDirectoryPath[pcszNextDirectory - pcszDirectory] = _T('\000');
-			}
-
-			//
-			//	Set the return value to true because the nly thing that can fail now is the
-			//	CreateDirectory. If that fails then we change the return value back to fals.
-			bRetVal = true;
-
-			//
-			//	Now, loop over the path, creating directories as we go. If we fail at any point then get out of the loop
-			do {
-				if (*pcszNextDirectory)
-					pcszNextDirectory++;
-
-				while (*pcszNextDirectory && *pcszNextDirectory != cSlash && *pcszNextDirectory != _T('/'))
-					pcszNextDirectory++;
-
-				_tcsncpy_s(pszDirectoryPath, nLength, pcszDirectory, pcszNextDirectory - pcszDirectory);
-				pszDirectoryPath[pcszNextDirectory - pcszDirectory] = _T('\000');
-
-				if (_taccess(pszDirectoryPath, 0)) {
-					if (!CreateDirectory(pszDirectoryPath, NULL)) {
-						bRetVal = false;
-						break;
-					}
-				}
-			} while (*pcszNextDirectory);
-
-			free(pszDirectoryPath);
-			pszDirectoryPath = NULL;
-		}
-		return bRetVal;
-	}
 };
 
 /*
@@ -343,48 +198,4 @@ public:
 
 protected:
 	CString	m_strFile;
-};
-
-/*
-** Very simple thread function... see below for example
-*/
-class CMyThread {
-public:
-	CMyThread() : _isDying(0) {
-		_handle = CreateThread(
-			0, // Security attributes
-			0, // Stack size
-			ThreadEntry,
-			this,
-			CREATE_SUSPENDED,
-			&_tid);
-	}
-
-	virtual ~CMyThread() {
-		CloseHandle(_handle);
-	}
-
-	void Kill(DWORD dwMilliSeconds = INFINITE) {
-		_isDying++;
-		FlushThread();
-		// Let's make sure it's gone
-		WaitForSingleObject(_handle, dwMilliSeconds);
-	}
-
-	void Resume() { ResumeThread(_handle); }
-
-protected:
-	int		_isDying;
-
-	virtual void Run() = 0;
-	virtual void FlushThread() = 0;
-
-private:
-	HANDLE	_handle;
-	DWORD	_tid;     // thread id
-
-	static DWORD WINAPI ThreadEntry(void* pArg) {
-		reinterpret_cast<CMyThread*>(pArg)->Run();
-		return 0;
-	}
 };
