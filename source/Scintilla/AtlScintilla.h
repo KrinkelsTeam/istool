@@ -1,6 +1,3 @@
-#ifndef __ATLSCINTILLA_H__
-#define __ATLSCINTILLA_H__
-
 #pragma once
 
 #ifndef SCINTILLA_H
@@ -5120,5 +5117,3 @@ public:
 typedef CScintillaT<CWindow>		CScintilla;
 
 }; //namespace WTL
-
-#endif // __ATLSCINTILLA_H__

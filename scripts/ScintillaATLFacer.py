@@ -48,7 +48,7 @@ def generateFunctionBody(name, retType, params, command, comments):
 	Generate C++ function code for a given feature.
 	"""
 	# Generate comments
-	commentBlock = "\n	".join([f"/// {line}" for line in comments]) if comments else f"/// {name}: auto-generated function."
+	commentBlock = "\r\n\t".join([f"/// {line}" for line in comments]) if comments else f"/// {name}: auto-generated function."
 
 	# Generate parameter list
 	paramStrings = []
@@ -77,12 +77,13 @@ def generateFunctionBody(name, retType, params, command, comments):
 		retTypeString = f"return ({ActualTypeName(retType)})"
 
 	# Generate the function code
-	return f"""
-	{commentBlock}
-	{ActualTypeName(retType)} {name}({paramList}) {{
-		ATLASSERT(::IsWindow(m_hWnd));
-		{retTypeString}::SendMessage(m_hWnd, {command}, (WPARAM){w_param}, (LPARAM){l_param}){retBool};
-	}}"""
+	return (
+		"\r\n\t" + commentBlock + "\r\n" +
+		"\t" + ActualTypeName(retType) + " " + name + "(" + paramList + ") {\r\n" +
+		"\t\tATLASSERT(::IsWindow(m_hWnd));\r\n" +
+		"\t\t" + retTypeString + "::SendMessage(m_hWnd, " + command + ", (WPARAM)" + w_param + ", (LPARAM)" + l_param + ")" + retBool + ";\r\n" +
+		"\t}"
+)
 
 def generateFunctions(f):
 	"""

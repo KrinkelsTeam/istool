@@ -32,13 +32,15 @@ extern CAppModule _Module;
 #include <atlprint.h>
 #include <atlres.h>
 #include <atlfile.h>
+#include <atltheme.h>
+
+// --------------------------------------------------------- WTL END
+
 #include "misc.h"
 #include "Thread.h"
 #include "ToolTipDialog.h"
 #include "ButtonFile.h"
 #include "ButtonFolder.h"
-
-// --------------------------------------------------------- WTL END
 
 #include "InnoScript/InnoScript.h"
 #include "InnoScript/Lines.h"
@@ -67,7 +69,6 @@ typedef CSimpleArray<CInnoScript::CLine*>	CScriptList;
 #pragma comment(lib, "rpcrt4.lib")	// for UuidCreate
 
 #include "Scintilla/AtlScintilla.h"
-#include <AtlTheme.h>
 
 typedef struct StatusBarInfo {
 	CString	m_strRow, m_strCol;

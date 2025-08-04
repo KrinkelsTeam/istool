@@ -4,7 +4,7 @@
 #include "CompInt.h"
 #include "MyDoc.h"
 #include <time.h>
-#include <TextFileIO.h>
+#include "TextFileIO.h"
 
 class CTempDir {
 public:

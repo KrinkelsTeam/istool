@@ -7,9 +7,6 @@
 #include "ViewScript.h"
 #include "MainFrm.h"
 #include "DlgGoto.h"
-#include <vector>
-#include <string>
-#include <algorithm>
 #include "Sheets.h"
 
 /////////////////////////////////////////////////////////////////////////////
@@ -18,6 +15,7 @@
 CViewScript::CViewScript() : CMyView<CViewScript>(CInnoScript::PRJ_ISTOOL) {
 	m_bUpdateModified = true;
 	m_bModified = false;
+	m_nNextPrintPos = 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -333,11 +331,6 @@ static void WrapString(CString& tmp, bool bFunction) {
 	}
 }
 
-static bool compare_strings(const std::string& a, const std::string& b)
-{
-	return _stricmp(a.c_str(), b.c_str()) < 0;
-}
-
 LRESULT CViewScript::OnCharAdded(int /*idCtrl*/, LPNMHDR pnmh, BOOL& /*bHandled*/) {
 	static CString	strConstantsComplete;
 	CHAR szLine[4000];
@@ -398,102 +391,6 @@ LRESULT CViewScript::OnCharAdded(int /*idCtrl*/, LPNMHDR pnmh, BOOL& /*bHandled*
 		SetCurrentPos(nPos);
 		SetSelectionStart(nPos);
 		SetSelectionEnd(nPos);
-	}
-
-	// Show com intellisense
-	if (scn->ch == '.') {
-		long current = GetCurLine(sizeof szLine, szLine);
-		long pos = GetCurrentPos();
-		long startword = current - 1;
-		while (startword > 0 && isalpha(szLine[startword - 1]))
-			startword--;
-		szLine[current - 1] = '\0';
-
-		CStringA strWord = szLine + startword;
-		strWord.Trim();
-		if (!strWord.IsEmpty()) {
-			CStringA strVarName = strWord.MakeLower();
-			long nLine = LineFromPosition(pos);
-			while (nLine--) {
-				Sci_TextRange tr;
-				tr.chrg.cpMin = PositionFromLine(nLine);
-				tr.chrg.cpMax = PositionFromLine(nLine + 1);
-				tr.lpstrText = strWord.GetBuffer(tr.chrg.cpMax - tr.chrg.cpMin);
-				int len = GetTextRange(&tr);
-				strWord.ReleaseBufferSetLength(len);
-				strWord.MakeLower();
-				long pos = strWord.Find("createoleobject");
-				if (pos >= 0 && strWord.Find(strVarName) >= 0) {
-					long iStart = strWord.Find('(', pos);
-					long iEnd = strWord.Find(')', iStart);
-					if (iStart > pos && iEnd > iStart) {
-						strWord.ReleaseBufferSetLength(iEnd);
-						strWord.Delete(0, iStart + 1);
-						strWord.Trim();
-						if (strWord.GetLength() > 2 && strWord[0] == '\'' && strWord[strWord.GetLength() - 1] == '\'') {
-							strWord = strWord.Mid(1, strWord.GetLength() - 2);
-
-							CLSID clsidObj;
-							if (::CLSIDFromProgID(CA2W(strWord), &clsidObj) == S_OK) {
-								strWord.Empty();
-								// declare a pointer to the com interface
-								IUnknown* pUnk = NULL;
-								// create the com object
-								if (::CoCreateInstance(clsidObj, NULL, CLSCTX_ALL, IID_IDispatch, (void**)&pUnk) == S_OK) {
-									IDispatch* pDisp = NULL;
-									if (pUnk->QueryInterface(__uuidof(IDispatch), (void**)&pDisp) == S_OK) {
-										UINT ctinfo;
-										pDisp->GetTypeInfoCount(&ctinfo);
-										if (ctinfo > 0) {
-											ITypeInfo* pTypeInfo;
-											if (pDisp->GetTypeInfo(0, LOCALE_SYSTEM_DEFAULT, &pTypeInfo) == S_OK) {
-												TYPEATTR* pTypeAttr;
-												if (pTypeInfo->GetTypeAttr(&pTypeAttr) == S_OK) {
-													std::vector<std::string>	myArray;
-													for (int i = 0; i < pTypeAttr->cFuncs; i++) {
-														FUNCDESC* pFuncDesc;
-														if (pTypeInfo->GetFuncDesc(i, &pFuncDesc) == S_OK) {
-															UINT nCount;
-															BSTR bstrName = NULL;
-															if (pTypeInfo->GetNames(pFuncDesc->memid, &bstrName, 1, &nCount) == S_OK) {
-																if (bstrName != NULL) {
-																	std::string str = CW2A(bstrName);
-																	SysFreeString(bstrName);
-																	myArray.push_back(str);
-																}
-															}
-															pTypeInfo->ReleaseFuncDesc(pFuncDesc);
-														}
-													}
-													pTypeInfo->ReleaseTypeAttr(pTypeAttr);
-													std::sort(myArray.begin(), myArray.end(), compare_strings);
-													strWord.Empty();
-													for (std::vector<std::string>::iterator it = myArray.begin(); it != myArray.end(); it++) {
-														strWord.Append(it->c_str());
-														strWord.Append(" ");
-													}
-												}
-												pTypeInfo->Release();
-
-												strWord.Trim();
-												AutoCShow(0, strWord);
-											}
-										}
-
-										// release the com interface
-										pDisp->Release();
-									}
-									pUnk->Release();
-								}
-							}
-
-							return 0;
-						}
-					}
-					break;
-				}
-			}
-		}
 	}
 
 	return 0;

@@ -6,6 +6,7 @@
 
 #include "MainFrm.h"
 #include "MyDoc.h"
+#include "TextFileIO.h"
 
 CMyApp theApp;
 
@@ -314,43 +315,40 @@ BOOL CMyApp::InitInstance() {
 		}
 	}
 
-	FILE* fp;
-	if (_tfopen_s(&fp, m_strCallTipsFile, _T("rb")) == 0) {
-		CHAR buf[2048];
+	CTextFileReader reader;
+	if (reader.Load(m_strCallTipsFile)) {
+		CAtlArray<CString> lines;
+		reader.GetLines(lines);
+
 		long nSection = -1;
-		while (fgets(buf, sizeof(buf), fp)) {
-			size_t len = strlen(buf);
-			while (len > 0 && (buf[len - 1] == '\n' || buf[len - 1] == '\r')) {
-				buf[--len] = '\0';
-			}
 
-			CStringA lineA(buf);
-			lineA.Trim();
+		for (size_t i = 0; i < lines.GetCount(); ++i) {
+			CString strLine = lines[i].Trim();
 
-			if (lineA.IsEmpty() || lineA[0] == ';') continue;
+			if (strLine.IsEmpty() || strLine[0] == ';')
+				continue;
 
-			CString strLine = CA2T((LPCSTR)lineA, CP_ACP);
-
-			if (!strLine.CompareNoCase(_T("[functions]")))
+			if (!strLine.CompareNoCase(_T("[functions]"))) {
 				nSection = 1;
-			else if (!strLine.CompareNoCase(_T("[constants]")))
+			} else if (!strLine.CompareNoCase(_T("[constants]"))) {
 				nSection = 2;
-			else if (!strLine.CompareNoCase(_T("[calltips]")))
+			} else if (!strLine.CompareNoCase(_T("[calltips]"))) {
 				nSection = 3;
-			else if (nSection > 0) {
+			} else if (nSection > 0) {
 				CString strName, strDescription;
 
-				long pos = strLine.Find(_T('='));
+				int pos = strLine.Find(_T('='));
 				if (pos > 0) {
 					strName = strLine.Left(pos).Trim();
 					strDescription = strLine.Mid(pos + 1).Trim();
-				}
-				else
+				} else {
 					strName = strLine;
+				}
 
 				CallTipInfo* p = new CallTipInfo;
 				p->m_strName = strName;
 				p->m_strDescription = strDescription;
+
 				switch (nSection) {
 				case 1:
 					m_functions.Add(p);
@@ -364,7 +362,6 @@ BOOL CMyApp::InitInstance() {
 				}
 			}
 		}
-		fclose(fp);
 	}
 
 	return TRUE;
