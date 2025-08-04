@@ -44,11 +44,11 @@
     <Filter Include="Scintilla">
       <UniqueIdentifier>{9dfcb04b-5628-4462-8533-7e4c6141383c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Extras\Dialog Files">
-      <UniqueIdentifier>{ca23cf49-3101-41ae-816b-10872a6869f4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Python Scripts">
       <UniqueIdentifier>{8487e424-db0f-4256-8c57-1af38ee89b73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dialog Files">
+      <UniqueIdentifier>{ca23cf49-3101-41ae-816b-10872a6869f4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -140,7 +140,7 @@
       <Filter>Inno Script</Filter>
     </ClCompile>
     <ClCompile Include="DlgCompile.cpp">
-      <Filter>Extras\Dialog Files</Filter>
+      <Filter>Dialog Files</Filter>
     </ClCompile>
     <ClCompile Include="ViewCompileStep.cpp">
       <Filter>View Files</Filter>
@@ -406,43 +406,43 @@
       <Filter>Property Page Files\Setup</Filter>
     </ClInclude>
     <ClInclude Include="AboutDlg.h">
-      <Filter>Extras\Dialog Files</Filter>
+      <Filter>Dialog Files</Filter>
     </ClInclude>
     <ClInclude Include="DlgAddDirectory.h">
-      <Filter>Extras\Dialog Files</Filter>
+      <Filter>Dialog Files</Filter>
     </ClInclude>
     <ClInclude Include="DlgCompile.h">
-      <Filter>Extras\Dialog Files</Filter>
+      <Filter>Dialog Files</Filter>
     </ClInclude>
     <ClInclude Include="DlgCustomize.h">
-      <Filter>Extras\Dialog Files</Filter>
+      <Filter>Dialog Files</Filter>
     </ClInclude>
     <ClInclude Include="DlgFileAssociation.h">
-      <Filter>Extras\Dialog Files</Filter>
+      <Filter>Dialog Files</Filter>
     </ClInclude>
     <ClInclude Include="DlgGoto.h">
-      <Filter>Extras\Dialog Files</Filter>
+      <Filter>Dialog Files</Filter>
     </ClInclude>
     <ClInclude Include="DlgIEShortcut.h">
-      <Filter>Extras\Dialog Files</Filter>
+      <Filter>Dialog Files</Filter>
     </ClInclude>
     <ClInclude Include="DlgLangOptions.h">
-      <Filter>Extras\Dialog Files</Filter>
+      <Filter>Dialog Files</Filter>
     </ClInclude>
     <ClInclude Include="DlgLogFile.h">
-      <Filter>Extras\Dialog Files</Filter>
+      <Filter>Dialog Files</Filter>
     </ClInclude>
     <ClInclude Include="DlgSelectFonts.h">
-      <Filter>Extras\Dialog Files</Filter>
+      <Filter>Dialog Files</Filter>
     </ClInclude>
     <ClInclude Include="DlgSelectLanguageFiles.h">
-      <Filter>Extras\Dialog Files</Filter>
+      <Filter>Dialog Files</Filter>
     </ClInclude>
     <ClInclude Include="DlgUpdates.h">
-      <Filter>Extras\Dialog Files</Filter>
+      <Filter>Dialog Files</Filter>
     </ClInclude>
     <ClInclude Include="DlgVersion.h">
-      <Filter>Extras\Dialog Files</Filter>
+      <Filter>Dialog Files</Filter>
     </ClInclude>
     <ClInclude Include="ViewCompileStep.h">
       <Filter>View Files</Filter>
